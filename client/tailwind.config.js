@@ -14,8 +14,14 @@ export default {
         'secondary': '#1d2025',
         'ternary': '#21252b',
         'white': '#ffffff',
-        'error': '#e3342f',
-        
+        'error': '#7b1e1e',
+        'success': '#39b54a',
+        'faint': '#3f4146',
+        'w-primary': '#eeeeee',
+        'w-secondary': '#ffffff',
+        'w-ternary': '#fafafa',
+        'w-black': '#404040',
+
       },
     },
   },

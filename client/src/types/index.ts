@@ -1,9 +1,15 @@
-
+export interface Answer {
+    id: number;
+    answer: string;
+    correct: boolean;
+}
 export interface Question {
-    id: string;
+    id: number;
     question: string;
-    answers: string[];
-    correct: number[];
+    answers: Answer[];
     }
 
 
+export interface QuizState {
+    questions: Question[];
+}

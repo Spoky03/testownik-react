@@ -3,14 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-    body {
-      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-      @apply bg-slate-100 text-gray-900 overflow-x-hidden w-screen;
-      /* color: rgba(255, 255, 255, 0.87); */
-      /* background-color: #242424; */
-    }
-    
-    .dark{
-      @apply text-gray-200 bg-ternary;
-    }
+  body {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    @apply bg-w-ternary text-w-black overflow-x-hidden w-screen;
+  }
+
+  .dark {
+    @apply bg-ternary text-gray-200;
+  }
 }
