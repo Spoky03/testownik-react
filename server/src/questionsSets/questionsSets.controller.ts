@@ -1,6 +1,15 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { QuestionsSetsService } from './questionsSets.service';
 import { Questions } from '../interfaces/questions.interface';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
 
 @Controller('api/sets')
 export class QuestionsSetsController {
@@ -10,8 +19,13 @@ export class QuestionsSetsController {
   async findAll(): Promise<Questions[]> {
     return this.questionsSetsService.findAll();
   }
+  @UseGuards(AuthGuard)
   @Post()
-  async create(): Promise<Questions> {
-    return this.questionsSetsService.create();
+  async create(
+    @Body() createQuestionSetDto: CreateQuestionSetDto,
+    @Request() req,
+  ): Promise<Questions> {
+    // add the user id to the question set
+    return this.questionsSetsService.create(createQuestionSetDto, req.user);
   }
 }

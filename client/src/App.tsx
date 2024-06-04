@@ -11,6 +11,7 @@ import Profile from "./components/profile"
 import { createContext } from 'react'
 import userService from "./services/userService"
 import { Navbar } from "./components/Nav"
+import { SingleSetPreview } from "./components/profile/SingleSetPreview"
 
 
 export const ThemeContext = createContext<boolean | null>(null)
@@ -38,7 +39,7 @@ const App = () => {
       <main className="flex h-screen">
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="profile/*" element={<Profile />} />
           <Route path="/quiz" element={
             <>
               <Quiz question={dummy[0]} />

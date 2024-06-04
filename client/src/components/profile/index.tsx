@@ -6,6 +6,11 @@ import { fetchUser, logoutUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
 import { Notification } from "../Notification";
 import { NewSetForm } from "./NewSetForm";
+import { SetList } from "./SetList";
+import { Routes, Route, useParams, Link } from 'react-router-dom';
+import { SingleSetPreview } from "./SingleSetPreview";
+import { FaBars as BarsIcon } from "react-icons/fa6";
+
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -15,16 +20,18 @@ const Profile = () => {
   const notification = useSelector((state: any) => state.user.notification);
 
   return (
-    <div className="flex flex-col place-items-center justify-center align-center w-screen h-2/3">
+    <div className="flex flex-col place-items-center mt-12 w-screen px-10">
       {user && user.username ? (
-        <div className="flex flex-col gap-5 p-10 rounded-xl shadown-2xl place-items-center bg-w-primary dark:bg-primary">
-          <p>Logged as: {user.username}</p>
-          <Button
-            label="Logout"
-            type="button"
-            onclick={() => dispatch(logoutUser())}
-            />
-            <NewSetForm />
+        <div className="flex flex-col gap-5 p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary">
+            <div className="flex justify-between place-items-center">
+              <h1 className="font-bold">Welcome {user.username}</h1>
+              <div className="h-10 w-16"><Button label="Logout" type="button" onclick={() => dispatch(logoutUser())}/></div>
+            </div>
+            <Routes>
+                  <Route path="/" element={<Link to='sets' className="place-self-center"><BarsIcon /></Link>} />
+                  <Route path="sets" element={<SetList />} />
+                  <Route path="sets/:id" element={<SingleSetPreview />} />
+            </Routes>
         </div>
       ) : <><Notification props={notification}/><Login /></>}
     </div>

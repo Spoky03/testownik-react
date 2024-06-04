@@ -13,7 +13,7 @@ export const UserSchema = new mongoose.Schema({
   questionSets: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Questions',
+      ref: 'QuestionSets',
     },
   ],
 });

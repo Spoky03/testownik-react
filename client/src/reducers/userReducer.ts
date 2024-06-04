@@ -26,11 +26,14 @@ const userSlice = createSlice({
         state.user = null;
         state.notification.text = 'Logged Out';
         },
+    addSet: (state, action: PayloadAction<any>) => {
+        state.user.questionSets.push(action.payload)
+    }
     
   },
 });
 
-export const { login, logout, getUser } = userSlice.actions;
+export const { login, logout, getUser, addSet } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
   return async (dispatch: AppDispatch) => {
@@ -63,6 +66,17 @@ export const logoutUser = () => {
         try {
             userService.logout()
             dispatch(logout())
+        } catch (error) {
+            console.error(error)
+        }
+    }
+}
+export const addQuestionSet = (questionSetName : string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const createdQuestionSet = await userService.createQuestionSet(questionSetName)
+            console.log(createdQuestionSet)
+            dispatch(addSet(createdQuestionSet))
         } catch (error) {
             console.error(error)
         }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const authUrl = 'auth'
+const authUrl = '/auth'
+const baseUrl = '/api'
 let token : string | null = null
 
 const setToken = (newToken:string) => {
@@ -29,4 +30,13 @@ const logout = () => {
     token = null
 }
 
-export default { getProfile, login, logout, setToken}
+const createQuestionSet = async (questionSetName: string) => {
+    const response = await axios.post(`${baseUrl}/sets`, {name: questionSetName}, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response.data
+}
+
+export default { getProfile, login, logout, setToken, createQuestionSet}

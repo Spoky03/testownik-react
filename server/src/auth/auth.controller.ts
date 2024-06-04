@@ -24,7 +24,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    //omit id and password
     return req.user;
   }
 }

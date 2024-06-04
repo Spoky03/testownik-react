@@ -11,7 +11,6 @@ const setToken = (newToken:string) => {
   token = `Bearer ${newToken}`
 }
 
-
 const getAll = async () => {
     const response = await axios.get<Question[]>(baseUrl)
     return response.data
