@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { NewSetForm } from "./NewSetForm";
+import { QuestionSet } from "../../types";
 
-const SingleSet = ({ set }) => {
+const SingleSet = ({ set } : {set: QuestionSet}) => {
   return (
     <Link to={`${set._id}`}>
       <div className="bg-w-ternary dark:bg-ternary font-bold rounded-md py-3 px-2 flex justify-between w-full">
@@ -15,7 +15,6 @@ const SingleSet = ({ set }) => {
 };
 export const SetList = () => {
   const setList = useSelector((state: any) => state.user.user.questionSets);
-  console.log(setList);
   return (
     <div className="w-full">
 
@@ -27,9 +26,9 @@ export const SetList = () => {
       </div>
       <div className="flex gap-2 w-full flex-col">
         {setList ? (
-          setList.map((set: any) => {
+          setList.map((set: QuestionSet) => {
             return (
-              <div key={set.id} className="flex flex-col">
+              <div key={set._id} className="flex flex-col">
                 <SingleSet set={set} />
               </div>
             );

@@ -40,7 +40,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="profile/*" element={<Profile />} />
-          <Route path="/quiz" element={
+          <Route path="quiz" element={
             <>
               <Quiz question={dummy[0]} />
               <Sidebar />

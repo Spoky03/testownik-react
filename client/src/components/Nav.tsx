@@ -36,9 +36,12 @@ const ProfileButton = () => {
 }
 export const Navbar = ({ setDarkMode}: { setDarkMode: React.Dispatch<React.SetStateAction<boolean | null>>}) => {
     return (
-        <div className="flex justify-between absolute right-0 top-0 z-10 ">
-            <ProfileButton />
-            <ThemeButton setDarkMode={setDarkMode} />
+        <div className="flex justify-between z-10 px-10 mb-1 shadow-md">
+            <h1 className="place-self-center text-2xl font-bold">Testownik</h1>
+            <div className="flex">
+                <ProfileButton />
+                <ThemeButton setDarkMode={setDarkMode} />
+            </div>
         </div>
     )
 }
