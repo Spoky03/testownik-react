@@ -9,10 +9,16 @@ export const questionProviders = [
       connection.model('Question', QuestionSchema),
     inject: ['DATABASE_CONNECTION'],
   },
+  // {
+  //   provide: 'QUESTIONSET_MODEL',
+  //   useFactory: (connection: Connection) =>
+  //     connection.model('Questions', QuestionSetSchema),
+  //   inject: ['DATABASE_CONNECTION'],
+  // },
   {
     provide: 'QUESTIONSET_MODEL',
     useFactory: (connection: Connection) =>
-      connection.model('Questions', QuestionSetSchema),
+      connection.model('QuestionSets', QuestionSetSchema),
     inject: ['DATABASE_CONNECTION'],
   },
 ];

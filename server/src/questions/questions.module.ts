@@ -3,9 +3,9 @@ import { QuestionsController } from './questions.controller';
 import { QuestionsService } from './questions.service';
 import { questionProviders } from './questions.providers';
 import { DatabaseModule } from 'src/database/database.module';
-
+import { QuestionsSetsModule } from 'src/questionsSets/questionsSets.module';
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, QuestionsSetsModule],
   controllers: [QuestionsController],
   providers: [QuestionsService, ...questionProviders],
 })

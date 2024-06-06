@@ -1,20 +1,33 @@
 export interface Answer {
-    _id: number;
-    answer: string;
-    correct: boolean;
+  id: Key | null | undefined;
+  _id: number;
+  answer: string;
+  correct: boolean;
 }
 export interface Question {
-    _id: number;
-    question: string;
-    answers: Answer[];
-    }
-
+  _id: number;
+  question: string;
+  answers: Answer[];
+}
 
 export interface QuizState {
-    questions: Question[];
+  questions: Question[];
 }
 export interface QuestionSet {
-    _id: number | string;
-    name: string;
-    questions: Question[];
+  _id: number | string;
+  name: string;
+  questions: Question[];
+}
+export interface User {
+  questionSets: QuestionSet[];
+}
+export interface NotificationType {
+  text: string;
+  type: string;
+}
+export interface State {
+  user: User | null;
+  token: string | null;
+  questionSets: QuestionSet[];
+  notification: NotificationType;
 }

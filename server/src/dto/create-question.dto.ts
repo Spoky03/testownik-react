@@ -37,3 +37,8 @@ export class CreateQuestionDto {
   })
   readonly answers: AnswerDto[];
 }
+
+export class AppendQuestionDto {
+  readonly question: CreateQuestionDto;
+  readonly id: string;
+}

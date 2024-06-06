@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { Questions } from 'src/interfaces/questions.interface';
 import { UsersService } from 'src/users/users.service';
 import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
+import { AppendQuestionDto } from 'src/dto/create-question.dto';
 
 @Injectable()
 export class QuestionsSetsService {
@@ -32,5 +33,24 @@ export class QuestionsSetsService {
       createdQuestionSet._id.toString(),
     );
     return createdQuestionSet.save();
+  }
+  //IMPORTANT: this code tries to add question object to shema which has object ref,
+  // either change the schema (this would nesting hell)
+  // or change this endpoint to questions and add ref to the question to questionsets
+  // dont forget to populate questiionSet
+  async appendQuestion(
+    appendQuestionDto: AppendQuestionDto,
+    user,
+  ): Promise<Questions> {
+    const foundSet = await this.questionsSetsModel.findByIdAndUpdate(
+      appendQuestionDto.id,
+      {
+        $push: { questions: appendQuestionDto.question },
+      },
+    );
+    if (!foundSet) {
+      throw new Error('Set not found');
+    }
+    return foundSet;
   }
 }

@@ -13,4 +13,24 @@ export const QuestionSetSchema = new mongoose.Schema({
       ref: 'Question',
     },
   ],
+  // questions: [
+  //   {
+  //     question: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //     answers: {
+  //       type: Array,
+  //       required: true,
+  //       items: {
+  //         type: Object,
+  //         properties: {
+  //           id: Number,
+  //           answer: String,
+  //           correct: Boolean,
+  //         },
+  //       },
+  //     },
+  //   },
+  // ],
 });

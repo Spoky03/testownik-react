@@ -15,10 +15,7 @@ const getAll = async () => {
     const response = await axios.get<Question[]>(baseUrl)
     return response.data
 }
-const submitQuestion = async (question: Question) => {
-    const response = await axios.post<Question>(baseUrl, question, {headers: {Authorization: token}})
-    return response.data
-}
 
 
-export default { getAll, setToken, submitQuestion}
+
+export default { getAll, setToken}

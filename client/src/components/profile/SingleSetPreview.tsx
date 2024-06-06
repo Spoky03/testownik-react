@@ -1,17 +1,22 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
 import { Question, Answer, QuestionSet } from "../../types";
 import { useEffect, useState } from "react";
 import { Button } from "../Button";
+import { AppDispatch } from "../../store";
+import { createQuestion, notifyUser } from "../../reducers/userReducer";
+
+type CreatedAnswer = Omit<Answer, "_id"> & { id: number };
+
 const SingleQuestion = ({ question }: { question: Question }) => {
   return (
     <div className="bg-w-ternary dark:bg-ternary rounded-md px-2 py-1 flex justify-between flex-col">
       <h1 className="p-2">{question.question}</h1>
       <hr />
       <div className="grid grid-cols-2 gap-2 p-2">
-        {question.answers.map((answer: Answer) => {
+        {question.answers.map((answer : Answer) => {
           return (
-            <div key={answer._id}
+            <div key={answer.id}
               className={
                 "flex p-1 justify-between border-2 rounded-md bg-w-secondary dark:bg-secondary " +
                 (answer.correct ? "border-success" : "border-error")
@@ -25,7 +30,6 @@ const SingleQuestion = ({ question }: { question: Question }) => {
     </div>
   );
 };
-type CreatedAnswer = Omit<Answer, "_id"> & { id: number };
 const NewQuestionForm = () => {
   const [question, setQuestion] = useState<string>("");
   const [answers, setAnswers] = useState<CreatedAnswer[]>([
@@ -52,18 +56,29 @@ const NewQuestionForm = () => {
   });
   };
   const match = useMatch("/profile/sets/:id")
+  const dispatch = useDispatch<AppDispatch>()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const strippedAnswers = answers.filter((answer) => answer.answer.trim() !== "");
-    console.log(question, strippedAnswers, (match?.params.id))
-    // TODO
-  }
+    console.log(question, (match?.params.id))
+    const createdQuestion = {
+      question,
+      answers: answers.filter((answer) => answer.answer.trim() !== "")
+    };
+    if (match?.params.id) {
+      dispatch(createQuestion(createdQuestion, match.params.id));
+      dispatch(notifyUser({ text: "Question added", type: "success" }));
+    } else {
+      dispatch(notifyUser({ text: "Please select a set", type: "error" }));
+    }
+    setQuestion("");
+    setAnswers([{ answer: "", correct: false, id: 0 }]);
+    }
   return (
     <div className="bg-w-ternary dark:bg-ternary rounded-md px-2 py-1 flex justify-between flex-col mt-3">
       <form onSubmit={handleSubmit}>
         <div className="flex justify-center">
           <input
-            className="p-1 mx-3 my-2 rounded-md border-primary border"
+            className="p-1 mx-3 my-2 rounded-md border-primary border w-full max-w-64"
             placeholder="your question here..."
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
@@ -120,7 +135,7 @@ export const SingleSetPreview = () => {
   const match = useMatch("/profile/sets/:id");
   const singleSet = useSelector((state: any) =>
     state.user.user.questionSets.find(
-      (set: QuestionSet) => set._id === match.params.id
+      (set: QuestionSet) => set._id === match?.params.id
     )
   );
 

@@ -1,14 +1,17 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 import { AppDispatch } from "../store";
+import { json } from "react-router-dom";
+import { NotificationType, QuestionSet, State } from "../types";
 
-const initialState = {
+const initialState:State = {
     user: null,
     token: null,
     notification : {
         text: '',
         type: 'normal'
-    }
+    },
+    questionSets: []
     };
 const userSlice = createSlice({
   name: "user",
@@ -28,12 +31,24 @@ const userSlice = createSlice({
         },
     addSet: (state, action: PayloadAction<any>) => {
         state.user.questionSets.push(action.payload)
-    }
-    
+    },
+    notify: (state, action: PayloadAction<any>) => {
+        state.notification.text = action.payload.text;
+        state.notification.type = action.payload.type;
+    },
+    addQuestionToSet: (state, action: PayloadAction<any>) => {
+        console.log(action.payload)
+        if (state.user) {
+            const questionSet = state.user.questionSets.filter((set: QuestionSet) => set._id === action.payload.id)
+            if (questionSet.length > 0) {
+                questionSet[0].questions.push(action.payload.createdQuestion)
+            }
+        }
+    }    
   },
 });
 
-export const { login, logout, getUser, addSet } = userSlice.actions;
+export const { login, logout, getUser, addSet, notify, addQuestionToSet } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
   return async (dispatch: AppDispatch) => {
@@ -80,6 +95,22 @@ export const addQuestionSet = (questionSetName : string) => {
         } catch (error) {
             console.error(error)
         }
+    }
+}
+export const createQuestion = (question : any, id: string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const createdQuestion = await userService.createQuestion(question, id)
+            dispatch(addQuestionToSet({createdQuestion, id}))
+        } catch (error) {
+            console.error(error)
+        }
+    } 
+  }
+  // confirm('kocham martyske')
+export const notifyUser = (notification: NotificationType) => {
+    return async (dispatch: AppDispatch) => {
+        dispatch(notify(notification))
     }
 }
 
