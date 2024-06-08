@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Login } from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { fetchUser, logoutUser } from "../../reducers/userReducer";
+import { fetchQuestionSets, fetchUser, logoutUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
 import { Notification } from "../Notification";
 import { SetList } from "./SetList";
@@ -50,11 +50,10 @@ const GoBackArrow = () => {
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
+    dispatch(fetchQuestionSets());
+  });
   const user = useSelector((state: any) => state.user.user);
   const notification = useSelector((state: any) => state.user.notification);
-
   return (
     <div className="flex flex-col place-items-center w-screen px-10">
       {user && user.username ? (

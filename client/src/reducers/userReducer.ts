@@ -44,11 +44,14 @@ const userSlice = createSlice({
                 questionSet[0].questions.push(action.payload.createdQuestion)
             }
         }
-    }    
+    },
+    getSets: (state, action: PayloadAction<any>) => {
+        state.user  = action.payload
+    }   
   },
 });
 
-export const { login, logout, getUser, addSet, notify, addQuestionToSet } = userSlice.actions;
+export const { login, logout, getUser, addSet, notify, addQuestionToSet,getSets } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
   return async (dispatch: AppDispatch) => {
@@ -66,6 +69,15 @@ export const loginUser = (username: string, password: string) => {
     }
   };
 };
+export const reLoginUser = (token: string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            userService.setToken(token)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+}
 export const fetchUser = () => {
     return async (dispatch: AppDispatch) => {
         try {
@@ -113,5 +125,17 @@ export const notifyUser = (notification: NotificationType) => {
         dispatch(notify(notification))
     }
 }
+
+export const fetchQuestionSets = () => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const questionSets = await userService.getQuestionSets()
+            dispatch(getSets(questionSets))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+}
+
 
 export default userSlice.reducer;

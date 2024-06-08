@@ -7,7 +7,7 @@ let token : string | null = null
 
 const setToken = (newToken:string) => {
     localStorage.setItem('loggedUserToken', newToken)
-  token = `Bearer ${newToken}`
+    token = `Bearer ${newToken}`
 }
 
 const getProfile = async () => {
@@ -45,5 +45,13 @@ const createQuestion = async (question: Question, id: string) => {
     const response = await axios.post<Question>(`${baseUrl}/questions`, {question, id}, {headers: {Authorization: token}})
     return response.data
 }
+const getQuestionSets = async () => {
+    const response = await axios.get(`${baseUrl}/users/me`, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response.data
+}
 
-export default { getProfile, login, logout, setToken, createQuestionSet, createQuestion}
+export default { getProfile, login, logout, setToken, createQuestionSet, createQuestion, getQuestionSets }

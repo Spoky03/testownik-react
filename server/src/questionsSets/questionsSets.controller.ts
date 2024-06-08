@@ -19,6 +19,7 @@ import {
 export class QuestionsSetsController {
   constructor(private questionsSetsService: QuestionsSetsService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
   async findAll(): Promise<Questions[]> {
     return this.questionsSetsService.findAll();

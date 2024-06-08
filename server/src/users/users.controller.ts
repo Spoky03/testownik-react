@@ -11,6 +11,11 @@ export class UsersController {
   async findAll() {
     return this.usersService.findAll();
   }
+  @UseGuards(AuthGuard)
+  @Get('me')
+  async findMe(@Request() req) {
+    return this.usersService.findById(req.user.sub);
+  }
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

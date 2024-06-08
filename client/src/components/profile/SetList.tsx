@@ -1,7 +1,10 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { NewSetForm } from "./NewSetForm";
 import { QuestionSet } from "../../types";
+import { useEffect } from "react";
+import { fetchQuestionSets } from "../../reducers/userReducer";
+import { AppDispatch } from "../../store";
 
 const SingleSet = ({ set } : {set: QuestionSet}) => {
   return (
@@ -14,7 +17,12 @@ const SingleSet = ({ set } : {set: QuestionSet}) => {
   );
 };
 export const SetList = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const setList = useSelector((state: any) => state.user.user.questionSets);
+  useEffect(() => {
+    dispatch(fetchQuestionSets());
+  }, [dispatch]);
+
   return (
     <div className="w-full">
 
