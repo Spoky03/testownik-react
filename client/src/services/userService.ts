@@ -53,5 +53,21 @@ const getQuestionSets = async () => {
     })
     return response.data
 }
+const deleteOneQuestion = async (id: string) => {
+    const response = await axios.delete(`${baseUrl}/questions/${id}`, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response.data
+}
+const deleteOneQuestionSet = async (id: string) => {
+    const response = await axios.delete(`${baseUrl}/sets/${id}`, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response.data
+}
 
-export default { getProfile, login, logout, setToken, createQuestionSet, createQuestion, getQuestionSets }
+export default { getProfile, login, logout, setToken, createQuestionSet, createQuestion, getQuestionSets, deleteOneQuestion, deleteOneQuestionSet }

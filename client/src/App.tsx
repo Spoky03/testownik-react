@@ -1,5 +1,4 @@
-import Quiz from "./components/quiz";
-import Sidebar from "./components/sidebar";
+import QuizContainer  from "./components/quiz";
 import { Question } from "./types";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -13,6 +12,7 @@ import userService from "./services/userService";
 import { Navbar } from "./components/Nav";
 import { SingleSetPreview } from "./components/profile/SingleSetPreview";
 import { reLoginUser } from "./reducers/userReducer";
+import { Sidebar } from "./components/quiz/sidebar";
 
 export const ThemeContext = createContext<boolean | null>(null);
 const App = () => {
@@ -31,13 +31,7 @@ const App = () => {
       dispatch(reLoginUser(token));
     }
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(initializeQuiz());
-  }, [dispatch]);
 
-  const dummy = useSelector(
-    (state: { quiz: { questions: Question[] } }) => state.quiz.questions
-  );
   return (
     <ThemeContext.Provider value={darkMode}>
       <div
@@ -51,15 +45,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="profile/*" element={<Profile />} />
-            <Route
-              path="quiz"
-              element={
-                <>
-                  <Quiz question={dummy[0]} />
-                  <Sidebar />
-                </>
-              }
-            />
+            <Route path="quiz/*" element={<QuizContainer />} />
           </Routes>
         </main>
       </div>

@@ -53,4 +53,10 @@ export class QuestionsSetsService {
     }
     return foundSet;
   }
+  async getOne(id: string, user : any): Promise<Questions> {
+    return this.questionsSetsModel.findById(id).exec();
+  }
+  async deleteOne(id: string, user : any): Promise<Questions> {
+    return this.questionsSetsModel.findByIdAndDelete(id).exec();
+  }
 }

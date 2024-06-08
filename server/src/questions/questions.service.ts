@@ -40,4 +40,7 @@ export class QuestionsService {
     await questionSet.save();
     return createdQuestion;
   }
+  async deleteOne(id: string): Promise<Question> {
+    return this.questionModel.findByIdAndDelete(id).exec();
+  }
 }

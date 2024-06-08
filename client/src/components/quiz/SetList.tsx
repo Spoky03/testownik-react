@@ -1,31 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { NewSetForm } from "./NewSetForm";
 import { QuestionSet } from "../../types";
-import { useEffect, useState } from "react";
-import {
-  deleteOneQuestionSet,
-  fetchQuestionSets,
-} from "../../reducers/userReducer";
-import { AppDispatch } from "../../store";
-
-import { DeleteConfirmation } from "../DeleteConfirmation";
-
 const SingleSet = ({ set }: { set: QuestionSet }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const handleDelete = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    dispatch(deleteOneQuestionSet(set._id));
-  };
-
+    const progress = {
+        correct: 0,
+        total: set.questions.length,
+    };
   return (
     <div className="bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full">
       <Link to={`${set._id}`} className="w-full h-full py-3">
         <h1 className="">{set.name}</h1>
       </Link>
       <div className="flex place-items-center">
-        <DeleteConfirmation handleDelete={handleDelete} />
-        <h1 className="p-3">{set.questions.length}</h1>
+        <h1 className="p-3">{progress.correct===progress.total ? "Completed" : `${progress.correct}/${progress.total}`} </h1>
       </div>
     </div>
   );
@@ -33,12 +20,12 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
 export const SetList = () => {
   const setList = useSelector((state: any) => state.user.user.questionSets);
   return (
-    <div className="w-full">
-      <NewSetForm />
+    <div className="flex flex-col place-items-center w-screen px-10">
+    <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary  ">
       <br />
       <div className="flex justify-between">
-        <h1 className="py-1">Your Sets</h1>
-        <h1 className="py-1">Questions</h1>
+        <h1 className="py-1">Sets</h1>
+        <h1 className="py-1">Your Progress</h1>
       </div>
       <div className="flex gap-2 w-full flex-col">
         {setList ? (
@@ -53,6 +40,7 @@ export const SetList = () => {
           <h1>No sets</h1>
         )}
       </div>
+    </div>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 import { AppDispatch } from "../store";
-import { json } from "react-router-dom";
 import { NotificationType, QuestionSet, State } from "../types";
 
 const initialState:State = {
@@ -11,7 +10,7 @@ const initialState:State = {
         text: '',
         type: 'normal'
     },
-    questionSets: []
+    saves: []
     };
 const userSlice = createSlice({
   name: "user",
@@ -22,6 +21,7 @@ const userSlice = createSlice({
       state.notification.text = 'Logged In';
     },
     getUser: (state, action: PayloadAction<any>) => {
+        console.log('1',action.payload)
         state.user = action.payload;
         },
     logout: (state) => {
@@ -30,7 +30,7 @@ const userSlice = createSlice({
         state.notification.text = 'Logged Out';
         },
     addSet: (state, action: PayloadAction<any>) => {
-        state.user.questionSets.push(action.payload)
+        state.user?.questionSets.push(action.payload)
     },
     notify: (state, action: PayloadAction<any>) => {
         state.notification.text = action.payload.text;
@@ -46,12 +46,27 @@ const userSlice = createSlice({
         }
     },
     getSets: (state, action: PayloadAction<any>) => {
+        console.log('2',action.payload)
         state.user  = action.payload
-    }   
+    },
+    setToken: (state, action: PayloadAction<any>) => {
+        state.token = action.payload
+    },
+    deleteQuestion: (state, action: PayloadAction<any>) => {
+        const questionSets = state.user?.questionSets
+        if (questionSets) {
+            questionSets.forEach((set: QuestionSet) => {
+                set.questions = set.questions.filter((question) => question._id !== action.payload)
+            })
+        }
+    },
+    deleteSet: (state, action: PayloadAction<any>) => {
+        state.user.questionSets = state.user.questionSets.filter((set: QuestionSet) => set._id !== action.payload);
+    },
   },
 });
 
-export const { login, logout, getUser, addSet, notify, addQuestionToSet,getSets } = userSlice.actions;
+export const { login, logout, getUser, addSet, notify, addQuestionToSet,getSets, setToken, deleteQuestion, deleteSet} = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
   return async (dispatch: AppDispatch) => {
@@ -73,6 +88,9 @@ export const reLoginUser = (token: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             userService.setToken(token)
+            const user = await userService.getProfile()
+            dispatch(getUser(user))
+            dispatch(setToken(token))
         } catch (error) {
             console.error(error)
         }
@@ -136,6 +154,25 @@ export const fetchQuestionSets = () => {
         }
     }
 }
-
+export const deleteOneQuestion = (id: string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            await userService.deleteOneQuestion(id)
+            dispatch(deleteQuestion(id))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+}
+export const deleteOneQuestionSet = (id: string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            await userService.deleteOneQuestionSet(id)
+            dispatch(deleteSet(id))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+}
 
 export default userSlice.reducer;

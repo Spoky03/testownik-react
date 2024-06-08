@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Request,
   UseGuards,
@@ -36,5 +38,10 @@ export class QuestionsController {
     @Request() req,
   ): Promise<Question> {
     return this.questionsService.appendQuestion(appendQuestionDto, req.user);
+  }
+  @UseGuards(AuthGuard)
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<Question> {
+    return this.questionsService.deleteOne(id);
   }
 }

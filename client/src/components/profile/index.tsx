@@ -25,7 +25,7 @@ const ProfileNav = ({
           <Button
             label="Logout"
             type="button"
-            onclick={() => dispatch(logoutUser())}
+            onClick={() => dispatch(logoutUser())}
           />
         </div>
       </div>
@@ -49,11 +49,12 @@ const GoBackArrow = () => {
 }
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    dispatch(fetchQuestionSets());
-  });
   const user = useSelector((state: any) => state.user.user);
   const notification = useSelector((state: any) => state.user.notification);
+  const token = useSelector((state: any) => state.user.token);
+  useEffect(() => {
+    dispatch(fetchQuestionSets());
+  }, [dispatch, token]);
   return (
     <div className="flex flex-col place-items-center w-screen px-10">
       {user && user.username ? (

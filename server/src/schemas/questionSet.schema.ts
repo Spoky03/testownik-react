@@ -13,6 +13,10 @@ export const QuestionSetSchema = new mongoose.Schema({
       ref: 'Question',
     },
   ],
+  private: {
+    type: Boolean,
+    default: false,
+  },
   // questions: [
   //   {
   //     question: {

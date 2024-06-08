@@ -5,6 +5,8 @@ import {
   Post,
   UseGuards,
   Request,
+  Param,
+  Delete,
 } from '@nestjs/common';
 import { QuestionsSetsService } from './questionsSets.service';
 import { Questions } from '../interfaces/questions.interface';
@@ -39,12 +41,22 @@ export class QuestionsSetsController {
     @Body() appendQuestionDto: AppendQuestionDto,
     @Request() req,
   ): Promise<Questions> {
-    console.log('appendQuestion', appendQuestionDto);
-    console.log(appendQuestionDto.question.answers);
-    console.log('id', appendQuestionDto.id);
     return this.questionsSetsService.appendQuestion(
       appendQuestionDto,
       req.user,
     );
   }
+
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  async getOne(@Param('id') id: string, @Request() req): Promise<Questions> {
+    return this.questionsSetsService.getOne(id, req.user);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':id')
+  async deleteOne(@Param('id') id: string, @Request() req): Promise<Questions> {
+    return this.questionsSetsService.deleteOne(id, req.user);
+  }
+
 }

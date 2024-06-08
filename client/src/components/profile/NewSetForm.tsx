@@ -3,7 +3,7 @@ import { Button } from "../Button";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import { addQuestionSet } from "../../reducers/userReducer";
-
+import { MdAdd } from "react-icons/md";
 export const NewSetForm = () => {
     const [nameOfSet, setNameOfSet] = useState<string>('')
     const dispatch = useDispatch<AppDispatch>()
@@ -24,7 +24,7 @@ export const NewSetForm = () => {
           onChange={(e) => setNameOfSet(e.target.value)}
         />
         <div className="h-8 w-8">
-          <Button type="submit" label="+" onclick={() => {}} />
+          <Button type="submit" label={<MdAdd size={24} />} onClick={() => {}} />
         </div>
       </form>
     </div>
