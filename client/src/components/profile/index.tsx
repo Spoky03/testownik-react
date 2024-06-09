@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { Login } from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { fetchQuestionSets, fetchUser, logoutUser } from "../../reducers/userReducer";
+import { fetchQuestionSets, logoutUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
 import { Notification } from "../Notification";
 import { SetList } from "./SetList";
@@ -10,6 +10,7 @@ import { Routes, Route, Link, Outlet, useNavigate } from "react-router-dom";
 import { SingleSetPreview } from "./SingleSetPreview";
 import { FaBars as BarsIcon } from "react-icons/fa6";
 import { IoMdArrowRoundBack as ArrowBackIcon } from "react-icons/io";
+import { RootState } from "../../types";
 const ProfileNav = ({
   username,
   dispatch,
@@ -49,9 +50,7 @@ const GoBackArrow = () => {
 }
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((state: any) => state.user.user);
-  const notification = useSelector((state: any) => state.user.notification);
-  const token = useSelector((state: any) => state.user.token);
+  const {user, notification, token} = useSelector((state: RootState) => state.user);
   useEffect(() => {
     dispatch(fetchQuestionSets());
   }, [dispatch, token]);
@@ -62,7 +61,7 @@ const Profile = () => {
           <Routes>
             <Route
               path=""
-              element={<ProfileNav user={user.username} dispatch={dispatch} />}
+              element={<ProfileNav username={user.username} dispatch={dispatch} />}
             />
             <Route path="sets/*" element={<><GoBackArrow/><Outlet/></>}>
               <Route path="" element={<SetList />} />

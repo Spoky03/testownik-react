@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { QuestionSet } from "../../types";
+import { RootState } from "../../types";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
     const progress = {
         correct: 0,
@@ -18,7 +19,7 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
   );
 };
 export const SetList = () => {
-  const setList = useSelector((state: any) => state.user.user.questionSets);
+  const setList = useSelector((state: RootState) => state.user.user?.questionSets);
   return (
     <div className="flex flex-col place-items-center w-screen px-10">
     <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary  ">

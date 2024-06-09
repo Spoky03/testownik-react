@@ -1,17 +1,20 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 import { AppDispatch } from "../store";
-import { NotificationType, QuestionSet, State } from "../types";
+import { NotificationType, Question, QuestionSet, UserState } from "../types";
 
-const initialState:State = {
+const initialState:UserState = {
     user: null,
     token: null,
     notification : {
         text: '',
         type: 'normal'
     },
-    saves: []
-    };
+    preferences: {
+        initialRepetitions: 1,
+        maxRepetitions: 5,
+    },
+};
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
@@ -21,7 +24,6 @@ const userSlice = createSlice({
       state.notification.text = 'Logged In';
     },
     getUser: (state, action: PayloadAction<any>) => {
-        console.log('1',action.payload)
         state.user = action.payload;
         },
     logout: (state) => {
@@ -46,8 +48,15 @@ const userSlice = createSlice({
         }
     },
     getSets: (state, action: PayloadAction<any>) => {
-        console.log('2',action.payload)
-        state.user  = action.payload
+        state.user  = {
+            ...state.user, 
+            questionSets: action.payload.questionSets
+        }
+        // state.user?.questionSets.map((set: QuestionSet) => {
+        //     set.questions.map((question) => {
+        //         question.repets = state.preferences.initialRepetitions
+        //     })
+        // })
     },
     setToken: (state, action: PayloadAction<any>) => {
         state.token = action.payload
@@ -66,7 +75,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logout, getUser, addSet, notify, addQuestionToSet,getSets, setToken, deleteQuestion, deleteSet} = userSlice.actions;
+export const { login, logout, getUser, addSet, notify, addQuestionToSet,getSets, setToken, deleteQuestion, deleteSet, initSaved} = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
   return async (dispatch: AppDispatch) => {
@@ -127,7 +136,7 @@ export const addQuestionSet = (questionSetName : string) => {
         }
     }
 }
-export const createQuestion = (question : any, id: string) => {
+export const createQuestion = (question : Question, id: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             const createdQuestion = await userService.createQuestion(question, id)
@@ -174,5 +183,4 @@ export const deleteOneQuestionSet = (id: string) => {
         }
     }
 }
-
 export default userSlice.reducer;

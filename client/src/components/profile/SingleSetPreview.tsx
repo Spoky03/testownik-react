@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
-import { Question, Answer, QuestionSet } from "../../types";
-import { useEffect, useState } from "react";
+import { Question, Answer, QuestionSet, RootState } from "../../types";
+import { useState } from "react";
 import { Button } from "../Button";
 import { AppDispatch } from "../../store";
 import { createQuestion, deleteOneQuestion, notifyUser } from "../../reducers/userReducer";
@@ -150,7 +150,7 @@ const NewQuestionForm = () => {
 };
 export const SingleSetPreview = () => {
   const match = useMatch("/profile/sets/:id");
-  const singleSet = useSelector((state: any) => {
+  const singleSet = useSelector((state: RootState) => {
     return state.user?.user?.questionSets?.find(
       (set: QuestionSet) => set._id === match?.params.id
     );

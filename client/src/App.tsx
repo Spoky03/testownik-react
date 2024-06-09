@@ -1,18 +1,13 @@
 import QuizContainer  from "./components/quiz";
-import { Question } from "./types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useEffect, useState } from "react";
-import { initializeQuiz } from "./reducers/quizReducer";
 import { AppDispatch } from "./store";
 import { Route, Routes } from "react-router-dom";
 import { LandingPage } from "./components/landing";
 import Profile from "./components/profile";
 import { createContext } from "react";
-import userService from "./services/userService";
 import { Navbar } from "./components/Nav";
-import { SingleSetPreview } from "./components/profile/SingleSetPreview";
 import { reLoginUser } from "./reducers/userReducer";
-import { Sidebar } from "./components/quiz/sidebar";
 
 export const ThemeContext = createContext<boolean | null>(null);
 const App = () => {
