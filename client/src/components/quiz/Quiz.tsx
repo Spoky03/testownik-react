@@ -27,13 +27,13 @@ const QuizQuestion = () => {
   }
 
   return (
-    <div className="flex place-center flex-col  place-items-center gap-5 w-2/3 px-10">
-      <div className="container h-16 justify-content-center p-5">
+    <div className="flex place-center flex-col place-items-center p-4 gap-y-5 grow">
+      <div className="container h-16 justify-content-center py-5">
         <h2 className="text-center font-semibold text-xl">
           {question.question}
         </h2>
       </div>
-      <ul className="flex gap-5 w-full flex-wrap justify-center container max-w-4xl">
+      <ul className="flex gap-5 flex-wrap justify-center container max-w-2xl">
         {question.answers.map((answer: AnswerType) => (
           <Answer key={answer.id} answer={answer} selected={selected} />
         ))}
@@ -59,7 +59,7 @@ const Quiz = () => {
     }
   });
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex h-screen w-full justify-end">
       {activeSet ? <QuizQuestion /> : <h1>Not found</h1>}
       <Sidebar />
     </div>

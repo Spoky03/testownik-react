@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { submitAnswersAction } from "../../reducers/quizReducer";
 import { RootState } from "../../types";
 import { useEffect, useState } from "react";
+import { MdOutlineSave as SaveIcon } from "react-icons/md";
+import { MdSettings as SettingsIcon } from "react-icons/md";
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,16 +34,18 @@ export const Sidebar = () => {
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   return (
-    <aside className="dark:bg-primary bg-w-primary w-1/3 flex flex-col place-items-center p-5 gap-5 relative text-center">
+    <aside className="dark:bg-primary bg-w-primary min-w-30 sm:min-w-48  grow max-w-96 flex flex-col place-items-center pl-3 gap-5 relative text-center">
       <div className="flex flex-col justify-evenly h-full p-3">
-      <section className="flex flex-col">
+        <section className="flex flex-col">
           <h2 className="text-sm mb-2">Udzielone odpowiedzi</h2>
           <div className="w-full flex max-w-64 rounded-full h-1.5 bg-w-faint dark:bg-faint">
             <div
               className="bg-success h-1.5 rounded-l-full transition-all"
               style={{
                 width: `${
-                  (sidebar.correctAnswers / (sidebar.correctAnswers + sidebar.incorrectAnswers)) * 100
+                  (sidebar.correctAnswers /
+                    (sidebar.correctAnswers + sidebar.incorrectAnswers)) *
+                  100
                 }%`,
               }}
             ></div>
@@ -49,7 +53,9 @@ export const Sidebar = () => {
               className="bg-error h-1.5 rounded-r-full transition-all"
               style={{
                 width: `${
-                  (sidebar.incorrectAnswers / (sidebar.correctAnswers + sidebar.incorrectAnswers)) * 100
+                  (sidebar.incorrectAnswers /
+                    (sidebar.correctAnswers + sidebar.incorrectAnswers)) *
+                  100
                 }%`,
               }}
             ></div>
@@ -90,9 +96,13 @@ export const Sidebar = () => {
           <span className="text-3xl text-success">{formattedTime}</span>
         </p>
       </div>
-      <div className="flex flex-row justify-evenly h-full">
-        <p>a </p>
-        <p>b </p>
+      <div className="flex flex-row justify-evenly h-full gap-5">
+        <div>
+          <SaveIcon size={24} />
+        </div>
+        <div>
+          <SettingsIcon size={24} />
+        </div>
       </div>
       <button
         onClick={handleSubmit}

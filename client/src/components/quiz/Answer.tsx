@@ -45,7 +45,7 @@ export const Answer = ({
       {state === "waiting" ? (
         <button
           className={
-            `bg-w-secondary dark:bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg hover:scale-95 transition-all duration-300 ease-in-out w-72 grow border-2 ` +
+            `bg-w-secondary dark:bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg hover:scale-95 transition-all duration-300 ease-in-out w-52 sm:w-72 grow border-2 ` +
             color
           }
           onClick={() => handleSelect(answer.id)}
@@ -63,7 +63,7 @@ export const Answer = ({
       ) : (
         <div
           className={
-            `bg-w-secondary dark:bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg hover:scale-95 transition-all duration-300 ease-in-out w-72 grow border-2 ` +
+            `bg-w-secondary dark:bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg hover:scale-95 transition-all duration-300 ease-in-out w-52 sm:w-72  grow border-2 ` +
             color
           }
         >
