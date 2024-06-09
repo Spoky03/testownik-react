@@ -36,7 +36,7 @@ const App = () => {
         }
       >
         <Navbar setDarkMode={setDarkMode} />
-        <main className="flex">
+        <main className="flex h-screen">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="profile/*" element={<Profile />} />

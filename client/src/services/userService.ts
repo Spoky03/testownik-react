@@ -69,5 +69,15 @@ const deleteOneQuestionSet = async (id: string) => {
     })
     return response.data
 }
+const saveProgress = async ({questionSetId, questions, time}: {questionSetId: string, questions: {id: string, repets: number | undefined}[], time: number}) => {
+    console.log('saving progress')
+    console.log({questionSetId, questions, time})
+    const response = await axios.put(`${baseUrl}/users/save`, {questionSetId, questions, time}, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response.data
+}
 
-export default { getProfile, login, logout, setToken, createQuestionSet, createQuestion, getQuestionSets, deleteOneQuestion, deleteOneQuestionSet }
+export default { getProfile, login, logout, setToken, createQuestionSet, createQuestion, getQuestionSets, deleteOneQuestion, deleteOneQuestionSet, saveProgress }

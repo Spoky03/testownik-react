@@ -16,4 +16,8 @@ export const UserSchema = new mongoose.Schema({
       ref: 'QuestionSets',
     },
   ],
+  progress: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
 });

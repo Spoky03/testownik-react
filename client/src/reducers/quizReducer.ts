@@ -15,6 +15,7 @@ const initialState: QuizState = {
     masteredQuestions: 0,
     time: 0,
   },
+  setId: "",
 };
 const quizSlice = createSlice({
   name: "quiz",
@@ -91,10 +92,16 @@ const quizSlice = createSlice({
         }
       }
     },
+    save: (state) => {
+      console.log("Save");
+    },
+    setSetId: (state, action: PayloadAction<string>) => {
+      state.setId = action.payload;
+    }
   },
 });
 
-export const { init, setQuestions, appendSelected, setActive, submitAnswers, reset } =
+export const { init, setQuestions, appendSelected, setActive, submitAnswers, reset,save, setSetId } =
   quizSlice.actions;
 
 export const initializeQuiz = (set: QuestionSet) => {
@@ -127,6 +134,16 @@ export const submitAnswersAction = () => {
 export const resetQuiz = () => {
   return async (dispatch: AppDispatch) => {
     dispatch(reset());
+  };
+}
+export const saveQuizProgress = () => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(save());
+  };
+}
+export const setQuizSetId = (id: string) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setSetId(id));
   };
 }
 

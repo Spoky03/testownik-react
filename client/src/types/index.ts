@@ -28,6 +28,7 @@ export interface QuizState {
   selected: number[];
   finished: boolean;
   sidebar: Sidebar;
+  setId: string;
 }
 export interface QuestionSet {
   _id: string;

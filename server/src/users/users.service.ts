@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from 'src/interfaces/user.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
+import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 
 @Injectable()
 export class UsersService {
@@ -47,5 +48,20 @@ export class UsersService {
   async create(user: CreateUserDto): Promise<User> {
     const createdUser = new this.userModel(user);
     return createdUser.save();
+  }
+  async saveProgress(
+    progress: SaveQuestionSetProgressDto,
+    userId: string,
+  ): Promise<User> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.progress[progress.questionSetId] = {
+      questions: progress.questions,
+      time: progress.time,
+    };
+    await user.save();
+    return user;
   }
 }

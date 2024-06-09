@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Request,
+  Put,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 
 @Controller('api/users')
 export class UsersController {
@@ -19,6 +28,17 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+  @UseGuards(AuthGuard)
+  @Put('save')
+  async save(
+    @Body() saveQuestionSetProgressDto: SaveQuestionSetProgressDto,
+    @Request() req,
+  ) {
+    return this.usersService.saveProgress(
+      saveQuestionSetProgressDto,
+      req.user.sub,
+    );
   }
   // @UseGuards(AuthGuard)
   // @Get('user')

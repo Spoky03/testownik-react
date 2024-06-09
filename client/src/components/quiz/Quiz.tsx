@@ -5,7 +5,7 @@ import Sidebar from "./sidebar";
 import { useMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { initializeQuiz, resetQuiz } from "../../reducers/quizReducer";
+import { initializeQuiz, resetQuiz, setQuizSetId } from "../../reducers/quizReducer";
 import { useNavigate } from "react-router-dom";
 
 const QuizQuestion = () => {
@@ -56,6 +56,7 @@ const Quiz = () => {
   useEffect(() => {
     if (activeSet) {
       dispatch(initializeQuiz(activeSet));
+      dispatch(setQuizSetId(activeSet._id));
     }
   });
   return (

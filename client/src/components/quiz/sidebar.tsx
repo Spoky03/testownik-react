@@ -7,10 +7,11 @@ import { RootState } from "../../types";
 import { useEffect, useState } from "react";
 import { MdOutlineSave as SaveIcon } from "react-icons/md";
 import { MdSettings as SettingsIcon } from "react-icons/md";
+import userService from "../../services/userService";
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { selected, state, sidebar } = useSelector(
+  const { questions, state, sidebar, setId } = useSelector(
     (state: RootState) => state.quiz
   );
   const [timer, setTimer] = useState<number>(0);
@@ -25,6 +26,21 @@ export const Sidebar = () => {
   }, []);
   const handleSubmit = () => {
     dispatch(submitAnswersAction());
+  };
+  const handleSave = () => {
+    const questionsToSave = questions.map((question) => {
+      return {
+        id: question._id,
+        repets: question.repets,
+      };
+    });
+
+    const progress = {
+      questions: questionsToSave,
+      questionSetId: setId,
+      time: timer,
+    };
+    userService.saveProgress(progress);
   };
 
   const hours = Math.floor(timer / 3600);
@@ -97,12 +113,12 @@ export const Sidebar = () => {
         </p>
       </div>
       <div className="flex flex-row justify-evenly h-full gap-5">
-        <div>
+        <button onClick={handleSave}>
           <SaveIcon size={24} />
-        </div>
-        <div>
+        </button>
+        <button>
           <SettingsIcon size={24} />
-        </div>
+        </button>
       </div>
       <button
         onClick={handleSubmit}
