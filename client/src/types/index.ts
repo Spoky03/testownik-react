@@ -29,6 +29,11 @@ export interface QuizState {
   finished: boolean;
   sidebar: Sidebar;
   setId: string;
+  preferences: {
+    initialRepetitions: number;
+    maxRepetitions: number;
+    additionalRepetitions: number;
+  };
 }
 export interface QuestionSet {
   _id: string;

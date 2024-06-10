@@ -16,7 +16,13 @@ const initialState: QuizState = {
     time: 0,
   },
   setId: "",
+  preferences: {
+    initialRepetitions: 2,
+    maxRepetitions: 5,
+    additionalRepetitions: 1,
+  },
 };
+
 const quizSlice = createSlice({
   name: "quiz",
   initialState: initialState,
@@ -64,7 +70,7 @@ const quizSlice = createSlice({
           } else {
             state.sidebar.incorrectAnswers++;
             state.active.repets = state.active.repets
-              ? state.active.repets + 1
+              ? state.active.repets + state.preferences.additionalRepetitions
               : 1;
           }
           const activeQuestionIndex = state.questions.findIndex(
@@ -76,12 +82,18 @@ const quizSlice = createSlice({
         } else {
           state.selected = [];
           state.state = "waiting";
-          const questionsWithRepets = state.questions.filter((question) => question.repets);
-          const questionsWithoutActive = questionsWithRepets.filter((question) => question._id !== state.active?._id);
+          const questionsWithRepets = state.questions.filter(
+            (question) => question.repets
+          );
+          const questionsWithoutActive = questionsWithRepets.filter(
+            (question) => question._id !== state.active?._id
+          );
           if (questionsWithoutActive.length > 0) {
-            state.active = questionsWithoutActive[Math.floor(Math.random() * questionsWithoutActive.length)];
-          }
-          else if (questionsWithRepets.length) {
+            state.active =
+              questionsWithoutActive[
+                Math.floor(Math.random() * questionsWithoutActive.length)
+              ];
+          } else if (questionsWithRepets.length) {
             state.active =
               questionsWithRepets[
                 Math.floor(Math.random() * questionsWithRepets.length)
@@ -97,18 +109,30 @@ const quizSlice = createSlice({
     },
     setSetId: (state, action: PayloadAction<string>) => {
       state.setId = action.payload;
-    }
+    },
+    updatePreferences: (state, action: PayloadAction<QuizState["preferences"]>) => {
+      state.preferences = action.payload;
+    },
   },
 });
 
-export const { init, setQuestions, appendSelected, setActive, submitAnswers, reset,save, setSetId } =
-  quizSlice.actions;
+export const {
+  init,
+  setQuestions,
+  appendSelected,
+  setActive,
+  submitAnswers,
+  reset,
+  save,
+  setSetId,
+  updatePreferences,
+} = quizSlice.actions;
 
-export const initializeQuiz = (set: QuestionSet) => {
+export const initializeQuiz = (set: QuestionSet, initialRepets: number) => {
   return async (dispatch: AppDispatch) => {
     const questions = set.questions.map((question) => ({
       ...question,
-      repets: 1,
+      repets: initialRepets,
     }));
     dispatch(
       setActive(questions[Math.floor(Math.random() * questions.length)])
@@ -135,15 +159,20 @@ export const resetQuiz = () => {
   return async (dispatch: AppDispatch) => {
     dispatch(reset());
   };
-}
+};
 export const saveQuizProgress = () => {
   return async (dispatch: AppDispatch) => {
     dispatch(save());
   };
-}
+};
 export const setQuizSetId = (id: string) => {
   return async (dispatch: AppDispatch) => {
     dispatch(setSetId(id));
+  };
+};
+export const updateQuizPreferences = (preferences: QuizState["preferences"]) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(updatePreferences(preferences));
   };
 }
 

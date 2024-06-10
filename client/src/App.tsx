@@ -29,21 +29,19 @@ const App = () => {
 
   return (
     <ThemeContext.Provider value={darkMode}>
-      <div
+      <main
         className={
           `w-full min-w-full overflow-x-hidden h-screen ` +
           (darkMode ? "dark" : "")
         }
       >
         <Navbar setDarkMode={setDarkMode} />
-        <main className="flex h-screen">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="profile/*" element={<Profile />} />
             <Route path="quiz/*" element={<QuizContainer />} />
           </Routes>
-        </main>
-      </div>
+      </main>
     </ThemeContext.Provider>
   );
 };

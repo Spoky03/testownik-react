@@ -52,10 +52,13 @@ const Quiz = () => {
   const activeSet = useSelector((state: RootState) =>
     state.user?.user?.questionSets?.find((set: QuestionSet) => set._id === id)
   );
+  const initReps = useSelector(
+    (state: RootState) => state.quiz.preferences.initialRepetitions
+  );
 
   useEffect(() => {
     if (activeSet) {
-      dispatch(initializeQuiz(activeSet));
+      dispatch(initializeQuiz(activeSet, initReps));
       dispatch(setQuizSetId(activeSet._id));
     }
   });

@@ -6,4 +6,13 @@ export interface User extends Document {
   username: string;
   password: string;
   questionSets: Questions;
+  progress: {
+    [key: string]: {
+      questions: {
+        questionId: string;
+        repets: number;
+      }[];
+      time: number;
+    };
+  };
 }

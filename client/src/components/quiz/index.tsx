@@ -13,7 +13,7 @@ const QuizContainer = () => {
   useEffect(() => {
     dispatch(fetchQuestionSets());
   }, [dispatch, token]);
-  if (!token) {
+  if (!token) { 
     return <h1>Not logged in</h1>;
   }
   return (

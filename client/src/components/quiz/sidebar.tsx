@@ -8,9 +8,12 @@ import { useEffect, useState } from "react";
 import { MdOutlineSave as SaveIcon } from "react-icons/md";
 import { MdSettings as SettingsIcon } from "react-icons/md";
 import userService from "../../services/userService";
+import { Modal } from "../Modal";
+import { Settings } from "./Settings";
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [openSettings, setOpenSettings] = useState(false)
   const { questions, state, sidebar, setId } = useSelector(
     (state: RootState) => state.quiz
   );
@@ -50,7 +53,14 @@ export const Sidebar = () => {
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   return (
-    <aside className="dark:bg-primary bg-w-primary min-w-30 sm:min-w-48  grow max-w-96 flex flex-col place-items-center pl-3 gap-5 relative text-center">
+    <>
+    <Modal 
+      open={openSettings} 
+      setOpen={setOpenSettings}
+      title={<div className="text-success text-center">Ustawienia</div>}
+      content={<Settings />}
+      />
+    <aside className="dark:bg-primary bg-w-primary min-w-36 sm:min-w-40 md:min-w-48  grow max-w-96 flex flex-col place-items-center pl-3 gap-5 relative text-center">
       <div className="flex flex-col justify-evenly h-full p-3">
         <section className="flex flex-col">
           <h2 className="text-sm mb-2">Udzielone odpowiedzi</h2>
@@ -116,7 +126,7 @@ export const Sidebar = () => {
         <button onClick={handleSave}>
           <SaveIcon size={24} />
         </button>
-        <button>
+        <button onClick={() => setOpenSettings(true)}>
           <SettingsIcon size={24} />
         </button>
       </div>
@@ -133,6 +143,7 @@ export const Sidebar = () => {
         </div>
       </button>
     </aside>
+    </>
   );
 };
 
