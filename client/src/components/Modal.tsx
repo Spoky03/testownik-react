@@ -15,10 +15,10 @@ interface ModalProps {
   icon?: React.ReactNode;
 }
 export const Modal = (props: ModalProps) => {
-  const darkMode = true;
+  const darkMode = false;
   return (
     <Transition show={props.open}>
-      <Dialog className="relative z-10" onClose={props.setOpen} class={`${darkMode ? "dark" : ""}`}>
+      <Dialog className={`relative z-10 ${darkMode ? "dark" : ""}`} onClose={props.setOpen}>
         <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"

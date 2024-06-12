@@ -12,7 +12,7 @@ export interface Question {
   _id: string;
   question: string;
   answers: Answer[];
-  repets?: number;
+  repeats?: number;
 }
 export interface Sidebar {
   correctAnswers: number;
@@ -63,4 +63,9 @@ export interface UserState {
     initialRepetitions: number;
     maxRepetitions: number;
   };
-}
+  progress: {
+    questionSetId: string;
+    questions: { id: string; repeats: number | undefined }[];
+    time: number;
+  }[];
+  }

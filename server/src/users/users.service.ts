@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { User } from 'src/interfaces/user.interface';
+import { User, Progress } from 'src/interfaces/user.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 
@@ -52,16 +52,46 @@ export class UsersService {
   async saveProgress(
     progress: SaveQuestionSetProgressDto,
     userId: string,
-  ): Promise<User> {
+  ): Promise<Progress> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
       throw new Error('User not found');
     }
-    user.progress[progress.questionSetId] = {
-      questions: progress.questions,
-      time: progress.time,
-    };
-    await user.save();
-    return user;
+    if (!progress.questionSetId) {
+      throw new Error('questionSetId is required');
+    }
+    // if questionSetId is not in progress
+    const progressIndex = user.progress.findIndex(
+      (p) => p.questionSetId.toString() === progress.questionSetId,
+    );
+    if (progressIndex === -1) {
+      user.progress.push(progress);
+    } else {
+      user.progress.set(progressIndex, progress);
+    }
+    const savedUser = await user.save();
+    return savedUser.progress;
+  }
+  async getProgress(userId: string): Promise<Progress> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user.progress;
+  }
+  async resetProgress(id: string, userId: string): Promise<Progress> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const progressIndex = user.progress.findIndex(
+      (p) => p.questionSetId.toString() === id,
+    );
+    if (progressIndex === -1) {
+      throw new Error('Progress not found');
+    }
+    user.progress.splice(progressIndex, 1);
+    const savedUser = await user.save();
+    return savedUser.progress;
   }
 }

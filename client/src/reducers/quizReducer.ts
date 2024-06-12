@@ -1,6 +1,9 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import { QuizState, Question, QuestionSet } from "../types";
+import { QuizState, Question, QuestionSet, UserState } from "../types";
+import quizService from "../services/quizService";
+import userService from "../services/userService";
+import { User } from "discord.js";
 
 const initialState: QuizState = {
   questions: [],
@@ -17,7 +20,7 @@ const initialState: QuizState = {
   },
   setId: "",
   preferences: {
-    initialRepetitions: 2,
+    initialRepetitions: 1,
     maxRepetitions: 5,
     additionalRepetitions: 1,
   },
@@ -63,14 +66,14 @@ const quizSlice = createSlice({
           console.log(JSON.stringify(correct), JSON.stringify(state.selected));
           if (JSON.stringify(correct) == JSON.stringify(state.selected)) {
             state.sidebar.correctAnswers++;
-            state.active.repets = state.active.repets
-              ? state.active.repets - 1
+            state.active.repeats = state.active.repeats
+              ? state.active.repeats - 1
               : 1;
-            state.active.repets === 0 && state.sidebar.masteredQuestions++;
+            state.active.repeats === 0 && state.sidebar.masteredQuestions++;
           } else {
             state.sidebar.incorrectAnswers++;
-            state.active.repets = state.active.repets
-              ? state.active.repets + state.preferences.additionalRepetitions
+            state.active.repeats = state.active.repeats
+              ? state.active.repeats + state.preferences.additionalRepetitions
               : 1;
           }
           const activeQuestionIndex = state.questions.findIndex(
@@ -82,10 +85,10 @@ const quizSlice = createSlice({
         } else {
           state.selected = [];
           state.state = "waiting";
-          const questionsWithRepets = state.questions.filter(
-            (question) => question.repets
+          const questionsWithRepeats = state.questions.filter(
+            (question) => question.repeats
           );
-          const questionsWithoutActive = questionsWithRepets.filter(
+          const questionsWithoutActive = questionsWithRepeats.filter(
             (question) => question._id !== state.active?._id
           );
           if (questionsWithoutActive.length > 0) {
@@ -93,10 +96,10 @@ const quizSlice = createSlice({
               questionsWithoutActive[
                 Math.floor(Math.random() * questionsWithoutActive.length)
               ];
-          } else if (questionsWithRepets.length) {
+          } else if (questionsWithRepeats.length) {
             state.active =
-              questionsWithRepets[
-                Math.floor(Math.random() * questionsWithRepets.length)
+              questionsWithRepeats[
+                Math.floor(Math.random() * questionsWithRepeats.length)
               ];
           } else {
             state.finished = true;
@@ -110,8 +113,14 @@ const quizSlice = createSlice({
     setSetId: (state, action: PayloadAction<string>) => {
       state.setId = action.payload;
     },
-    updatePreferences: (state, action: PayloadAction<QuizState["preferences"]>) => {
+    updatePreferences: (
+      state,
+      action: PayloadAction<QuizState["preferences"]>
+    ) => {
       state.preferences = action.payload;
+    },
+    updateSidebarTime: (state, action: PayloadAction<QuizState["sidebar"]["time"]>) => {
+      state.sidebar.time = action.payload
     },
   },
 });
@@ -126,17 +135,29 @@ export const {
   save,
   setSetId,
   updatePreferences,
+  updateSidebarTime,
 } = quizSlice.actions;
 
-export const initializeQuiz = (set: QuestionSet, initialRepets: number) => {
+export const initializeQuiz = (
+  set: QuestionSet,
+  initialRepeats: number,
+  progress: UserState["progress"]
+) => {
   return async (dispatch: AppDispatch) => {
-    const questions = set.questions.map((question) => ({
-      ...question,
-      repets: initialRepets,
-    }));
-    dispatch(
-      setActive(questions[Math.floor(Math.random() * questions.length)])
-    );
+    //find progess for this set
+    const setProgress = progress.find((p: UserState["progress"]) => p.questionSetId === set._id);
+    const questions = set.questions.map((question) => {
+      const progress = setProgress?.questions.find(
+        (q: any) => q.id === question._id
+      );
+      return {
+        ...question,
+        repeats: progress?.repeats !== undefined ? progress.repeats : initialRepeats,
+      };
+    });
+    console.log(setProgress?.time);
+    dispatch(updateSidebarTime(setProgress?.time || 0));
+    dispatch(setActive(questions.find((question) => question.repeats) as Question));
     dispatch(init(questions));
   };
 };
@@ -170,10 +191,12 @@ export const setQuizSetId = (id: string) => {
     dispatch(setSetId(id));
   };
 };
-export const updateQuizPreferences = (preferences: QuizState["preferences"]) => {
+export const updateQuizPreferences = (
+  preferences: QuizState["preferences"]
+) => {
   return async (dispatch: AppDispatch) => {
     dispatch(updatePreferences(preferences));
   };
-}
+};
 
 export default quizSlice.reducer;

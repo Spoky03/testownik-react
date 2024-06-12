@@ -18,7 +18,7 @@ export const Settings = () => {
             Initial Repetitions
           </label>
           <input
-            className="bg-w-ternary rounded shadow-sm"
+            className="bg-w-ternary rounded shadow-sm text-primary"
             type="number"
             id="initialRepetitions"
             value={preferences.initialRepetitions}
@@ -38,7 +38,7 @@ export const Settings = () => {
             Additional Repetitions
           </label>
           <input
-            className="bg-w-ternary rounded shadow-sm"
+            className="bg-w-ternary rounded shadow-sm text-primary"
             type="number"
             id="addRepetitions"
             value={preferences.additionalRepetitions}

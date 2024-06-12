@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
 import { initializeQuiz, resetQuiz, setQuizSetId } from "../../reducers/quizReducer";
 import { useNavigate } from "react-router-dom";
+import { getProgress, initProgress } from "../../reducers/userReducer";
 
 const QuizQuestion = () => {
   const {
@@ -40,7 +41,7 @@ const QuizQuestion = () => {
       </ul>
       <div className="rounded-full p-2 px-4 text-sm absolute bottom-5 shadow-md bg-w-primary dark:bg-primary">
         Ponowne wystąpienia:{" "}
-        <span className="text-success">{question.repets}</span>
+        <span className="text-success">{question.repeats}</span>
       </div>
     </div>
   );
@@ -55,13 +56,15 @@ const Quiz = () => {
   const initReps = useSelector(
     (state: RootState) => state.quiz.preferences.initialRepetitions
   );
+  const progress = useSelector((state: RootState) => state.user.progress);
 
   useEffect(() => {
     if (activeSet) {
-      dispatch(initializeQuiz(activeSet, initReps));
+      dispatch(initializeQuiz(activeSet, initReps, progress));
       dispatch(setQuizSetId(activeSet._id));
     }
   });
+
   return (
     <div className="flex h-screen w-full justify-end">
       {activeSet ? <QuizQuestion /> : <h1>Not found</h1>}

@@ -55,9 +55,9 @@ const Profile = () => {
     dispatch(fetchQuestionSets());
   }, [dispatch, token]);
   return (
-    <div className="flex flex-col place-items-center w-screen px-10">
+    <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
       {user && user.username ? (
-        <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary">
+        <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-[900px]">
           <Routes>
             <Route
               path=""

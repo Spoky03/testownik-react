@@ -6,6 +6,8 @@ import {
   UseGuards,
   Request,
   Put,
+  Param,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
@@ -30,7 +32,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
   @UseGuards(AuthGuard)
-  @Put('save')
+  @Put('progress')
   async save(
     @Body() saveQuestionSetProgressDto: SaveQuestionSetProgressDto,
     @Request() req,
@@ -39,6 +41,17 @@ export class UsersController {
       saveQuestionSetProgressDto,
       req.user.sub,
     );
+  }
+  @UseGuards(AuthGuard)
+  @Get('progress')
+  async getProgress(@Request() req) {
+    return this.usersService.getProgress(req.user.sub);
+  }
+  @UseGuards(AuthGuard)
+  @Delete('progress/:id')
+  async resetProgress(@Param('id') id: string, @Request() req) {
+    console.log(id);
+    return this.usersService.resetProgress(id, req.user.sub);
   }
   // @UseGuards(AuthGuard)
   // @Get('user')

@@ -1,19 +1,12 @@
-import {
-  IsArray,
-  IsNotEmpty,
-  IsString,
-  IsBoolean,
-  ValidateNested,
-  ArrayMinSize,
-  IsNumber,
-} from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { ObjectId } from 'mongoose';
 export class SaveQuestionSetProgressDto {
   @IsString()
   @IsNotEmpty()
-  readonly questionSetId: string;
+  questionSetId: ObjectId;
 
   @IsArray()
-  questions: Array<{ questionId: string; repets: number }>;
+  questions: Array<{ id: ObjectId; repeats: number }>;
 
   @IsNumber()
   time: number;
