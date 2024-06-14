@@ -13,13 +13,23 @@ import { DeleteConfirmation } from "../DeleteConfirmation";
 
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const [effect, setEffect] = useState(false);
   const handleDelete = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    dispatch(deleteOneQuestionSet(set._id));
+    setEffect(true);
+  };
+  const effectCleanup = () => {
+    if (effect) {
+      dispatch(deleteOneQuestionSet(set._id));
+      setEffect(false);
+    }
   };
 
   return (
-    <div className="bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full">
+    <div
+      className={`bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full ${
+        effect && "animate-explode"}`}
+      onAnimationEnd={effectCleanup}
+    >
       <Link to={`${set._id}`} className="w-full h-full py-3">
         <h1 className="">{set.name}</h1>
       </Link>

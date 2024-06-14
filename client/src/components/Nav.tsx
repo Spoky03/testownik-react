@@ -16,7 +16,7 @@ const ThemeButton = ({setDarkMode} : {setDarkMode : React.Dispatch<React.SetStat
     }
     return (
         <div className="flex">
-            <div role="button" onClick={toggleDarkMode} className='rounded-md p-1 m-1  place-self-center hover:animate-[spin_0.6s_ease-in-out]'>
+            <div role="button" onClick={toggleDarkMode} className='rounded-md p-1 m-1  place-self-center  hover:text-success transition:colors duration-300 hover:animate-[spin_0.6s_ease-in-out]'>
                 {darkMode ? <MdLightMode size={30} /> : <MdDarkMode size={30} />}
             </div>
         </div>
@@ -26,7 +26,7 @@ const ProfileButton = () => {
     
     return (
         <div className="flex">
-            <div role="button" className='rounded-md p-1 m-1 place-self-center'>
+            <div role="button" className='rounded-md p-1 m-1 place-self-center hover:text-success transition:colors duration-300'>
                 <Link to="/profile">
                     <UserIcon size={25}/>
                 </Link>

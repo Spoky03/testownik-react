@@ -19,10 +19,15 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
   };
   const handleReset = async () => {
       setEffect(true);
+  };
+  const effectCleanup = () => {
+    if (effect) {
       dispatch(resetSingleProgress(set._id));
+      setEffect(false);
+    }
   };
   return (
-    <div className="bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full">
+    <div className={`bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full`}>
       <Link to={`${set._id}`} className="w-full h-full py-3">
         <h1 className="">{set.name}</h1>
       </Link>
@@ -34,11 +39,11 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
         </h1>
         <ResetIcon
           size={24}
-          className={`${
-            effect && "animate-wiggle"
-          } hover:text-success transition-colors duration-300 clicl`}
+          className={`hover:text-success transition-colors duration-300 ${
+            effect && "animate-rotateSemi"
+          }`}
           onClick={handleReset}
-          onAnimationEnd={() => setEffect(false)}
+          onAnimationEnd={effectCleanup}
         />
       </div>
     </div>

@@ -28,10 +28,31 @@ export default {
         wiggle: {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" }
+        },
+        explode: {
+          "0%": { transform: "scale(1)" },
+          "70%": { transform: "scale(1.3)" },
+          "100%": { transform: "scale(0.5)" }
+        },
+        fade: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0.5" }
+        },
+        rotate: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" }
+        },
+        rotateSemi: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(180deg)" }
         }
       },
       animation: {
-        wiggle: "wiggle 200ms ease-in-out"
+        wiggle: "wiggle 200ms ease-in-out",
+        explode: "explode 600ms ease-in-out",
+        fade: "fade 1s ease-in-out",
+        rotate: "rotate 1s ease-out",
+        rotateSemi: "rotateSemi 0.65s ease-out"
       }
     },
   },

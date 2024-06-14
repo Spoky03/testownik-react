@@ -11,6 +11,7 @@ import { SingleSetPreview } from "./SingleSetPreview";
 import { FaBars as BarsIcon } from "react-icons/fa6";
 import { IoMdArrowRoundBack as ArrowBackIcon } from "react-icons/io";
 import { RootState } from "../../types";
+import constants from "../../constants";
 const ProfileNav = ({
   username,
   dispatch,
@@ -20,18 +21,18 @@ const ProfileNav = ({
 }) => {
   return (
     <>
-      <div className="flex justify-between place-items-center">
-        <h1 className="font-bold">Welcome {username}</h1>
+      <div className="flex justify-between min-h-96">
+        <h3 className="font-bold text-lg">Welcome {username}</h3>
         <div className="h-10 w-16">
           <Button
-            label="Logout"
+            label={constants.LABELS.LOGOUT}
             type="button"
             onClick={() => dispatch(logoutUser())}
           />
         </div>
       </div>
-      <Link to="sets" className="place-self-center">
-        <BarsIcon />
+      <Link to="sets" className="place-self-center w-20 h-12">
+        <Button label={constants.LABELS.VIEW_SETS} type="button" />
       </Link>
     </>
   );

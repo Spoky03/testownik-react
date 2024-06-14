@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import { IoBeerSharp as BeerIcon } from "react-icons/io5";
+import { RootState } from "../../types";
 export const LandingPage = () => {
   const user = useSelector((state: RootState) => state.user.user);
   return (
@@ -11,7 +12,7 @@ export const LandingPage = () => {
       </h1>
       <BeerIcon
         size={64}
-        className="hover:animate-spin pl-2 place-self-center shadow-xl inline"
+        className="hover:animate-spin pl-2 place-self-center drop-shadow-xl inline"
       />
       <h2 className="text-xl sm:text-2xl font-bold dark:text-whit place-self-center p-5">
         {user ? (
