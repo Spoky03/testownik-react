@@ -6,13 +6,20 @@ export const QuestionSetSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   questions: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Question',
     },
   ],
+  description: {
+    type: String,
+    default: 'No description provided',
+  },
   private: {
     type: Boolean,
     default: false,

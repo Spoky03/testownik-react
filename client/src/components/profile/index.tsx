@@ -1,14 +1,13 @@
-import { useEffect } from "react";
 import { Login } from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { fetchQuestionSets, logoutUser } from "../../reducers/userReducer";
+import { logoutUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
 import { Notification } from "../Notification";
 import { SetList } from "./SetList";
 import { Routes, Route, Link, Outlet, useNavigate } from "react-router-dom";
 import { SingleSetPreview } from "./SingleSetPreview";
-import { FaBars as BarsIcon } from "react-icons/fa6";
+// import { FaBars as BarsIcon } from "react-icons/fa6";
 import { IoMdArrowRoundBack as ArrowBackIcon } from "react-icons/io";
 import { RootState } from "../../types";
 import constants from "../../constants";
@@ -59,12 +58,9 @@ const GoBackArrow = () => {
 };
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, notification, token } = useSelector(
+  const { user, notification } = useSelector(
     (state: RootState) => state.user
   );
-  useEffect(() => {
-    dispatch(fetchQuestionSets());
-  }, [dispatch, token]);
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
       {user && user.username ? (

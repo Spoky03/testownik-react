@@ -17,4 +17,5 @@ export interface User extends Document {
   password: string;
   questionSets: Questions;
   progress: Progress;
+  bookmarks: string[];
 }

@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import { NewSetForm } from "./NewSetForm";
 import { QuestionSet } from "../../types";
 import { useEffect, useState } from "react";
-import {
-  deleteOneQuestionSet,
-  fetchQuestionSets,
-} from "../../reducers/userReducer";
+import { deleteOneQuestionSet } from "../../reducers/userReducer";
 import { AppDispatch } from "../../store";
 
 import { DeleteConfirmation } from "../DeleteConfirmation";
@@ -45,7 +42,7 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
           <Link to={`${set._id}`} className="w-full h-full py-3">
             <p className="flex opacity-90 hover:opacity-100">
               {set.name}
-              <EditIcon className="place-self-center duration-300 transition-colors"/>
+              <EditIcon className="place-self-center duration-300 transition-colors" />
             </p>
           </Link>
         </div>

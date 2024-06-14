@@ -53,6 +53,16 @@ export class UsersController {
     console.log(id);
     return this.usersService.resetProgress(id, req.user.sub);
   }
+  @UseGuards(AuthGuard)
+  @Post('bookmarks')
+  async addBookmark(@Body('id') id, @Request() req) {
+    return this.usersService.addBookmark(id, req.user.sub);
+  }
+  @UseGuards(AuthGuard)
+  @Delete('bookmarks/:id')
+  async deleteBookmark(@Param('id') id: string, @Request() req) {
+    return this.usersService.deleteBookmark(id, req.user.sub);
+  }
   // @UseGuards(AuthGuard)
   // @Get('user')
   // async getUser(@Request() req) {

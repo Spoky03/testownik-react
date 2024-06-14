@@ -2,11 +2,20 @@
 export default {
   darkMode: ["class"],
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
   prefix: "",
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
         transparent: 'transparent',
@@ -45,19 +54,30 @@ export default {
         rotateSemi: {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(180deg)" }
-        }
+        },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
       },
       animation: {
         wiggle: "wiggle 200ms ease-in-out",
         explode: "explode 600ms ease-in-out",
         fade: "fade 1s ease-in-out",
         rotate: "rotate 1s ease-out",
-        rotateSemi: "rotateSemi 0.65s ease-out"
+        rotateSemi: "rotateSemi 0.65s ease-out",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       }
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
+
 }

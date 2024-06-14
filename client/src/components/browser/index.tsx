@@ -16,7 +16,6 @@ const BrowserNav = () => {
 };
 const SetList = () => {
   const sets = useSelector((state: RootState) => state.browser.sets);
-  console.log(sets);
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
       <Suspense fallback={<h1>Loading...</h1>}>

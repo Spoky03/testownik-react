@@ -7,7 +7,7 @@ import { LandingPage } from "./components/landing";
 import Profile from "./components/profile";
 import { createContext } from "react";
 import { Navbar } from "./components/Nav";
-import { reLoginUser } from "./reducers/userReducer";
+import { fetchAllUserData, reLoginUser } from "./reducers/userReducer";
 import BrowserContainer from "./components/browser";
 
 export const ThemeContext = createContext<boolean | null>(null);
@@ -25,6 +25,7 @@ const App = () => {
     const token = window.localStorage.getItem("loggedUserToken");
     if (token) {
       dispatch(reLoginUser(token));
+      dispatch(fetchAllUserData())
     }
   }, [dispatch]);
 

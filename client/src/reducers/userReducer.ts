@@ -4,7 +4,13 @@ import { AppDispatch } from "../store";
 import { CreatedQuestion, NotificationType, Question, QuestionSet, UserState } from "../types";
 
 const initialState: UserState = {
-  user: null,
+  user: {
+    sub: "",
+    username: "",
+    questionSets: [],
+    iat: 0,
+    exp: 0,
+  },
   token: null,
   notification: {
     text: "",
@@ -15,6 +21,7 @@ const initialState: UserState = {
     maxRepetitions: 5,
   },
   progress: [],
+  bookmarks: [],
 };
 const userSlice = createSlice({
   name: "user",
@@ -29,7 +36,7 @@ const userSlice = createSlice({
     },
     logout: (state) => {
       state.token = null;
-      state.user = null;
+      state.user = initialState.user;
       state.notification.text = "Logged Out";
     },
     addSet: (state, action: PayloadAction<any>) => {
@@ -65,15 +72,14 @@ const userSlice = createSlice({
       }
     },
     getSets: (state, action: PayloadAction<any>) => {
+      state.preferences = action.payload.preferences;
+      state.progress = action.payload.progress;
+      state.bookmarks = action.payload.bookmarks;
       state.user = {
         ...state.user,
         questionSets: action.payload.questionSets,
       };
-      // state.user?.questionSets.map((set: QuestionSet) => {
-      //     set.questions.map((question) => {
-      //         question.repets = state.preferences.initialRepetitions
-      //     })
-      // })
+      
     },
     setToken: (state, action: PayloadAction<any>) => {
       state.token = action.payload;
@@ -104,6 +110,9 @@ const userSlice = createSlice({
         return set;
       });
     },
+    setBookmarks: (state, action: PayloadAction<any>) => {
+      state.bookmarks = action.payload;
+    },
   },
 });
 
@@ -121,6 +130,7 @@ export const {
   deleteSet,
   initProgress,
   resetProgress,
+  setBookmarks,
 } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
@@ -210,11 +220,11 @@ export const notifyUser = (notification: NotificationType) => {
   };
 };
 
-export const fetchQuestionSets = () => {
+export const fetchAllUserData = () => {
   return async (dispatch: AppDispatch) => {
     try {
-      const questionSets = await userService.getQuestionSets();
-      dispatch(getSets(questionSets));
+      const res = await userService.getAllUserData();
+      dispatch(getSets(res));
     } catch (error) {
       console.error(error);
     }
@@ -255,6 +265,26 @@ export const resetSingleProgress = (id: string) => {
     try {
       const resetedSetProgress = await userService.resetProgress(id);
       dispatch(resetProgress({ id, resetedSetProgress }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+export const addBookmark = (id: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const bookmarks = await userService.addBookmark(id);
+      dispatch(setBookmarks(bookmarks));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+export const deleteBookmark = (id: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const bookmarks = await userService.deleteBookmark(id);
+      dispatch(setBookmarks(bookmarks));
     } catch (error) {
       console.error(error);
     }

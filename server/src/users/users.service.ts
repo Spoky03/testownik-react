@@ -98,4 +98,16 @@ export class UsersService {
     const savedUser = await user.save();
     return savedUser.progress;
   }
+  async addBookmark(id: string, userId: string): Promise<User['bookmarks']> {
+    const user = await this.userModel
+      .findByIdAndUpdate(userId, { $push: { bookmarks: id } }, { new: true })
+      .exec();
+    return user.bookmarks;
+  }
+  async deleteBookmark(id: string, userId: string): Promise<User['bookmarks']> {
+    const user = await this.userModel
+      .findByIdAndUpdate(userId, { $pull: { bookmarks: id } }, { new: true })
+      .exec();
+    return user.bookmarks;
+  }
 }

@@ -3,8 +3,15 @@ import { AppDispatch, RootState } from "../../store";
 import { resetSingleProgress } from "../../reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { QuestionSet } from "@/types";
 export const Progress = ({ set }: { set: QuestionSet }) => {
-    const [effect, setEffect] = useState(false);
+  const [effect, setEffect] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const fetchedProgress = useSelector(
@@ -32,14 +39,23 @@ export const Progress = ({ set }: { set: QuestionSet }) => {
           ? "Completed"
           : `${progress.correct}/${progress.total}`}{" "}
       </h1>
-      <ResetIcon
-        size={24}
-        className={`hover:text-success transition-colors duration-300 ${
-          effect && "animate-rotateSemi"
-        }`}
-        onClick={handleReset}
-        onAnimationEnd={effectCleanup}
-      />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <ResetIcon
+              size={24}
+              className={`hover:text-success transition-colors duration-300 ${
+                effect && "animate-rotateSemi"
+              }`}
+              onClick={handleReset}
+              onAnimationEnd={effectCleanup}
+            />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Reset your progress</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };

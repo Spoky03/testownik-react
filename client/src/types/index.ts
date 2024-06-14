@@ -49,6 +49,7 @@ export interface BrowserState {
   sets: QuestionSet[];
 }
 export interface QuestionSet {
+  description: string;
   _id: string;
   name: string;
   author: {
@@ -56,6 +57,7 @@ export interface QuestionSet {
     _id: string;
   } | string;
   questions: Question[];
+  likes: number;
 }
 export enum SetListTypes {
   QUIZ = "QUIZ",
@@ -63,7 +65,10 @@ export enum SetListTypes {
   EDIT = "EDIT",
 }
 
-
+export interface NotificationType {
+  text: string;
+  type: string;
+}
 export interface User {
   username: string;
   sub: string;
@@ -71,14 +76,8 @@ export interface User {
   exp: number;
   questionSets: QuestionSet[];
 }
-export interface NotificationType {
-  text: string;
-  type: string;
-}
-//---saves---
-
 export interface UserState {
-  user: User | null;
+  user: User;
   token: string | null;
   notification: NotificationType;
   preferences: {
@@ -90,4 +89,5 @@ export interface UserState {
     questions: { id: string; repeats: number | undefined }[];
     time: number;
   }[];
+  bookmarks: string[];
   }

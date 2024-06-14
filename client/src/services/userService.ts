@@ -63,7 +63,7 @@ const editQuestion = async (question: CreatedQuestion, id: string) => {
   );
   return response.data;
 };
-const getQuestionSets = async () => {
+const getAllUserData = async () => {
   const response = await axios.get(`${baseUrl}/users/me`, {
     headers: {
       Authorization: token,
@@ -125,6 +125,22 @@ const resetProgress = async (id: string) => {
   });
   return response.data;
 };
+const addBookmark = async (id?: string) => {
+  const response = await axios.post(`${baseUrl}/users/bookmarks`, {id}, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+};
+const deleteBookmark = async (id: string) => {
+  const response = await axios.delete(`${baseUrl}/users/bookmarks/${id}`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+};
 
 export default {
   getProfile,
@@ -134,10 +150,12 @@ export default {
   createQuestionSet,
   createQuestion,
   editQuestion,
-  getQuestionSets,
+  getAllUserData,
   deleteOneQuestion,
   deleteOneQuestionSet,
   saveProgress,
   getProgress,
   resetProgress,
+  addBookmark,
+  deleteBookmark,
 };

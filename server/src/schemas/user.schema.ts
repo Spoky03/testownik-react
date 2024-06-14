@@ -51,4 +51,10 @@ export const UserSchema = new mongoose.Schema({
     },
   ],
   progress: [ProgressSchema],
+  bookmarks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'QuestionSets',
+    },
+  ],
 });
