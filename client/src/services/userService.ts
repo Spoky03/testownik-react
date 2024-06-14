@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Question } from "../types";
+import { CreatedQuestion, Question } from "../types";
 
 const authUrl = "/auth";
 const baseUrl = "/api";
@@ -43,12 +43,22 @@ const createQuestionSet = async (questionSetName: string) => {
   );
   return response.data;
 };
-const createQuestion = async (question: Question, id: string) => {
+const createQuestion = async (question: CreatedQuestion, id: string) => {
   //change this too
   // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
   const response = await axios.post<Question>(
     `${baseUrl}/questions`,
     { question, id },
+    { headers: { Authorization: token } }
+  );
+  return response.data;
+};
+const editQuestion = async (question: CreatedQuestion, id: string) => {
+  //change this too
+  // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
+  const response = await axios.put<Question>(
+    `${baseUrl}/questions/${id}`,
+     question ,
     { headers: { Authorization: token } }
   );
   return response.data;
@@ -123,6 +133,7 @@ export default {
   setToken,
   createQuestionSet,
   createQuestion,
+  editQuestion,
   getQuestionSets,
   deleteOneQuestion,
   deleteOneQuestionSet,

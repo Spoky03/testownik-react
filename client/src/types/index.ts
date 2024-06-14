@@ -1,6 +1,7 @@
 export interface RootState {
   quiz: QuizState;
   user: UserState;
+  browser: BrowserState;
 }
 export interface Answer {
   id: number | null | undefined;
@@ -13,6 +14,15 @@ export interface Question {
   question: string;
   answers: Answer[];
   repeats?: number;
+}
+export interface CreatedAnswer {
+  id: number;
+  answer: string;
+  correct: boolean;
+}
+export interface CreatedQuestion {
+  question: string;
+  answers: CreatedAnswer[];
 }
 export interface Sidebar {
   correctAnswers: number;
@@ -35,10 +45,22 @@ export interface QuizState {
     additionalRepetitions: number;
   };
 }
+export interface BrowserState {
+  sets: QuestionSet[];
+}
 export interface QuestionSet {
   _id: string;
   name: string;
+  author: {
+    username: string;
+    _id: string;
+  } | string;
   questions: Question[];
+}
+export enum SetListTypes {
+  QUIZ = "QUIZ",
+  BROWSER = "BROWSER",
+  EDIT = "EDIT",
 }
 
 

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Questions } from 'src/interfaces/questions.interface';
+import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UsersService } from 'src/users/users.service';
 import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
 import { AppendQuestionDto } from 'src/dto/create-question.dto';
@@ -9,17 +10,21 @@ import { AppendQuestionDto } from 'src/dto/create-question.dto';
 export class QuestionsSetsService {
   constructor(
     @Inject('QUESTIONSET_MODEL')
-    private questionsSetsModel: Model<Questions>,
+    private questionsSetsModel: Model<QuestionSet>,
     private usersService: UsersService,
   ) {}
 
-  async findAll(): Promise<Questions[]> {
-    return this.questionsSetsModel.find().exec();
+  async findAll(): Promise<QuestionSet[]> {
+    //find all questionssets private = false
+    return this.questionsSetsModel
+      .find({ private: false })
+      .populate('author', 'username')
+      .exec();
   }
   async create(
     createQuestionSetDto: CreateQuestionSetDto,
     user,
-  ): Promise<Questions> {
+  ): Promise<QuestionSet> {
     const foundUser = await this.usersService.findById(user.sub);
     if (!foundUser) {
       throw new Error('User not found');
@@ -41,7 +46,7 @@ export class QuestionsSetsService {
   async appendQuestion(
     appendQuestionDto: AppendQuestionDto,
     user,
-  ): Promise<Questions> {
+  ): Promise<QuestionSet> {
     const foundSet = await this.questionsSetsModel.findByIdAndUpdate(
       appendQuestionDto.id,
       {
@@ -53,10 +58,10 @@ export class QuestionsSetsService {
     }
     return foundSet;
   }
-  async getOne(id: string, user : any): Promise<Questions> {
+  async getOne(id: string, user: any): Promise<QuestionSet> {
     return this.questionsSetsModel.findById(id).exec();
   }
-  async deleteOne(id: string, user : any): Promise<Questions> {
+  async deleteOne(id: string, user: any): Promise<QuestionSet> {
     return this.questionsSetsModel.findByIdAndDelete(id).exec();
   }
 }

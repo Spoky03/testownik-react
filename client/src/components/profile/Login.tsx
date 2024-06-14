@@ -31,7 +31,7 @@ export const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
         />
         <div className="place-self-center w-100">
-            <Button type="submit" label="login" onclick={() => {}} />
+            <Button type="submit" label="login"/>
         </div>
         </form>
     </div>

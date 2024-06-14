@@ -10,6 +10,8 @@ import {
 import { AppDispatch } from "../../store";
 
 import { DeleteConfirmation } from "../DeleteConfirmation";
+import { FaPlay as PlayIcon } from "react-icons/fa6";
+import { MdEdit as EditIcon } from "react-icons/md";
 
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,17 +27,32 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
   };
 
   return (
-    <div
-      className={`bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full ${
-        effect && "animate-explode"}`}
-      onAnimationEnd={effectCleanup}
-    >
-      <Link to={`${set._id}`} className="w-full h-full py-3">
-        <h1 className="">{set.name}</h1>
+    <div className="flex">
+      {" "}
+      <Link to={`/quiz/${set._id}`} className="py-3 mr-3">
+        <PlayIcon
+          className="text-success opacity-80 hover:opacity-100"
+          size={24}
+        />
       </Link>
-      <div className="flex place-items-center">
-        <DeleteConfirmation handleDelete={handleDelete} />
-        <h1 className="p-3">{set.questions.length}</h1>
+      <div
+        className={`bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full ${
+          effect && "animate-explode"
+        }`}
+        onAnimationEnd={effectCleanup}
+      >
+        <div className="flex">
+          <Link to={`${set._id}`} className="w-full h-full py-3">
+            <p className="flex opacity-90 hover:opacity-100">
+              {set.name}
+              <EditIcon className="place-self-center duration-300 transition-colors"/>
+            </p>
+          </Link>
+        </div>
+        <div className="flex place-items-center">
+          <DeleteConfirmation handleDelete={handleDelete} />
+          <h1 className="p-3">{set.questions.length}</h1>
+        </div>
       </div>
     </div>
   );

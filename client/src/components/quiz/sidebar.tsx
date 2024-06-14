@@ -20,16 +20,12 @@ export const Sidebar = () => {
   const [timer, setTimer] = useState<number>(sidebar.time);
   useEffect(() => {
     // Only start the timer if sidebar.time has been initialized
-    if (sidebar.time !== 0) {
-      setTimer(sidebar.time);
-      const intervalId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer + 1);
-      }, 1000);
-
-      // Clear the timer when the component unmounts
-      return () => clearInterval(intervalId);
-    }
-  }, [sidebar.time]); // Add sidebar.time as a dependency
+    setTimer(sidebar.time);
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => prevTimer + 1);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [sidebar.time]);
   const handleSubmit = () => {
     dispatch(submitAnswersAction());
   };

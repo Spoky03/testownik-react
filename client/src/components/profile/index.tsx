@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { Login } from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
@@ -20,8 +20,9 @@ const ProfileNav = ({
   dispatch: AppDispatch;
 }) => {
   return (
-    <>
-      <div className="flex justify-between min-h-96">
+    <div className="flex flex-col">
+      <div className="flex justify-between ">
+        <GoBackArrow />
         <h3 className="font-bold text-lg">Welcome {username}</h3>
         <div className="h-10 w-16">
           <Button
@@ -31,10 +32,17 @@ const ProfileNav = ({
           />
         </div>
       </div>
+      <div className="">
+        <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 min-h-96 place-items-center">
+          <li className="w-32 h-32 bg-success"></li>
+          <li className="w-32 h-32 bg-success"></li>
+          <li className="w-32 h-32 bg-success"></li>
+        </ul>
+      </div>
       <Link to="sets" className="place-self-center w-20 h-12">
         <Button label={constants.LABELS.VIEW_SETS} type="button" />
       </Link>
-    </>
+    </div>
   );
 };
 const GoBackArrow = () => {
@@ -48,10 +56,12 @@ const GoBackArrow = () => {
       />
     </div>
   );
-}
+};
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {user, notification, token} = useSelector((state: RootState) => state.user);
+  const { user, notification, token } = useSelector(
+    (state: RootState) => state.user
+  );
   useEffect(() => {
     dispatch(fetchQuestionSets());
   }, [dispatch, token]);
@@ -62,9 +72,19 @@ const Profile = () => {
           <Routes>
             <Route
               path=""
-              element={<ProfileNav username={user.username} dispatch={dispatch} />}
+              element={
+                <ProfileNav username={user.username} dispatch={dispatch} />
+              }
             />
-            <Route path="sets/*" element={<><GoBackArrow/><Outlet/></>}>
+            <Route
+              path="sets/*"
+              element={
+                <>
+                  <GoBackArrow />
+                  <Outlet />
+                </>
+              }
+            >
               <Route path="" element={<SetList />} />
               <Route path=":id" element={<SingleSetPreview />} />
             </Route>

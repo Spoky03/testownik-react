@@ -8,6 +8,7 @@ import Profile from "./components/profile";
 import { createContext } from "react";
 import { Navbar } from "./components/Nav";
 import { reLoginUser } from "./reducers/userReducer";
+import BrowserContainer from "./components/browser";
 
 export const ThemeContext = createContext<boolean | null>(null);
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="profile/*" element={<Profile />} />
             <Route path="quiz/*" element={<QuizContainer />} />
+            <Route path="browser/*" element={<BrowserContainer />} />
           </Routes>
       </main>
     </ThemeContext.Provider>

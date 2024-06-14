@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import quizReducer from './reducers/quizReducer'
 import userReducer from './reducers/userReducer'
+import browserReducer from './reducers/browserReducer'
 
 const store =  configureStore({
     reducer: {
         quiz: quizReducer,
-        user: userReducer
+        user: userReducer,
+        browser: browserReducer
     }
   })  
 

@@ -41,6 +41,15 @@ export class QuestionsService {
     return createdQuestion;
   }
   async deleteOne(id: string): Promise<Question> {
+    await this.questionsSetsModel
+      .updateMany({ questions: id }, { $pull: { questions: id } })
+      .exec();
     return this.questionModel.findByIdAndDelete(id).exec();
+  }
+  async updateOne(id: string, body: CreateQuestionDto): Promise<Question> {
+    const updatedQuestion = await this.questionModel
+      .findByIdAndUpdate(id, body, { new: true })
+      .exec();
+    return updatedQuestion;
   }
 }

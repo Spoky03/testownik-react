@@ -16,14 +16,14 @@ import {
   AppendQuestionDto,
   CreateQuestionDto,
 } from 'src/dto/create-question.dto';
+import { QuestionSet } from 'src/interfaces/questionSet.interface';
 
 @Controller('api/sets')
 export class QuestionsSetsController {
   constructor(private questionsSetsService: QuestionsSetsService) {}
 
-  @UseGuards(AuthGuard)
   @Get()
-  async findAll(): Promise<Questions[]> {
+  async findAll(): Promise<QuestionSet[]> {
     return this.questionsSetsService.findAll();
   }
   @UseGuards(AuthGuard)
@@ -31,7 +31,7 @@ export class QuestionsSetsController {
   async create(
     @Body() createQuestionSetDto: CreateQuestionSetDto,
     @Request() req,
-  ): Promise<Questions> {
+  ): Promise<QuestionSet> {
     // add the user id to the question set
     return this.questionsSetsService.create(createQuestionSetDto, req.user);
   }
@@ -40,7 +40,7 @@ export class QuestionsSetsController {
   async appendQuestion(
     @Body() appendQuestionDto: AppendQuestionDto,
     @Request() req,
-  ): Promise<Questions> {
+  ): Promise<QuestionSet> {
     return this.questionsSetsService.appendQuestion(
       appendQuestionDto,
       req.user,
@@ -49,14 +49,13 @@ export class QuestionsSetsController {
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  async getOne(@Param('id') id: string, @Request() req): Promise<Questions> {
+  async getOne(@Param('id') id: string, @Request() req): Promise<QuestionSet> {
     return this.questionsSetsService.getOne(id, req.user);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async deleteOne(@Param('id') id: string, @Request() req): Promise<Questions> {
+  async deleteOne(@Param('id') id: string, @Request() req): Promise<QuestionSet> {
     return this.questionsSetsService.deleteOne(id, req.user);
   }
-
 }

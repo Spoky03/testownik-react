@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -43,5 +44,13 @@ export class QuestionsController {
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<Question> {
     return this.questionsService.deleteOne(id);
+  }
+  @UseGuards(AuthGuard)
+  @Put(':id')
+  async put(
+    @Param('id') id: string,
+    @Body() body: CreateQuestionDto,
+  ): Promise<Question> {
+    return this.questionsService.updateOne(id, body);
   }
 }

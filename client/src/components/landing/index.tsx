@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import { IoBeerSharp as BeerIcon } from "react-icons/io5";
 import { RootState } from "../../types";
+import constants from "../../constants";
 export const LandingPage = () => {
   const user = useSelector((state: RootState) => state.user.user);
   return (
@@ -16,16 +17,24 @@ export const LandingPage = () => {
       />
       <h2 className="text-xl sm:text-2xl font-bold dark:text-whit place-self-center p-5">
         {user ? (
-          `Welcome ` + user?.username
+          `${constants.LABELS.WELCOME_BACK}` + user?.username
         ) : (
           <Link to="/profile" className="animate-pulse">
-            Join us!
+            {constants.LABELS.WELCOME}
           </Link>
         )}
       </h2>
-      <Link to="/quiz" className="w-20 h-14 place-self-center text-2xl">
-        <Button label="Start" onClick={() => {}} type="button" />
-      </Link>
+      <div className="flex gap-5 place-self-center">
+        <Link to="/quiz" className="w-20 h-14 place-self-center text-2xl">
+          <Button label="Start" type="button" />
+        </Link>
+        <Link to="/browser" className="w-32 h-14 place-self-center text-2xl">
+          <Button label="Przeglądaj" type="button" />
+        </Link>
+        <Link to="/profile/sets" className="w-24 h-14 place-self-center text-2xl">
+          <Button label="Edytuj" type="button" />
+        </Link>
+      </div>
     </div>
   );
 };

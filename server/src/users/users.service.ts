@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { User, Progress } from 'src/interfaces/user.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -17,12 +18,14 @@ export class UsersService {
   async findById(id: string): Promise<User | undefined> {
     return this.userModel
       .findById(id)
-      .populate({
-        path: 'questionSets',
-        populate: {
-          path: 'questions',
+      .populate([
+        {
+          path: 'questionSets',
+          populate: {
+            path: 'questions',
+          },
         },
-      })
+      ])
       .exec();
   }
   async findByName(username: string): Promise<User | undefined> {
@@ -47,6 +50,7 @@ export class UsersService {
   }
   async create(user: CreateUserDto): Promise<User> {
     const createdUser = new this.userModel(user);
+    createdUser.password = await bcrypt.hash(user.password, 10);
     return createdUser.save();
   }
   async saveProgress(

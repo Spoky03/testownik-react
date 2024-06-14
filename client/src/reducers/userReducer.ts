@@ -1,7 +1,7 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 import { AppDispatch } from "../store";
-import { NotificationType, Question, QuestionSet, UserState } from "../types";
+import { CreatedQuestion, NotificationType, Question, QuestionSet, UserState } from "../types";
 
 const initialState: UserState = {
   user: null,
@@ -46,6 +46,21 @@ const userSlice = createSlice({
         );
         if (questionSet.length > 0) {
           questionSet[0].questions.push(action.payload.createdQuestion);
+        }
+      }
+    },
+    editQuestionToSet: (state, action: PayloadAction<any>) => {
+      if (state.user) {
+        const questionSet = state.user.questionSets.find(
+          (set: QuestionSet) => set._id === action.payload.setId
+        );
+        if (questionSet) {
+          questionSet.questions = questionSet.questions.map((q) => {
+            if (q._id === action.payload.id) {
+              q = action.payload.createdQuestion;
+            }
+            return q;
+          });
         }
       }
     },
@@ -99,6 +114,7 @@ export const {
   addSet,
   notify,
   addQuestionToSet,
+  editQuestionToSet,
   getSets,
   setToken,
   deleteQuestion,
@@ -167,11 +183,21 @@ export const addQuestionSet = (questionSetName: string) => {
     }
   };
 };
-export const createQuestion = (question: Question, id: string) => {
+export const createQuestion = (question: CreatedQuestion, id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const createdQuestion = await userService.createQuestion(question, id);
       dispatch(addQuestionToSet({ createdQuestion, id }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+export const editQuestion = (question: CreatedQuestion, id: string, setId:string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const createdQuestion = await userService.editQuestion(question, id);
+      dispatch(editQuestionToSet({ createdQuestion, id, setId}));
     } catch (error) {
       console.error(error);
     }
