@@ -1,6 +1,6 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import { QuizState, Question, QuestionSet, UserState } from "../types";
+import { QuizState, Question, QuestionSet, UserState, Sidebar } from "../types";
 import quizService from "../services/quizService";
 import userService from "../services/userService";
 import { User } from "discord.js";
@@ -40,6 +40,14 @@ const quizSlice = createSlice({
       state.active = null;
       state.selected = [];
       state.finished = false;
+      state.sidebar = {
+        correctAnswers: 0,
+        incorrectAnswers: 0,
+        totalQuestions: 0,
+        masteredQuestions: 0,
+        time: 0,
+      };
+      state.setId = "";
     },
     appendSelected: (state, action: PayloadAction<number>) => {
       if (state.selected.includes(action.payload)) {
@@ -119,9 +127,12 @@ const quizSlice = createSlice({
     ) => {
       state.preferences = action.payload;
     },
-    updateSidebarTime: (state, action: PayloadAction<QuizState["sidebar"]["time"]>) => {
-      state.sidebar.time = action.payload
+    updateSidebar: (state, action: PayloadAction<QuizState["sidebar"]>) => {
+      state.sidebar = action.payload
     },
+    setSidebar: (state, action: PayloadAction<Sidebar>) => {
+      state.sidebar = action.payload
+    }
   },
 });
 
@@ -135,7 +146,8 @@ export const {
   save,
   setSetId,
   updatePreferences,
-  updateSidebarTime,
+  updateSidebar,
+  setSidebar
 } = quizSlice.actions;
 
 export const initializeQuiz = (
@@ -146,6 +158,7 @@ export const initializeQuiz = (
   return async (dispatch: AppDispatch) => {
     //find progess for this set
     const setProgress = progress.find((p: UserState["progress"]) => p.questionSetId === set._id);
+    console.log(setProgress);
     const questions = set.questions.map((question) => {
       const progress = setProgress?.questions.find(
         (q: any) => q.id === question._id
@@ -155,8 +168,7 @@ export const initializeQuiz = (
         repeats: progress?.repeats !== undefined ? progress.repeats : initialRepeats,
       };
     });
-    console.log(setProgress?.time);
-    dispatch(updateSidebarTime(setProgress?.time || 0));
+    setProgress && dispatch(updateSidebar(setProgress.sidebar));
     dispatch(setActive(questions.find((question) => question.repeats) as Question));
     dispatch(init(questions));
   };
@@ -198,5 +210,6 @@ export const updateQuizPreferences = (
     dispatch(updatePreferences(preferences));
   };
 };
+
 
 export default quizSlice.reducer;

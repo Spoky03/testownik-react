@@ -58,6 +58,7 @@ export interface QuestionSet {
   } | string;
   questions: Question[];
   likes: number;
+  foreign?: boolean;
 }
 export enum SetListTypes {
   QUIZ = "QUIZ",
@@ -87,7 +88,7 @@ export interface UserState {
   progress: {
     questionSetId: string;
     questions: { id: string; repeats: number | undefined }[];
-    time: number;
+    sidebar: Sidebar;
   }[];
   bookmarks: string[];
   }

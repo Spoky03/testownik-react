@@ -10,7 +10,12 @@ export interface Progress extends Document {
   questions: { id: ObjectId; repeats: number }[];
   time: number;
 }
-
+export interface UserReq {
+  username: string;
+  iat: number;
+  exp: number;
+  sub: string;
+}
 export interface User extends Document {
   readonly id: number;
   username: string;

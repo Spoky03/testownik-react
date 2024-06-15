@@ -8,6 +8,11 @@ export class SaveQuestionSetProgressDto {
   @IsArray()
   questions: Array<{ id: ObjectId; repeats: number }>;
 
-  @IsNumber()
-  time: number;
+  sidebar: {
+    correctAnswers: number;
+    incorrectAnswers: number;
+    totalQuestions: number;
+    masteredQuestions: number;
+    time: number;
+  };
 }

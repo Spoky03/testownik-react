@@ -17,6 +17,7 @@ import {
   CreateQuestionDto,
 } from 'src/dto/create-question.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
+import { User } from 'src/interfaces/user.interface';
 
 @Controller('api/sets')
 export class QuestionsSetsController {
@@ -55,7 +56,20 @@ export class QuestionsSetsController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async deleteOne(@Param('id') id: string, @Request() req): Promise<QuestionSet> {
+  async deleteOne(
+    @Param('id') id: string,
+    @Request() req,
+  ): Promise<QuestionSet> {
     return this.questionsSetsService.deleteOne(id, req.user);
   }
+  // @UseGuards(AuthGuard)
+  // @Post('foreign')
+  // async pushForeignQuestionSet(
+  //   @Body('questionSetId')
+  //   questionSetId: string,
+  //   @Request() req,
+  // ): Promise<User['foreignQuestionSets']> {
+  //   console.log(questionSetId);
+  //   return this.questionsSetsService.pushForeignToUser(req.user, questionSetId);
+  // }
 }

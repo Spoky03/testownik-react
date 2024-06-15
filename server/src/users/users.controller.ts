@@ -13,6 +13,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
+import { QuestionSet } from 'src/interfaces/questionSet.interface';
 
 @Controller('api/users')
 export class UsersController {
@@ -62,6 +63,11 @@ export class UsersController {
   @Delete('bookmarks/:id')
   async deleteBookmark(@Param('id') id: string, @Request() req) {
     return this.usersService.deleteBookmark(id, req.user.sub);
+  }
+  @UseGuards(AuthGuard)
+  @Get('foreign')
+  async getForeignQuestionSets(@Request() req): Promise<QuestionSet[]> {
+    return this.usersService.getBookmarkedForeignQuestionSets(req.user.sub);
   }
   // @UseGuards(AuthGuard)
   // @Get('user')

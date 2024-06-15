@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 export const Login = () => {
   const [username, setUsername] = useState<string>("");

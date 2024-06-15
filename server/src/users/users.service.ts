@@ -4,12 +4,15 @@ import { User, Progress } from 'src/interfaces/user.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 import * as bcrypt from 'bcrypt';
+import { QuestionSet } from 'src/interfaces/questionSet.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject('USER_MODEL')
     private userModel: Model<User>,
+    @Inject('QUESTIONSET_MODEL')
+    private questionSetModel: Model<QuestionSet>,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -25,6 +28,18 @@ export class UsersService {
             path: 'questions',
           },
         },
+        // {
+        //   path: 'bookmarks',
+        //   populate: [
+        //     {
+        //       path: 'questions',
+        //     },
+        //     {
+        //       path: 'author',
+        //       select: 'username',
+        //     },
+        //   ],
+        // },
       ])
       .exec();
   }
@@ -48,6 +63,32 @@ export class UsersService {
       )
       .exec();
   }
+  // async pushForeignQuestionSet(
+  //   userId: string,
+  //   questionSetId: string,
+  // ): Promise<User> {
+  //   return this.userModel
+  //     .findByIdAndUpdate(
+  //       userId,
+  //       { $addToSet: { foreignQuestionSets: questionSetId } },
+  //       { new: true },
+  //     )
+  //     .populate([
+  //       {
+  //         path: 'foreignQuestionSets',
+  //         populate: [
+  //           {
+  //             path: 'questions',
+  //           },
+  //           {
+  //             path: 'author',
+  //             select: 'username',
+  //           },
+  //         ],
+  //       },
+  //     ])
+  //     .exec();
+  // }
   async create(user: CreateUserDto): Promise<User> {
     const createdUser = new this.userModel(user);
     createdUser.password = await bcrypt.hash(user.password, 10);
@@ -109,5 +150,38 @@ export class UsersService {
       .findByIdAndUpdate(userId, { $pull: { bookmarks: id } }, { new: true })
       .exec();
     return user.bookmarks;
+  }
+  async getBookmarkedForeignQuestionSets(userId: string): Promise<any> {
+    const userWithBookmarks = await this.userModel
+      .findById(userId)
+      .populate({
+        path: 'bookmarks',
+      })
+      .exec();
+
+    if (!userWithBookmarks) {
+      throw new Error('User not found');
+    }
+
+    // Filter to get IDs of foreign question sets
+    const foreignQuestionSetIds = (
+      userWithBookmarks.bookmarks as unknown as QuestionSet[]
+    )
+      .filter((bookmark) => bookmark.author.toString() !== userId)
+      .map((bookmark) => bookmark._id);
+
+    // Now, populate the foreign question sets with questions and author details
+    const populatedForeignQuestionSets = await this.questionSetModel
+      .find({
+        _id: { $in: foreignQuestionSetIds },
+      })
+      .populate('questions')
+      .populate({
+        path: 'author',
+        select: 'username',
+      })
+      .exec();
+
+    return populatedForeignQuestionSets;
   }
 }

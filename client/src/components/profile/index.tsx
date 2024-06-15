@@ -1,7 +1,7 @@
 import { Login } from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { logoutUser } from "../../reducers/userReducer";
+import { fetchAllUserData, logoutUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
 import { Notification } from "../Notification";
 import { SetList } from "./SetList";
@@ -11,6 +11,7 @@ import { SingleSetPreview } from "./SingleSetPreview";
 import { IoMdArrowRoundBack as ArrowBackIcon } from "react-icons/io";
 import { RootState } from "../../types";
 import constants from "../../constants";
+import { useEffect } from "react";
 const ProfileNav = ({
   username,
   dispatch,
@@ -61,6 +62,7 @@ const Profile = () => {
   const { user, notification } = useSelector(
     (state: RootState) => state.user
   );
+
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
       {user && user.username ? (

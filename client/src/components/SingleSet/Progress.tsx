@@ -34,7 +34,7 @@ export const Progress = ({ set }: { set: QuestionSet }) => {
 
   return (
     <div className="flex place-items-center">
-      <h1 className="p-3">
+      <h1 className="px-3">
         {progress.correct === progress.total
           ? "Completed"
           : `${progress.correct}/${progress.total}`}{" "}

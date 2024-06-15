@@ -26,9 +26,27 @@ const ProgressSchema = new mongoose.Schema(
       ],
       required: true,
     },
-    time: {
-      type: Number,
-      required: true,
+    sidebar: {
+      correctAnswers: {
+        type: Number,
+        required: true,
+      },
+      incorrectAnswers: {
+        type: Number,
+        required: true,
+      },
+      totalQuestions: {
+        type: Number,
+        required: true,
+      },
+      masteredQuestions: {
+        type: Number,
+        required: true,
+      },
+      time: {
+        type: Number,
+        required: true,
+      },
     },
   },
   { _id: false },

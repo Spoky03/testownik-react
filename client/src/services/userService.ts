@@ -90,17 +90,17 @@ const deleteOneQuestionSet = async (id: string) => {
 const saveProgress = async ({
   questionSetId,
   questions,
-  time,
+  sidebar,
 }: {
   questionSetId: string;
   questions: { id: string; repeats: number | undefined }[];
-  time: number;
+  sidebar: { correctAnswers: number; incorrectAnswers: number; totalQuestions: number; masteredQuestions: number; time: number };
 }) => {
   console.log("saving progress");
-  console.log({ questionSetId, questions, time });
+  console.log({ questionSetId, questions, sidebar });
   const response = await axios.put(
     `${baseUrl}/users/progress`,
-    { questionSetId, questions, time },
+    { questionSetId, questions, sidebar },
     {
       headers: {
         Authorization: token,
@@ -141,6 +141,14 @@ const deleteBookmark = async (id: string) => {
   });
   return response.data;
 };
+const getForeignSets = async () => {
+  const response = await axios.get(`${baseUrl}/users/foreign`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+}
 
 export default {
   getProfile,
@@ -158,4 +166,5 @@ export default {
   resetProgress,
   addBookmark,
   deleteBookmark,
+  getForeignSets,
 };

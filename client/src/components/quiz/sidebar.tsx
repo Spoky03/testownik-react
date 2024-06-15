@@ -34,14 +34,17 @@ export const Sidebar = () => {
       return {
         id: question._id,
         repeats: question.repeats,
-        time: timer,
       };
     });
 
     const progress = {
       questions: questionsToSave,
       questionSetId: setId,
-      time: timer,
+      sidebar: {
+        ...sidebar,
+        time: timer,
+      }
+      
     };
     userService.saveProgress(progress);
   };

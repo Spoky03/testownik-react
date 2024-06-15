@@ -5,6 +5,7 @@ import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UsersService } from 'src/users/users.service';
 import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
 import { AppendQuestionDto } from 'src/dto/create-question.dto';
+import { User, UserReq } from 'src/interfaces/user.interface';
 
 @Injectable()
 export class QuestionsSetsService {
@@ -39,10 +40,6 @@ export class QuestionsSetsService {
     );
     return createdQuestionSet.save();
   }
-  //IMPORTANT: this code tries to add question object to shema which has object ref,
-  // either change the schema (this would nesting hell)
-  // or change this endpoint to questions and add ref to the question to questionsets
-  // dont forget to populate questiionSet
   async appendQuestion(
     appendQuestionDto: AppendQuestionDto,
     user,
@@ -64,4 +61,15 @@ export class QuestionsSetsService {
   async deleteOne(id: string, user: any): Promise<QuestionSet> {
     return this.questionsSetsModel.findByIdAndDelete(id).exec();
   }
+  // async pushForeignToUser(
+  //   user: UserReq,
+  //   questionSetId: string,
+  // ): Promise<User['foreignQuestionSets']> {
+  //   const modifiedUser = await this.usersService.pushForeignQuestionSet(
+  //     user.sub,
+  //     questionSetId,
+  //   );
+  //   console.log(modifiedUser.foreignQuestionSets);
+  //   return modifiedUser.foreignQuestionSets;
+  // }
 }

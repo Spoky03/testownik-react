@@ -1,7 +1,13 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 import { AppDispatch } from "../store";
-import { CreatedQuestion, NotificationType, Question, QuestionSet, UserState } from "../types";
+import {
+  CreatedQuestion,
+  NotificationType,
+  Question,
+  QuestionSet,
+  UserState,
+} from "../types";
 
 const initialState: UserState = {
   user: {
@@ -75,11 +81,15 @@ const userSlice = createSlice({
       state.preferences = action.payload.preferences;
       state.progress = action.payload.progress;
       state.bookmarks = action.payload.bookmarks;
+      const foreign = action.payload.foreign.map((set: QuestionSet) => {
+        set.foreign = true;
+        return set;
+      });
+      const merged = [...action.payload.questionSets, ...foreign];
       state.user = {
         ...state.user,
-        questionSets: action.payload.questionSets,
+        questionSets: merged,
       };
-      
     },
     setToken: (state, action: PayloadAction<any>) => {
       state.token = action.payload;
@@ -113,6 +123,26 @@ const userSlice = createSlice({
     setBookmarks: (state, action: PayloadAction<any>) => {
       state.bookmarks = action.payload;
     },
+    setForeignSets: (state, action: PayloadAction<any>) => {
+      const foreign = action.payload.map((set: QuestionSet) => {
+        set.foreign = true;
+        return set;
+      });
+
+      // Assuming each QuestionSet has a unique 'id' property
+      const updatedQuestionSets = [...state.user.questionSets];
+
+      foreign.forEach((foreignSet : QuestionSet) => {
+        const exists = updatedQuestionSets.some(
+          (existingSet) => existingSet._id === foreignSet._id
+        );
+        if (!exists) {
+          updatedQuestionSets.push(foreignSet);
+        }
+      });
+
+      state.user.questionSets = updatedQuestionSets;
+    },
   },
 });
 
@@ -131,6 +161,7 @@ export const {
   initProgress,
   resetProgress,
   setBookmarks,
+  setForeignSets,
 } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
@@ -141,6 +172,7 @@ export const loginUser = (username: string, password: string) => {
         userService.setToken(res.access_token);
         dispatch(login(res.access_token));
         dispatch(fetchUser());
+        dispatch(fetchAllUserData());
       } else {
         console.log("error", res);
       }
@@ -203,11 +235,15 @@ export const createQuestion = (question: CreatedQuestion, id: string) => {
     }
   };
 };
-export const editQuestion = (question: CreatedQuestion, id: string, setId:string) => {
+export const editQuestion = (
+  question: CreatedQuestion,
+  id: string,
+  setId: string
+) => {
   return async (dispatch: AppDispatch) => {
     try {
       const createdQuestion = await userService.editQuestion(question, id);
-      dispatch(editQuestionToSet({ createdQuestion, id, setId}));
+      dispatch(editQuestionToSet({ createdQuestion, id, setId }));
     } catch (error) {
       console.error(error);
     }
@@ -224,7 +260,8 @@ export const fetchAllUserData = () => {
   return async (dispatch: AppDispatch) => {
     try {
       const res = await userService.getAllUserData();
-      dispatch(getSets(res));
+      const foreign = await userService.getForeignSets();
+      dispatch(getSets({ ...res, foreign }));
     } catch (error) {
       console.error(error);
     }
@@ -269,17 +306,19 @@ export const resetSingleProgress = (id: string) => {
       console.error(error);
     }
   };
-}
+};
 export const addBookmark = (id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const bookmarks = await userService.addBookmark(id);
       dispatch(setBookmarks(bookmarks));
+      const foreign = await userService.getForeignSets();
+      dispatch(setForeignSets(foreign));
     } catch (error) {
       console.error(error);
     }
   };
-}
+};
 export const deleteBookmark = (id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -289,6 +328,6 @@ export const deleteBookmark = (id: string) => {
       console.error(error);
     }
   };
-}
+};
 
 export default userSlice.reducer;

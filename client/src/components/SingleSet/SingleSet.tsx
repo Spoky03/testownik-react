@@ -9,7 +9,7 @@ import { Socials } from "./Socials";
 import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { FaBookmark as MarkIcon } from "react-icons/fa";
 import { AppDispatch } from "@/store";
-import { addBookmark, deleteBookmark } from "@/reducers/userReducer";
+import { addBookmark, addForeignSet, deleteBookmark } from "@/reducers/userReducer";
 
 const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
   return (
@@ -101,7 +101,7 @@ export const SingleSet = ({
       {type === SetListTypes.BROWSER && (
         <Socials set={set} handleBookmark={handleBookmark} />
       )}
-      <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />
+      {(bookmarked || foreign) && <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />}
     </div>
   );
 };

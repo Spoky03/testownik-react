@@ -5,9 +5,13 @@ import Sidebar from "./sidebar";
 import { useMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { initializeQuiz, resetQuiz, setQuizSetId } from "../../reducers/quizReducer";
+import {
+  initializeQuiz,
+  resetQuiz,
+  saveQuizProgress,
+  setQuizSetId,
+} from "../../reducers/quizReducer";
 import { useNavigate } from "react-router-dom";
-import { getProgress, initProgress } from "../../reducers/userReducer";
 
 const QuizQuestion = () => {
   const {
@@ -19,6 +23,7 @@ const QuizQuestion = () => {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     if (finished) {
+      dispatch(saveQuizProgress())
       dispatch(resetQuiz());
       navigate("/");
     }
@@ -57,14 +62,14 @@ const Quiz = () => {
     (state: RootState) => state.quiz.preferences.initialRepetitions
   );
   const progress = useSelector((state: RootState) => state.user.progress);
-
   useEffect(() => {
-    if (activeSet) {
-      dispatch(initializeQuiz(activeSet, initReps, progress));
-      dispatch(setQuizSetId(activeSet._id));
+    if (!activeSet) {
+      return;
     }
-  });
-
+    dispatch(resetQuiz());
+    dispatch(initializeQuiz(activeSet, initReps, progress));
+    dispatch(setQuizSetId(activeSet._id));
+  }, [activeSet, dispatch, initReps, progress]);
   return (
     <div className="flex h-screen w-full justify-end">
       {activeSet ? <QuizQuestion /> : <h1>Not found</h1>}
