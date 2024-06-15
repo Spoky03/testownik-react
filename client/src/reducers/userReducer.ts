@@ -140,9 +140,17 @@ const userSlice = createSlice({
           updatedQuestionSets.push(foreignSet);
         }
       });
-
       state.user.questionSets = updatedQuestionSets;
     },
+    switchPrivacy: (state, action: PayloadAction<{isPrivate: boolean, id: string}>) => {
+      const updatedQuestionSets = state.user.questionSets.map((set: QuestionSet) => {
+        if (set._id === action.payload.id) {
+          set.private = action.payload.isPrivate;
+        }
+        return set;
+      });
+      state.user.questionSets = updatedQuestionSets;
+    }
   },
 });
 
@@ -162,6 +170,7 @@ export const {
   resetProgress,
   setBookmarks,
   setForeignSets,
+  switchPrivacy
 } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
@@ -329,5 +338,15 @@ export const deleteBookmark = (id: string) => {
     }
   };
 };
+export const switchPrivacyOfSet = (id: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const isPrivate = await userService.switchPrivacy(id);
+      dispatch(switchPrivacy({id,isPrivate}));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
 
 export default userSlice.reducer;

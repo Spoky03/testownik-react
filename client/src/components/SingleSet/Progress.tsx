@@ -2,7 +2,7 @@ import { MdAutorenew as ResetIcon } from "react-icons/md";
 import { AppDispatch, RootState } from "../../store";
 import { resetSingleProgress } from "../../reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { QuestionSet } from "@/types";
-export const Progress = ({ set }: { set: QuestionSet }) => {
+export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, completed: boolean, setCompleted: (value: boolean) => void }) => {
   const [effect, setEffect] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -22,6 +22,11 @@ export const Progress = ({ set }: { set: QuestionSet }) => {
     correct: setProgress?.questions.filter((q) => q.repeats === 0).length || 0,
     total: set.questions.length,
   };
+  useEffect(() => {
+    if (progress.correct === progress.total) {
+      setCompleted(true);
+    }
+  }, [progress.correct, progress.total, setCompleted]);
   const handleReset = async () => {
     setEffect(true);
   };
@@ -29,13 +34,14 @@ export const Progress = ({ set }: { set: QuestionSet }) => {
     if (effect) {
       dispatch(resetSingleProgress(set._id));
       setEffect(false);
+      setCompleted(false);
     }
   };
 
   return (
     <div className="flex place-items-center">
       <h1 className="px-3">
-        {progress.correct === progress.total
+        {completed
           ? "Completed"
           : `${progress.correct}/${progress.total}`}{" "}
       </h1>

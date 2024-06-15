@@ -30,7 +30,7 @@ export const Settings = () => {
               setPreferencesForm(newPreferencesForm);
               handlePreferencesChange(newPreferencesForm);
             }}
-            min={0}
+            min={1}
           />
         </div>
         <div className="flex flex-col gap-1 place-items-center">
@@ -51,6 +51,26 @@ export const Settings = () => {
               handlePreferencesChange(newPreferencesForm);
             }}
             min={0}
+          />
+        </div>
+        <div className="flex flex-col gap-1 place-items-center">
+          <label htmlFor="maxRepetitions" className="font-semibold">
+            Max Repetitions
+          </label>
+          <input
+            className="bg-w-ternary rounded shadow-sm text-primary"
+            type="number"
+            id="maxRepetitions"
+            value={preferences.maxRepetitions}
+            onChange={(e) => {
+              const newPreferencesForm = {
+                ...preferencesForm,
+                maxRepetitions: parseInt(e.target.value),
+              };
+              setPreferencesForm(newPreferencesForm);
+              handlePreferencesChange(newPreferencesForm);
+            }}
+            min={1}
           />
         </div>
       </div>

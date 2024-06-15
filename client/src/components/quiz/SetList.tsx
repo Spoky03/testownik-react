@@ -49,6 +49,16 @@ export const SetList = () => {
         <div className="flex gap-2 w-full flex-col">
           {sortedSetList ? (
             sortedSetList.map((set: QuestionSet) => {
+              if (!set.questions.length) {
+                return (
+                  <div
+                    key={set._id}
+                    className={`bg-w-ternary dark:bg-ternary hover:outline font-bold rounded-md px-2 p-1 flex flex-col justify-cent w-full relative pl-5 opacity-50 pointer-events-none`}
+                  >
+                    {set.name}
+                  </div>
+                );
+              }
               return (
                 <SingleSet set={set} key={set._id} type={SetListTypes.QUIZ} />
               );

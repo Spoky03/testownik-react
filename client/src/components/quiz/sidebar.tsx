@@ -2,19 +2,22 @@ import { FaCheck as CheckIcon } from "react-icons/fa6";
 import { MdOutlineArrowBackIosNew as ArrowIcon } from "react-icons/md";
 import { AppDispatch } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { submitAnswersAction } from "../../reducers/quizReducer";
+import { resetQuiz, saveQuizProgress, submitAnswersAction } from "../../reducers/quizReducer";
 import { RootState } from "../../types";
 import { useEffect, useState } from "react";
 import { MdOutlineSave as SaveIcon } from "react-icons/md";
 import { MdSettings as SettingsIcon } from "react-icons/md";
-import userService from "../../services/userService";
 import { Modal } from "../Modal";
 import { Settings } from "./Settings";
+import { useNavigate } from "react-router-dom";
+import { Finished } from "./Finished";
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [openSettings, setOpenSettings] = useState(false);
-  const { questions, state, sidebar, setId } = useSelector(
+  const [openFinished, setOpenFinished] = useState(false);
+  const { questions, state, sidebar, finished } = useSelector(
     (state: RootState) => state.quiz
   );
   const [timer, setTimer] = useState<number>(sidebar.time);
@@ -26,6 +29,19 @@ export const Sidebar = () => {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [sidebar.time]);
+  useEffect(() => {
+    if (finished) {
+      const questionsToSave = questions.map((question) => {
+        return {
+          id: question._id,
+          repeats: question.repeats,
+        } as { id: string; repeats: number };
+      });
+      setOpenFinished(true);
+      dispatch(saveQuizProgress(questionsToSave, timer));
+      dispatch(resetQuiz());
+    }
+  }, [dispatch, finished, navigate, questions, timer]);
   const handleSubmit = () => {
     dispatch(submitAnswersAction());
   };
@@ -34,21 +50,10 @@ export const Sidebar = () => {
       return {
         id: question._id,
         repeats: question.repeats,
-      };
+      } as { id: string; repeats: number };
     });
-
-    const progress = {
-      questions: questionsToSave,
-      questionSetId: setId,
-      sidebar: {
-        ...sidebar,
-        time: timer,
-      }
-      
-    };
-    userService.saveProgress(progress);
+    dispatch(saveQuizProgress(questionsToSave, timer));
   };
-
   const hours = Math.floor(timer / 3600);
   const minutes = Math.floor((timer % 3600) / 60);
   const seconds = timer % 60;
@@ -57,14 +62,15 @@ export const Sidebar = () => {
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   return (
     <>
+      <Finished open={openFinished} setOpen={setOpenFinished} />
       <Modal
         open={openSettings}
         setOpen={setOpenSettings}
         title={<div className="text-success text-center">Ustawienia</div>}
         content={<Settings />}
       />
-      <aside className="dark:bg-primary bg-w-primary min-w-36 sm:min-w-40 md:min-w-48  grow max-w-96 flex flex-col place-items-center pl-3 gap-5 relative text-center">
-        <div className="flex flex-col justify-evenly h-full p-3">
+      <aside className="dark:bg-primary bg-w-primary min-w-36 flex flex-col place-items-center h-full  gap-5 relative text-center">
+        <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">Udzielone odpowiedzi</h2>
             <div className="w-full flex max-w-64 rounded-full h-1.5 bg-w-faint dark:bg-faint">
@@ -124,18 +130,9 @@ export const Sidebar = () => {
             Czas nauki{" "}
             <span className="text-3xl text-success">{formattedTime}</span>
           </p>
-        </div>
-        <div className="flex flex-row justify-evenly h-full gap-5">
-          <button onClick={handleSave}>
-            <SaveIcon size={24} />
-          </button>
-          <button onClick={() => setOpenSettings(true)}>
-            <SettingsIcon size={24} />
-          </button>
-        </div>
-        <button
+          <button
           onClick={handleSubmit}
-          className="w-16 h-16 rounded-full bg-success absolute top-1/2 -left-8 shadow-xl hover:scale-95 transition-all"
+          className="w-16 h-16 rounded-full bg-success shadow-xl hover:scale-95 transition-all place-self-center"
         >
           <div className="transition-all duration-500 ease-in-out">
             {state === "waiting" ? (
@@ -145,6 +142,16 @@ export const Sidebar = () => {
             )}
           </div>
         </button>
+        </div>
+        <div className="flex flex-row justify-evenly h-full gap-5">
+          <button onClick={handleSave}>
+            <SaveIcon size={24} />
+          </button>
+          <button onClick={() => setOpenSettings(true)}>
+            <SettingsIcon size={24} />
+          </button>
+        </div>
+        
       </aside>
     </>
   );

@@ -1,11 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { Questions } from 'src/interfaces/questions.interface';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UsersService } from 'src/users/users.service';
 import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
 import { AppendQuestionDto } from 'src/dto/create-question.dto';
-import { User, UserReq } from 'src/interfaces/user.interface';
 
 @Injectable()
 export class QuestionsSetsService {
@@ -40,26 +38,42 @@ export class QuestionsSetsService {
     );
     return createdQuestionSet.save();
   }
-  async appendQuestion(
-    appendQuestionDto: AppendQuestionDto,
-    user,
-  ): Promise<QuestionSet> {
-    const foundSet = await this.questionsSetsModel.findByIdAndUpdate(
-      appendQuestionDto.id,
-      {
-        $push: { questions: appendQuestionDto.question },
-      },
-    );
-    if (!foundSet) {
-      throw new Error('Set not found');
-    }
-    return foundSet;
-  }
-  async getOne(id: string, user: any): Promise<QuestionSet> {
+  async getOne(id: string): Promise<QuestionSet> {
     return this.questionsSetsModel.findById(id).exec();
   }
   async deleteOne(id: string, user: any): Promise<QuestionSet> {
-    return this.questionsSetsModel.findByIdAndDelete(id).exec();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const foundSet = await this.questionsSetsModel.findById(id);
+    if (!foundSet) {
+      throw new Error('Set not found');
+    }
+    if (foundSet.author.toString() !== user.sub) {
+      throw new Error('Not authorized');
+    }
+    return this.questionsSetsModel.findByIdAndDelete(id);
+  }
+  async changePrivacy(id: string, user: any): Promise<boolean> {
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const foundSet = await this.questionsSetsModel.findById(id);
+    if (!foundSet) {
+      throw new Error('Set not found');
+    }
+    if (foundSet.author.toString() !== user.sub) {
+      throw new Error('Not authorized');
+    }
+    const updatedSet = await this.questionsSetsModel.findByIdAndUpdate(
+      id,
+      {
+        private: !foundSet.private,
+      },
+      { new: true },
+    );
+    console.log(updatedSet.private);
+    return updatedSet.private;
   }
   // async pushForeignToUser(
   //   user: UserReq,

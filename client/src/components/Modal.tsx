@@ -13,9 +13,12 @@ interface ModalProps {
   content: React.ReactNode;
   mainButton?: React.ReactNode;
   icon?: React.ReactNode;
+  cancelText?: string;
+  cancelAction?: () => void;
 }
 export const Modal = (props: ModalProps) => {
-  const darkMode = false;
+  const darkMode = localStorage.getItem("darkMode") === "true";
+  const defaultCancelAction = () => props.setOpen(false);
   return (
     <Transition show={props.open}>
       <Dialog className={`relative z-10 ${darkMode ? "dark" : ""}`} onClose={props.setOpen}>
@@ -67,7 +70,7 @@ export const Modal = (props: ModalProps) => {
                 <div className="dark:bg-faint bg-w-ternary px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   {props.mainButton}
                   <div className="w-16 h-10">
-                    <Button onClick={() => props.setOpen(false)} label='Cancel' type='button' />
+                    <Button onClick={props.cancelAction || defaultCancelAction } label={props.cancelText || "Cancel"} type="button" />
                   </div>
                 </div>
               </DialogPanel>

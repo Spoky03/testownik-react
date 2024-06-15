@@ -8,32 +8,28 @@ import { AppDispatch } from "../../store";
 import {
   initializeQuiz,
   resetQuiz,
-  saveQuizProgress,
   setQuizSetId,
 } from "../../reducers/quizReducer";
-import { useNavigate } from "react-router-dom";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 const QuizQuestion = () => {
-  const {
-    selected,
-    active: question,
-    finished,
-  } = useSelector((state: RootState) => state.quiz);
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    if (finished) {
-      dispatch(saveQuizProgress())
-      dispatch(resetQuiz());
-      navigate("/");
-    }
-  }, [finished, navigate]);
+  const { selected, active: question } = useSelector(
+    (state: RootState) => state.quiz
+  );
   if (!question) {
-    return <h2 className="text-center font-semibold text-xl">Loading...</h2>;
+    return (
+      <h2 className="text-center font-semibold text-xl place-self-center">
+        Loading...
+      </h2>
+    );
   }
 
   return (
-    <div className="flex place-center flex-col place-items-center p-4 gap-y-5 grow">
+    <div className="flex place-center flex-col place-items-center p-4 gap-y-5 grow z-1">
       <div className="container h-16 justify-content-center py-5">
         <h2 className="text-center font-semibold text-xl">
           {question.question}
@@ -71,9 +67,16 @@ const Quiz = () => {
     dispatch(setQuizSetId(activeSet._id));
   }, [activeSet, dispatch, initReps, progress]);
   return (
-    <div className="flex h-screen w-full justify-end">
-      {activeSet ? <QuizQuestion /> : <h1>Not found</h1>}
-      <Sidebar />
+    <div className="flex w-full h-full justify-end">
+      <ResizablePanelGroup direction="horizontal">
+        <ResizablePanel className="min-w-56">
+          <QuizQuestion />
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={28} className="min-w-32 sm:min-w-40 md:min-w-44">
+          <Sidebar />
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 };

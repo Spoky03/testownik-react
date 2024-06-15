@@ -59,6 +59,7 @@ export interface QuestionSet {
   questions: Question[];
   likes: number;
   foreign?: boolean;
+  private?: boolean;
 }
 export enum SetListTypes {
   QUIZ = "QUIZ",

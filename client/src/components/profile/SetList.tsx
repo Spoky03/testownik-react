@@ -2,19 +2,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { NewSetForm } from "./NewSetForm";
 import { QuestionSet } from "../../types";
-import { useEffect, useState } from "react";
-import { deleteOneQuestionSet } from "../../reducers/userReducer";
-import { AppDispatch } from "../../store";
+import { useState } from "react";
+import {
+  deleteOneQuestionSet,
+  switchPrivacyOfSet,
+} from "../../reducers/userReducer";
+import { AppDispatch, RootState } from "../../store";
 
 import { DeleteConfirmation } from "../DeleteConfirmation";
 import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { MdEdit as EditIcon } from "react-icons/md";
-
+import { MdPublicOff as PrivateIcon } from "react-icons/md";
+import { MdPublic as PublicIcon } from "react-icons/md";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
-  const handleDelete = (event: React.MouseEvent) => {
+  const handleDelete = () => {
+    window.confirm("Are you sure you want to delete this set? This action is irreversible") &&
     setEffect(true);
+  };
+  const handlePrivate = () => {
+    dispatch(switchPrivacyOfSet(set._id));
   };
   const effectCleanup = () => {
     if (effect) {
@@ -46,8 +60,44 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
             </p>
           </Link>
         </div>
-        <div className="flex place-items-center">
+        <div className="flex place-items-center gap-2 ">
           <DeleteConfirmation handleDelete={handleDelete} />
+          <div
+            onClick={handlePrivate}
+            className="flex place-items-center gap-2"
+          >
+            {set.private ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    {" "}
+                    <PrivateIcon
+                      className="hover:text-warning transition-colors duration-300"
+                      size={24}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>This set is currently private. Press to publish it.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    {" "}
+                    <PublicIcon
+                      className="hover:text-success transition-colors duration-300"
+                      size={24}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>This set is public. Press to hide it.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
           <h1 className="p-3">{set.questions.length}</h1>
         </div>
       </div>
@@ -55,7 +105,8 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
   );
 };
 export const SetList = () => {
-  const setList = useSelector((state: any) => state.user.user.questionSets);
+  const sets = useSelector((state: RootState) => state.user.user.questionSets);
+  const usersSets = sets?.filter((set: QuestionSet) => !set.foreign);
   return (
     <div className="w-full">
       <NewSetForm />
@@ -65,8 +116,8 @@ export const SetList = () => {
         <h1 className="py-1">Questions</h1>
       </div>
       <div className="flex gap-2 w-full flex-col">
-        {setList ? (
-          setList.map((set: QuestionSet) => {
+        {usersSets ? (
+          usersSets.map((set: QuestionSet) => {
             return (
               <div key={set._id} className="flex flex-col">
                 <SingleSet set={set} />

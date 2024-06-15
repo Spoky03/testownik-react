@@ -115,8 +115,17 @@ const quizSlice = createSlice({
         }
       }
     },
-    save: (state) => {
-      console.log("Save");
+    save: (state, action: PayloadAction<{questions: {id:string,repeats:number}[], time: number}>) => {
+      const progress = {
+        questions: action.payload.questions,
+        questionSetId: state.setId,
+        sidebar: {
+          ...state.sidebar,
+          time: action.payload.time,
+        },
+      };
+      userService.saveProgress(progress);
+      
     },
     setSetId: (state, action: PayloadAction<string>) => {
       state.setId = action.payload;
@@ -193,9 +202,9 @@ export const resetQuiz = () => {
     dispatch(reset());
   };
 };
-export const saveQuizProgress = () => {
+export const saveQuizProgress = (questions: {id:string,repeats:number}[], time: number) => {
   return async (dispatch: AppDispatch) => {
-    dispatch(save());
+    dispatch(save({questions, time}));
   };
 };
 export const setQuizSetId = (id: string) => {

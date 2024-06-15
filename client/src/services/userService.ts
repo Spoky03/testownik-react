@@ -149,6 +149,14 @@ const getForeignSets = async () => {
   });
   return response.data;
 }
+const switchPrivacy = async (id: string) => {
+  const response = await axios.put(`${baseUrl}/sets/${id}/privacy`, {}, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+}
 
 export default {
   getProfile,
@@ -167,4 +175,5 @@ export default {
   addBookmark,
   deleteBookmark,
   getForeignSets,
+  switchPrivacy,
 };

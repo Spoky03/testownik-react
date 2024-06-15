@@ -9,7 +9,11 @@ import { Socials } from "./Socials";
 import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { FaBookmark as MarkIcon } from "react-icons/fa";
 import { AppDispatch } from "@/store";
-import { addBookmark, addForeignSet, deleteBookmark } from "@/reducers/userReducer";
+import {
+  addBookmark,
+  addForeignSet,
+  deleteBookmark,
+} from "@/reducers/userReducer";
 
 const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
   return (
@@ -33,6 +37,7 @@ export const SingleSet = ({
 }) => {
   const [foreign, setForeign] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.user.user?.sub);
   const bookmarks = useSelector((state: RootState) => state.user.bookmarks);
@@ -97,11 +102,15 @@ export const SingleSet = ({
         )}
       </button>
       <hr className="w-full border-gray-300 dark:border-gray-700 my-2" />
-      {type === SetListTypes.QUIZ && <Progress set={set} />}
+      {type === SetListTypes.QUIZ && (
+        <Progress set={set} completed={completed} setCompleted={setCompleted} />
+      )}
       {type === SetListTypes.BROWSER && (
         <Socials set={set} handleBookmark={handleBookmark} />
       )}
-      {(bookmarked || foreign) && <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />}
+      {(bookmarked || foreign) && !completed && (
+        <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />
+      )}
     </div>
   );
 };

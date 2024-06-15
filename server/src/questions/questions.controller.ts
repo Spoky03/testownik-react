@@ -38,12 +38,15 @@ export class QuestionsController {
     @Body() appendQuestionDto: AppendQuestionDto,
     @Request() req,
   ): Promise<Question> {
-    return this.questionsService.appendQuestion(appendQuestionDto, req.user);
+    return this.questionsService.appendQuestion(
+      appendQuestionDto,
+      req.user.sub,
+    );
   }
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<Question> {
-    return this.questionsService.deleteOne(id);
+  async delete(@Param('id') id: string, @Request() req): Promise<Question> {
+    return this.questionsService.deleteOne(id, req.user.sub);
   }
   @UseGuards(AuthGuard)
   @Put(':id')

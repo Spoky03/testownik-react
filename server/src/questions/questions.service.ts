@@ -13,6 +13,8 @@ export class QuestionsService {
     private questionModel: Model<Question>,
     @Inject('QUESTIONSET_MODEL')
     private questionsSetsModel: Model<Questions>,
+    @Inject('USER_MODEL')
+    private usersModel: Model<Questions>,
   ) {}
   // async createQuestion(
   //   createQuestionDto: CreateQuestionDto,
@@ -29,24 +31,36 @@ export class QuestionsService {
   }
   async appendQuestion(
     appendQuestionDto: AppendQuestionDto,
-    user,
+    userId: string,
   ): Promise<Question> {
-    const createdQuestion = new this.questionModel(appendQuestionDto.question);
-    await createdQuestion.save();
+    const user = await this.usersModel.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
     const questionSet = await this.questionsSetsModel.findById(
       appendQuestionDto.id,
     );
+    if (!questionSet) {
+      throw new Error('Question set not found');
+    }
+    if (questionSet.author.toString() !== user._id.toString()) {
+      throw new Error('You are not the author of this question set');
+    }
+    const createdQuestion = new this.questionModel(appendQuestionDto.question);
+    await createdQuestion.save();
     questionSet.questions.push(createdQuestion);
     await questionSet.save();
     return createdQuestion;
   }
-  async deleteOne(id: string): Promise<Question> {
+  async deleteOne(id: string, userId:string): Promise<Question> {
+    //TODO check if user is author
     await this.questionsSetsModel
       .updateMany({ questions: id }, { $pull: { questions: id } })
       .exec();
     return this.questionModel.findByIdAndDelete(id).exec();
   }
   async updateOne(id: string, body: CreateQuestionDto): Promise<Question> {
+    //TODO check if user is author
     const updatedQuestion = await this.questionModel
       .findByIdAndUpdate(id, body, { new: true })
       .exec();

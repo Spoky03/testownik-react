@@ -24,24 +24,4 @@ export const QuestionSetSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  // questions: [
-  //   {
-  //     question: {
-  //       type: String,
-  //       required: true,
-  //     },
-  //     answers: {
-  //       type: Array,
-  //       required: true,
-  //       items: {
-  //         type: Object,
-  //         properties: {
-  //           id: Number,
-  //           answer: String,
-  //           correct: Boolean,
-  //         },
-  //       },
-  //     },
-  //   },
-  // ],
 });

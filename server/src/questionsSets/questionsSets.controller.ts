@@ -7,17 +7,13 @@ import {
   Request,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { QuestionsSetsService } from './questionsSets.service';
-import { Questions } from '../interfaces/questions.interface';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
-import {
-  AppendQuestionDto,
-  CreateQuestionDto,
-} from 'src/dto/create-question.dto';
+import { AppendQuestionDto } from 'src/dto/create-question.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
-import { User } from 'src/interfaces/user.interface';
 
 @Controller('api/sets')
 export class QuestionsSetsController {
@@ -37,21 +33,9 @@ export class QuestionsSetsController {
     return this.questionsSetsService.create(createQuestionSetDto, req.user);
   }
   @UseGuards(AuthGuard)
-  @Post('appendQuestion')
-  async appendQuestion(
-    @Body() appendQuestionDto: AppendQuestionDto,
-    @Request() req,
-  ): Promise<QuestionSet> {
-    return this.questionsSetsService.appendQuestion(
-      appendQuestionDto,
-      req.user,
-    );
-  }
-
-  @UseGuards(AuthGuard)
   @Get(':id')
-  async getOne(@Param('id') id: string, @Request() req): Promise<QuestionSet> {
-    return this.questionsSetsService.getOne(id, req.user);
+  async getOne(@Param('id') id: string): Promise<QuestionSet> {
+    return this.questionsSetsService.getOne(id);
   }
 
   @UseGuards(AuthGuard)
@@ -61,6 +45,14 @@ export class QuestionsSetsController {
     @Request() req,
   ): Promise<QuestionSet> {
     return this.questionsSetsService.deleteOne(id, req.user);
+  }
+  @UseGuards(AuthGuard)
+  @Put(':id/privacy')
+  async changePrivacy(
+    @Param('id') id: string,
+    @Request() req,
+  ): Promise<boolean> {
+    return this.questionsSetsService.changePrivacy(id, req.user);
   }
   // @UseGuards(AuthGuard)
   // @Post('foreign')
