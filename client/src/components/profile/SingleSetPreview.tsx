@@ -15,6 +15,7 @@ import { MdAdd as AddIcon } from "react-icons/md";
 import { MdEdit as EditIcon } from "react-icons/md";
 import { MdClose as CloseIcon } from "react-icons/md";
 import { DropFiles } from "./DropFiles";
+import { FaCheck as CheckIcon } from "react-icons/fa6";
 
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
@@ -36,7 +37,11 @@ const SingleQuestion = ({ question }: { question: Question }) => {
             <div></div>
             <div className="flex gap-2">
               <DeleteConfirmation handleDelete={handleDelete} />
-              <EditIcon className="hover:text-success duration-300 transition-colors" size={24} onClick={handleEdit} />
+              <EditIcon
+                className="hover:text-success duration-300 transition-colors place-self-center"
+                size={24}
+                onClick={handleEdit}
+              />
             </div>
           </div>
           <hr />
@@ -123,7 +128,9 @@ const NewQuestionForm = ({
     };
     if (match?.params.id) {
       editMode && questionToEdit
-        ? dispatch(editQuestion(createdQuestion, questionToEdit._id, match.params.id))
+        ? dispatch(
+            editQuestion(createdQuestion, questionToEdit._id, match.params.id)
+          )
         : dispatch(createQuestion([createdQuestion], match.params.id));
       dispatch(notifyUser({ text: "Question added", type: "success" }));
       setEditMode && setEditMode(false);
@@ -134,10 +141,9 @@ const NewQuestionForm = ({
     setAnswers([{ answer: "", correct: false, id: 0 }]);
   };
   return (
-    <div className="bg-w-ternary dark:bg-ternary rounded-md px-2 py-1 flex justify-between flex-col">
+    <div className="bg-w-ternary dark:bg-ternary rounded-md px-2 py-1 flex justify-between flex-col mb-3">
       <form onSubmit={handleSubmit}>
         <div className="flex justify-between">
-          <div className="w-8"></div>
           <div className="flex justify-center">
             <input
               className="p-1 mx-3 my-2 rounded-md border-primary border w-full max-w-64"
@@ -148,7 +154,13 @@ const NewQuestionForm = ({
             <div className="h-8 w-8 place-self-center">
               <Button
                 type="submit"
-                label={<AddIcon size={24} />}
+                label={
+                  editMode && setEditMode ? (
+                    <CheckIcon size={18} />
+                  ) : (
+                    <AddIcon size={24} />
+                  )
+                }
                 onClick={() => {}}
               />
             </div>
@@ -229,6 +241,7 @@ export const SingleSetPreview = () => {
           </div>
           <DropFiles setId={singleSet._id} />
           <div className="px-2 flex flex-col justify-between w-full">
+            <NewQuestionForm />
             <div className="flex flex-col">
               {singleSet.questions.map((question: Question) => {
                 return (
@@ -236,7 +249,6 @@ export const SingleSetPreview = () => {
                 );
               })}
             </div>
-            <NewQuestionForm />
           </div>
         </>
       ) : (

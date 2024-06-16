@@ -73,7 +73,7 @@ export const DropFiles = ({setId}:{setId:string}) => {
         <button
           type="submit"
           onClick={handleSubmit}
-          className=""
+          className="border p-1 rounded-md bg-w-secondary dark:bg-secondary shadow-md hover:scale-95"
         >
           <UploadIcon size={24} />
         </button>
