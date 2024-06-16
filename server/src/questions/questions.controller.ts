@@ -10,9 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
-import { Question, Questions } from '../interfaces/questions.interface';
+import { Question } from '../interfaces/questions.interface';
 import {
-  AppendQuestionDto,
+  AppendQuestionsDto,
   CreateQuestionDto,
 } from 'src/dto/create-question.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -34,12 +34,12 @@ export class QuestionsController {
   }
   @UseGuards(AuthGuard)
   @Post()
-  async appendQuestion(
-    @Body() appendQuestionDto: AppendQuestionDto,
+  async appendQuestions(
+    @Body() appendQuestionsDto: AppendQuestionsDto,
     @Request() req,
-  ): Promise<Question> {
-    return this.questionsService.appendQuestion(
-      appendQuestionDto,
+  ): Promise<Question[]> {
+    return this.questionsService.appendQuestions(
+      appendQuestionsDto,
       req.user.sub,
     );
   }

@@ -14,6 +14,7 @@ import { DeleteConfirmation } from "../DeleteConfirmation";
 import { MdAdd as AddIcon } from "react-icons/md";
 import { MdEdit as EditIcon } from "react-icons/md";
 import { MdClose as CloseIcon } from "react-icons/md";
+import { DropFiles } from "./DropFiles";
 
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
@@ -123,7 +124,7 @@ const NewQuestionForm = ({
     if (match?.params.id) {
       editMode && questionToEdit
         ? dispatch(editQuestion(createdQuestion, questionToEdit._id, match.params.id))
-        : dispatch(createQuestion(createdQuestion, match.params.id));
+        : dispatch(createQuestion([createdQuestion], match.params.id));
       dispatch(notifyUser({ text: "Question added", type: "success" }));
       setEditMode && setEditMode(false);
     } else {
@@ -219,13 +220,14 @@ export const SingleSetPreview = () => {
   });
 
   return (
-    <div className="flex flex-col place-items-center justify-center align-center w-full ">
+    <div className="flex flex-col place-items-center justify-center align-center w-full gap-5 ">
       {singleSet ? (
         <>
-          <div className="flex justify-between font-bold w-full p-2">
+          <div className="flex justify-between font-bold w-full px-2">
             <h1 className="py-1">{singleSet.name}</h1>
             <h1 className="py-1">Questions: {singleSet.questions.length}</h1>
           </div>
+          <DropFiles setId={singleSet._id} />
           <div className="px-2 flex flex-col justify-between w-full">
             <div className="flex flex-col">
               {singleSet.questions.map((question: Question) => {

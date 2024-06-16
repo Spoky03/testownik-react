@@ -234,11 +234,13 @@ export const addQuestionSet = (questionSetName: string) => {
     }
   };
 };
-export const createQuestion = (question: CreatedQuestion, id: string) => {
+export const createQuestion = (questions: CreatedQuestion[], id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const createdQuestion = await userService.createQuestion(question, id);
-      dispatch(addQuestionToSet({ createdQuestion, id }));
+      const createdQuestions = await userService.createQuestions(questions, id);
+      createdQuestions.forEach((createdQuestion) => {
+        dispatch(addQuestionToSet({ createdQuestion, id }));
+      });
     } catch (error) {
       console.error(error);
     }

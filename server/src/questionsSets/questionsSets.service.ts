@@ -3,7 +3,6 @@ import { Model } from 'mongoose';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UsersService } from 'src/users/users.service';
 import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
-import { AppendQuestionDto } from 'src/dto/create-question.dto';
 
 @Injectable()
 export class QuestionsSetsService {

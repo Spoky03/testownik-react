@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Question, Questions } from 'src/interfaces/questions.interface';
 import {
-  AppendQuestionDto,
+  AppendQuestionsDto,
   CreateQuestionDto,
 } from '../dto/create-question.dto';
 
@@ -29,16 +29,16 @@ export class QuestionsService {
   async findAll(): Promise<Question[]> {
     return this.questionModel.find().exec();
   }
-  async appendQuestion(
-    appendQuestionDto: AppendQuestionDto,
+  async appendQuestions(
+    appendQuestionsDto: AppendQuestionsDto,
     userId: string,
-  ): Promise<Question> {
+  ): Promise<Question[]> {
     const user = await this.usersModel.findById(userId);
     if (!user) {
       throw new Error('User not found');
     }
     const questionSet = await this.questionsSetsModel.findById(
-      appendQuestionDto.id,
+      appendQuestionsDto.id,
     );
     if (!questionSet) {
       throw new Error('Question set not found');
@@ -46,13 +46,16 @@ export class QuestionsService {
     if (questionSet.author.toString() !== user._id.toString()) {
       throw new Error('You are not the author of this question set');
     }
-    const createdQuestion = new this.questionModel(appendQuestionDto.question);
-    await createdQuestion.save();
-    questionSet.questions.push(createdQuestion);
+    // Ensure questions is an array
+    const questions = await this.questionModel.create(
+      appendQuestionsDto.questions,
+    );
+    const questionsArray = Array.isArray(questions) ? questions : [questions];
+    questionSet.questions.push(...questionsArray);
     await questionSet.save();
-    return createdQuestion;
+    return questionsArray;
   }
-  async deleteOne(id: string, userId:string): Promise<Question> {
+  async deleteOne(id: string, userId: string): Promise<Question> {
     //TODO check if user is author
     await this.questionsSetsModel
       .updateMany({ questions: id }, { $pull: { questions: id } })

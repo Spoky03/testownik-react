@@ -12,7 +12,6 @@ import {
 import { QuestionsSetsService } from './questionsSets.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
-import { AppendQuestionDto } from 'src/dto/create-question.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 
 @Controller('api/sets')

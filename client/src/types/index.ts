@@ -10,6 +10,7 @@ export interface Answer {
   correct: boolean;
 }
 export interface Question {
+  forEach(arg0: (question: any) => void): unknown;
   _id: string;
   question: string;
   answers: Answer[];
