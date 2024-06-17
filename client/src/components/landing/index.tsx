@@ -25,7 +25,7 @@ export const LandingPage = () => {
         )}
       </h2>
       <div className="flex gap-5 place-self-center">
-        <Link to="/quiz" className="w-20 h-14 place-self-center text-2xl">
+        <Link to="/dashboard" className="w-20 h-14 place-self-center text-2xl">
           <Button label="Start" type="button" />
         </Link>
         <Link to="/browser" className="w-32 h-14 place-self-center text-2xl">

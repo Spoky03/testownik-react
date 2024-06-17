@@ -182,11 +182,12 @@ export const loginUser = (username: string, password: string) => {
         dispatch(login(res.access_token));
         dispatch(fetchUser());
         dispatch(fetchAllUserData());
+        return { ...res, status: 200 };
       } else {
-        console.log("error", res);
+        return res;
       }
     } catch (error) {
-      console.error(error);
+      return error;
     }
   };
 };

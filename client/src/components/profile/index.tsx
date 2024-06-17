@@ -1,13 +1,11 @@
 import { Login } from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { fetchAllUserData, logoutUser } from "../../reducers/userReducer";
+import { logoutUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
-import { Notification } from "../Notification";
 import { SetList } from "./SetList";
 import { Routes, Route, Link, Outlet} from "react-router-dom";
 import { SingleSetPreview } from "./SingleSetPreview";
-// import { FaBars as BarsIcon } from "react-icons/fa6";
 import { RootState } from "../../types";
 import constants from "../../constants";
 import { GoBackArrow } from "../GoBackArrow";
@@ -47,13 +45,12 @@ const ProfileNav = ({
 
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, notification } = useSelector(
+  const { user } = useSelector(
     (state: RootState) => state.user
   );
 
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
-      {user && user.username ? (
         <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-[900px]">
           <Routes>
             <Route
@@ -75,12 +72,6 @@ const Profile = () => {
             </Route>
           </Routes>
         </div>
-      ) : (
-        <>
-          <Notification props={notification} />
-          <Login />
-        </>
-      )}
     </div>
   );
 };

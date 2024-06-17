@@ -22,8 +22,12 @@ export const LABELS = {
         REPEATS: 'Repeats' || 'Ponowne wystąpienia',
     }
 }
+export const STYLES = {
+    MAX_WIDTH: 'sm:max-w-[600px] md:max-w-[800px] xl:max-w-[1000px]',
+}
 export default {
     APP_NAME,
     PLACEHOLDER,
     LABELS,
+    STYLES,
 }

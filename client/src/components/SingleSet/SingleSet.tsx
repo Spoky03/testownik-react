@@ -14,7 +14,7 @@ import { addBookmark, deleteBookmark } from "@/reducers/userReducer";
 const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
   return (
     <Link
-      to={`/quiz/${id}`}
+      to={`/dashboard${id}`}
       className={`py-3 mr-3  place-self-center ${styles}`}
     >
       <PlayIcon

@@ -50,7 +50,7 @@ const QuizQuestion = () => {
 };
 const Quiz = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const match = useMatch("/quiz/:id");
+  const match = useMatch("/dashboard/:id");
   const id = match?.params.id;
   const activeSet = useSelector((state: RootState) =>
     state.user?.user?.questionSets?.find((set: QuestionSet) => set._id === id)
