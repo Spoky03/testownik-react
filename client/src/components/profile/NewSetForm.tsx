@@ -43,7 +43,7 @@ export const NewSetForm = ({setShowModal}:{setShowModal: React.Dispatch<React.Se
     setNameOfSet("");
   };
   return (
-    <div className="flex flex-col place-content-center gap-2 dark:bg-ternary p-10">
+    <div className="flex flex-col place-content-center gap-5 dark:bg-ternary p-8">
       <h1 className="place-self-center font-semibold">Create new set</h1>
       <form
         className="place-self-center flex gap-1 justify-center flex-col"

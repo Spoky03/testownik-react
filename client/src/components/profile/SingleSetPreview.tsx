@@ -16,6 +16,7 @@ import { MdEdit as EditIcon } from "react-icons/md";
 import { MdClose as CloseIcon } from "react-icons/md";
 import { DropFiles } from "./DropFiles";
 import { FaCheck as CheckIcon } from "react-icons/fa6";
+import { GoBackArrow } from "../GoBackArrow";
 
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
@@ -233,6 +234,7 @@ export const SingleSetPreview = () => {
 
   return (
     <div className="flex flex-col place-items-center justify-center align-center w-full gap-5 ">
+      <div className="place-self-start"><GoBackArrow /></div>
       {singleSet ? (
         <>
           <div className="flex justify-between font-bold w-full px-2">

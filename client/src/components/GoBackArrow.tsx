@@ -17,7 +17,7 @@ export const GoBackArrow = ({ to }: { to?: string | number }) => {
     <div className="flex justify-start">
       <ArrowBackIcon
         onClick={handleClick}
-        className="place-self-start"
+        className="place-self-start hover:text-success hover:opacity-90 opacity-85"
         size={25}
       />
     </div>

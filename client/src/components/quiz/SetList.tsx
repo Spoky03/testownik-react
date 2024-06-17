@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { ShotThroughTitle } from "../ShotThroughTitile";
 import { GoBackArrow } from "../GoBackArrow";
 export const SetList = () => {
+  const [sort, setSort] = useState<boolean>(false);
   const [sortedSetList, setSortedSetList] = useState<QuestionSet[]>([]);
   const [foreignAndNotBookmarked, setforeignAndNotBookmarked] = useState<
     QuestionSet[]
@@ -14,9 +15,25 @@ export const SetList = () => {
   const setList = useSelector(
     (state: RootState) => state.user.user?.questionSets
   );
+  const fetchedProgress = useSelector(
+    (state: RootState) => state.user.progress
+  );
+  //progress
+  const sortSetsByProgress = (setList: QuestionSet[], fetchedProgress: RootState['user']['progress']) => {
+  return setList
+    .map((set : QuestionSet) => {
+      const setProgress = fetchedProgress.find((p) => p.questionSetId === set._id);
+      const correctAnswers = setProgress?.questions.filter((q) => q.repeats === 0).length || 0;
+      const totalQuestions = set.questions.length;
+      const progressPercentage = (correctAnswers / totalQuestions) * 100;
+      return { set, progressPercentage };
+    })
+    .sort((a, b) => b.progressPercentage - a.progressPercentage)
+    .map((item) => item.set);
+  };
   const bookmarks = useSelector((state: RootState) => state.user.bookmarks);
   useEffect(() => {
-    if (setList && bookmarks) {
+    if (setList && bookmarks && !sort) {
       // When sort is true, show bookmarked sets first
       const bookmarkedSets = setList.filter((set) =>
         bookmarks.includes(set._id)
@@ -28,12 +45,10 @@ export const SetList = () => {
         setList.filter((set) => !bookmarks.includes(set._id) && set.foreign)
       );
       setSortedSetList([...bookmarkedSets, ...nonBookmarkedSets]);
-    } else {
-      // sort by completion status
-      //TODO
-      //!!!
+    } else if (setList && fetchedProgress && sort) {
+      setSortedSetList(sortSetsByProgress(setList, fetchedProgress));
     }
-  }, [setList, bookmarks]);
+  }, [setList, bookmarks, fetchedProgress, sort]);
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
       <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-[900px]  ">
@@ -41,6 +56,7 @@ export const SetList = () => {
           <GoBackArrow to={-1}/>
           <SortIcon
             size={24}
+            onClick={() => setSort(!sort)}
             className={`hover:text-success transition-color duration-300 ${
               0 && "-scale-y-100"
             }`}
