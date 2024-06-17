@@ -16,8 +16,8 @@ const initialState: UserState = {
     questionSets: [],
     iat: 0,
     exp: 0,
+    token: null,
   },
-  token: null,
   notification: {
     text: "",
     type: "normal",
@@ -34,14 +34,14 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {
     login: (state, action: PayloadAction<any>) => {
-      state.token = action.payload;
+      state.user.token = action.payload;
       state.notification.text = "Logged In";
     },
     getUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
     },
     logout: (state) => {
-      state.token = null;
+      state.user.token = null;
       state.user = initialState.user;
       state.notification.text = "Logged Out";
     },
@@ -92,7 +92,7 @@ const userSlice = createSlice({
       };
     },
     setToken: (state, action: PayloadAction<any>) => {
-      state.token = action.payload;
+      state.user.token = action.payload;
     },
     deleteQuestion: (state, action: PayloadAction<any>) => {
       const questionSets = state.user?.questionSets;
@@ -316,7 +316,7 @@ export const resetSingleProgress = (id: string) => {
       const resetedSetProgress = await userService.resetProgress(id);
       dispatch(resetProgress({ id, resetedSetProgress }));
     } catch (error) {
-      console.error(error);
+      return error;
     }
   };
 };

@@ -78,11 +78,11 @@ export interface User {
   sub: string;
   iat: number;
   exp: number;
+  token: string | null;
   questionSets: QuestionSet[];
 }
 export interface UserState {
   user: User;
-  token: string | null;
   notification: NotificationType;
   preferences: {
     initialRepetitions: number;

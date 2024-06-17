@@ -64,7 +64,7 @@ export const NewSetForm = ({
           <Input
             type="nameOfSet"
             id="nameOfSet"
-            className="p-1 rounded-md shadow-sm dark:text-black"
+            className="p-1 rounded-md shadow-sm "
             placeholder="Name of your set"
             value={nameOfSet}
             onChange={(e) => setNameOfSet(e.target.value)}

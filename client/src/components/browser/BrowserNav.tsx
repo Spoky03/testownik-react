@@ -1,6 +1,7 @@
 import constants from "../../constants";
 import { MdSearch as SearchIcon } from "react-icons/md";
 import { GoBackArrow } from "../GoBackArrow";
+import { Input } from "../ui/input";
 
 export const BrowserNav = ({
     search,
@@ -16,7 +17,7 @@ export const BrowserNav = ({
           {constants.LABELS.BROWSER}
         </h1>
         <div className="flex items-center justify-end relative w-1/3">
-          <input
+          <Input
             type="text"
             placeholder="Search"
             className="rounded-md p-1"

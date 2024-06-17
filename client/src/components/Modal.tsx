@@ -5,7 +5,7 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Button } from "./Button";
+import { Button } from "./ui/button";
 interface ModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -49,7 +49,7 @@ export const Modal = (props: ModalProps) => {
                 {props.cancelText && (<div className="dark:bg-faint bg-w-ternary px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   {props.mainButton}
                   <div className="w-16 h-10">
-                    <Button onClick={props.cancelAction || defaultCancelAction } label={props.cancelText || "Cancel"} type="button" />
+                    <Button onClick={props.cancelAction || defaultCancelAction }  type="button" >{props.cancelText || "Cancel"}</Button>
                   </div>
                 </div>)}
               </DialogPanel>

@@ -17,6 +17,7 @@ import { MdClose as CloseIcon } from "react-icons/md";
 import { DropFiles } from "./DropFiles";
 import { FaCheck as CheckIcon } from "react-icons/fa6";
 import { GoBackArrow } from "../GoBackArrow";
+import { Input } from "../ui/input";
 
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
@@ -146,7 +147,7 @@ const NewQuestionForm = ({
       <form onSubmit={handleSubmit}>
         <div className="flex justify-between">
           <div className="flex justify-center">
-            <input
+            <Input
               className="p-1 mx-3 my-2 rounded-md border-primary border w-full max-w-64 dark:text-primary"
               placeholder="your question here..."
               value={question}
@@ -181,7 +182,7 @@ const NewQuestionForm = ({
                     (answer.correct ? "border-success" : "border-error")
                   }
                 >
-                  <input
+                  <Input
                     className="p-1 w-full dark:text-primary"
                     placeholder="answer"
                     value={answer.answer}
@@ -189,7 +190,7 @@ const NewQuestionForm = ({
                       handleAnswerChange(answer.id, e.target.value)
                     }
                   />
-                  <input
+                  <Input
                     type="checkbox"
                     className={
                       "rounded-full w-4 h-4 absolute -top-1 -right-1 " +

@@ -5,15 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { checkIfTokenIsValid } from "@/lib/utils";
 export const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
   const { toast } = useToast();
-  const user = useSelector((state: RootState) => state.user);
-
+  const location = useLocation();
+  const user = useSelector((state: RootState) => state.user.user);
+  const { origin, reason } = location.state || {};
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await dispatch(loginUser(username, password));
@@ -27,8 +28,8 @@ export const Login = () => {
       description: res.message
     });
   };
-  if (user.token && checkIfTokenIsValid(user.token)) {
-    return <Navigate to="/profile" />;
+  if (checkIfTokenIsValid(user.exp)) {
+    return <Navigate to={origin} />;
   }
   return (
     <div className="flex p-10 flex-col justify-center h-2/3">
@@ -36,6 +37,7 @@ export const Login = () => {
         onSubmit={handleSubmit}
         className="flex flex-col gap-5 p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-w-primary dark:bg-primary"
       >
+      {reason && <p className="text-sm w-3/4 text-center bg-error rounded-md p-2 bg-opacity-30">{reason}</p>}
         <Input
           type="username"
           placeholder="Username"

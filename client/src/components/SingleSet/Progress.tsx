@@ -10,9 +10,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { QuestionSet } from "@/types";
+import { useToast } from "../ui/use-toast";
 export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, completed: boolean, setCompleted: (value: boolean) => void }) => {
   const [effect, setEffect] = useState(false);
-
+  const { toast } = useToast();
   const dispatch = useDispatch<AppDispatch>();
   const fetchedProgress = useSelector(
     (state: RootState) => state.user.progress
@@ -32,7 +33,14 @@ export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, c
   };
   const effectCleanup = () => {
     if (effect) {
-      dispatch(resetSingleProgress(set._id));
+      const res = dispatch(resetSingleProgress(set._id));
+      if (res) {
+        toast({
+          variant: "destructive",
+          title: "This set could not be reset.",
+          description: "Please try again later.",
+        });
+      }
       setEffect(false);
       setCompleted(false);
     }

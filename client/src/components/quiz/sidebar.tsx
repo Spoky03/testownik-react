@@ -12,10 +12,12 @@ import { Settings } from "./Settings";
 import { useNavigate } from "react-router-dom";
 import { Finished } from "./Finished";
 import constants from "@/constants";
+import { useToast } from "../ui/use-toast";
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [openSettings, setOpenSettings] = useState(false);
   const [openFinished, setOpenFinished] = useState(false);
   const { questions, state, sidebar, finished } = useSelector(
@@ -54,6 +56,13 @@ export const Sidebar = () => {
       } as { id: string; repeats: number };
     });
     dispatch(saveQuizProgress(questionsToSave, timer));
+    toast(
+      {
+        variant: "success",
+        title: "Progress saved",
+        description: "Your progress has been saved successfully",
+      }
+    );
   };
   const hours = Math.floor(timer / 3600);
   const minutes = Math.floor((timer % 3600) / 60);

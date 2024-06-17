@@ -11,12 +11,16 @@ import { fetchAllUserData, reLoginUser } from "./reducers/userReducer";
 import BrowserContainer from "./components/browser";
 import { Toaster } from "./components/ui/toaster";
 import { Login } from "./components/profile/Login";
+import { checkIfTokenIsValid } from "./lib/utils";
 
 export const ThemeContext = createContext<boolean | null>(null);
+
 const AuthenticatedRoute = () => {
   const user = useSelector((state: RootState) => state.user.user); // Assuming state.user.user is null or undefined when not logged in
-  const isLoggedIn = !!user.sub && !!user.username && !!user.exp && user.exp * 1000 > Date.now();
-  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+  const isLoggedIn = !!user.sub && !!user.username && !!user.exp && checkIfTokenIsValid(user.exp);
+  const reason = !checkIfTokenIsValid(user.exp) ? "Your session has expired" : "Please log in";
+  const origin = window.location.pathname;
+  return isLoggedIn ? <Outlet /> : <Navigate to="/login" state={{ origin: origin, reason: reason }} replace />;
 };
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,7 +47,7 @@ const App = () => {
         <div className="h-full pt-10">
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login/>} />
             <Route element={<AuthenticatedRoute />}>
               <Route path="profile/*" element={<Profile />} />
               <Route path="dashboard/*" element={<QuizContainer />} />

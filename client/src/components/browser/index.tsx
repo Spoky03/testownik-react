@@ -71,15 +71,9 @@ const SetList = () => {
 };
 const BrowserContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const token = useSelector((state: RootState) => state.user.token);
   useEffect(() => {
-    if (token) {
       dispatch(initializeBrowser());
-    }
-  }, [dispatch, token]);
-  if (!token) {
-    return <h1>Not logged in</h1>;
-  }
+  }, [dispatch]);
   return (
     <>
     <Routes>
