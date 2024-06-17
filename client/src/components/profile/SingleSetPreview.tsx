@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
 import { Question, Answer, QuestionSet, RootState } from "../../types";
 import { useEffect, useState } from "react";
-import { Button } from "../Button";
+import { Button } from "../ui/button";
 import { AppDispatch } from "../../store";
 import {
   createQuestion,
@@ -152,28 +152,18 @@ const NewQuestionForm = ({
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
             />
-            <div className="h-8 w-8 place-self-center">
-              <Button
-                type="submit"
-                label={
-                  editMode && setEditMode ? (
-                    <CheckIcon size={18} />
-                  ) : (
-                    <AddIcon size={24} />
-                  )
-                }
-                onClick={() => {}}
-              />
-            </div>
+            <Button
+              className="place-self-center"
+              type="submit"
+              onClick={() => {}}
+            >
+              {editMode && setEditMode ? <CheckIcon /> : <AddIcon />}
+            </Button>
           </div>
           {editMode && setEditMode ? (
-            <div className="h-8 w-8 place-self-center">
-              <Button
-                type="button"
-                label={<CloseIcon size={24} />}
-                onClick={() => setEditMode(false)}
-              />
-            </div>
+              <Button className=" place-self-center" type="button" onClick={() => setEditMode(false)}>
+                {<CloseIcon />}
+              </Button>
           ) : (
             <div className="w-8"></div>
           )}
@@ -234,7 +224,9 @@ export const SingleSetPreview = () => {
 
   return (
     <div className="flex flex-col place-items-center justify-center align-center w-full gap-5 ">
-      <div className="place-self-start"><GoBackArrow /></div>
+      <div className="place-self-start">
+        <GoBackArrow />
+      </div>
       {singleSet ? (
         <>
           <div className="flex justify-between font-bold w-full px-2">

@@ -1,9 +1,5 @@
 export const APP_NAME = 'Testownik';
 
-export const PLACEHOLDER = {
-    EMAIL: 'Email',
-    PASSWORD: 'Password',
-}
 export const LABELS = {
     VIEW_SETS: 'View Sets',
     LOGOUT: 'Logout',
@@ -23,11 +19,10 @@ export const LABELS = {
     }
 }
 export const STYLES = {
-    MAX_WIDTH: 'sm:max-w-[600px] md:max-w-[800px] xl:max-w-[1000px]',
+    MAX_WIDTH: 'sm:max-w-[600px] md:max-w-[750px] xl:max-w-[950px] 2xl:max-w-[1150px]',
 }
 export default {
     APP_NAME,
-    PLACEHOLDER,
     LABELS,
     STYLES,
 }

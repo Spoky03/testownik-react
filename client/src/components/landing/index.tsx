@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button } from "../Button";
+import { Button } from "../ui/button";
 import { IoBeerSharp as BeerIcon } from "react-icons/io5";
 import { RootState } from "../../types";
 import constants from "../../constants";
@@ -9,7 +9,7 @@ export const LandingPage = () => {
   return (
     <div className="flex flex-col">
       <h1 className="text-4xl sm:text-5xl font-bold text-success pt-10 place-self-center inline">
-        TESTOWNIK
+        {constants.APP_NAME}
       </h1>
       <BeerIcon
         size={64}
@@ -25,14 +25,14 @@ export const LandingPage = () => {
         )}
       </h2>
       <div className="flex gap-5 place-self-center">
-        <Link to="/dashboard" className="w-20 h-14 place-self-center text-2xl">
-          <Button label="Start" type="button" />
+        <Link to="/dashboard" className="place-self-center text-2xl">
+          <Button type="button">Quiz</Button>
         </Link>
-        <Link to="/browser" className="w-32 h-14 place-self-center text-2xl">
-          <Button label="Browse" type="button" />
+        <Link to="/browser" className="place-self-center text-2xl">
+          <Button type="button">Browse</Button>
         </Link>
-        <Link to="/profile/sets" className="w-24 h-14 place-self-center text-2xl">
-          <Button label="Edit" type="button" />
+        <Link to="/profile/sets" className="place-self-center text-2xl">
+          <Button type="button">Edit</Button>
         </Link>
       </div>
     </div>

@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Modal } from "../Modal";
-import { Button } from "../Button";
+import { Button } from "../ui/button";
 import { GoBackArrow } from "../GoBackArrow";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -109,7 +109,7 @@ export const SetList = () => {
       <div className="flex place-items-center justify-between">
       <GoBackArrow />
         <div className="w-32 h-11">
-          <Button label="Create new set"  type={'button'} onClick={() => setShowModal(true)} />
+          <Button type={'button'} onClick={() => setShowModal(true)} >{"Create new set"}</Button>
         </div>
       </div>
       <br />

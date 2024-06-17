@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { Button } from "../Button";
+import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
-import { addQuestionSet} from "../../reducers/userReducer";
+import { addQuestionSet } from "../../reducers/userReducer";
 import { MdAdd } from "react-icons/md";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import { useNavigate } from "react-router-dom";
+import { Input } from "../ui/input";
 
-export const NewSetForm = ({setShowModal}:{setShowModal: React.Dispatch<React.SetStateAction<boolean> >}) => {
+export const NewSetForm = ({
+  setShowModal,
+}: {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [nameOfSet, setNameOfSet] = useState<string>("");
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -36,8 +41,14 @@ export const NewSetForm = ({setShowModal}:{setShowModal: React.Dispatch<React.Se
       variant: "success",
       title: `Set ${nameOfSet} created`,
       description: "You can now add questions to your set",
-      action: <ToastAction altText="Add questions" onClick={() => navigate(`/profile/sets/${id}`)}>Add questions</ToastAction>
-
+      action: (
+        <ToastAction
+          altText="Add questions"
+          onClick={() => navigate(`/profile/sets/${id}`)}
+        >
+          Add questions
+        </ToastAction>
+      ),
     });
     setShowModal(false);
     setNameOfSet("");
@@ -50,7 +61,7 @@ export const NewSetForm = ({setShowModal}:{setShowModal: React.Dispatch<React.Se
         onSubmit={handleSubmit}
       >
         <div className="flex place-self-center">
-          <input
+          <Input
             type="nameOfSet"
             id="nameOfSet"
             className="p-1 rounded-md shadow-sm dark:text-black"
@@ -58,13 +69,7 @@ export const NewSetForm = ({setShowModal}:{setShowModal: React.Dispatch<React.Se
             value={nameOfSet}
             onChange={(e) => setNameOfSet(e.target.value)}
           />
-          <div className="h-8 w-8 ml-1">
-            <Button
-              type="submit"
-              label={<MdAdd size={24} />}
-              onClick={() => {}}
-            />
-          </div>
+            <Button type="submit" className="place-self-center mx-2">{<MdAdd/>}</Button>
         </div>
       </form>
     </div>
