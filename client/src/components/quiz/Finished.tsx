@@ -8,22 +8,26 @@ export const Finished = ({
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const closeCallback = () => {
+    setOpen(false);
+    navigate("/");
+  };
   return (
     <>
       <Modal
         open={open}
-        setOpen={setOpen}
+        setOpen={closeCallback}
         cancelAction={() => navigate("/")}
         cancelText="Okay!"
-        title={<div className="text-success text-center">Finished</div>}
         content={
-          <div className="flex flex-col gap-5 items-center">
+          <div className="flex flex-col gap-5 items-center dark:bg-ternary bg-w-ternary p-5">
+            <div className="text-success text-center font-bold">Finished</div>
             <BeerIcon size={64} />
             <p className="text-center">
               Congratulations! You have finished the quiz.
             </p>
-            </div>
+          </div>
         }
       />
     </>

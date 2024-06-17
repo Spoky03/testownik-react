@@ -22,6 +22,6 @@ export const QuestionSetSchema = new mongoose.Schema({
   },
   private: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
