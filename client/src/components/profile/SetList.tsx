@@ -20,11 +20,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Modal } from "../Modal";
+import { Button } from "../Button";
+import { GoBackArrow } from "../GoBackArrow";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
   const handleDelete = () => {
-    window.confirm("Are you sure you want to delete this set? This action is irreversible") &&
+    // window.confirm("Are you sure you want to delete this set? This action is irreversible") &&
     setEffect(true);
   };
   const handlePrivate = () => {
@@ -39,13 +42,6 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
 
   return (
     <div className="flex">
-      {" "}
-      <Link to={`/quiz/${set._id}`} className="py-3 mr-3">
-        <PlayIcon
-          className="text-success opacity-80 hover:opacity-100"
-          size={24}
-        />
-      </Link>
       <div
         className={`bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full ${
           effect && "animate-explode"
@@ -106,10 +102,16 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
 };
 export const SetList = () => {
   const sets = useSelector((state: RootState) => state.user.user.questionSets);
+  const [showModal, setShowModal] = useState(false);
   const usersSets = sets?.filter((set: QuestionSet) => !set.foreign);
   return (
     <div className="w-full">
-      <NewSetForm />
+      <div className="flex place-items-center justify-between">
+      <GoBackArrow />
+        <div className="w-32 h-11">
+          <Button label="Create new set"  type={'button'} onClick={() => setShowModal(true)} />
+        </div>
+      </div>
       <br />
       <div className="flex justify-between">
         <h1 className="py-1">Your Sets</h1>
@@ -128,6 +130,7 @@ export const SetList = () => {
           <h1>No sets</h1>
         )}
       </div>
+      <Modal content={<NewSetForm setShowModal={setShowModal} />} open={showModal} setOpen={setShowModal} />
     </div>
   );
 };

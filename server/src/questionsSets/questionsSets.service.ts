@@ -71,7 +71,6 @@ export class QuestionsSetsService {
       },
       { new: true },
     );
-    console.log(updatedSet.private);
     return updatedSet.private;
   }
   // async pushForeignToUser(

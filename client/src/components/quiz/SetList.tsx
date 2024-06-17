@@ -5,6 +5,7 @@ import { SetListTypes } from "../../types";
 import { MdOutlineSort as SortIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { ShotThroughTitle } from "../ShotThroughTitile";
+import { GoBackArrow } from "../GoBackArrow";
 export const SetList = () => {
   const [sortedSetList, setSortedSetList] = useState<QuestionSet[]>([]);
   const [foreignAndNotBookmarked, setforeignAndNotBookmarked] = useState<
@@ -36,7 +37,8 @@ export const SetList = () => {
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
       <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-[900px]  ">
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+          <GoBackArrow to={-1}/>
           <SortIcon
             size={24}
             className={`hover:text-success transition-color duration-300 ${

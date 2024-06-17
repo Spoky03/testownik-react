@@ -229,6 +229,7 @@ export const addQuestionSet = (questionSetName: string) => {
         questionSetName
       );
       dispatch(addSet(createdQuestionSet));
+      return createdQuestionSet._id;
     } catch (error) {
       console.error(error);
     }

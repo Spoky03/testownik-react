@@ -96,8 +96,6 @@ const saveProgress = async ({
   questions: { id: string; repeats: number | undefined }[];
   sidebar: { correctAnswers: number; incorrectAnswers: number; totalQuestions: number; masteredQuestions: number; time: number };
 }) => {
-  console.log("saving progress");
-  console.log({ questionSetId, questions, sidebar });
   const response = await axios.put(
     `${baseUrl}/users/progress`,
     { questionSetId, questions, sidebar },

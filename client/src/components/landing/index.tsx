@@ -29,10 +29,10 @@ export const LandingPage = () => {
           <Button label="Start" type="button" />
         </Link>
         <Link to="/browser" className="w-32 h-14 place-self-center text-2xl">
-          <Button label="Przeglądaj" type="button" />
+          <Button label="Browse" type="button" />
         </Link>
         <Link to="/profile/sets" className="w-24 h-14 place-self-center text-2xl">
-          <Button label="Edytuj" type="button" />
+          <Button label="Edit" type="button" />
         </Link>
       </div>
     </div>

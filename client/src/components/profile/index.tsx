@@ -5,13 +5,12 @@ import { fetchAllUserData, logoutUser } from "../../reducers/userReducer";
 import { Button } from "../Button";
 import { Notification } from "../Notification";
 import { SetList } from "./SetList";
-import { Routes, Route, Link, Outlet, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, Outlet} from "react-router-dom";
 import { SingleSetPreview } from "./SingleSetPreview";
 // import { FaBars as BarsIcon } from "react-icons/fa6";
-import { IoMdArrowRoundBack as ArrowBackIcon } from "react-icons/io";
 import { RootState } from "../../types";
 import constants from "../../constants";
-import { useEffect } from "react";
+import { GoBackArrow } from "../GoBackArrow";
 const ProfileNav = ({
   username,
   dispatch,
@@ -22,7 +21,7 @@ const ProfileNav = ({
   return (
     <div className="flex flex-col">
       <div className="flex justify-between ">
-        <GoBackArrow />
+        <GoBackArrow/>
         <h3 className="font-bold text-lg">Welcome {username}</h3>
         <div className="h-10 w-16">
           <Button
@@ -45,18 +44,7 @@ const ProfileNav = ({
     </div>
   );
 };
-const GoBackArrow = () => {
-  const navigate = useNavigate();
-  return (
-    <div className="flex justify-start">
-      <ArrowBackIcon
-        onClick={() => navigate(-1)}
-        className="place-self-start"
-        size={25}
-      />
-    </div>
-  );
-};
+
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, notification } = useSelector(
@@ -78,7 +66,6 @@ const Profile = () => {
               path="sets/*"
               element={
                 <>
-                  <GoBackArrow />
                   <Outlet />
                 </>
               }

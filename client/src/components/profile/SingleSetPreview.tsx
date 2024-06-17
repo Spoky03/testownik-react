@@ -146,7 +146,7 @@ const NewQuestionForm = ({
         <div className="flex justify-between">
           <div className="flex justify-center">
             <input
-              className="p-1 mx-3 my-2 rounded-md border-primary border w-full max-w-64"
+              className="p-1 mx-3 my-2 rounded-md border-primary border w-full max-w-64 dark:text-primary"
               placeholder="your question here..."
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
@@ -191,7 +191,7 @@ const NewQuestionForm = ({
                   }
                 >
                   <input
-                    className="p-1 w-full"
+                    className="p-1 w-full dark:text-primary"
                     placeholder="answer"
                     value={answer.answer}
                     onChange={(e) =>

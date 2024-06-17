@@ -66,6 +66,7 @@ export enum SetListTypes {
   QUIZ = "QUIZ",
   BROWSER = "BROWSER",
   EDIT = "EDIT",
+  MODAL = "MODAL",
 }
 
 export interface NotificationType {

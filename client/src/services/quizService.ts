@@ -1,8 +1,8 @@
 import { Question } from '../types'
 import axios from 'axios'
 
-const baseUrl = 'api/questions'
-const authUrl = 'auth'
+const baseUrl = '/api/questions'
+const authUrl = '/auth'
 
 let token : string | null = null
 

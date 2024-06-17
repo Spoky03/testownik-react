@@ -9,11 +9,7 @@ import { Socials } from "./Socials";
 import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { FaBookmark as MarkIcon } from "react-icons/fa";
 import { AppDispatch } from "@/store";
-import {
-  addBookmark,
-  addForeignSet,
-  deleteBookmark,
-} from "@/reducers/userReducer";
+import { addBookmark, deleteBookmark } from "@/reducers/userReducer";
 
 const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
   return (
@@ -36,7 +32,6 @@ export const SingleSet = ({
   type: SetListTypes;
 }) => {
   const [foreign, setForeign] = useState(false);
-  const [showMore, setShowMore] = useState(false);
   const [completed, setCompleted] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.user.user?.sub);
@@ -69,44 +64,38 @@ export const SingleSet = ({
     <div
       className={`bg-w-ternary dark:bg-ternary hover:outline font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative`}
     >
-      <button
-        className="w-full h-full py-3 text-left"
-        onClick={() => setShowMore(!showMore)}
-        type="button"
-      >
-        <div className="flex">
-          {type === SetListTypes.QUIZ && (
-            <MarkIcon
-              size={16}
-              className={` transition-colors place-self-center duration-300 ${
-                bookmarked
-                  ? "text-amber-500 hover:text-amber-400"
-                  : "hover:text-amber-200"
-              }`}
-              onClick={handleBookmark}
-            />
-          )}
-
-          <h1 className="">{set.name}</h1>
-        </div>
-        <p className="text-xs opacity-80">
-          {"by "}
-          {foreign
-            ? `you`
-            : `${(set.author as { username: string; _id: string }).username}`}
-        </p>
-        {showMore && (
-          <p className="text-base font-medium text-wrap break-words">
-            {set.description}
-          </p>
+      <div className="flex w-full h-full pt-3 text-left">
+        {type === SetListTypes.QUIZ && (
+          <MarkIcon
+            size={16}
+            className={` transition-colors place-self-center duration-300 ${
+              bookmarked
+                ? "text-amber-500 hover:text-amber-400"
+                : "hover:text-amber-200"
+            }`}
+            onClick={handleBookmark}
+          />
         )}
-      </button>
+
+        <h1 className="">{set.name}</h1>
+      </div>
+      <p className="text-xs opacity-80">
+        {"by "}
+        {foreign
+          ? `you`
+          : `${(set.author as { username: string; _id: string }).username}`}
+      </p>
+      {type !== SetListTypes.BROWSER && (
+        <p className="text-base font-medium text-wrap py-2 break-words">
+          {set.description}
+        </p>
+      )}
       <hr className="w-full border-gray-300 dark:border-gray-700 my-2" />
       {type === SetListTypes.QUIZ && (
         <Progress set={set} completed={completed} setCompleted={setCompleted} />
       )}
-      {type === SetListTypes.BROWSER && (
-        <Socials set={set} handleBookmark={handleBookmark} />
+      {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
+        <Socials set={set} type={type} handleBookmark={handleBookmark} />
       )}
       {(bookmarked || foreign) && !completed && (
         <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />

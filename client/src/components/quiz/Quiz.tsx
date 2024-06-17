@@ -5,6 +5,7 @@ import Sidebar from "./sidebar";
 import { useMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
+import constants from "@/constants";
 import {
   initializeQuiz,
   resetQuiz,
@@ -41,7 +42,7 @@ const QuizQuestion = () => {
         ))}
       </ul>
       <div className="rounded-full p-2 px-4 text-sm absolute bottom-5 shadow-md bg-w-primary dark:bg-primary">
-        Ponowne wystąpienia:{" "}
+      {constants.LABELS.SIDEBAR.TOTAL_ANSWERS}{" "}
         <span className="text-success">{question.repeats}</span>
       </div>
     </div>

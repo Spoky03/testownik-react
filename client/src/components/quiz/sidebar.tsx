@@ -11,6 +11,7 @@ import { Modal } from "../Modal";
 import { Settings } from "./Settings";
 import { useNavigate } from "react-router-dom";
 import { Finished } from "./Finished";
+import constants from "@/constants";
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,13 +67,12 @@ export const Sidebar = () => {
       <Modal
         open={openSettings}
         setOpen={setOpenSettings}
-        title={<div className="text-success text-center">Ustawienia</div>}
         content={<Settings />}
       />
       <aside className="dark:bg-primary bg-w-primary min-w-36 flex flex-col place-items-center h-full  gap-5 relative text-center">
         <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
-            <h2 className="text-sm mb-2">Udzielone odpowiedzi</h2>
+            <h2 className="text-sm mb-2">{constants.LABELS.SIDEBAR.TOTAL_ANSWERS}</h2>
             <div className="w-full flex max-w-64 rounded-full h-1.5 bg-w-faint dark:bg-faint">
               <div
                 className="bg-success h-1.5 rounded-l-full transition-all"
@@ -102,7 +102,7 @@ export const Sidebar = () => {
           </section>
 
           <section className="flex flex-col">
-            <h2 className="text-sm mb-2">Opanowane pytania</h2>
+            <h2 className="text-sm mb-2">{constants.LABELS.SIDEBAR.MASTERED_ANSWERS}</h2>
             <div className="w-full max-w-64 rounded-full h-1.5 bg-w-faint dark:bg-faint">
               <div
                 className="bg-success h-1.5 rounded-full transition-all"
@@ -121,13 +121,13 @@ export const Sidebar = () => {
         </div>
         <div className="flex flex-col justify-evenly h-full">
           <p className="flex flex-col text-sm">
-            Liczba pytań{" "}
+          {constants.LABELS.SIDEBAR.TOTAL_QUESTIONS}
             <span className="text-3xl text-success">
               {sidebar.totalQuestions}
             </span>
           </p>
           <p className="flex flex-col text-sm">
-            Czas nauki{" "}
+          {constants.LABELS.SIDEBAR.TOTAL_TIME}
             <span className="text-3xl text-success">{formattedTime}</span>
           </p>
           <button

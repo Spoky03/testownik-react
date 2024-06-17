@@ -1,50 +1,70 @@
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useMatch, useNavigate, useParams } from "react-router-dom";
 import { AppDispatch } from "../../store";
-import { RootState, SetListTypes } from "../../types";
-import constants from "../../constants";
+import { QuestionSet, RootState, SetListTypes } from "../../types";
 import { initializeBrowser } from "../../reducers/browserReducer";
 import { SingleSet } from "../SingleSet/SingleSet";
-import { MdSearch as SearchIcon } from "react-icons/md";
-
-const BrowserNav = ({ search, setSearch }: { search: string, setSearch: (search: string) => void }) => {
+import { Modal } from "../Modal";
+import { BrowserNav } from "./BrowserNav";
+const SetDescription = ({ set }: { set: QuestionSet }) => {
   return (
-    <div className="flex justify-between">
-    <h1 className="text-xl font-semibold place-self-center">
-      {constants.LABELS.BROWSER}
-    </h1>
-    <div className="flex place-items-center relative">
-      <input
-        type="text"
-        placeholder="Search"
-        className="rounded-md p-1"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <SearchIcon size={24} className="absolute right-1" />
-    </div>
+    <div className="p-3 shadow-x dark:bg-ternary">
+      <SingleSet set={set} type={SetListTypes.MODAL} />
     </div>
   );
-};
+}
+
 const SetList = () => {
   const sets = useSelector((state: RootState) => state.browser.sets);
+  const { id } = useParams();
   const [searchValue, setSearchValue] = useState<string>("");
-  const filteredSets = sets.filter((set) =>
-    set.name.toLowerCase().includes(searchValue.toLowerCase()) || set.description.toLowerCase().includes(searchValue.toLowerCase())
+  const [open, setOpen] = useState(false);
+  const  navigate  = useNavigate();
+  const [selectedSet, setSelectedSet] = useState<QuestionSet | null>(null);
+  const filteredSets = sets.filter(
+    (set) =>
+      set.name.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
+      set.description.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase())
   );
+  useEffect(() => {
+    if (id) {
+      const set = sets.find((set) => set._id === id);
+      if (set) {
+        setSelectedSet(set);
+        setOpen(true);
+      }
+    }
+  }, [id, sets]);
+  const handleOpen = (open: boolean) => {
+    if (open) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+      navigate("/browser");
+    }
+  };
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
       <Suspense fallback={<h1>Loading...</h1>}>
         <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-[900px] gap-2  ">
           <BrowserNav search={searchValue} setSearch={setSearchValue} />
-          {!searchValue ? sets.map((set) => (
-            <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER}  />
-          )) : filteredSets.map((set) => (
-            <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER}  />
+          {filteredSets.map((set) => (
+            <div key={set._id} onClick={(e) => {
+              e.preventDefault();
+              navigate(`/browser/${set._id}`)
+            }}>
+              <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER} />
+            </div>
           ))}
+          {filteredSets.length === 0 && (
+            <h1 className="text-2xl text-center p-10">No sets found</h1>
+          )}
         </div>
       </Suspense>
+      <Modal open={open} setOpen={handleOpen}
+        content={<SetDescription set={selectedSet as QuestionSet} />}
+      />
     </div>
   );
 };
@@ -60,9 +80,12 @@ const BrowserContainer = () => {
     return <h1>Not logged in</h1>;
   }
   return (
+    <>
     <Routes>
-      <Route path="/" element={<SetList />} />
+      <Route path="" element={<SetList />} />
+      <Route path=":id" element={<SetList />} />
     </Routes>
+    </>
   );
 };
 

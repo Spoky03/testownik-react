@@ -51,7 +51,6 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @Delete('progress/:id')
   async resetProgress(@Param('id') id: string, @Request() req) {
-    console.log(id);
     return this.usersService.resetProgress(id, req.user.sub);
   }
   @UseGuards(AuthGuard)

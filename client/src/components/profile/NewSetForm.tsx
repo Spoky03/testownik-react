@@ -4,9 +4,14 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import { addQuestionSet} from "../../reducers/userReducer";
 import { MdAdd } from "react-icons/md";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import { useNavigate } from "react-router-dom";
 
-export const NewSetForm = () => {
+export const NewSetForm = ({setShowModal}:{setShowModal: React.Dispatch<React.SetStateAction<boolean> >}) => {
   const [nameOfSet, setNameOfSet] = useState<string>("");
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   /*
   X0010 (marks which question is correct in this case its third because 0,0,1,0)
@@ -16,13 +21,29 @@ export const NewSetForm = () => {
   answer3
   answer4
   */
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addQuestionSet(nameOfSet));
+    if (nameOfSet.trim() === "") {
+      toast({
+        variant: "destructive",
+        title: "Name of set cannot be empty",
+        description: "Please provide a name for your set",
+      });
+      return;
+    }
+    const id = await dispatch(addQuestionSet(nameOfSet));
+    toast({
+      variant: "success",
+      title: `Set ${nameOfSet} created`,
+      description: "You can now add questions to your set",
+      action: <ToastAction altText="Add questions" onClick={() => navigate(`/profile/sets/${id}`)}>Add questions</ToastAction>
+
+    });
+    setShowModal(false);
     setNameOfSet("");
   };
   return (
-    <div className="flex flex-col place-content-center gap-2">
+    <div className="flex flex-col place-content-center gap-2 dark:bg-ternary p-10">
       <h1 className="place-self-center font-semibold">Create new set</h1>
       <form
         className="place-self-center flex gap-1 justify-center flex-col"

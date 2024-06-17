@@ -9,11 +9,11 @@ import { createContext } from "react";
 import { Navbar } from "./components/Nav";
 import { fetchAllUserData, logoutUser, reLoginUser } from "./reducers/userReducer";
 import BrowserContainer from "./components/browser";
+import { Toaster } from "./components/ui/toaster";
 
 export const ThemeContext = createContext<boolean | null>(null);
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((state: RootState) => state.user.user);
   const [darkMode, setDarkMode] = useState<boolean | null>(() => {
     const saved = JSON.parse(localStorage.getItem("darkMode") || "null");
     return (
@@ -48,6 +48,7 @@ const App = () => {
           </Routes>
         </div>
       </main>
+      <Toaster />
     </ThemeContext.Provider>
   );
 };
