@@ -17,6 +17,7 @@ const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
     <Link
       to={`/dashboard/${id}`}
       className={`py-3 mr-3  place-self-center ${styles}`}
+      onClick={(event) => event.stopPropagation()}
     >
       <PlayIcon
         className="text-success opacity-80 hover:opacity-100"
@@ -68,7 +69,7 @@ export const SingleSet = ({
   }, [bookmarks, set._id]);
   return (
     <div
-      className={`bg-w-ternary dark:bg-ternary hover:outline font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative`}
+      className={`bg-w-ternary cursor-pointer dark:bg-ternary hover:outline font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative`}
     >
       <div className="flex w-full h-full pt-3 text-left">
         {type === SetListTypes.QUIZ && (
@@ -105,6 +106,9 @@ export const SingleSet = ({
       )}
       {(bookmarked || foreign) && !completed && (
         <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />
+        // <div className="absolute right-1 top-1 rounded-full p-2 bg-success bg-opacity-30">
+        //   <Link className=" w-4 h-4" to={`/dashboard/${set._id}`} onClick={(event) => event.stopPropagation()} />
+        // </div>
       )}
     </div>
   );

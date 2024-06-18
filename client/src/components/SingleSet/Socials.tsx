@@ -54,24 +54,28 @@ export const Socials = ({
   return (
     <div className="flex place-items-center">
       <div className="flex gap-4 mr-2">
+        <div className="rounded-full relative p-1 hover:bg-success hover:bg-opacity-30">
         <LikeIcon
-          size={24}
-          className={`transition-colors outline-2 duration-300 ${set.liked ? "text-red-500" : "hover:text-red-200"}`}
+          size={18}
+          className={`transition-colors outline-2 duration-300  ${set.liked ? "text-red-500" : ""}`}
           onClick={(event) => handleLike(event, set._id)}
         />
-        {set.likes}
+        <span className="absolute right-0 top-3">{set.likes}</span>
+        </div>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
+              <div className="rounded-full p-1 hover:bg-success hover:bg-opacity-30">
               <MarkIcon
-                size={24}
+                size={18}
                 className={` transition-colors duration-300 ${
                   bookmarked
                     ? "text-amber-500 hover:text-amber-400"
-                    : "hover:text-amber-200"
+                    : ""
                 }`}
                 onClick={handleBookmark}
               />
+              </div>
             </TooltipTrigger>
             <TooltipContent>
               <p>Bookmark</p>
