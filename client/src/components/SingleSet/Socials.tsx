@@ -40,7 +40,6 @@ export const Socials = ({
   type: SetListTypes;
   handleBookmark: () => void;
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
   const bookmarks = useSelector((state: RootState) => state.user.bookmarks);
   const [bookmarked, setBookmarked] = useState(false);
   useEffect(() => {

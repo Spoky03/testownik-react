@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { loginUser } from "../../reducers/userReducer";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";

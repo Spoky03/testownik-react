@@ -53,6 +53,11 @@ export class QuestionsSetsController {
   ): Promise<boolean> {
     return this.questionsSetsService.changePrivacy(id, req.user);
   }
+  @UseGuards(AuthGuard)
+  @Post(':id/like')
+  async likeSet(@Param('id') id: string, @Request() req): Promise<QuestionSet> {
+    return this.questionsSetsService.likeSet(id, req.user.sub);
+  }
   // @UseGuards(AuthGuard)
   // @Post('foreign')
   // async pushForeignQuestionSet(

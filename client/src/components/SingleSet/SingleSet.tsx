@@ -46,7 +46,8 @@ export const SingleSet = ({
       setForeign(true);
     }
   }, [setForeign, set.author, userId]);
-  const handleBookmark = async () => {
+  const handleBookmark = async (event: React.MouseEvent) => {
+    event?.stopPropagation();
     if (bookmarks.includes(set._id)) {
       dispatch(deleteBookmark(set._id));
     } else {

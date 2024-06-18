@@ -73,6 +73,25 @@ export class QuestionsSetsService {
     );
     return updatedSet.private;
   }
+  async likeSet(id: string, userId: string): Promise<QuestionSet> {
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const foundSet = await this.questionsSetsModel.findById(id);
+    if (!foundSet) {
+      throw new Error('Set not found');
+    }
+    if (foundSet.author.toString() === user.sub) {
+      throw new Error('Cannot like own set');
+    }
+    if (foundSet.likes.includes(user.sub)) {
+      foundSet.likes = foundSet.likes.filter((like) => like !== user.sub);
+    } else {
+      foundSet.likes.push(user.sub);
+    }
+    return foundSet.save();
+  }
   // async pushForeignToUser(
   //   user: UserReq,
   //   questionSetId: string,

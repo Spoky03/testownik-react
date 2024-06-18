@@ -31,9 +31,9 @@ export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, c
   const handleReset = async () => {
     setEffect(true);
   };
-  const effectCleanup = () => {
+  const effectCleanup = async () => {
     if (effect) {
-      const res = dispatch(resetSingleProgress(set._id));
+      const res = await dispatch(resetSingleProgress(set._id));
       if (res) {
         toast({
           variant: "destructive",
