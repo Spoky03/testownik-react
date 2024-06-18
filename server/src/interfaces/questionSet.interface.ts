@@ -8,4 +8,5 @@ export interface QuestionSet extends Document {
     answers: Answer[];
   }[];
   private: boolean;
+  likes: string[];
 }

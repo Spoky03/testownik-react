@@ -35,12 +35,14 @@ export const Socials = ({
   set,
   handleBookmark,
   type,
+  handleLike,
 }: {
   set: QuestionSet;
   type: SetListTypes;
-  handleBookmark: () => void;
+  handleBookmark: () => Promise<void>;
+  handleLike: (event: React.MouseEvent, id: string) => void;
 }) => {
-  const bookmarks = useSelector((state: RootState) => state.user.bookmarks);
+  const {bookmarks, user} = useSelector((state: RootState) => state.user);
   const [bookmarked, setBookmarked] = useState(false);
   useEffect(() => {
     if (bookmarks.includes(set._id)) {
@@ -49,13 +51,13 @@ export const Socials = ({
       setBookmarked(false);
     }
   }, [bookmarks, set._id]);
-
   return (
     <div className="flex place-items-center">
       <div className="flex gap-4 mr-2">
         <LikeIcon
           size={24}
-          className="hover:text-rose-500 transition-colors duration-300"
+          className={`transition-colors outline-2 duration-300 ${set.liked ? "text-red-500" : "hover:text-red-200"}`}
+          onClick={(event) => handleLike(event, set._id)}
         />
         {set.likes}
         <TooltipProvider>

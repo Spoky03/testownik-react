@@ -10,6 +10,7 @@ import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { FaBookmark as MarkIcon } from "react-icons/fa";
 import { AppDispatch } from "@/store";
 import { addBookmark, deleteBookmark } from "@/reducers/userReducer";
+import { likeSet } from "@/reducers/browserReducer";
 
 const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
   return (
@@ -54,6 +55,10 @@ export const SingleSet = ({
       dispatch(addBookmark(set._id));
     }
   };
+  const handleLike = (event: React.MouseEvent, id: string) => {
+    event?.stopPropagation();
+    dispatch(likeSet(id));
+  }
   useEffect(() => {
     if (bookmarks.includes(set._id)) {
       setBookmarked(true);
@@ -96,7 +101,7 @@ export const SingleSet = ({
         <Progress set={set} completed={completed} setCompleted={setCompleted} />
       )}
       {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
-        <Socials set={set} type={type} handleBookmark={handleBookmark} />
+        <Socials set={set} type={type} handleBookmark={handleBookmark} handleLike={handleLike} />
       )}
       {(bookmarked || foreign) && !completed && (
         <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />

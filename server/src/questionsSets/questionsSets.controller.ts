@@ -18,9 +18,10 @@ import { QuestionSet } from 'src/interfaces/questionSet.interface';
 export class QuestionsSetsController {
   constructor(private questionsSetsService: QuestionsSetsService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
-  async findAll(): Promise<QuestionSet[]> {
-    return this.questionsSetsService.findAll();
+  async findAll(@Request() req): Promise<any[]> {
+    return await this.questionsSetsService.findAll(req.user.sub);
   }
   @UseGuards(AuthGuard)
   @Post()
@@ -55,7 +56,10 @@ export class QuestionsSetsController {
   }
   @UseGuards(AuthGuard)
   @Post(':id/like')
-  async likeSet(@Param('id') id: string, @Request() req): Promise<QuestionSet> {
+  async likeSet(
+    @Param('id') id: string,
+    @Request() req,
+  ): Promise<{ likes: number; liked: boolean }> {
     return this.questionsSetsService.likeSet(id, req.user.sub);
   }
   // @UseGuards(AuthGuard)

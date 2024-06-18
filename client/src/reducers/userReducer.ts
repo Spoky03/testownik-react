@@ -8,6 +8,7 @@ import {
   QuestionSet,
   UserState,
 } from "../types";
+import browserService from "@/services/browserService";
 
 const initialState: UserState = {
   user: {
@@ -150,7 +151,7 @@ const userSlice = createSlice({
         return set;
       });
       state.user.questionSets = updatedQuestionSets;
-    }
+    },
   },
 });
 
@@ -179,6 +180,7 @@ export const loginUser = (username: string, password: string) => {
       const res = await userService.login({ username, password });
       if (res.access_token) {
         userService.setToken(res.access_token);
+        browserService.setToken(res.access_token);
         dispatch(login(res.access_token));
         dispatch(fetchUser());
         dispatch(fetchAllUserData());
@@ -195,6 +197,7 @@ export const reLoginUser = (token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
       userService.setToken(token);
+      browserService.setToken(token);
       const user = await userService.getProfile();
       dispatch(getUser(user));
       dispatch(setToken(token));

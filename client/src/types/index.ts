@@ -59,6 +59,7 @@ export interface QuestionSet {
   } | string;
   questions: Question[];
   likes: number;
+  liked: boolean;
   foreign?: boolean;
   private?: boolean;
 }

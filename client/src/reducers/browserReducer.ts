@@ -1,6 +1,6 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import { QuizState, Question, QuestionSet, BrowserState} from "../types";
+import { QuestionSet, BrowserState} from "../types";
 import browserService from "../services/browserService";
 
 const initialState: BrowserState = {
@@ -14,10 +14,18 @@ const browserSlice = createSlice({
     init: (state, action: PayloadAction<QuestionSet[]>) => {
       state.sets = action.payload;
     },
+    setLikes: (state, action: PayloadAction<{id: string, likes: number, liked: boolean}>) => {
+      console.log(action.payload);
+      const set = state.sets.find((set) => set._id === action.payload.id);
+      if (set) {
+        set.likes = action.payload.likes;
+        set.liked = action.payload.liked;
+      }
+    }
   },
 });
 
-export const { init } = browserSlice.actions;
+export const { init,setLikes } = browserSlice.actions;
 
 export const initializeBrowser = () => {
   return async (dispatch: AppDispatch) => {
@@ -25,5 +33,16 @@ export const initializeBrowser = () => {
     dispatch(init(sets));
   };
 };
+export const likeSet = (id: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const {likes, liked} = await browserService.switchLike(id);
+      dispatch(setLikes({ id, likes, liked }));
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
+}
 
 export default browserSlice.reducer;
