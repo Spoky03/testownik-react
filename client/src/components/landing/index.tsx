@@ -35,6 +35,8 @@ export const LandingPage = () => {
           <Button type="button">Edit</Button>
         </Link>
       </div>
+      <div>
+      </div>
     </div>
   );
 };

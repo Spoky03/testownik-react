@@ -18,13 +18,17 @@ const ProfileNav = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between ">
-        <GoBackArrow/>
-        <h3 className="font-bold text-lg">Welcome {username}</h3>
+      <div className="flex center ">
+        <div className="w-1/3">
+          <GoBackArrow />
+        </div>
+        <h3 className="font-bold text-center text-lg w-1/3">Welcome {username}</h3>
+        <div className="w-1/3 flex justify-end">
           <Button
-            type="button"
-            onClick={() => dispatch(logoutUser())}
-          >{constants.LABELS.LOGOUT}</Button>
+              type="button"
+              onClick={() => dispatch(logoutUser())}
+            >{constants.LABELS.LOGOUT}</Button>
+        </div>
       </div>
       <div className="">
         <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 min-h-96 place-items-center">

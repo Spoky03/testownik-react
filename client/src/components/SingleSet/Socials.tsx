@@ -60,7 +60,7 @@ export const Socials = ({
           className={`transition-colors outline-2 duration-300  ${set.liked ? "text-red-500" : ""}`}
           onClick={(event) => handleLike(event, set._id)}
         />
-        <span className="absolute right-0 top-3">{set.likes}</span>
+        <span className="absolute right-0 top-3 text-xs">{set.likes}</span>
         </div>
         <TooltipProvider>
           <Tooltip>
