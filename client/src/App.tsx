@@ -12,13 +12,14 @@ import BrowserContainer from "./components/browser";
 import { Toaster } from "./components/ui/toaster";
 import { Login } from "./components/profile/Login";
 import { checkIfTokenIsValid } from "./lib/utils";
+import constants from "./constants";
 
 export const ThemeContext = createContext<boolean | null>(null);
 
 const AuthenticatedRoute = () => {
   const user = useSelector((state: RootState) => state.user.user); // Assuming state.user.user is null or undefined when not logged in
   const isLoggedIn = !!user.sub && !!user.username && !!user.exp && checkIfTokenIsValid(user.exp);
-  const reason = !checkIfTokenIsValid(user.exp) ? "Your session has expired" : "Please log in";
+  const reason = !checkIfTokenIsValid(user.exp) ? constants.LABELS.LOGIN.EXPIRED : constants.LABELS.LOGIN.LOGOUT;
   const origin = window.location.pathname;
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" state={{ origin: origin, reason: reason }} replace />;
 };

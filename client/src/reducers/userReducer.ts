@@ -243,8 +243,10 @@ export const createQuestion = (questions: CreatedQuestion[], id: string) => {
       createdQuestions.forEach((createdQuestion) => {
         dispatch(addQuestionToSet({ createdQuestion, id }));
       });
+      return { status: 200, message: "Questions added successfully"}
     } catch (error) {
       console.error(error);
+      return { status: 400, message: "There was a problem with your request."}
     }
   };
 };
@@ -257,8 +259,10 @@ export const editQuestion = (
     try {
       const createdQuestion = await userService.editQuestion(question, id);
       dispatch(editQuestionToSet({ createdQuestion, id, setId }));
+      return { status: 200, message: "Question edited successfully"}
     } catch (error) {
       console.error(error);
+      return { status: 400, message: "There was a problem with your request."}
     }
   };
 };

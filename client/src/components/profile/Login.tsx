@@ -10,6 +10,7 @@ import { checkIfTokenIsValid } from "@/lib/utils";
 export const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [effect, setEffect] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const { toast } = useToast();
   const location = useLocation();
@@ -17,6 +18,7 @@ export const Login = () => {
   const { origin, reason } = location.state || {};
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setEffect(true);
     const res = await dispatch(loginUser(username, password));
     const variant = res.status === 200 ? "success" : "destructive";
     toast({
@@ -27,6 +29,7 @@ export const Login = () => {
           : "There was a problem with your request.",
       description: res.message
     });
+    setEffect(false);
   };
   if (checkIfTokenIsValid(user.exp)) {
     return <Navigate to={origin} />;
@@ -51,7 +54,7 @@ export const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="place-self-center w-100">
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={effect}>{effect ? 'Please wait' : 'Login'}</Button>
         </div>
       </form>
     </div>

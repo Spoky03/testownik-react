@@ -16,6 +16,15 @@ export const LABELS = {
         MASTERED_ANSWERS: 'Mastered answers' || 'Opanowane pytania',
         TOTAL_QUESTIONS: 'Questions count' || 'Liczba pytań',
         REPEATS: 'Repeats' || 'Ponowne wystąpienia',
+    },
+    LOGIN: {
+        LOGIN: 'Login',
+        SIGNUP: 'Sign up',
+        USERNAME: 'Username',
+        PASSWORD: 'Password',
+        EXPIRED: 'Your session has expired. Please log in',
+        LOGOUT: 'You have been loged out',
+
     }
 }
 export const STYLES = {
