@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User, Progress } from 'src/interfaces/user.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
@@ -6,6 +6,7 @@ import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 import * as bcrypt from 'bcrypt';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { GetUserDto } from 'src/dto/get-user.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -19,8 +20,8 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
-  async findById(id: string): Promise<any> {
-    return this.userModel
+  async findById(id: string): Promise<GetUserDto> {
+    const user = await this.userModel
       .findById(id)
       .populate([
         {
@@ -31,6 +32,20 @@ export class UsersService {
         },
       ])
       .exec();
+    if (!user || !user._id) {
+      throw new NotFoundException('User not found');
+    }
+    const userDto: GetUserDto = {
+      username: user.username,
+      progress: user.progress,
+      bookmarks: user.bookmarks,
+      questionSets: user.questionSets,
+      _id: null,
+      password: user.password,
+    };
+    return plainToInstance(GetUserDto, userDto, {
+      excludeExtraneousValues: true,
+    });
   }
   async findByName(username: string): Promise<User | undefined> {
     return this.userModel
@@ -92,37 +107,31 @@ export class UsersService {
     createdUser.password = await bcrypt.hash(user.password, 10);
     return createdUser.save();
   }
-  async saveProgress(
-    progress: SaveQuestionSetProgressDto,
-    userId: string,
-  ): Promise<Progress> {
+  async saveProgress(progress: Progress, userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
       throw new Error('User not found');
     }
-    if (!progress.questionSetId) {
-      throw new Error('questionSetId is required');
-    }
     // if questionSetId is not in progress
     const progressIndex = user.progress.findIndex(
-      (p) => p.questionSetId.toString() === progress.questionSetId,
+      (p) => p.questionSetId === progress.questionSetId,
     );
     if (progressIndex === -1) {
       user.progress.push(progress);
     } else {
-      user.progress.set(progressIndex, progress);
+      user.progress[progressIndex] = progress;
     }
     const savedUser = await user.save();
     return savedUser.progress;
   }
-  async getProgress(userId: string): Promise<Progress> {
+  async getProgress(userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
       throw new Error('User not found');
     }
     return user.progress;
   }
-  async resetProgress(id: string, userId: string): Promise<Progress> {
+  async resetProgress(id: string, userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
       throw new Error('User not found');

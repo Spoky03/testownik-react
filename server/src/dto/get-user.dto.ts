@@ -9,44 +9,57 @@ import {
   IsObject,
   IsArray,
 } from 'class-validator';
-import { Exclude, Type } from 'class-transformer';
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
 import { GetQuestionSetDto } from './get-questionSet.dto';
-import { ObjectId } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
+import { AnswerDto } from './create-question.dto';
+
 class Progress {
   @IsString()
   @IsNotEmpty()
-  readonly questionSetId: string;
+  readonly questionSetId: ObjectId;
 
   @IsObject()
   @IsNotEmpty()
-  @ValidateNested()
-  readonly sidebar: any;
+  readonly sidebar: {
+    correctAnswers: number;
+    incorrectAnswers: number;
+    totalQuestions: number;
+    masteredQuestions: number;
+    time: number;
+  };
 
-  readonly questions: any;
+  readonly questions: {
+    id: ObjectId;
+    repeats: number;
+  }[];
 }
 export class GetUserDto {
   @IsString()
   @IsNotEmpty()
+  @Expose()
   readonly username: string;
 
-  @ValidateNested()
-  @Type(() => Progress)
+  @IsArray()
+  @Expose()
   readonly progress: Progress[];
+
   @IsNotEmpty()
-  @ValidateNested()
+  @Expose()
   readonly bookmarks: string[];
 
   //   @IsNotEmpty()
   //   @ValidateNested()
   //   @IsArray()
   //   readonly progress: Progress[];
-
+  @Expose()
   readonly questionSets: any;
 
   @Exclude()
   password: string;
+
   @Exclude()
-  readonly _id: ObjectId;
+  readonly _id: Types.ObjectId;
 
   constructor(partial: Partial<GetUserDto>) {
     Object.assign(this, partial);

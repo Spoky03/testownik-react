@@ -8,7 +8,13 @@ export interface Progress extends Document {
   push(progress: SaveQuestionSetProgressDto): unknown;
   questionSetId: ObjectId;
   questions: { id: ObjectId; repeats: number }[];
-  time: number;
+  sidebar: {
+    correctAnswers: number;
+    incorrectAnswers: number;
+    totalQuestions: number;
+    masteredQuestions: number;
+    time: number;
+  };
 }
 export interface UserReq {
   username: string;
@@ -21,6 +27,6 @@ export interface User extends Document {
   username: string;
   password: string;
   questionSets: Questions;
-  progress: Progress;
+  progress: Progress[];
   bookmarks: string[];
 }

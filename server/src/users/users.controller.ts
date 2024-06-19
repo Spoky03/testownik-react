@@ -8,12 +8,17 @@ import {
   Put,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
+import { User } from 'discord.js';
+import { GetUserDto } from 'src/dto/get-user.dto';
+import { Progress } from 'src/interfaces/user.interface';
 
 @Controller('api/users')
 export class UsersController {
@@ -23,9 +28,10 @@ export class UsersController {
   async findAll() {
     return this.usersService.findAll();
   }
+  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard)
   @Get('me')
-  async findMe(@Request() req) {
+  async findMe(@Request() req): Promise<GetUserDto> {
     return this.usersService.findById(req.user.sub);
   }
   @Post()
@@ -34,14 +40,8 @@ export class UsersController {
   }
   @UseGuards(AuthGuard)
   @Put('progress')
-  async save(
-    @Body() saveQuestionSetProgressDto: SaveQuestionSetProgressDto,
-    @Request() req,
-  ) {
-    return this.usersService.saveProgress(
-      saveQuestionSetProgressDto,
-      req.user.sub,
-    );
+  async save(@Body() Progress: Progress, @Request() req) {
+    return this.usersService.saveProgress(Progress, req.user.sub);
   }
   @UseGuards(AuthGuard)
   @Get('progress')

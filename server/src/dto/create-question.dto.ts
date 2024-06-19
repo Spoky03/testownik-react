@@ -11,7 +11,7 @@ import {
 import { Type } from 'class-transformer';
 import { IsUnique } from 'src/helpers';
 
-class AnswerDto {
+export class AnswerDto {
   @IsString()
   @Length(0, 999) // Removed @IsNotEmpty because @Length already ensures the string is not empty
   answer: string;
