@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { User, Progress } from 'src/interfaces/user.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
@@ -40,12 +40,12 @@ export class UsersService {
       progress: user.progress,
       bookmarks: user.bookmarks,
       questionSets: user.questionSets,
-      _id: null,
+      _id: user._id as Types.ObjectId,
       password: user.password,
     };
-    // return plainToInstance(GetUserDto, userDto, {
-    //   excludeExtraneousValues: true,
-    // });
+    return plainToInstance(GetUserDto, userDto, {
+      excludeExtraneousValues: true,
+    });
     return userDto;
   }
   async findByName(username: string): Promise<User | undefined> {
@@ -113,10 +113,11 @@ export class UsersService {
     if (!user) {
       throw new Error('User not found');
     }
-    // if questionSetId is not in progress
-    const progressIndex = user.progress.findIndex(
-      (p) => p.questionSetId === progress.questionSetId,
-    );
+    const progressIndex = user.progress.findIndex((p) => {
+      return new Types.ObjectId(p.questionSetId).equals(
+        new Types.ObjectId(progress.questionSetId),
+      ); // Step 2: Convert and compare
+    });
     if (progressIndex === -1) {
       user.progress.push(progress);
     } else {

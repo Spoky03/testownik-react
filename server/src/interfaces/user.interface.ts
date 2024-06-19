@@ -1,4 +1,4 @@
-import { Document, ObjectId } from 'mongoose';
+import { Document, ObjectId, Types } from 'mongoose';
 import { Questions } from './questions.interface';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 
@@ -6,7 +6,7 @@ export interface Progress extends Document {
   splice(progressIndex: unknown, arg1: number): unknown;
   findIndex(arg0: (p: any) => boolean): unknown;
   push(progress: SaveQuestionSetProgressDto): unknown;
-  questionSetId: ObjectId;
+  questionSetId: Types.ObjectId;
   questions: { id: ObjectId; repeats: number }[];
   sidebar: {
     correctAnswers: number;
@@ -23,10 +23,10 @@ export interface UserReq {
   sub: string;
 }
 export interface User extends Document {
-  readonly id: number;
+  readonly id: Types.ObjectId;
   username: string;
   password: string;
-  questionSets: Questions;
+  questionSets: Questions[];
   progress: Progress[];
   bookmarks: string[];
 }
