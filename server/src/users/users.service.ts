@@ -43,9 +43,10 @@ export class UsersService {
       _id: null,
       password: user.password,
     };
-    return plainToInstance(GetUserDto, userDto, {
-      excludeExtraneousValues: true,
-    });
+    // return plainToInstance(GetUserDto, userDto, {
+    //   excludeExtraneousValues: true,
+    // });
+    return userDto;
   }
   async findByName(username: string): Promise<User | undefined> {
     return this.userModel

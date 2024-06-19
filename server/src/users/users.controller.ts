@@ -28,7 +28,7 @@ export class UsersController {
   async findAll() {
     return this.usersService.findAll();
   }
-  @UseInterceptors(ClassSerializerInterceptor)
+  // @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard)
   @Get('me')
   async findMe(@Request() req): Promise<GetUserDto> {
