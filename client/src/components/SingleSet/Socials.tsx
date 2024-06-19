@@ -39,7 +39,7 @@ export const Socials = ({
 }: {
   set: QuestionSet;
   type: SetListTypes;
-  handleBookmark: () => Promise<void>;
+  handleBookmark: (event: React.MouseEvent, id: string) => void;
   handleLike: (event: React.MouseEvent, id: string) => void;
 }) => {
   const {bookmarks, user} = useSelector((state: RootState) => state.user);

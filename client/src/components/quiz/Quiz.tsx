@@ -30,9 +30,9 @@ const QuizQuestion = () => {
   }
 
   return (
-    <div className="flex place-center flex-col place-items-center p-4 gap-y-5 grow z-1">
-      <div className="container h-16 justify-content-center py-5">
-        <h2 className="text-center font-semibold text-xl">
+    <div className="flex place-center flex-col place-items-center p-4 gap-y-5 grow h-full">
+      <div className="container justify-content-center py-5">
+        <h2 className="text-center font-semibold text-xl text-wrap">
           {question.question}
         </h2>
       </div>
@@ -68,9 +68,8 @@ const Quiz = () => {
     dispatch(setQuizSetId(activeSet._id));
   }, [activeSet, dispatch, initReps, progress]);
   return (
-    <div className="flex w-full h-full justify-end">
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel className="min-w-56">
+      <ResizablePanelGroup direction="horizontal" className="-pb-10">
+        <ResizablePanel className="min-w-56 h-screen">
           <QuizQuestion />
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -78,7 +77,6 @@ const Quiz = () => {
           <Sidebar />
         </ResizablePanel>
       </ResizablePanelGroup>
-    </div>
   );
 };
 export default Quiz;

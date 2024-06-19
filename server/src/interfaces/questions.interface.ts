@@ -5,7 +5,7 @@ export interface Answer {
   correct: boolean;
 }
 export interface Question extends Document {
-  readonly id: number;
+  readonly _id: number;
   readonly question: string;
   readonly answers: Answer[];
 }

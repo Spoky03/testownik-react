@@ -63,6 +63,16 @@ const userSlice = createSlice({
         }
       }
     },
+    editSet: (state, action: PayloadAction<any>) => {
+      if (state.user) {
+        state.user.questionSets = state.user.questionSets.map((set: QuestionSet) => {
+          if (set._id === action.payload._id) {
+            set = action.payload;
+          }
+          return set;
+        });
+      }
+    },
     editQuestionToSet: (state, action: PayloadAction<any>) => {
       if (state.user) {
         const questionSet = state.user.questionSets.find(
@@ -171,7 +181,8 @@ export const {
   resetProgress,
   setBookmarks,
   setForeignSets,
-  switchPrivacy
+  switchPrivacy,
+  editSet
 } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
@@ -226,13 +237,26 @@ export const logoutUser = () => {
     }
   };
 };
-export const addQuestionSet = (questionSetName: string) => {
+export const addQuestionSet = ({ name, description }: { name: string, description:string }) => {
   return async (dispatch: AppDispatch) => {
     try {
       const createdQuestionSet = await userService.createQuestionSet(
-        questionSetName
+        { name , description}
       );
       dispatch(addSet(createdQuestionSet));
+      return createdQuestionSet._id;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+export const editQuestionSet = ({ name, description, id }: { name: string, description:string, id: string }) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const createdQuestionSet = await userService.editQuestionSet(
+        { name , description, id}
+      );
+      dispatch(editSet(createdQuestionSet));
       return createdQuestionSet._id;
     } catch (error) {
       console.error(error);
@@ -358,6 +382,6 @@ export const switchPrivacyOfSet = (id: string) => {
       console.error(error);
     }
   };
-}
-
+};
+ 
 export default userSlice.reducer;

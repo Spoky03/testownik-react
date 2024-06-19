@@ -5,6 +5,7 @@ import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 import * as bcrypt from 'bcrypt';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
+import { GetUserDto } from 'src/dto/get-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +19,7 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
-  async findById(id: string): Promise<User | undefined> {
+  async findById(id: string): Promise<any> {
     return this.userModel
       .findById(id)
       .populate([
@@ -28,18 +29,6 @@ export class UsersService {
             path: 'questions',
           },
         },
-        // {
-        //   path: 'bookmarks',
-        //   populate: [
-        //     {
-        //       path: 'questions',
-        //     },
-        //     {
-        //       path: 'author',
-        //       select: 'username',
-        //     },
-        //   ],
-        // },
       ])
       .exec();
   }
@@ -59,6 +48,15 @@ export class UsersService {
       .findByIdAndUpdate(
         userId,
         { $push: { questionSets: questionSetId } },
+        { new: true },
+      )
+      .exec();
+  }
+  async pullQuestionSet(userId: string, questionSetId: string): Promise<User> {
+    return this.userModel
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { questionSets: questionSetId } },
         { new: true },
       )
       .exec();

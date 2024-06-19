@@ -4,6 +4,7 @@ export interface QuestionSet extends Document {
   name: string;
   author: string;
   questions: {
+    _id : string;
     question: string;
     answers: Answer[];
   }[];

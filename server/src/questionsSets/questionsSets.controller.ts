@@ -11,8 +11,12 @@ import {
 } from '@nestjs/common';
 import { QuestionsSetsService } from './questionsSets.service';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
+import {
+  CreateQuestionSetDto,
+  EditQuestionSetDto,
+} from 'src/dto/create-questionSet.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
+import { GetQuestionSetDto } from 'src/dto/get-questionSet.dto';
 
 @Controller('api/sets')
 export class QuestionsSetsController {
@@ -20,7 +24,7 @@ export class QuestionsSetsController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findAll(@Request() req): Promise<any[]> {
+  async findAll(@Request() req): Promise<GetQuestionSetDto[]> {
     return await this.questionsSetsService.findAll(req.user.sub);
   }
   @UseGuards(AuthGuard)
@@ -31,6 +35,15 @@ export class QuestionsSetsController {
   ): Promise<QuestionSet> {
     // add the user id to the question set
     return this.questionsSetsService.create(createQuestionSetDto, req.user);
+  }
+  @UseGuards(AuthGuard)
+  @Put(':id')
+  async edit(
+    @Body() editQuestionSetDto: EditQuestionSetDto,
+    @Param('id') id: string,
+    @Request() req,
+  ): Promise<QuestionSet> {
+    return this.questionsSetsService.edit(editQuestionSetDto, id, req.user);
   }
   @UseGuards(AuthGuard)
   @Get(':id')

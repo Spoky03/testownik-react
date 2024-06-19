@@ -78,7 +78,7 @@ export const Sidebar = () => {
         setOpen={setOpenSettings}
         content={<Settings />}
       />
-      <aside className="dark:bg-primary bg-w-primary min-w-36 flex flex-col place-items-center h-full  gap-5 relative text-center">
+      <aside className="dark:bg-primary bg-w-primary min-w-36 flex flex-col place-items-center h-full gap-5 text-center">
         <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">{constants.LABELS.SIDEBAR.TOTAL_ANSWERS}</h2>

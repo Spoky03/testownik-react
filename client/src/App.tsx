@@ -45,7 +45,7 @@ const App = () => {
     <ThemeContext.Provider value={darkMode}>
       <main className={`w-full min-w-full h-screen overflow-x-hidden ${darkMode ? "dark" : ""}`}>
         <Navbar setDarkMode={setDarkMode} />
-        <div className="h-full pt-10">
+        <div className="pt-10 min-h-max">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login/>} />

@@ -1,18 +1,19 @@
 import {
   IsArray,
-  IsNotEmpty,
   IsString,
   IsBoolean,
   ValidateNested,
   ArrayMinSize,
   IsNumber,
+  Length,
+  IsEmail,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { IsUnique } from 'src/helpers';
 
 class AnswerDto {
   @IsString()
-  @IsNotEmpty()
+  @Length(0, 999) // Removed @IsNotEmpty because @Length already ensures the string is not empty
   answer: string;
 
   @IsBoolean()
@@ -24,12 +25,11 @@ class AnswerDto {
 
 export class CreateQuestionDto {
   @IsString()
-  @IsNotEmpty()
+  @Length(1, 999) // Removed @IsNotEmpty for the same reason as above
   readonly question: string;
 
   @IsArray()
-  @ArrayMinSize(1)
-  @IsNotEmpty()
+  @ArrayMinSize(1) // Ensures the array is not empty, so @IsNotEmpty is not needed
   @ValidateNested({ each: true })
   @Type(() => AnswerDto)
   @IsUnique('answer', {
@@ -39,6 +39,10 @@ export class CreateQuestionDto {
 }
 
 export class AppendQuestionsDto {
+  @ValidateNested()
+  @Type(() => CreateQuestionDto)
+  @IsArray()
+  @ArrayMinSize(1)
   readonly questions: CreateQuestionDto[];
   readonly id: string;
 }

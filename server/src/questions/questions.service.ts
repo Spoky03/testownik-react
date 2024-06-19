@@ -69,4 +69,30 @@ export class QuestionsService {
       .exec();
     return updatedQuestion;
   }
+  // async findQuestionsNotInSet(setId: string): Promise<Question[]> {
+  //   return this.questionModel.find({ _id: { $nin: setId } }).exec();
+  // }
+  // async findQuestionsNotInAnySet(): Promise<Question[]> {
+  //   return this.questionModel.find({ questionSet: { $exists: false } }).exec();
+  // }
+  async deleteQuestionsNotInAnySet(): Promise<{
+    deleted: number;
+    found: number;
+  }> {
+    const allQuestions = await this.questionModel.find().exec();
+    const allQuestionInSets = await this.questionsSetsModel
+      .find({}, 'questions')
+      .exec();
+    const questionsNotInAnySet = allQuestions.filter(
+      (question: Question) =>
+        !allQuestionInSets.some((set) => set.questions.includes(question.id)),
+    );
+    const deleted = await this.questionModel
+      .deleteMany({ _id: { $in: questionsNotInAnySet.map((q) => q._id) } })
+      .exec();
+    return {
+      deleted: deleted.deletedCount,
+      found: questionsNotInAnySet.length,
+    };
+  }
 }

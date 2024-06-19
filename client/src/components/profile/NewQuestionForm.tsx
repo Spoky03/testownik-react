@@ -161,7 +161,7 @@ export const NewQuestionForm = ({
                   }
                 >
                   <Input
-                    className="p-1 w-full dark:text-primary"
+                    className="p-1 w-full"
                     placeholder="answer"
                     value={answer.answer}
                     onChange={(e) =>

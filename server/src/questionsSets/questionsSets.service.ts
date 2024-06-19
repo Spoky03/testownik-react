@@ -2,7 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UsersService } from 'src/users/users.service';
-import { CreateQuestionSetDto } from 'src/dto/create-questionSet.dto';
+import {
+  CreateQuestionSetDto,
+  EditQuestionSetDto,
+} from 'src/dto/create-questionSet.dto';
 
 @Injectable()
 export class QuestionsSetsService {
@@ -11,12 +14,27 @@ export class QuestionsSetsService {
     private questionsSetsModel: Model<QuestionSet>,
     private usersService: UsersService,
   ) {}
-
+  // .populate([
+  //   {
+  //     path: 'questionSets',
+  //     populate: {
+  //       path: 'questions',
+  //     },
+  //   },
+  // ])
   async findAll(userId: string): Promise<any[]> {
     //find all questionssets private = false
     const sets = await this.questionsSetsModel
       .find({ private: false })
-      .populate('author', 'username')
+      .populate([
+        {
+          path: 'author',
+          select: 'username _id',
+        },
+        {
+          path: 'questions',
+        },
+      ])
       .exec();
     return sets.map((set) => ({
       ...set.toObject(), // Assuming set is a Mongoose document. Use set.toObject() if _doc doesn't work
@@ -42,6 +60,25 @@ export class QuestionsSetsService {
     );
     return createdQuestionSet.save();
   }
+  async edit(
+    editQuestionSetDto: EditQuestionSetDto,
+    id: string,
+    user: { sub: string },
+  ): Promise<QuestionSet> {
+    const foundUser = await this.usersService.findById(user.sub);
+    if (!foundUser) {
+      throw new Error('User not found');
+    }
+    editQuestionSetDto.author = foundUser._id.toString();
+    await this.questionsSetsModel.findByIdAndUpdate(id, editQuestionSetDto, {
+      new: true,
+    });
+    return this.questionsSetsModel
+      .findById(id)
+      .populate('author')
+      .populate('questions')
+      .exec(); // Execute the query
+  }
   async getOne(id: string): Promise<QuestionSet> {
     return this.questionsSetsModel.findById(id).exec();
   }
@@ -56,6 +93,9 @@ export class QuestionsSetsService {
     if (foundSet.author.toString() !== user.sub) {
       throw new Error('Not authorized');
     }
+    //also delete the set from the user's questionSets
+    await this.usersService.pullQuestionSet(user.sub, id);
+    // also remove questions from the set
     return this.questionsSetsModel.findByIdAndDelete(id);
   }
   async changePrivacy(id: string, user: any): Promise<boolean> {

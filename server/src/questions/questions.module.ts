@@ -8,5 +8,6 @@ import { QuestionsSetsModule } from 'src/questionsSets/questionsSets.module';
   imports: [DatabaseModule, QuestionsSetsModule],
   controllers: [QuestionsController],
   providers: [QuestionsService, ...questionProviders],
+  exports: [QuestionsService],
 })
 export class QuestionsModule {}

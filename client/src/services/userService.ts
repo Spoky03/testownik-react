@@ -31,10 +31,23 @@ const logout = () => {
   token = null;
 };
 
-const createQuestionSet = async (questionSetName: string) => {
+const createQuestionSet = async ({name, description} : {name: string, description: string}) => {
   const response = await axios.post(
     `${baseUrl}/sets`,
-    { name: questionSetName },
+    { name: name , description },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
+
+const editQuestionSet = async ({name, description, id} : {name: string, description: string, id: string}) => {
+  const response = await axios.put(
+    `${baseUrl}/sets/${id}`,
+    { name: name , description },
     {
       headers: {
         Authorization: token,
@@ -49,16 +62,6 @@ const createQuestions = async (questions: CreatedQuestion[], id: string) => {
   const response = await axios.post<Question>(
     `${baseUrl}/questions`,
     { questions, id },
-    { headers: { Authorization: token } }
-  );
-  return response.data;
-};
-const editQuestion = async (question: CreatedQuestion, id: string) => {
-  //change this too
-  // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
-  const response = await axios.put<Question>(
-    `${baseUrl}/questions/${id}`,
-     question ,
     { headers: { Authorization: token } }
   );
   return response.data;
@@ -163,7 +166,7 @@ export default {
   setToken,
   createQuestionSet,
   createQuestions,
-  editQuestion,
+  editQuestionSet,
   getAllUserData,
   deleteOneQuestion,
   deleteOneQuestionSet,

@@ -41,7 +41,7 @@ export const Answer = ({
         : "bg-error"
       : "opacity-0";
   return (
-    <div>
+    <div className="place-self-center">
       {state === "waiting" ? (
         <button
           className={
