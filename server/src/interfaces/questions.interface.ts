@@ -10,7 +10,10 @@ export interface Question extends Document {
   readonly answers: Answer[];
 }
 export interface Questions extends Document {
-  readonly author: string;
+  readonly author: {
+    username: string;
+    _id: Types.ObjectId;
+  };
   readonly questions: Question[];
   readonly name: string;
   readonly description: string;

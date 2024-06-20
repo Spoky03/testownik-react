@@ -1,5 +1,5 @@
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
-import { ObjectId } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
 export class SaveQuestionSetProgressDto {
   @IsString()
   @IsNotEmpty()
@@ -7,7 +7,7 @@ export class SaveQuestionSetProgressDto {
 
   @IsArray()
   @IsNotEmpty()
-  questions: Array<{ id: ObjectId; repeats: number }>;
+  questions: Array<{ id: Types.ObjectId; repeats: number }>;
 
   sidebar: {
     correctAnswers: number;

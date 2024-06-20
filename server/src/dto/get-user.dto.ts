@@ -8,32 +8,71 @@ import {
   IsBoolean,
   IsObject,
   IsArray,
+  IsNotEmptyObject,
 } from 'class-validator';
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
+class ProgressQuestion {
+  @IsNotEmpty()
+  @Expose()
+  @Transform(({ value }) => value.toString('hex'), {
+    toClassOnly: true,
+  })
+  readonly id: Types.ObjectId;
 
+  @Expose()
+  readonly repeats: number;
+
+  constructor(partial: Partial<ProgressQuestion>) {
+    Object.assign(this, partial);
+  }
+}
+class ProgressSidebar {
+  @Expose()
+  readonly correctAnswers: number;
+
+  @Expose()
+  readonly incorrectAnswers: number;
+
+  @Expose()
+  readonly totalQuestions: number;
+
+  @Expose()
+  readonly masteredQuestions: number;
+
+  @Expose()
+  readonly time: number;
+
+  constructor(partial: Partial<ProgressSidebar>) {
+    Object.assign(this, partial);
+  }
+}
 class Progress {
   @Expose()
+  @IsObject()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.toString('hex'), {
+    toClassOnly: true,
+  })
   readonly questionSetId: Types.ObjectId;
 
   @Expose()
-  readonly sidebar: {
-    correctAnswers: number;
-    incorrectAnswers: number;
-    totalQuestions: number;
-    masteredQuestions: number;
-    time: number;
-  };
+  @Type(() => ProgressSidebar)
+  @Transform(({ value }) => new ProgressSidebar(value), {
+    toClassOnly: true,
+  })
+  readonly sidebar: ProgressSidebar;
 
   @Expose()
-  // @Type(() => Object)
-  // @Transform(({ value }) => value.map((question) => new Object(question)), {
-  //   toClassOnly: true,
-  // })
-  readonly questions: {
-    id: ObjectId;
-    repeats: number;
-  }[];
+  @ValidateNested({ each: true })
+  @Type(() => ProgressQuestion)
+  @Transform(
+    ({ value }) => value.map((question) => new ProgressQuestion(question)),
+    {
+      toClassOnly: true,
+    },
+  )
+  readonly questions: ProgressQuestion[];
 
   constructor(partial: Partial<Progress>) {
     Object.assign(this, partial);
@@ -81,6 +120,22 @@ class GetQuestionDto {
     Object.assign(this, partial);
   }
 }
+class SetAuthorDto {
+  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  readonly username: string;
+
+  @Expose()
+  @Transform(({ value }) => value.toString('hex'), {
+    toClassOnly: true,
+  })
+  readonly _id: Types.ObjectId;
+
+  constructor(partial: Partial<SetAuthorDto>) {
+    Object.assign(this, partial);
+  }
+}
 class GetQuestionSetDto {
   @Expose()
   @IsObject()
@@ -89,6 +144,15 @@ class GetQuestionSetDto {
     toClassOnly: true,
   })
   readonly _id: Types.ObjectId;
+
+  @Expose()
+  @ValidateNested()
+  @Type(() => SetAuthorDto)
+  @Transform(({ value }) => new SetAuthorDto(value), {
+    toClassOnly: true,
+  })
+  readonly author: SetAuthorDto;
+
   @Expose()
   readonly name: string;
 
@@ -103,9 +167,10 @@ class GetQuestionSetDto {
   @Expose()
   readonly description: string;
 
-  @IsNotEmpty()
-  @IsArray()
   @Expose()
+  // @IsNotEmpty()
+  // @IsArray()
+  // @IsNotEmptyObject()
   @ValidateNested({ each: true })
   @Type(() => GetQuestionDto)
   @Transform(
@@ -136,10 +201,10 @@ export class GetUserDto {
   @Expose()
   @ValidateNested()
   @IsArray()
-  // @Type(() => Progress)
-  // @Transform(({ value }) => value.map((progress) => new Progress(progress)), {
-  //   toClassOnly: true,
-  // })
+  @Type(() => Progress)
+  @Transform(({ value }) => value.map((progress) => new Progress(progress)), {
+    toClassOnly: true,
+  })
   readonly progress: Progress[];
 
   @Expose()

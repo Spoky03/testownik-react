@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { GetUserDto } from 'src/dto/get-user.dto';
 import { plainToInstance } from 'class-transformer';
+import path from 'path';
 
 @Injectable()
 export class UsersService {
@@ -26,9 +27,15 @@ export class UsersService {
       .populate([
         {
           path: 'questionSets',
-          populate: {
-            path: 'questions',
-          },
+          populate: [
+            {
+              path: 'questions',
+            },
+            {
+              path: 'author',
+              select: 'username',
+            },
+          ],
         },
       ])
       .exec();
@@ -53,9 +60,11 @@ export class UsersService {
       .findOne({ username })
       .populate({
         path: 'questionSets',
-        populate: {
-          path: 'questions',
-        },
+        populate: [
+          {
+            path: 'questions',
+          },
+        ],
       })
       .exec();
   }

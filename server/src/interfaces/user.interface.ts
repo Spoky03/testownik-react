@@ -7,7 +7,7 @@ export interface Progress extends Document {
   findIndex(arg0: (p: any) => boolean): unknown;
   push(progress: SaveQuestionSetProgressDto): unknown;
   questionSetId: Types.ObjectId;
-  questions: { id: ObjectId; repeats: number }[];
+  questions: { id: Types.ObjectId; repeats: number }[];
   sidebar: {
     correctAnswers: number;
     incorrectAnswers: number;
