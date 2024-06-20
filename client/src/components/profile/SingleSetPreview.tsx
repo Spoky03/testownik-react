@@ -108,7 +108,7 @@ export const SingleSetPreview = () => {
                 )}
               </div>
               <div className="flex flex-col text-wrap w-1/6 gap-1">
-                <p className="text-xs opacity-45">number of questions: </p>
+                <p className="text-xs opacity-45">questions: </p>
                 <div className="">
                   <p className="">{singleSet.questions.length}</p>
                 </div>
@@ -116,7 +116,7 @@ export const SingleSetPreview = () => {
               <div className="flex flex-col text-wrap w-1/6 gap-1 items-center">
                 <p className="text-xs opacity-45">likes: </p>
                 <div className="flex">
-                  <p>x</p>
+                  <p>{singleSet.likes}</p>
                 </div>
               </div>
             </div>

@@ -2,12 +2,9 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 import { User, Progress } from 'src/interfaces/user.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
-import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 import * as bcrypt from 'bcrypt';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
-import { GetUserDto } from 'src/dto/get-user.dto';
-import { plainToInstance } from 'class-transformer';
-import path from 'path';
+import { UserEntity } from 'src/dto/get-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,7 +18,7 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
-  async findById(id: string): Promise<GetUserDto> {
+  async findById(id: string): Promise<UserEntity> {
     const user = await this.userModel
       .findById(id)
       .populate([
@@ -39,20 +36,57 @@ export class UsersService {
         },
       ])
       .exec();
-    if (!user || !user._id) {
+    if (!user) {
       throw new NotFoundException('User not found');
     }
-    const userDto: GetUserDto = {
+    const userDto: UserEntity = {
+      _id: new Types.ObjectId(user._id).toHexString(),
       username: user.username,
-      progress: user.progress,
-      bookmarks: user.bookmarks,
-      questionSets: user.questionSets,
-      _id: user._id as Types.ObjectId,
-      password: user.password,
+      bookmarks: user.bookmarks.map((bookmark) => {
+        return new Types.ObjectId(bookmark).toHexString();
+      }),
+      // progress: user.progress,
+      questionSets: user.questionSets.map((questionSet) => {
+        return {
+          _id: new Types.ObjectId(questionSet._id).toHexString(),
+          author: new UserEntity({
+            _id: new Types.ObjectId(questionSet.author._id).toHexString(),
+            username: questionSet.author.username,
+          }),
+          name: questionSet.name,
+          private: questionSet.private,
+          likes: questionSet.likes.length,
+          description: questionSet.description,
+          questions: questionSet.questions.map((question) => {
+            return {
+              _id: new Types.ObjectId(question._id).toHexString(),
+              question: question.question,
+              answers: question.answers,
+            };
+          }),
+        };
+      }),
+      progress: user.progress.map((progress) => {
+        return {
+          questionSetId: new Types.ObjectId(
+            progress.questionSetId,
+          ).toHexString(),
+          questions: progress.questions.map((question) => {
+            return {
+              id: new Types.ObjectId(question.id).toHexString(),
+              repeats: question.repeats,
+            };
+          }),
+          sidebar: {
+            correctAnswers: progress.sidebar.correctAnswers,
+            incorrectAnswers: progress.sidebar.incorrectAnswers,
+            totalQuestions: progress.sidebar.totalQuestions,
+            masteredQuestions: progress.sidebar.masteredQuestions,
+            time: progress.sidebar.time,
+          },
+        };
+      }),
     };
-    return plainToInstance(GetUserDto, userDto, {
-      excludeExtraneousValues: true,
-    });
     return userDto;
   }
   async findByName(username: string): Promise<User | undefined> {

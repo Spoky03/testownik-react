@@ -6,8 +6,8 @@ export interface Progress extends Document {
   splice(progressIndex: unknown, arg1: number): unknown;
   findIndex(arg0: (p: any) => boolean): unknown;
   push(progress: SaveQuestionSetProgressDto): unknown;
-  questionSetId: Types.ObjectId;
-  questions: { id: Types.ObjectId; repeats: number }[];
+  questionSetId: string;
+  questions: { id: string; repeats: number }[];
   sidebar: {
     correctAnswers: number;
     incorrectAnswers: number;
@@ -23,7 +23,7 @@ export interface UserReq {
   sub: string;
 }
 export interface User extends Document {
-  readonly id: Types.ObjectId;
+  readonly _id: string;
   username: string;
   password: string;
   questionSets: Questions[];

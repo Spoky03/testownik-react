@@ -3,11 +3,11 @@ import { ObjectId, Types } from 'mongoose';
 export class SaveQuestionSetProgressDto {
   @IsString()
   @IsNotEmpty()
-  questionSetId: ObjectId;
+  questionSetId: string;
 
   @IsArray()
   @IsNotEmpty()
-  questions: Array<{ id: Types.ObjectId; repeats: number }>;
+  questions: Array<{ id: string; repeats: number }>;
 
   sidebar: {
     correctAnswers: number;

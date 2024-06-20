@@ -16,7 +16,7 @@ import { CreateUserDto } from 'src/dto/create-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
-import { GetUserDto } from 'src/dto/get-user.dto';
+import { UserEntity } from 'src/dto/get-user.dto';
 import { Progress } from 'src/interfaces/user.interface';
 
 @Controller('api/users')
@@ -30,7 +30,7 @@ export class UsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard)
   @Get('me')
-  async findMe(@Request() req): Promise<GetUserDto> {
+  async findMe(@Request() req): Promise<UserEntity> {
     return this.usersService.findById(req.user.sub);
   }
   @Post()

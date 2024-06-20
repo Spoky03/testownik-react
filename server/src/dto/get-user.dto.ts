@@ -11,14 +11,14 @@ import {
   IsNotEmptyObject,
 } from 'class-validator';
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
-import { Types } from 'mongoose';
 class ProgressQuestion {
-  @IsNotEmpty()
   @Expose()
-  @Transform(({ value }) => value.toString('hex'), {
-    toClassOnly: true,
+  @IsString()
+  @Transform(({ value }) => value.toString(), {
+    toClassOnly: false,
+    toPlainOnly: true,
   })
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @Expose()
   readonly repeats: number;
@@ -47,20 +47,15 @@ class ProgressSidebar {
     Object.assign(this, partial);
   }
 }
-class Progress {
+class ProgressEntity {
   @Expose()
-  @IsObject()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.toString('hex'), {
-    toClassOnly: true,
+  @Transform(({ value }) => value.toString(), {
+    toClassOnly: false,
+    toPlainOnly: true,
   })
-  readonly questionSetId: Types.ObjectId;
+  questionSetId: string;
 
   @Expose()
-  @Type(() => ProgressSidebar)
-  @Transform(({ value }) => new ProgressSidebar(value), {
-    toClassOnly: true,
-  })
   readonly sidebar: ProgressSidebar;
 
   @Expose()
@@ -74,11 +69,15 @@ class Progress {
   )
   readonly questions: ProgressQuestion[];
 
-  constructor(partial: Partial<Progress>) {
+  constructor(partial: Partial<ProgressEntity>) {
     Object.assign(this, partial);
   }
 }
 class AnswerDto {
+  @IsNumber()
+  @Expose()
+  readonly id: number;
+
   @IsNotEmpty()
   @IsString()
   @Expose()
@@ -95,12 +94,12 @@ class AnswerDto {
 }
 class GetQuestionDto {
   @Expose()
-  @IsObject()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.toString('hex'), {
-    toClassOnly: true,
+  @IsString()
+  @Transform(({ value }) => value.toString(), {
+    toClassOnly: false,
+    toPlainOnly: true,
   })
-  readonly _id: Types.ObjectId;
+  readonly _id: string;
   @IsNotEmpty()
   @IsString()
   @Expose()
@@ -127,23 +126,24 @@ class SetAuthorDto {
   readonly username: string;
 
   @Expose()
-  @Transform(({ value }) => value.toString('hex'), {
-    toClassOnly: true,
+  @IsString()
+  @Transform(({ value }) => value.toString(), {
+    toClassOnly: false,
+    toPlainOnly: true,
   })
-  readonly _id: Types.ObjectId;
+  readonly _id: string;
 
   constructor(partial: Partial<SetAuthorDto>) {
     Object.assign(this, partial);
   }
 }
-class GetQuestionSetDto {
+export class QuestionSetEntity {
   @Expose()
-  @IsObject()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.toString('hex'), {
-    toClassOnly: true,
+  @Transform(({ value }) => value.toString(), {
+    toClassOnly: false,
+    toPlainOnly: true,
   })
-  readonly _id: Types.ObjectId;
+  readonly _id: string;
 
   @Expose()
   @ValidateNested()
@@ -159,18 +159,13 @@ class GetQuestionSetDto {
   @Expose()
   readonly private: boolean;
 
-  @Expose()
+  @Exclude()
   readonly likes: number;
 
-  @IsNotEmpty()
-  @IsString()
   @Expose()
   readonly description: string;
 
   @Expose()
-  // @IsNotEmpty()
-  // @IsArray()
-  // @IsNotEmptyObject()
   @ValidateNested({ each: true })
   @Type(() => GetQuestionDto)
   @Transform(
@@ -181,56 +176,24 @@ class GetQuestionSetDto {
   )
   readonly questions: GetQuestionDto[];
 
-  constructor(partial: Partial<GetQuestionSetDto>) {
+  constructor(partial: Partial<QuestionSetEntity>) {
     Object.assign(this, partial);
   }
 }
-export class GetUserDto {
-  @Expose()
-  @IsString()
-  @IsNotEmpty()
+export class UserEntity {
   readonly username: string;
+  readonly _id: string;
 
-  @Expose()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.map((bookmark) => bookmark.toString('hex')), {
-    toClassOnly: true,
-  })
+  @Exclude()
+  readonly password?: string;
+
   readonly bookmarks: string[];
 
-  @Expose()
-  @ValidateNested()
-  @IsArray()
-  @Type(() => Progress)
-  @Transform(({ value }) => value.map((progress) => new Progress(progress)), {
-    toClassOnly: true,
-  })
-  readonly progress: Progress[];
+  readonly questionSets: QuestionSetEntity[];
 
-  @Expose()
-  @ValidateNested()
-  @IsArray()
-  @Type(() => GetQuestionSetDto)
-  @Transform(
-    ({ value }) =>
-      value.map((questionSet) => new GetQuestionSetDto(questionSet)),
-    {
-      toClassOnly: true,
-    },
-  )
-  readonly questionSets: GetQuestionSetDto[];
+  readonly progress: ProgressEntity[];
 
-  @Expose()
-  readonly _id: Types.ObjectId;
-  @Exclude()
-  readonly password: string;
-  //   @Exclude()
-  //   password: string;
-
-  //   @Exclude()
-  //   readonly _id: Types.ObjectId;
-
-  constructor(partial: Partial<GetUserDto>) {
+  constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);
   }
 }

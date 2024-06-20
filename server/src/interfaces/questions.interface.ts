@@ -5,19 +5,19 @@ export interface Answer {
   correct: boolean;
 }
 export interface Question extends Document {
-  readonly _id: Types.ObjectId;
+  readonly _id: string;
   readonly question: string;
   readonly answers: Answer[];
 }
 export interface Questions extends Document {
   readonly author: {
     username: string;
-    _id: Types.ObjectId;
+    _id: string;
   };
   readonly questions: Question[];
   readonly name: string;
   readonly description: string;
-  readonly likes: number;
+  readonly likes: string[];
   readonly private: boolean;
-  readonly _id: Types.ObjectId;
+  readonly _id: string;
 }
