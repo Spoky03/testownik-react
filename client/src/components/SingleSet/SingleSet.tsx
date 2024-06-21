@@ -73,6 +73,7 @@ export const SingleSet = ({
     >
       <div className="flex w-full h-full pt-3 text-left">
         {type === SetListTypes.QUIZ && (
+          <button             onClick={handleBookmark} >
           <MarkIcon
             size={16}
             className={` transition-colors place-self-center duration-300 ${
@@ -80,8 +81,8 @@ export const SingleSet = ({
                 ? "text-amber-500 hover:text-amber-400"
                 : "hover:text-amber-200"
             }`}
-            onClick={handleBookmark}
           />
+          </button>
         )}
 
         <h1 className="">{set.name}</h1>
