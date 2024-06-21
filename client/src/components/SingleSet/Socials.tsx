@@ -44,6 +44,7 @@ export const Socials = ({
 }) => {
   const { bookmarks, user } = useSelector((state: RootState) => state.user);
   const [bookmarked, setBookmarked] = useState(false);
+  const loggedIn = !!user.sub;
   useEffect(() => {
     if (bookmarks.includes(set._id)) {
       setBookmarked(true);
@@ -57,6 +58,7 @@ export const Socials = ({
         <button
           className="rounded-full relative p-1 hover:bg-success hover:bg-opacity-30"
           onClick={(event) => handleLike(event, set._id)}
+          disabled={!loggedIn}
         >
           <LikeIcon
             size={18}
@@ -72,6 +74,7 @@ export const Socials = ({
               <button
                 className="rounded-full p-1 hover:bg-success hover:bg-opacity-30"
                 onClick={handleBookmark}
+                disabled={!loggedIn}
               >
                 <MarkIcon
                   size={18}

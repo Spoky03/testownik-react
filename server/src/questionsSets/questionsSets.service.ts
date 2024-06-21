@@ -22,7 +22,7 @@ export class QuestionsSetsService {
   //     },
   //   },
   // ])
-  async findAll(userId: string): Promise<any[]> {
+  async findAll(userId?: string): Promise<any[]> {
     //find all questionssets private = false
     const sets = await this.questionsSetsModel
       .find({ private: false })
@@ -36,6 +36,13 @@ export class QuestionsSetsService {
         },
       ])
       .exec();
+    if (!userId) {
+      return sets.map((set) => ({
+        ...set.toObject(), // Assuming set is a Mongoose document. Use set.toObject() if _doc doesn't work
+        likes: set.likes.length,
+        liked: false,
+      }));
+    }
     return sets.map((set) => ({
       ...set.toObject(), // Assuming set is a Mongoose document. Use set.toObject() if _doc doesn't work
       likes: set.likes.length,

@@ -32,7 +32,6 @@ export class QuestionsController {
   async findAll(): Promise<Question[]> {
     return this.questionsService.findAll();
   }
-  @UseGuards(AuthGuard)
   @Post()
   async appendQuestions(
     @Body() appendQuestionsDto: AppendQuestionsDto,
@@ -43,12 +42,10 @@ export class QuestionsController {
       req.user.sub,
     );
   }
-  @UseGuards(AuthGuard)
   @Delete(':id')
   async delete(@Param('id') id: string, @Request() req): Promise<Question> {
     return this.questionsService.deleteOne(id, req.user.sub);
   }
-  @UseGuards(AuthGuard)
   @Put(':id')
   async put(
     @Param('id') id: string,
