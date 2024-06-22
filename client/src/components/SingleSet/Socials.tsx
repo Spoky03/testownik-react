@@ -8,8 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "@/store";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useToast } from "../ui/use-toast";
 const CopyLinkButton = ({ id }: { id: string }) => {
@@ -73,7 +72,7 @@ export const Socials = ({
             <TooltipTrigger asChild>
               <button
                 className="rounded-full p-1 hover:bg-success hover:bg-opacity-30"
-                onClick={handleBookmark}
+                onClick={(event) => handleBookmark(event, set._id)}
                 disabled={!loggedIn}
               >
                 <MarkIcon

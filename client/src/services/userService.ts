@@ -43,7 +43,16 @@ const createQuestionSet = async ({name, description} : {name: string, descriptio
   );
   return response.data;
 };
-
+const editQuestion = async (question: CreatedQuestion, id: string) => {
+  //change this too
+  // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
+  const response = await axios.put<Question>(
+    `${baseUrl}/questions/${id}`,
+     question ,
+    { headers: { Authorization: token } }
+  );
+  return response.data;
+};
 const editQuestionSet = async ({name, description, id} : {name: string, description: string, id: string}) => {
   const response = await axios.put(
     `${baseUrl}/sets/${id}`,
@@ -167,6 +176,7 @@ export default {
   createQuestionSet,
   createQuestions,
   editQuestionSet,
+  editQuestion,
   getAllUserData,
   deleteOneQuestion,
   deleteOneQuestionSet,

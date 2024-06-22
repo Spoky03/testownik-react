@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { editQuestionSet } from "@/reducers/userReducer";
 import { AppDispatch } from "@/store";
-import { Label } from "@headlessui/react";
 const EditDescriptionInput = ({
   singleSet,
   editDescription,
@@ -27,7 +26,7 @@ const EditDescriptionInput = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   return (
-    <div className="flex flex">
+    <div className="flex">
       <Textarea
         value={description}
         className="m-2"

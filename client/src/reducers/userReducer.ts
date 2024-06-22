@@ -1,13 +1,7 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 import { AppDispatch } from "../store";
-import {
-  CreatedQuestion,
-  NotificationType,
-  Question,
-  QuestionSet,
-  UserState,
-} from "../types";
+import { CreatedQuestion, Question, QuestionSet, UserState } from "../types";
 import browserService from "@/services/browserService";
 
 const initialState: UserState = {
@@ -18,10 +12,6 @@ const initialState: UserState = {
     iat: 0,
     exp: 0,
     token: null,
-  },
-  notification: {
-    text: "",
-    type: "normal",
   },
   preferences: {
     initialRepetitions: 1,
@@ -34,26 +24,23 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    login: (state, action: PayloadAction<any>) => {
+    login: (state, action: PayloadAction<string>) => {
       state.user.token = action.payload;
-      state.notification.text = "Logged In";
     },
-    getUser: (state, action: PayloadAction<any>) => {
+    getUser: (state, action: PayloadAction<UserState["user"]>) => {
       state.user = action.payload;
     },
     logout: (state) => {
       state.user.token = null;
       state.user = initialState.user;
-      state.notification.text = "Logged Out";
     },
-    addSet: (state, action: PayloadAction<any>) => {
+    addSet: (state, action: PayloadAction<QuestionSet>) => {
       state.user?.questionSets.push(action.payload);
     },
-    notify: (state, action: PayloadAction<any>) => {
-      state.notification.text = action.payload.text;
-      state.notification.type = action.payload.type;
-    },
-    addQuestionToSet: (state, action: PayloadAction<any>) => {
+    addQuestionToSet: (
+      state,
+      action: PayloadAction<{ createdQuestion: Question; id: string }>
+    ) => {
       if (state.user) {
         const questionSet = state.user.questionSets.filter(
           (set: QuestionSet) => set._id === action.payload.id
@@ -63,17 +50,26 @@ const userSlice = createSlice({
         }
       }
     },
-    editSet: (state, action: PayloadAction<any>) => {
+    editSet: (state, action: PayloadAction<QuestionSet>) => {
       if (state.user) {
-        state.user.questionSets = state.user.questionSets.map((set: QuestionSet) => {
-          if (set._id === action.payload._id) {
-            set = action.payload;
+        state.user.questionSets = state.user.questionSets.map(
+          (set: QuestionSet) => {
+            if (set._id === action.payload._id) {
+              set = action.payload;
+            }
+            return set;
           }
-          return set;
-        });
+        );
       }
     },
-    editQuestionToSet: (state, action: PayloadAction<any>) => {
+    editQuestionToSet: (
+      state,
+      action: PayloadAction<{
+        createdQuestion: Question;
+        id: string;
+        setId: string;
+      }>
+    ) => {
       if (state.user) {
         const questionSet = state.user.questionSets.find(
           (set: QuestionSet) => set._id === action.payload.setId
@@ -102,10 +98,10 @@ const userSlice = createSlice({
         questionSets: merged,
       };
     },
-    setToken: (state, action: PayloadAction<any>) => {
+    setToken: (state, action: PayloadAction<string>) => {
       state.user.token = action.payload;
     },
-    deleteQuestion: (state, action: PayloadAction<any>) => {
+    deleteQuestion: (state, action: PayloadAction<string>) => {
       const questionSets = state.user?.questionSets;
       if (questionSets) {
         questionSets.forEach((set: QuestionSet) => {
@@ -115,15 +111,21 @@ const userSlice = createSlice({
         });
       }
     },
-    deleteSet: (state, action: PayloadAction<any>) => {
+    deleteSet: (state, action: PayloadAction<string>) => {
       state.user.questionSets = state?.user?.questionSets.filter(
         (set: QuestionSet) => set._id !== action.payload
       );
     },
-    initProgress: (state, action: PayloadAction<any>) => {
+    initProgress: (state, action: PayloadAction<UserState["progress"]>) => {
       state.progress = action.payload;
     },
-    resetProgress: (state, action: PayloadAction<any>) => {
+    resetProgress: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        resetedSetProgress: UserState["progress"][0];
+      }>
+    ) => {
       state.progress = state.progress.map((set) => {
         if (set.questionSetId === action.payload.id) {
           set = action.payload.resetedSetProgress;
@@ -131,10 +133,10 @@ const userSlice = createSlice({
         return set;
       });
     },
-    setBookmarks: (state, action: PayloadAction<any>) => {
+    setBookmarks: (state, action: PayloadAction<string[]>) => {
       state.bookmarks = action.payload;
     },
-    setForeignSets: (state, action: PayloadAction<any>) => {
+    setForeignSets: (state, action: PayloadAction<QuestionSet[]>) => {
       const foreign = action.payload.map((set: QuestionSet) => {
         set.foreign = true;
         return set;
@@ -143,7 +145,7 @@ const userSlice = createSlice({
       // Assuming each QuestionSet has a unique 'id' property
       const updatedQuestionSets = [...state.user.questionSets];
 
-      foreign.forEach((foreignSet : QuestionSet) => {
+      foreign.forEach((foreignSet: QuestionSet) => {
         const exists = updatedQuestionSets.some(
           (existingSet) => existingSet._id === foreignSet._id
         );
@@ -153,13 +155,18 @@ const userSlice = createSlice({
       });
       state.user.questionSets = updatedQuestionSets;
     },
-    switchPrivacy: (state, action: PayloadAction<{isPrivate: boolean, id: string}>) => {
-      const updatedQuestionSets = state.user.questionSets.map((set: QuestionSet) => {
-        if (set._id === action.payload.id) {
-          set.private = action.payload.isPrivate;
+    switchPrivacy: (
+      state,
+      action: PayloadAction<{ isPrivate: boolean; id: string }>
+    ) => {
+      const updatedQuestionSets = state.user.questionSets.map(
+        (set: QuestionSet) => {
+          if (set._id === action.payload.id) {
+            set.private = action.payload.isPrivate;
+          }
+          return set;
         }
-        return set;
-      });
+      );
       state.user.questionSets = updatedQuestionSets;
     },
   },
@@ -170,7 +177,6 @@ export const {
   logout,
   getUser,
   addSet,
-  notify,
   addQuestionToSet,
   editQuestionToSet,
   getSets,
@@ -182,7 +188,7 @@ export const {
   setBookmarks,
   setForeignSets,
   switchPrivacy,
-  editSet
+  editSet,
 } = userSlice.actions;
 
 export const loginUser = (username: string, password: string) => {
@@ -237,12 +243,19 @@ export const logoutUser = () => {
     }
   };
 };
-export const addQuestionSet = ({ name, description }: { name: string, description:string }) => {
+export const addQuestionSet = ({
+  name,
+  description,
+}: {
+  name: string;
+  description: string;
+}) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const createdQuestionSet = await userService.createQuestionSet(
-        { name , description}
-      );
+      const createdQuestionSet = await userService.createQuestionSet({
+        name,
+        description,
+      });
       dispatch(addSet(createdQuestionSet));
       return createdQuestionSet._id;
     } catch (error) {
@@ -250,12 +263,22 @@ export const addQuestionSet = ({ name, description }: { name: string, descriptio
     }
   };
 };
-export const editQuestionSet = ({ name, description, id }: { name: string, description:string, id: string }) => {
+export const editQuestionSet = ({
+  name,
+  description,
+  id,
+}: {
+  name: string;
+  description: string;
+  id: string;
+}) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const createdQuestionSet = await userService.editQuestionSet(
-        { name , description, id}
-      );
+      const createdQuestionSet = await userService.editQuestionSet({
+        name,
+        description,
+        id,
+      });
       dispatch(editSet(createdQuestionSet));
       return createdQuestionSet._id;
     } catch (error) {
@@ -270,10 +293,10 @@ export const createQuestion = (questions: CreatedQuestion[], id: string) => {
       createdQuestions.forEach((createdQuestion) => {
         dispatch(addQuestionToSet({ createdQuestion, id }));
       });
-      return { status: 200, message: "Questions added successfully"}
+      return { status: 200, message: "Questions added successfully" };
     } catch (error) {
       console.error(error);
-      return { status: 400, message: "There was a problem with your request."}
+      return { status: 400, message: "There was a problem with your request." };
     }
   };
 };
@@ -286,17 +309,11 @@ export const editQuestion = (
     try {
       const createdQuestion = await userService.editQuestion(question, id);
       dispatch(editQuestionToSet({ createdQuestion, id, setId }));
-      return { status: 200, message: "Question edited successfully"}
+      return { status: 200, message: "Question edited successfully" };
     } catch (error) {
       console.error(error);
-      return { status: 400, message: "There was a problem with your request."}
+      return { status: 400, message: "There was a problem with your request." };
     }
-  };
-};
-// confirm('kocham martyske')
-export const notifyUser = (notification: NotificationType) => {
-  return async (dispatch: AppDispatch) => {
-    dispatch(notify(notification));
   };
 };
 
@@ -377,11 +394,11 @@ export const switchPrivacyOfSet = (id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const isPrivate = await userService.switchPrivacy(id);
-      dispatch(switchPrivacy({id,isPrivate}));
+      dispatch(switchPrivacy({ id, isPrivate }));
     } catch (error) {
       console.error(error);
     }
   };
 };
- 
+
 export default userSlice.reducer;

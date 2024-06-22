@@ -10,7 +10,6 @@ import {
 import { AppDispatch, RootState } from "../../store";
 
 import { DeleteConfirmation } from "../DeleteConfirmation";
-import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { MdEdit as EditIcon } from "react-icons/md";
 import { MdPublicOff as PrivateIcon } from "react-icons/md";
 import { MdPublic as PublicIcon } from "react-icons/md";

@@ -10,7 +10,7 @@ export interface Answer {
   correct: boolean;
 }
 export interface Question {
-  forEach(arg0: (question: any) => void): unknown;
+  forEach(arg0: (question: string) => void): unknown;
   _id: string;
   question: string;
   answers: Answer[];
@@ -70,10 +70,6 @@ export enum SetListTypes {
   MODAL = "MODAL",
 }
 
-export interface NotificationType {
-  text: string;
-  type: string;
-}
 export interface User {
   username: string;
   sub: string;
@@ -84,7 +80,6 @@ export interface User {
 }
 export interface UserState {
   user: User;
-  notification: NotificationType;
   preferences: {
     initialRepetitions: number;
     maxRepetitions: number;
