@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
-import { Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { checkIfTokenIsValid } from "@/lib/utils";
+import { ShotThroughTitle } from "../ShotThroughTitile";
 export const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -27,7 +28,7 @@ export const Login = () => {
         variant === "success"
           ? "Logged in successfully!"
           : "There was a problem with your request.",
-      description: res.message
+      description: res.message,
     });
     setEffect(false);
   };
@@ -36,27 +37,38 @@ export const Login = () => {
   }
   return (
     <div className="flex p-10 flex-col justify-center h-2/3">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-5 p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-w-primary dark:bg-primary"
-      >
-      {reason && <p className="text-sm w-3/4 text-center bg-error rounded-md p-2 bg-opacity-30">{reason}</p>}
-        <Input
-          type="username"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="place-self-center w-100">
-          <Button type="submit" disabled={effect}>{effect ? 'Please wait' : 'Login'}</Button>
-        </div>
-      </form>
+      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-w-primary dark:bg-primary">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          {reason && (
+            <p className="text-sm w-3/4 text-center bg-error rounded-md p-2 bg-opacity-30 place-self-center">
+              {reason}
+            </p>
+          )}
+          <Input
+            type="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className="place-self-center w-100">
+            <Button type="submit" disabled={effect}>
+              {effect ? "Please wait" : "Login"}
+            </Button>
+          </div>
+        </form>
+        <ShotThroughTitle title={"or"} />
+        <Link to="/register">
+          <Button type="button" variant={"outline"}>
+            {"Register"}
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

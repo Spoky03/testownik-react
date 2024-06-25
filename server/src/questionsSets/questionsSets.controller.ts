@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Put,
-  UseGuards,
 } from '@nestjs/common';
 import { QuestionsSetsService } from './questionsSets.service';
 import {
@@ -39,7 +38,7 @@ export class QuestionsSetsController {
     @Body() editQuestionSetDto: EditQuestionSetDto,
     @Param('id') id: string,
     @Request() req,
-  ): Promise<QuestionSet> {
+  ): Promise<Omit<QuestionSet, 'likes'> & { likes: number }> {
     return this.questionsSetsService.edit(editQuestionSetDto, id, req.user);
   }
   @Get(':id')

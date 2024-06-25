@@ -13,6 +13,7 @@ import { Toaster } from "./components/ui/toaster";
 import { Login } from "./components/profile/Login";
 import { checkIfTokenIsValid } from "./lib/utils";
 import constants from "./constants";
+import { Register } from "./components/profile/Register";
 
 export const ThemeContext = createContext<boolean | null>(null);
 
@@ -49,6 +50,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login/>} />
+            <Route path="/register" element={<Register/>} />
             <Route element={<AuthenticatedRoute />}>
               <Route path="profile/*" element={<Profile />} />
               <Route path="dashboard/*" element={<QuizContainer />} />

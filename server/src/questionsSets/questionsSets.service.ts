@@ -71,7 +71,7 @@ export class QuestionsSetsService {
     editQuestionSetDto: EditQuestionSetDto,
     id: string,
     user: { sub: string },
-  ): Promise<QuestionSet> {
+  ): Promise<Omit<QuestionSet, 'likes'> & { likes: number }> {
     const foundUser = await this.usersService.findById(user.sub);
     if (!foundUser) {
       throw new Error('User not found');
@@ -80,11 +80,15 @@ export class QuestionsSetsService {
     await this.questionsSetsModel.findByIdAndUpdate(id, editQuestionSetDto, {
       new: true,
     });
-    return this.questionsSetsModel
+    const mySets = await this.questionsSetsModel
       .findById(id)
       .populate('author')
       .populate('questions')
-      .exec(); // Execute the query
+      .exec();
+    return {
+      ...mySets.toObject(),
+      likes: mySets.likes.length,
+    };
   }
   async getOne(id: string): Promise<QuestionSet> {
     return this.questionsSetsModel.findById(id).exec();
