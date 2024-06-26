@@ -26,6 +26,14 @@ const login = async (credentials: { username: string; password: string }) => {
     return error;
   }
 };
+const register = async (credentials: { username: string; email:string; password: string }) => {
+  try {
+    const response = await axios.post(`${authUrl}/register`, credentials);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
 const logout = () => {
   localStorage.removeItem("loggedUserToken");
   token = null;
@@ -171,6 +179,7 @@ const switchPrivacy = async (id: string) => {
 export default {
   getProfile,
   login,
+  register,
   logout,
   setToken,
   createQuestionSet,

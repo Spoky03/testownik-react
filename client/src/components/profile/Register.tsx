@@ -8,10 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Navigate, Link } from "react-router-dom";
 import { ShotThroughTitle } from "../ShotThroughTitile";
 import { useToast } from "../ui/use-toast";
+import { registerUser } from "@/reducers/userReducer";
 
 export const Register = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
     const [effect, setEffect] = useState<boolean>(false);
     const dispatch = useDispatch<AppDispatch>();
     const { toast } = useToast();
@@ -21,10 +23,9 @@ export const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setEffect(true);
-        // const res = await dispatch(registerUser(username, password));
+        const res = await dispatch(registerUser(username, email, password));
 
         console.log("Registering user...");
-        const res = { status: 200, message: "Registered successfully!" };
 
         const variant = res.status === 200 ? "success" : "destructive";
         toast({
@@ -58,8 +59,8 @@ export const Register = () => {
             <Input
                 type="email"
                 placeholder="example@mail.to"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
             />
             <Input
                 type="password"

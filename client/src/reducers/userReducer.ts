@@ -210,6 +210,25 @@ export const loginUser = (username: string, password: string) => {
     }
   };
 };
+export const registerUser = (username: string, email:string, password: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const res = await userService.register({ username, email, password });
+      if (res.access_token) {
+        userService.setToken(res.access_token);
+        browserService.setToken(res.access_token);
+        dispatch(login(res.access_token));
+        dispatch(fetchUser());
+        dispatch(fetchAllUserData());
+        return { ...res, status: 200 };
+      } else {
+        return res;
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
 export const reLoginUser = (token: string) => {
   return async (dispatch: AppDispatch) => {
     try {

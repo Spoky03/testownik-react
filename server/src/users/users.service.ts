@@ -1,10 +1,16 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 import { User, Progress } from 'src/interfaces/user.interface';
-import { CreateUserDto } from 'src/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UserEntity } from 'src/dto/get-user.dto';
+import { SignUpDto } from 'src/dto/signup-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -146,7 +152,13 @@ export class UsersService {
   //     ])
   //     .exec();
   // }
-  async create(user: CreateUserDto): Promise<User> {
+  async create(user: SignUpDto): Promise<User> {
+    const existingUser = await this.userModel.findOne({
+      username: user.username,
+    });
+    if (existingUser) {
+      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+    }
     const createdUser = new this.userModel(user);
     createdUser.password = await bcrypt.hash(user.password, 10);
     return createdUser.save();
