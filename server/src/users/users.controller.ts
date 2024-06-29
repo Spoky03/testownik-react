@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Post,
-  UseGuards,
   Request,
   Put,
   Param,
@@ -12,14 +11,11 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UserEntity } from 'src/dto/get-user.dto';
 import { Progress } from 'src/interfaces/user.interface';
 import { SignUpDto } from 'src/dto/signup-user.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { ErrorsInterceptor } from './decorators/error.interceptor';
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}

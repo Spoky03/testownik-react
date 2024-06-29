@@ -28,7 +28,7 @@ export const Login = () => {
         variant === "success"
           ? "Logged in successfully!"
           : "There was a problem with your request.",
-      description: res.message,
+      description: res.response.data.message || res.message,
     });
     setEffect(false);
   };

@@ -14,6 +14,7 @@ import { Login } from "./components/profile/Login";
 import { checkIfTokenIsValid } from "./lib/utils";
 import constants from "./constants";
 import { Register } from "./components/profile/Register";
+import { UserSettings } from "./components/profile/NewUserPrompt";
 
 export const ThemeContext = createContext<boolean | null>(null);
 
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
+            <Route path="/settings" element={<UserSettings/>} />
             <Route element={<AuthenticatedRoute />}>
               <Route path="profile/*" element={<Profile />} />
               <Route path="dashboard/*" element={<QuizContainer />} />

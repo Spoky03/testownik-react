@@ -7,3 +7,15 @@ I plan to deploy it soon.
 ![image info](https://stefangrzelec.top/public/images/testo3.png)
 ![image info](https://stefangrzelec.top/public/images/testo4.png)
 ![image info](https://stefangrzelec.top/public/images/testo5.png)
+
+
+### TODO
+- [x] prompt user for setting  and agreements after he registers
+- [ ] Change form to zod and shadcn (like in NewUserPrompt)
+- [ ] Add backend for new user settings
+- [ ] maybe change the path
+- [ ] forbid user from leaving
+- [ ] add these settings to  shema
+- [ ] delete those testing users
+
+- [ ] maybe admin panel???

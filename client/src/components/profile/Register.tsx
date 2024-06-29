@@ -11,6 +11,7 @@ import { useToast } from "../ui/use-toast";
 import { registerUser } from "@/reducers/userReducer";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
+import { Spinner } from "../Spinner";
 
 export const Register = () => {
   const [username, setUsername] = useState<string>("");
@@ -29,9 +30,14 @@ export const Register = () => {
     const res = await dispatch(registerUser(username, email, password));
     const variant = res.status === 200 ? "success" : "destructive";
     console.log(res);
-    const description = variant==="destructive" ? (Array.isArray(res.response.data.message)
-      ? res.response.data.message.map((msg: string) => <p key={msg}>{msg}</p>)
-      : res.response?.data.message) : "Please check your email for a verification link.";
+    const description =
+      variant === "destructive"
+        ? Array.isArray(res.response.data.message)
+          ? res.response.data.message.map((msg: string) => (
+              <p key={msg}>{msg}</p>
+            ))
+          : res.response?.data.message
+        : "Please check your email for a verification link.";
     toast({
       variant: variant,
       title:
@@ -54,9 +60,17 @@ export const Register = () => {
     });
     // when promise is resolved set effect to false
     setEffect(false);
+    if (res.status === 200) {
+      setTimeout(() => {
+        navigate("/settings");
+      }, 3000);
+    }
   };
   if (checkIfTokenIsValid(user.exp)) {
-    return <Navigate to={origin} />;
+    console.log(
+      "User is already logged in; checking token validity. Redirecting to origin."
+    );
+    return <Spinner className="place-self-center mt-20" />;
   }
   return (
     <div className="flex p-10 flex-col justify-center h-2/3">
