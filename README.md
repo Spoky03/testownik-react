@@ -13,7 +13,7 @@ I plan to deploy it soon.
 - [x] prompt user for setting  and agreements after he registers
 - [ ] Change form to zod and shadcn (like in NewUserPrompt)
 - [x] Add backend for new user settings
-- [ ] Modify frontened redirects for settings and add a way of entering them
+- [x] Modify frontened redirects for settings and add a way of entering them
 - [ ] maybe change the path
 - [ ] forbid user from leaving
 - [ ] add these settings to  shema

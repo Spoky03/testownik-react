@@ -46,7 +46,6 @@ export const UserSettings = () => {
   }, [form, settings, form.reset]);
 
   function handleSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     userService.saveSettings(data).then(() => {
       toast({
         title: "Settings saved",
