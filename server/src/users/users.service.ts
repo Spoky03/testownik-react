@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UserEntity } from 'src/dto/get-user.dto';
 import { SignUpDto } from 'src/dto/signup-user.dto';
+import { SettingsDto } from './dto/save-settings.dto';
 
 @Injectable()
 export class UsersService {
@@ -51,7 +52,7 @@ export class UsersService {
       bookmarks: user.bookmarks.map((bookmark) => {
         return new Types.ObjectId(bookmark).toHexString();
       }),
-      // progress: user.progress,
+      settings: user.settings,
       questionSets: user.questionSets.map((questionSet) => {
         return {
           _id: new Types.ObjectId(questionSet._id).toHexString(),
@@ -162,6 +163,13 @@ export class UsersService {
     const createdUser = new this.userModel(user);
     createdUser.password = await bcrypt.hash(user.password, 10);
     return createdUser.save();
+  }
+  async saveSettings(settings: SettingsDto, userId: string): Promise<User> {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { settings },
+      { new: true },
+    );
   }
   async saveProgress(progress: Progress, userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();

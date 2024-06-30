@@ -22,6 +22,7 @@ export interface UserReq {
   exp: number;
   sub: string;
 }
+
 export interface User extends Document {
   readonly _id: string;
   username: string;
@@ -29,4 +30,8 @@ export interface User extends Document {
   questionSets: Questions[];
   progress: Progress[];
   bookmarks: string[];
+  settings: {
+    agreements: boolean;
+    newsletter: boolean;
+  };
 }

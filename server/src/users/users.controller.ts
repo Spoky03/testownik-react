@@ -16,6 +16,7 @@ import { UserEntity } from 'src/dto/get-user.dto';
 import { Progress } from 'src/interfaces/user.interface';
 import { SignUpDto } from 'src/dto/signup-user.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { SettingsDto } from './dto/save-settings.dto';
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -33,6 +34,10 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: SignUpDto) {
     return this.usersService.create(createUserDto);
+  }
+  @Put('settings')
+  async saveSettings(@Body() settings: SettingsDto, @Request() req) {
+    return this.usersService.saveSettings(settings, req.user.sub);
   }
   @Put('progress')
   async save(@Body() Progress: Progress, @Request() req) {

@@ -3,6 +3,7 @@ import userService from "../services/userService";
 import { AppDispatch } from "../store";
 import { CreatedQuestion, Question, QuestionSet, UserState } from "../types";
 import browserService from "@/services/browserService";
+import { stat } from "fs";
 
 const initialState: UserState = {
   user: {
@@ -19,6 +20,10 @@ const initialState: UserState = {
   },
   progress: [],
   bookmarks: [],
+  settings: {
+    agreements: false,
+    newsletter: false,
+  },
 };
 const userSlice = createSlice({
   name: "user",
@@ -88,6 +93,7 @@ const userSlice = createSlice({
       state.preferences = action.payload.preferences;
       state.progress = action.payload.progress;
       state.bookmarks = action.payload.bookmarks;
+      state.settings = action.payload.settings;
       const foreign = action.payload.foreign.map((set: QuestionSet) => {
         set.foreign = true;
         return set;

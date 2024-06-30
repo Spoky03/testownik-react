@@ -105,7 +105,7 @@ export const SetList = () => {
   const usersSets = sets?.filter((set: QuestionSet) => !set.foreign);
   return (
     <div className="w-full">
-      <div className="flex place-items-center justify-between">
+      <div className="flex justify-between">
       <GoBackArrow />
         <div className="w-32 h-11">
           <Button type={'button'} onClick={() => setShowModal(true)} >{"Create new set"}</Button>

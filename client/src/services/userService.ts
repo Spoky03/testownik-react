@@ -34,6 +34,14 @@ const register = async (credentials: { username: string; email:string; password:
     return error;
   }
 };
+const saveSettings = async (settings: { agreements: boolean, newsletter: boolean }) => {
+  const response = await axios.put(`${baseUrl}/users/settings`, settings, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+}
 const logout = () => {
   localStorage.removeItem("loggedUserToken");
   token = null;
@@ -180,6 +188,7 @@ export default {
   getProfile,
   login,
   register,
+  saveSettings,
   logout,
   setToken,
   createQuestionSet,

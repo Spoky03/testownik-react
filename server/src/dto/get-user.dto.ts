@@ -189,6 +189,11 @@ export class UserEntity {
 
   readonly bookmarks: string[];
 
+  readonly settings: {
+    agreements: boolean;
+    newsletter: boolean;
+  };
+
   readonly questionSets: QuestionSetEntity[];
 
   readonly progress: ProgressEntity[];

@@ -12,10 +12,13 @@ I plan to deploy it soon.
 ### TODO
 - [x] prompt user for setting  and agreements after he registers
 - [ ] Change form to zod and shadcn (like in NewUserPrompt)
-- [ ] Add backend for new user settings
+- [x] Add backend for new user settings
+- [ ] Modify frontened redirects for settings and add a way of entering them
 - [ ] maybe change the path
 - [ ] forbid user from leaving
 - [ ] add these settings to  shema
 - [ ] delete those testing users
 
 - [ ] maybe admin panel???
+
+- [ ] in dashboard notify user that he can bookmark sets in browser to play them

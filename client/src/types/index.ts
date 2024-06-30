@@ -90,4 +90,8 @@ export interface UserState {
     sidebar: Sidebar;
   }[];
   bookmarks: string[];
+  settings: {
+    agreements: boolean;
+    newsletter: boolean;
+  };
   }

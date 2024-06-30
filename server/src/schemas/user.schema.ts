@@ -79,4 +79,14 @@ export const UserSchema = new mongoose.Schema({
       ref: 'QuestionSets',
     },
   ],
+  settings: {
+    agreements: {
+      type: Boolean,
+      default: false,
+    },
+    newsletter: {
+      type: Boolean,
+      default: false,
+    },
+  },
 });
