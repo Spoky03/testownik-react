@@ -51,7 +51,7 @@ export const SetList = () => {
   }, [setList, bookmarks, fetchedProgress, sort]);
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
-      <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-[900px]  ">
+      <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-6xl  ">
         <div className="flex justify-between">
           <GoBackArrow to={-1}/>
           <SortIcon

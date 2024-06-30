@@ -13,16 +13,16 @@ import { UserSettings } from "./NewUserPrompt";
 const NavLinks = ({ dispatch, className }: { dispatch: AppDispatch ; className: string}) => {
   return (
     <nav className={`flex flex-col justify-between space-y-2 grow-0 shrink-0 basis-32 w-full ${className}`}>
-      <div className="w-fit flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <Link
           to="sets"
-          className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full w-fit px-2 text-base sm:text-lg font-semibold"
+          className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full w-full px-2 text-base sm:text-lg font-semibold"
         >
           Edit My Sets
         </Link>
         <Link
           to="settings"
-          className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full w-fit px-2 text-base sm:text-lg font-semibold"
+          className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full w-full px-2 text-base sm:text-lg font-semibold"
         >
           Settings
         </Link>
@@ -61,7 +61,7 @@ const ProfileNav = ({
         </div>
       </div>
       <NavLinks className={bentoStyles + ' col-span-1  row-span-2'} dispatch={dispatch} />
-      <ul className={`grow grid col-span-3 row-span-1 gap-4 grid-cols-1 sm:grid-cols-2 min-h-96 place-items-center ${bentoStyles} `}>
+      <ul className={`grow grid col-span-3 row-span-1 gap-4 grid-cols-1 sm:grid-cols-2 min-h-48 place-items-center ${bentoStyles} `}>
         <li className="w-32 h-32 bg-success"></li>
         <li className="w-32 h-32 bg-success"></li>
       </ul>
@@ -78,7 +78,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
-      <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-[900px]">
+      <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-6xl">
         <Routes>
           <Route
             path=""

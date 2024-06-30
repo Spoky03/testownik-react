@@ -14,7 +14,6 @@ import { Login } from "./components/profile/Login";
 import { checkIfTokenIsValid } from "./lib/utils";
 import constants from "./constants";
 import { Register } from "./components/profile/Register";
-import { UserSettings } from "./components/profile/NewUserPrompt";
 
 export const ThemeContext = createContext<boolean | null>(null);
 
