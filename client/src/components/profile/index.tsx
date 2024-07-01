@@ -3,18 +3,20 @@ import { AppDispatch } from "../../store";
 import { logoutUser } from "../../reducers/userReducer";
 import { Button } from "../ui/button";
 import { SetList } from "./SetList";
-import { Routes, Route, Link, Outlet } from "react-router-dom";
+import { Routes, Route, Link, Outlet, useMatch, Params } from "react-router-dom";
 import { SingleSetPreview } from "./SingleSetPreview";
 import { RootState } from "../../types";
 import constants from "../../constants";
 import { GoBackArrow } from "../GoBackArrow";
 import { UserSettings } from "./Settings";
 
-const SingleLink = ({ to, children }: { to: string; children: string }) => {
+const SingleLink = ({ to, children, params}: { to: string; children: string; params: string | undefined }) => {
+  console.log(params);
+  const activeStyle = params === to ? "border" : "";
   return (
     <Link
       to={to}
-      className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full sm:w-full px-2 text-base sm:text-lg font-semibold h-fit"
+      className={`hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full sm:w-full px-2 text-base sm:text-lg font-semibold h-fit ${activeStyle}`}
     >
       {children}
     </Link>
@@ -27,14 +29,16 @@ const NavLinks = ({
   dispatch: AppDispatch;
   className: string;
 }) => {
+  const match = useMatch("/profile/*");
+  const params = match ? match.params["*"] : "";
   return (
     <nav
-      className={`flex sm:flex-col flex-wrap justify-between space-y-2 grow-0 shrink-0 basis-32 w-full overflow-x-hidden${className}`}
+      className={`flex sm:flex-col flex-wrap justify-between space-y-2 grow-0 shrink-0 basis-32 w-full overflow-x-hidden sm:min-h-96 ${className}`}
     >
       <div className="flex justify-between sm:flex-col gap-2 flex-wrap w-full">
-        <SingleLink to="">Profile</SingleLink>
-        <SingleLink to="sets">Sets</SingleLink>
-        <SingleLink to="settings">Settings</SingleLink>
+        <SingleLink to="" params={params}>Profile</SingleLink>
+        <SingleLink to="sets" params={params}>Sets</SingleLink>
+        <SingleLink to="settings" params={params}>Settings</SingleLink>
       </div>
       <button
         type="button"
@@ -54,7 +58,7 @@ const ProfileNav = ({
   dispatch: AppDispatch;
 }) => {
   const bentoStyles =
-    "bg-w-ternary dark:bg-ternary p-2 rounded-2xl border borer-faint shadow-sm";
+    " dark:bg-ternary bg-w-ternary p-2 rounded-2xl border borer-faint shadow-sm";
   return (
     <div
       className="grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 grid-flow-row gap-2"
@@ -107,8 +111,7 @@ const Profile = () => {
             }
           >
             <Route path="/settings" element={<UserSettings />} />
-          </Route>
-          <Route
+            <Route
             path="sets/*"
             element={
               <>
@@ -118,6 +121,7 @@ const Profile = () => {
           >
             <Route path="" element={<SetList />} />
             <Route path=":id" element={<SingleSetPreview />} />
+          </Route>
           </Route>
         </Routes>
       </div>

@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/tooltip";
 import { Modal } from "../Modal";
 import { Button } from "../ui/button";
-import { GoBackArrow } from "../GoBackArrow";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
@@ -42,7 +41,7 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
   return (
     <div className="flex">
       <div
-        className={`bg-w-ternary dark:bg-ternary font-bold rounded-md px-2 flex justify-between w-full ${
+        className={`bg-w-secondary dark:bg-secondary font-bold rounded-md px-2 flex justify-between w-full ${
           effect && "animate-explode"
         }`}
         onAnimationEnd={effectCleanup}
@@ -106,7 +105,6 @@ export const SetList = () => {
   return (
     <div className="w-full">
       <div className="flex justify-between">
-      <GoBackArrow />
         <div className="w-32 h-11">
           <Button type={'button'} onClick={() => setShowModal(true)} >{"Create new set"}</Button>
         </div>
