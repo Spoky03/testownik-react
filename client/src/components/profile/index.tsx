@@ -8,28 +8,37 @@ import { SingleSetPreview } from "./SingleSetPreview";
 import { RootState } from "../../types";
 import constants from "../../constants";
 import { GoBackArrow } from "../GoBackArrow";
-import { UserSettings } from "./NewUserPrompt";
+import { UserSettings } from "./Settings";
 
-const NavLinks = ({ dispatch, className }: { dispatch: AppDispatch ; className: string}) => {
+const SingleLink = ({ to, children }: { to: string; children: string }) => {
   return (
-    <nav className={`flex flex-col justify-between space-y-2 grow-0 shrink-0 basis-32 w-full ${className}`}>
-      <div className="flex flex-col gap-2 w-full">
-        <Link
-          to="sets"
-          className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full w-full px-2 text-base sm:text-lg font-semibold"
-        >
-          Edit My Sets
-        </Link>
-        <Link
-          to="settings"
-          className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full w-full px-2 text-base sm:text-lg font-semibold"
-        >
-          Settings
-        </Link>
+    <Link
+      to={to}
+      className="hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full sm:w-full px-2 text-base sm:text-lg font-semibold h-fit"
+    >
+      {children}
+    </Link>
+  );
+};
+const NavLinks = ({
+  dispatch,
+  className,
+}: {
+  dispatch: AppDispatch;
+  className: string;
+}) => {
+  return (
+    <nav
+      className={`flex sm:flex-col flex-wrap justify-between space-y-2 grow-0 shrink-0 basis-32 w-full overflow-x-hidden${className}`}
+    >
+      <div className="flex justify-between sm:flex-col gap-2 flex-wrap w-full">
+        <SingleLink to="">Profile</SingleLink>
+        <SingleLink to="sets">Sets</SingleLink>
+        <SingleLink to="settings">Settings</SingleLink>
       </div>
       <button
         type="button"
-        className="hover:bg-opacity-50 bg-error bg-opacity-0 transition-all rounded-full w-fit px-2 text-base sm:text-lg font-semibold"
+        className="hover:bg-opacity-50 bg-error bg-opacity-0 transition-all rounded-full w-fit px-2 text-base sm:text-lg font-semibold h-fit"
         onClick={() => dispatch(logoutUser())}
       >
         {constants.LABELS.LOGOUT}
@@ -44,29 +53,40 @@ const ProfileNav = ({
   username: string;
   dispatch: AppDispatch;
 }) => {
-  const bentoStyles = "bg-w-ternary dark:bg-ternary p-2 rounded-2xl border borer-faint shadow-sm"
+  const bentoStyles =
+    "bg-w-ternary dark:bg-ternary p-2 rounded-2xl border borer-faint shadow-sm";
   return (
-    <div className="grid grid-cols-4 grid-flow-row gap-2" style={{gridTemplateRows: 'auto 1fr 1fr'}}>
-      <div className="col-span-4 row-span-1 flex">
-        <div className="w-1/3">
+    <div
+      className="grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 grid-flow-row gap-2"
+    >
+      <div className="sm:col-span-4 flex h-fit">
+        <div className="w-1/3 h-fit">
           <GoBackArrow />
         </div>
-        <h3 className="font-bold text-center text-lg w-1/3">
+        <h3 className="font-bold text-center text-lg w-1/3  h-fit">
           Welcome {username}
         </h3>
-        <div className="w-1/3 flex justify-end">
+        <div className="w-1/3  h-fit flex justify-end">
           <Button type="button" onClick={() => dispatch(logoutUser())}>
             {constants.LABELS.LOGOUT}
           </Button>
         </div>
       </div>
-      <NavLinks className={bentoStyles + ' col-span-1  row-span-2'} dispatch={dispatch} />
-      <ul className={`grow grid col-span-3 row-span-1 gap-4 grid-cols-1 sm:grid-cols-2 min-h-48 place-items-center ${bentoStyles} `}>
+      <NavLinks
+        className={bentoStyles + "sm:col-span-1  sm:row-span-2"}
+        dispatch={dispatch}
+      />
+      {/* <ul
+        className={`grow grid col-span-3 row-span-1 gap-4 grid-cols-1 sm:grid-cols-2 min-h-48 place-items-center ${bentoStyles} `}
+      >
         <li className="w-32 h-32 bg-success"></li>
         <li className="w-32 h-32 bg-success"></li>
       </ul>
       <div className={`${bentoStyles} row-span-1 col-span-3`}>
-        03
+        3
+      </div> */}
+      <div className={`${bentoStyles} row-span-2 col-span-1 sm:row-span-2 sm:col-span-3 flex w-full flex-col`}>
+        <Outlet />
       </div>
     </div>
   );
@@ -85,9 +105,9 @@ const Profile = () => {
             element={
               <ProfileNav username={user.username} dispatch={dispatch} />
             }
-          />
-          <Route path="/settings" element={<UserSettings />} />
-
+          >
+            <Route path="/settings" element={<UserSettings />} />
+          </Route>
           <Route
             path="sets/*"
             element={

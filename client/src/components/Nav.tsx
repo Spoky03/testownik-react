@@ -28,7 +28,8 @@ export const ComboboxDropdownMenu = ({
   setDarkMode: React.Dispatch<React.SetStateAction<boolean | null>>;
 }) => {
   const [open, setOpen] = React.useState(false);
-  const darkMode = localStorage.getItem("darkMode") === "true" ? true : undefined;
+  const darkMode =
+    localStorage.getItem("darkMode") === "true" ? true : undefined;
   console.log(darkMode);
   return (
     <div className="flex w-full flex-col items-start justify-between rounded-md border sm:flex-row sm:items-center">
@@ -77,12 +78,19 @@ const ThemeButton = ({
   setDarkMode: React.Dispatch<React.SetStateAction<boolean | null>>;
 }) => {
   const darkMode = useContext(ThemeContext);
-  const toggleDarkMode = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const switchTheme = () => {
     setDarkMode((prev: boolean | null) => {
       localStorage.setItem("darkMode", JSON.stringify(!prev));
       return !prev;
     });
+  };
+  const toggleDarkMode = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!document.startViewTransition) {
+      switchTheme();
+    } else {
+      document.startViewTransition(switchTheme);
+    }
   };
   return (
     <div className="flex">
