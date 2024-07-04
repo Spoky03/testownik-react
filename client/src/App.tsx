@@ -42,6 +42,13 @@ const App = () => {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    const monospace = localStorage.getItem("monospace")
+    if (monospace) {
+      document.body.classList.add("monospace");
+    }
+  }
+  , []);
   return (
     <ThemeContext.Provider value={darkMode}>
       <main className={`w-full min-w-full h-screen overflow-x-hidden ${darkMode ? "dark" : ""}`}>

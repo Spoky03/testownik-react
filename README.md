@@ -18,6 +18,11 @@ I plan to deploy it soon.
 - [ ] forbid user from leaving
 - [ ] add these settings to  shema
 - [ ] delete those testing users
+- [ ] add deleting user backend
+- [ ] add update password backend
+- [ ] add something to display at profile
+- [ ] decide on where to put dashboard
+- [ ] font picker
 
 - [ ] maybe admin panel???
 

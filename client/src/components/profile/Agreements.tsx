@@ -63,7 +63,6 @@ export const UserAgreements = () => {
 
   return (
     <div className="flex flex-col p-5 ">
-      <h2 className="text-2xl font-bold m-1">Agreements</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}

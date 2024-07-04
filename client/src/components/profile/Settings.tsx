@@ -12,18 +12,25 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { useToast } from "../ui/use-toast";
+import { Separator } from "../ui/separator";
 import userService from "@/services/userService";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { UpdatePassword } from "./UpdatePassword";
 import { Modal } from "../Modal";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+
 const FormSchema = z.object({
   email: z.string().email(),
   username: z.string(),
 });
 export const UserSettings = () => {
   const { toast } = useToast();
+  const [isMonospace, setIsMonospace] = useState(
+    document.body.classList.contains("monospace")
+  );
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
   const user = useSelector((state: RootState) => state.user.user);
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -33,6 +40,15 @@ export const UserSettings = () => {
       username: "",
     },
   });
+  useEffect(() => {
+    if (isMonospace) {
+      document.body.classList.add("monospace");
+      localStorage.setItem("monospace", "true");
+    } else {
+      document.body.classList.remove("monospace");
+      localStorage.removeItem("monospace");
+    }
+  }, [isMonospace]);
   // Update form default values when settings change
   useEffect(() => {
     form.reset({
@@ -62,7 +78,6 @@ export const UserSettings = () => {
 
   return (
     <div className="flex flex-col p-5 gap-2 ">
-      <h2 className="text-2xl font-bold">Settings</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
@@ -98,17 +113,39 @@ export const UserSettings = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="place-self-end">
+          <Button type="submit" variant="outline" className="place-self-end">
             Save
           </Button>
         </form>
       </Form>
-      <Button
-        onClick={() => setOpenPasswordModal(true)}
-        className="max-w-fit  place-self-center text-wrap"
-      >
-        Change password
-      </Button>
+      <Separator />
+      <div className="p-2 border w-fit rounded-2xl flex gap-2 place-self-end">
+        <Button
+          onClick={() => setOpenPasswordModal(true)}
+          className="max-w-fit  place-self-start text-wrap"
+          variant="secondary"
+        >
+          Change password
+        </Button>
+        <Separator orientation="vertical" />
+        <Button
+          onClick={() => {
+            console.log("delete account");
+          }}
+          className="max-w-fit place-self-start text-wrap"
+          variant="destructive"
+        >
+          Delete account
+        </Button>
+      </div>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="font"
+          onClick={() => setIsMonospace(!isMonospace)}
+          checked={isMonospace}
+        />
+        <Label htmlFor="font">Monospace font</Label>
+      </div>
       <Modal
         open={openPasswordModal}
         setOpen={setOpenPasswordModal}
