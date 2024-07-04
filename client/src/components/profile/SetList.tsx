@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Modal } from "../Modal";
 import { Button } from "../ui/button";
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
@@ -105,18 +105,18 @@ export const SetList = () => {
   const usersSets = sets?.filter((set: QuestionSet) => !set.foreign);
   return (
     <div className="w-full">
-      <div className="flex justify-between">
-        <div className="w-32 h-11">
-          <Button type={"button"} onClick={() => setShowModal(true)}>
-            {"Create new set"}
-          </Button>
-        </div>
+      <div className="flex w-full place-content-end p-2">
+        <Button type={"button"} onClick={() => setShowModal(true)}>
+          {"Create new set"}
+        </Button>
       </div>
       <br />
-      {usersSets && usersSets.length>0 && (<div className="flex justify-between">
-        <h1 className="py-1">Your Sets</h1>
-        <h1 className="py-1">Questions</h1>
-      </div>)}
+      {usersSets && usersSets.length > 0 && (
+        <div className="flex justify-between">
+          <h1 className="py-1">Your Sets</h1>
+          <h1 className="py-1">Questions</h1>
+        </div>
+      )}
       <div className="flex gap-2 w-full flex-col">
         {usersSets && usersSets.length > 0 ? (
           usersSets.map((set: QuestionSet) => {
@@ -129,14 +129,13 @@ export const SetList = () => {
         ) : (
           <div>
             <Skeleton className="h-[50px] w-full rounded-md flex">
-            <a
-              className="text-center place-self-center w-full mt-5 font-semibold text-xl underline hover:cursor-pointer"
-              onClick={() => setShowModal(true)}
-            >
-              Add your first set
-            </a>
+              <a
+                className="text-center place-self-center w-full mt-5 font-semibold text-xl underline hover:cursor-pointer"
+                onClick={() => setShowModal(true)}
+              >
+                Add your first set
+              </a>
             </Skeleton>
-            
           </div>
         )}
       </div>

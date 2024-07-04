@@ -5,7 +5,6 @@ import { SetListTypes } from "../../types";
 import { MdOutlineSort as SortIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { ShotThroughTitle } from "../ShotThroughTitile";
-import { GoBackArrow } from "../GoBackArrow";
 export const SetList = () => {
   const [sort, setSort] = useState<boolean>(false);
   const [sortedSetList, setSortedSetList] = useState<QuestionSet[]>([]);
