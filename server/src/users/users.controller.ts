@@ -31,6 +31,13 @@ export class UsersController {
   async findMe(@Request() req): Promise<UserEntity> {
     return this.usersService.findById(req.user.sub);
   }
+  @Put('me')
+  async updateMe(
+    @Body() userData: { username: string; email: string },
+    @Request() req,
+  ) {
+    return this.usersService.updateMe(userData, req.user.sub);
+  }
   @Post()
   async create(@Body() createUserDto: SignUpDto) {
     return this.usersService.create(createUserDto);

@@ -72,6 +72,7 @@ export enum SetListTypes {
 
 export interface User {
   username: string;
+  email: string;
   sub: string;
   iat: number;
   exp: number;

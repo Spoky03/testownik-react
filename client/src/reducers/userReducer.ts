@@ -101,6 +101,7 @@ const userSlice = createSlice({
       const merged = [...action.payload.questionSets, ...foreign];
       state.user = {
         ...state.user,
+        email: action.payload.email,
         questionSets: merged,
       };
     },

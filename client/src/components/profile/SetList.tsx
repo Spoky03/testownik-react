@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Modal } from "../Modal";
 import { Button } from "../ui/button";
+import { Skeleton } from "@/components/ui/skeleton"
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
@@ -106,16 +107,18 @@ export const SetList = () => {
     <div className="w-full">
       <div className="flex justify-between">
         <div className="w-32 h-11">
-          <Button type={'button'} onClick={() => setShowModal(true)} >{"Create new set"}</Button>
+          <Button type={"button"} onClick={() => setShowModal(true)}>
+            {"Create new set"}
+          </Button>
         </div>
       </div>
       <br />
-      <div className="flex justify-between">
+      {usersSets && usersSets.length>0 && (<div className="flex justify-between">
         <h1 className="py-1">Your Sets</h1>
         <h1 className="py-1">Questions</h1>
-      </div>
+      </div>)}
       <div className="flex gap-2 w-full flex-col">
-        {usersSets ? (
+        {usersSets && usersSets.length > 0 ? (
           usersSets.map((set: QuestionSet) => {
             return (
               <div key={set._id} className="flex flex-col">
@@ -124,10 +127,24 @@ export const SetList = () => {
             );
           })
         ) : (
-          <h1>No sets</h1>
+          <div>
+            <Skeleton className="h-[50px] w-full rounded-md flex">
+            <a
+              className="text-center place-self-center w-full mt-5 font-semibold text-xl underline hover:cursor-pointer"
+              onClick={() => setShowModal(true)}
+            >
+              Add your first set
+            </a>
+            </Skeleton>
+            
+          </div>
         )}
       </div>
-      <Modal content={<NewSetForm setShowModal={setShowModal} />} open={showModal} setOpen={setShowModal} />
+      <Modal
+        content={<NewSetForm setShowModal={setShowModal} />}
+        open={showModal}
+        setOpen={setShowModal}
+      />
     </div>
   );
 };

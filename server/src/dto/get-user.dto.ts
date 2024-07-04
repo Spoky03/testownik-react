@@ -182,6 +182,7 @@ export class QuestionSetEntity {
 }
 export class UserEntity {
   readonly username: string;
+  readonly email: string;
   readonly _id: string;
 
   @Exclude()

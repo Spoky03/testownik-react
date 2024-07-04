@@ -8,6 +8,7 @@ import { SingleSetPreview } from "./SingleSetPreview";
 import { RootState } from "../../types";
 import constants from "../../constants";
 import { GoBackArrow } from "../GoBackArrow";
+import { UserAgreements } from "./Agreements";
 import { UserSettings } from "./Settings";
 
 const SingleLink = ({ to, children, params}: { to: string; children: string; params: string | undefined }) => {
@@ -39,6 +40,7 @@ const NavLinks = ({
         <SingleLink to="" params={params}>Profile</SingleLink>
         <SingleLink to="sets" params={params}>Sets</SingleLink>
         <SingleLink to="settings" params={params}>Settings</SingleLink>
+        <SingleLink to="agreements" params={params}>Agreements</SingleLink>
       </div>
       <button
         type="button"
@@ -71,9 +73,9 @@ const ProfileNav = ({
           Welcome {username}
         </h3>
         <div className="w-1/3  h-fit flex justify-end">
-          <Button type="button" onClick={() => dispatch(logoutUser())}>
+          {/* <Button type="button" onClick={() => dispatch(logoutUser())}>
             {constants.LABELS.LOGOUT}
-          </Button>
+          </Button> */}
         </div>
       </div>
       <NavLinks
@@ -110,6 +112,7 @@ const Profile = () => {
               <ProfileNav username={user.username} dispatch={dispatch} />
             }
           >
+            <Route path="/agreements" element={<UserAgreements />} />
             <Route path="/settings" element={<UserSettings />} />
             <Route
             path="sets/*"

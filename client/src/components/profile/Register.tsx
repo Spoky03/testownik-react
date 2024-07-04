@@ -61,7 +61,7 @@ export const Register = () => {
     // when promise is resolved set effect to false
     setEffect(false);
     if (res.status === 200) {
-      navigate("/profile/settings");
+      navigate("/profile/agreements");
     }
   };
   if (checkIfTokenIsValid(user.exp)) {

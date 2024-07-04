@@ -26,6 +26,7 @@ export interface UserReq {
 export interface User extends Document {
   readonly _id: string;
   username: string;
+  email: string;
   password: string;
   questionSets: Questions[];
   progress: Progress[];

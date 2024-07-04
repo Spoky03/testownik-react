@@ -49,6 +49,7 @@ export class UsersService {
     const userDto: UserEntity = {
       _id: new Types.ObjectId(user._id).toHexString(),
       username: user.username,
+      email: user.email,
       bookmarks: user.bookmarks.map((bookmark) => {
         return new Types.ObjectId(bookmark).toHexString();
       }),
@@ -95,6 +96,16 @@ export class UsersService {
       }),
     };
     return userDto;
+  }
+  async updateMe(
+    userData: { username: string; email: string },
+    userId: string,
+  ) {
+    //for now omit username
+    const userDataOmit = { email: userData.email };
+    return this.userModel
+      .findByIdAndUpdate(userId, userDataOmit, { new: true })
+      .exec();
   }
   async findByName(username: string): Promise<User | undefined> {
     return this.userModel

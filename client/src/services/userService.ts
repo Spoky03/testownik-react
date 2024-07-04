@@ -183,7 +183,18 @@ const switchPrivacy = async (id: string) => {
   });
   return response.data;
 }
-
+const saveUserData = async (data: UserData) => {
+  const response = await axios.put(`${baseUrl}/users/me`, data, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+};
+interface UserData {
+  username: string;
+  email: string;
+}
 export default {
   getProfile,
   login,
@@ -205,4 +216,5 @@ export default {
   deleteBookmark,
   getForeignSets,
   switchPrivacy,
+  saveUserData,
 };
