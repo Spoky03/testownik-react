@@ -60,7 +60,7 @@ const App = () => {
             <Route path="/register" element={<Register/>} />
             <Route element={<AuthenticatedRoute />}>
               <Route path="profile/*" element={<Profile />} />
-              <Route path="dashboard/*" element={<QuizContainer />} />
+              {/* <Route path="dashboard/*" element={<QuizContainer />} /> */}
             </Route>
             {/* Add more protected routes inside the AuthenticatedRoute */}
             <Route path="browser/*" element={<BrowserContainer />} />

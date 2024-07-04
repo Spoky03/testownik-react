@@ -19,17 +19,23 @@ export const SetList = () => {
     (state: RootState) => state.user.progress
   );
   //progress
-  const sortSetsByProgress = (setList: QuestionSet[], fetchedProgress: RootState['user']['progress']) => {
-  return setList
-    .map((set : QuestionSet) => {
-      const setProgress = fetchedProgress.find((p) => p.questionSetId === set._id);
-      const correctAnswers = setProgress?.questions.filter((q) => q.repeats === 0).length || 0;
-      const totalQuestions = set.questions.length;
-      const progressPercentage = (correctAnswers / totalQuestions) * 100;
-      return { set, progressPercentage };
-    })
-    .sort((a, b) => b.progressPercentage - a.progressPercentage)
-    .map((item) => item.set);
+  const sortSetsByProgress = (
+    setList: QuestionSet[],
+    fetchedProgress: RootState["user"]["progress"]
+  ) => {
+    return setList
+      .map((set: QuestionSet) => {
+        const setProgress = fetchedProgress.find(
+          (p) => p.questionSetId === set._id
+        );
+        const correctAnswers =
+          setProgress?.questions.filter((q) => q.repeats === 0).length || 0;
+        const totalQuestions = set.questions.length;
+        const progressPercentage = (correctAnswers / totalQuestions) * 100;
+        return { set, progressPercentage };
+      })
+      .sort((a, b) => b.progressPercentage - a.progressPercentage)
+      .map((item) => item.set);
   };
   const bookmarks = useSelector((state: RootState) => state.user.bookmarks);
   useEffect(() => {
@@ -50,54 +56,52 @@ export const SetList = () => {
     }
   }, [setList, bookmarks, fetchedProgress, sort]);
   return (
-    <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
-      <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-w-primary dark:bg-primary max-w-6xl  ">
-        <div className="flex justify-between">
-          <GoBackArrow to={-1}/>
-          <SortIcon
-            size={24}
-            onClick={() => setSort(!sort)}
-            className={`hover:text-success transition-color duration-300 ${
-              0 && "-scale-y-100"
-            }`}
-          />
-        </div>
-        <ShotThroughTitle title="Your Sets" />
+    <div className="flex flex-col p-5 rounded-xl w-full h-full max-w-6xl  ">
+      <div className="flex justify-between">
+        <div></div>
+        <SortIcon
+          size={24}
+          onClick={() => setSort(!sort)}
+          className={`hover:text-success transition-color duration-300 ${
+            0 && "-scale-y-100"
+          }`}
+        />
+      </div>
+      <ShotThroughTitle title="Your Sets" />
 
-        <div className="flex gap-2 w-full flex-col">
-          {sortedSetList ? (
-            sortedSetList.map((set: QuestionSet) => {
-              if (!set.questions.length) {
-                return (
-                  <div
-                    key={set._id}
-                    className={`bg-w-ternary dark:bg-ternary hover:outline font-bold rounded-md px-2 p-1 flex flex-col justify-cent w-full relative pl-5 opacity-50 pointer-events-none`}
-                  >
-                    {set.name}
-                  </div>
-                );
-              }
+      <div className="flex gap-2 w-full flex-col">
+        {sortedSetList ? (
+          sortedSetList.map((set: QuestionSet) => {
+            if (!set.questions.length) {
+              return (
+                <div
+                  key={set._id}
+                  className={`bg-w-ternary dark:bg-ternary hover:outline font-bold rounded-md px-2 p-1 flex flex-col justify-cent w-full relative pl-5 opacity-50 cursor-not-allowed`}
+                >
+                  {set.name}
+                </div>
+              );
+            }
+            return (
+              <SingleSet set={set} key={set._id} type={SetListTypes.QUIZ} />
+            );
+          })
+        ) : (
+          <h1>No sets</h1>
+        )}
+      </div>
+      {foreignAndNotBookmarked.length > 0 && (
+        <div className="flex flex-col">
+          <ShotThroughTitle title="Foreign Sets" />
+          <div className="flex gap-2 w-full flex-col">
+            {foreignAndNotBookmarked.map((set: QuestionSet) => {
               return (
                 <SingleSet set={set} key={set._id} type={SetListTypes.QUIZ} />
               );
-            })
-          ) : (
-            <h1>No sets</h1>
-          )}
-        </div>
-        {foreignAndNotBookmarked.length > 0 && (
-          <div className="flex flex-col">
-            <ShotThroughTitle title="Foreign Sets" />
-            <div className="flex gap-2 w-full flex-col">
-              {foreignAndNotBookmarked.map((set: QuestionSet) => {
-                return (
-                  <SingleSet set={set} key={set._id} type={SetListTypes.QUIZ} />
-                );
-              })}
-            </div>
+            })}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

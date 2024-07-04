@@ -75,6 +75,7 @@ type Titles = {
   sets: string;
   settings: string;
   agreements: string;
+  dashboard: string;
   [key: string]: string; // This is the index signature
 };
 const titles: Titles = {
@@ -82,6 +83,7 @@ const titles: Titles = {
   sets: "Sets",
   settings: "Settings",
   agreements: "Agreements",
+  dashboard: "Dashboard",
 };
 const ProfileNav = ({
   username,

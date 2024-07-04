@@ -130,8 +130,8 @@ const NavLinks = ({
   return (
     <>
       <div className="hidden sm:flex gap-2 sm:gap-5 mr-5">
-        <SingleLink to="/dashboard">Dashboard</SingleLink>
-        <SingleLink to="/browser">Browser</SingleLink>
+      <SingleLink to="/browser">Browser</SingleLink>
+        <SingleLink to="/profile/dashboard" className="hidden md:block">Dashboard</SingleLink>
         <SingleLink to="/profile">Profile</SingleLink>
         <ThemeButton setDarkMode={setDarkMode} />
       </div>
