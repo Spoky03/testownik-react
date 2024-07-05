@@ -119,6 +119,16 @@ export const UserSettings = () => {
         </form>
       </Form>
       <Separator />
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="font"
+          onClick={() => setIsMonospace(!isMonospace)}
+          checked={isMonospace}
+        />
+        <Label htmlFor="font">Monospace font</Label>
+      </div>
+
+      <Separator />
       <div className="p-2 border w-fit rounded-2xl flex gap-2 place-self-end">
         <Button
           onClick={() => setOpenPasswordModal(true)}
@@ -137,14 +147,6 @@ export const UserSettings = () => {
         >
           Delete account
         </Button>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="font"
-          onClick={() => setIsMonospace(!isMonospace)}
-          checked={isMonospace}
-        />
-        <Label htmlFor="font">Monospace font</Label>
       </div>
       <Modal
         open={openPasswordModal}

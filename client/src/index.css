@@ -4,7 +4,19 @@
 @tailwind utilities;
 
 @layer base {
+  html[data-theme='default'] {
+    --color-esther: 34, 39, 46;
+    --color-maximus: 45, 51, 59;
+    --color-linx: 55, 62, 71;
+  }
+
+  html[data-theme='neon'] {
+    --color-esther: 20, 61, 42;
+    --color-maximus: 13, 82, 66;
+    --color-linx: 20, 82, 11;
+  }
   body {
+    
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     @apply bg-w-ternary text-w-black overflow-x-hidden w-screen;
   }
