@@ -148,9 +148,6 @@ export const UserSettings = () => {
           Delete account
         </Button>
       </div>
-      <div className="h-16 w-16 bg-tester border-4">
-
-      </div>
       <Modal
         open={openPasswordModal}
         setOpen={setOpenPasswordModal}

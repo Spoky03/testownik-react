@@ -1,6 +1,6 @@
 import QuizContainer from "./components/quiz";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AppDispatch, RootState } from "./store";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { LandingPage } from "./components/landing";
@@ -13,7 +13,7 @@ import { Login } from "./components/profile/Login";
 import { checkIfTokenIsValid } from "./lib/utils";
 import constants from "./constants";
 import { Register } from "./components/profile/Register";
-import { getTheme, setTheme } from "./lib/theme";
+import { useTheme } from "./lib/theme";
 const AuthenticatedRoute = () => {
   const user = useSelector((state: RootState) => state.user.user); // Assuming state.user.user is null or undefined when not logged in
   const isLoggedIn =
@@ -33,7 +33,8 @@ const AuthenticatedRoute = () => {
 };
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const theme = getTheme();
+  const setTheme = useTheme();
+  const theme = useSelector((state: RootState) => state.theme.theme);
   useEffect(() => {
     const token = window.localStorage.getItem("loggedUserToken");
     if (token) {
@@ -44,12 +45,12 @@ const App = () => {
 
   useEffect(() => {
     setTheme(theme);
+    console.log("theme", theme);
     const monospace = localStorage.getItem("monospace");
     if (monospace) {
       document.body.classList.add("monospace");
     }
-  }, [theme]);
-  console.log('App theme', theme)
+  }, [setTheme, theme]);
   return (
     <>
       <main

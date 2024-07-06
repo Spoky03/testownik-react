@@ -1,9 +1,9 @@
+import { AppDispatch } from "@/store";
+import { useDispatch } from "react-redux";
+import { setTheme as setThemeDispatch } from "@/reducers/themeReducer";
 export function getTheme(): string {
-  console.log("getTheme")
   const saved = JSON.parse(localStorage.getItem("theme") || "null");
-  console.log("saved",saved)
   if (saved===null) {
-    console.log("saved is null")
     const media =
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -18,7 +18,14 @@ export function getTheme(): string {
   document.body.setAttribute("data-theme", saved);
   return saved;
 }
-export function setTheme(theme: string) {
-  localStorage.setItem("theme", JSON.stringify(theme));
-  document.body.setAttribute("data-theme", theme);
+export function useTheme() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const setTheme = (theme: string) => {
+    localStorage.setItem("theme", JSON.stringify(theme));
+    document.body.setAttribute("data-theme", theme);
+    dispatch(setThemeDispatch(theme));
+  };
+
+  return setTheme;
 }

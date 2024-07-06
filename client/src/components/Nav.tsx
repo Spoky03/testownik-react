@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { RxReader } from "react-icons/rx";
+import { WiMoonAltFirstQuarter } from "react-icons/wi";
 import { useEffect, useState } from "react";
 import constants from "@/constants";
 import * as React from "react";
@@ -21,10 +23,33 @@ import {
   // DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getTheme, setTheme } from "@/lib/theme";
+import { getTheme, setTheme, useTheme } from "@/lib/theme";
 
-export const ComboboxDropdownMenu = () => {
+const ThemeDropdown = ({
+  position,
+  setPosition,
+}: {
+  position: string;
+  setPosition: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  return (
+    <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+      <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="black">Black</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="oak">Oak</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  );
+};
+export const ComboboxDropdownMenu = ({
+  position,
+  setPosition,
+}: {
+  position: string;
+  setPosition: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <div className="flex w-full flex-col items-start justify-between rounded-md border sm:flex-row sm:items-center">
       <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -36,68 +61,58 @@ export const ComboboxDropdownMenu = () => {
         <DropdownMenuContent align="end" className="w-[200px]">
           <DropdownMenuLabel>Navigation</DropdownMenuLabel>
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Link to="/browser">Browser</Link>
+            <DropdownMenuItem onClick={() => navigate("/browser")}>
+              <p>Browser</p>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link to="/dashboard">Dashboard</Link>
+            <DropdownMenuItem onClick={() => navigate("/profile/dashboard")}>
+              <p>Dashboard</p>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link to="/profile">Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+            {/* <DropdownMenuItem onClick={() => navigate("/profile")}>
+              <p>Profile</p>
+            </DropdownMenuItem> */}
             <DropdownMenuSeparator />
           </DropdownMenuGroup>
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+
+          <ThemeDropdown position={position} setPosition={setPosition} />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
   );
 };
-
-const ThemeButton = () => {
-  const activeTheme = getTheme();
-  const [position, setPosition] = React.useState(activeTheme);
-
-  const switchTheme = () => {
-    setTheme(position);
+const ThemeIcon = ({ position }: { position: string }) => {
+  const style = "w-6 h-6";
+  switch (position) {
+    case "light":
+      return <MdLightMode className={style}/>;
+    case "dark":
+      return <MdDarkMode className={style}/>;
+    case "black":
+      return <WiMoonAltFirstQuarter className={style}/>;
+    case "oak":
+      return <RxReader className={style}/>;
+    default:
+      return <MdLightMode className={style}/>;
   }
-  const toggleDarkMode = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!document.startViewTransition) {
-      switchTheme();
-    } else {
-      document.startViewTransition(switchTheme);
-    } 
-  };
-  
-  useEffect(() => {
-    switchTheme();
-  }
-  , [position]);
+}
+const ThemeButton = ({
+  position,
+  setPosition,
+}: {
+  position: string;
+  setPosition: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   return (
-    <div className="flex">
-      {/* <div
-        role="button"
-        onClick={toggleDarkMode}
-        className="rounded-full  place-self-center hover:bg-opacity-30 hover:bg-success transition:colors duration-300 hover:animate-[spin_0.6s_ease-in-out]"
-      >
-        {darkMode ? <MdLightMode size={30} /> : <MdDarkMode size={30} />}
-      </div> */}
-      <DropdownMenu>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">Theme</Button>
+        <div role="button" className="rounded-full px-3 place-self-center hover:bg-success hover:bg-opacity-30 transition:colors duration-300 font-semibold">
+          <ThemeIcon position={position} />
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit">
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="black">Black</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
+        <ThemeDropdown position={position} setPosition={setPosition} />
       </DropdownMenuContent>
     </DropdownMenu>
-    </div>
-    
   );
 };
 const SingleLink = ({
@@ -119,6 +134,24 @@ const SingleLink = ({
   );
 };
 const NavLinks = () => {
+  const activeTheme = getTheme();
+  const [position, setPosition] = React.useState(activeTheme);
+  const setTheme = useTheme();
+  const switchTheme = () => {
+    setTheme(position);
+  };
+  const toggleDarkMode = () => {
+    const mobile = window.matchMedia("(max-width: 640px)").matches;
+    if (!document.startViewTransition || mobile) {
+      switchTheme();
+    } else {
+      document.startViewTransition(switchTheme);
+    }
+  };
+
+  useEffect(() => {
+    toggleDarkMode();
+  }, [position]);
   return (
     <>
       <div className="hidden sm:flex gap-2 sm:gap-5 mr-5">
@@ -127,10 +160,10 @@ const NavLinks = () => {
           Dashboard
         </SingleLink>
         <SingleLink to="/profile">Profile</SingleLink>
-        <ThemeButton/>
+        <ThemeButton position={position} setPosition={setPosition} />
       </div>
       <div className="block sm:hidden mr-5">
-        <ComboboxDropdownMenu/>
+        <ComboboxDropdownMenu position={position} setPosition={setPosition} />
       </div>
     </>
   );

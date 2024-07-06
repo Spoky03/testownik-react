@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import { createThemes } from "tw-colors";
 export default {
-  darkMode: ["class"],
+  darkMode: [],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -18,22 +18,22 @@ export default {
       },
     },
     extend: {
-      // colors: {
-      //   transparent: "transparent",
-      //   primary: "#1a1e22",
-      //   secondary: "#1d2025",
-      //   ternary: "#21252b",
-      //   white: "#ffffff",
-      //   error: "#f15151",
-      //   success: "#39b54a",
-      //   warning: "#ffdb3a",
-      //   faint: "#3f4146",
-      //   "w-primary": "#eeeeee",
-      //   "w-secondary": "#ffffff",
-      //   "w-ternary": "#fafafa",
-      //   "w-black": "#404040",
-      //   "w-faint": "#d6d6d6",
-      // },
+      colors: {
+        // transparent: "transparent",
+        // primary: "#1a1e22",
+        // secondary: "#1d2025",
+        // ternary: "#21252b",
+        // white: "#ffffff",
+        // error: "#f15151",
+        // success: "#39b54a",
+        // warning: "#ffdb3a",
+        // faint: "#3f4146",
+        // "w-primary": "#eeeeee",
+        // "w-secondary": "#ffffff",
+        // "w-ternary": "#fafafa",
+        // "w-black": "#404040",
+        // "w-faint": "#d6d6d6",
+      },
       keyframes: {
         wiggle: {
           "0%, 100%": { transform: "rotate(-3deg)" },
@@ -92,7 +92,6 @@ export default {
         success: "#39b54a",
         warning: "#ffdb3a",
         faint: "#3f4146",
-        tester: "#f00",
       },
       light: {
         primary: "#eeeeee",
@@ -105,7 +104,6 @@ export default {
         success: "#39b54a",
         warning: "#ffdb3a",
         faint: "#d6d6d6",
-        tester: "#0ff",
       },
       black: {
         primary: "#000",
@@ -117,7 +115,18 @@ export default {
         success: "#39b54a",
         warning: "#ffdb3a",
         faint: "#3f4146",
-        tester: "#f0f",
+      },
+      oak: {
+        primary: "#AF8260",
+        secondary: "#803D3B",
+        ternary: "#E4C59E",
+        white: "#FCF8F3",
+        black: "#322C2B",
+        text: "#000",
+        error: "#f15151",
+        success: "#39b54a",
+        warning: "#ffdb3a",
+        faint: "#3f4146",
       },
     }),
   ],
