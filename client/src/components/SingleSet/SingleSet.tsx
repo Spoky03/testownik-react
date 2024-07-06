@@ -16,11 +16,12 @@ const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
   return (
     <Link
       to={`/dashboard/${id}`}
-      className={`py-3 mr-3  place-self-center ${styles}`}
+      className={` mt-2 px-3 py-2 mr-3  place-self-center ${styles} flex border-success border rounded-2xl hover:bg-success hover:bg-opacity-30 transition-colors`}
       onClick={(event) => event.stopPropagation()}
     >
+      <span className="text-success font-medium mr-2">Start Quiz</span>
       <PlayIcon
-        className="text-success opacity-80 hover:opacity-100"
+        className="text-success opacity-100"
         size={24}
       />
     </Link>
@@ -69,7 +70,7 @@ export const SingleSet = ({
   }, [bookmarks, set._id]);
   return (
     <div
-      className={`border cursor-pointer bg-ternary hover:outline font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative`}
+      className={`border border-faint bg-ternary  font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative ${type!==SetListTypes.QUIZ ? "cursor-pointer hover:outline" : "hover:border-text"}`}
     >
       <div className="flex w-full h-full pt-3 text-left">
         {type === SetListTypes.QUIZ && (

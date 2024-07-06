@@ -16,13 +16,14 @@ I plan to deploy it soon.
 - [x] Modify frontened redirects for settings and add a way of entering them
 - [ ] maybe change the path
 - [ ] forbid user from leaving
-- [ ] add these settings to  shema
+- [x] add these settings to shema
 - [ ] delete those testing users
 - [ ] add deleting user backend
 - [ ] add update password backend
 - [ ] add something to display at profile
-- [ ] decide on where to put dashboard
-- [ ] font picker
+- [x] decide on where to put dashboard
+- [x] font picker
+- [ ] be aware of theme
 
 - [ ] maybe admin panel???
 
