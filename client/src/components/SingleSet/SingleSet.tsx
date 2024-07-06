@@ -69,7 +69,7 @@ export const SingleSet = ({
   }, [bookmarks, set._id]);
   return (
     <div
-      className={`border bg-w-ternary cursor-pointer dark:bg-ternary hover:outline font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative`}
+      className={`border cursor-pointer bg-ternary hover:outline font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative`}
     >
       <div className="flex w-full h-full pt-3 text-left">
         {type === SetListTypes.QUIZ && (

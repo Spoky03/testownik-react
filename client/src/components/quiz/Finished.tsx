@@ -21,7 +21,7 @@ export const Finished = ({
         cancelAction={() => navigate("/")}
         cancelText="Okay!"
         content={
-          <div className="flex flex-col gap-5 items-center dark:bg-ternary bg-w-ternary p-5">
+          <div className="flex flex-col gap-5 items-center bg-ternary p-5">
             <div className="text-success text-center font-bold">Finished</div>
             <BeerIcon size={64} />
             <p className="text-center">

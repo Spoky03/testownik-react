@@ -10,7 +10,7 @@ import { BrowserNav } from "./BrowserNav";
 import constants from "@/constants";
 const SetDescription = ({ set }: { set: QuestionSet }) => {
   return (
-    <div className="p-3 shadow-x dark:bg-ternary">
+    <div className="p-3 shadow-x bg-ternary">
       <SingleSet set={set} type={SetListTypes.MODAL} />
     </div>
   );

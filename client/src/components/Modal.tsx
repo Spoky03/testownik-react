@@ -15,11 +15,11 @@ interface ModalProps {
   cancelAction?: () => void;
 }
 export const Modal = (props: ModalProps) => {
-  const darkMode = localStorage.getItem("darkMode") === "true";
+  const darkMode = localStorage.getItem("theme") === "true";
   const defaultCancelAction = () => props.setOpen(false);
   return (
     <Transition show={props.open}>
-      <Dialog className={`relative z-10 ${darkMode ? "dark" : ""}`} onClose={props.setOpen}>
+      <Dialog className={`relative z-10 ${darkMode ? "dark text-white" : ""}`} onClose={props.setOpen}>
         <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -45,7 +45,7 @@ export const Modal = (props: ModalProps) => {
                 <div className="">
                       {props.content}
                 </div>
-                {props.cancelText && (<div className="dark:bg-faint bg-w-ternary px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                {props.cancelText && (<div className="bg-ternary px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   {props.mainButton}
                   <div className="w-16 h-10">
                     <Button onClick={props.cancelAction || defaultCancelAction }  type="button" >{props.cancelText || "Cancel"}</Button>

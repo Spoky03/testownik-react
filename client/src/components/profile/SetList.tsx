@@ -42,7 +42,7 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
   return (
     <div className="flex">
       <div
-        className={`bg-w-secondary dark:bg-secondary font-bold rounded-md px-2 flex justify-between w-full ${
+        className={`bg-secondary font-bold rounded-md px-2 flex justify-between w-full ${
           effect && "animate-explode"
         }`}
         onAnimationEnd={effectCleanup}

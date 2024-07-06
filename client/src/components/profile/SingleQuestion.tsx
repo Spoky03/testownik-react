@@ -19,7 +19,7 @@ export const SingleQuestion = ({ question }: { question: Question }) => {
     return (
       <>
         {editMode === false ? (
-          <div className="bg-w-ternary dark:bg-ternary rounded-md px-2 py-1 mb-3 flex justify-between flex-col">
+          <div className="bg-ternary rounded-md px-2 py-1 mb-3 flex justify-between flex-col">
             <div className="flex justify-between p-2">
               <h1 className="">{question.question}</h1>
               <div></div>
@@ -39,7 +39,7 @@ export const SingleQuestion = ({ question }: { question: Question }) => {
                   <div
                     key={answer.id}
                     className={
-                      "flex p-1 justify-between border-2 rounded-md bg-w-secondary dark:bg-secondary " +
+                      "flex p-1 justify-between border-2 rounded-md bg-secondary " +
                       (answer.correct ? "border-success" : "border-error")
                     }
                   >

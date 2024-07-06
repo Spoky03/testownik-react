@@ -101,7 +101,7 @@ export const NewQuestionForm = ({
     setAnswers([{ answer: "", correct: false, id: 0 }]);
   };
   return (
-    <div className="bg-w-ternary dark:bg-ternary rounded-md px-2 py-1 flex justify-between flex-col mb-3">
+    <div className="bg-ternary rounded-md px-2 py-1 flex justify-between flex-col mb-3">
       <form onSubmit={handleSubmit}>
         <div className="flex justify-between">
           <div className="grid w-full gap-1.5 p-2">
@@ -156,7 +156,7 @@ export const NewQuestionForm = ({
                 <div
                   key={answer.id}
                   className={
-                    "flex p-1 justify-between border-2 rounded-md bg-w-secondary dark:bg-secondary relative " +
+                    "flex p-1 justify-between border-2 rounded-md bg-secondary relative " +
                     (answer.correct ? "border-success" : "border-error")
                   }
                 >

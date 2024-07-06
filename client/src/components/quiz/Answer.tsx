@@ -17,18 +17,20 @@ export const Answer = ({
   const state = useSelector((state: RootState) => state.quiz.state);
   const isIncluded = selected && selected.includes(answer.id);
 
+  const blackTheme = localStorage.getItem("theme") === "black";
+
   const color =
     state === "waiting"
       ? isIncluded
         ? "border-faint"
-        : "dark:border-secondary border-w-secondary"
+        : "border-secondary"
       : isIncluded
       ? answer.correct
         ? "border-success"
         : "border-error"
       : answer.correct
       ? "border-warning"
-      : "dark:border-secondary border-w-secondary";
+      : "border-secondary";
 
   const tickStyles =
     state === "waiting"
@@ -41,11 +43,11 @@ export const Answer = ({
         : "bg-error"
       : "opacity-0";
   return (
-    <div className="place-self-center">
+    <div className={`place-self-center hover:scale-95 transition-all ${blackTheme ? 'border border-white' : ''}`}>
       {state === "waiting" ? (
         <button
           className={
-            `bg-w-secondary dark:bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg hover:scale-95 transition-all duration-300 ease-in-out w-52 sm:w-72 grow border-2 ` +
+            `bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg  transition-all duration-300 ease-in-out w-52 sm:w-72 grow border-2 ` +
             color
           }
           onClick={() => handleSelect(answer.id)}
@@ -57,13 +59,13 @@ export const Answer = ({
               tickStyles
             }
           ></span>
-          <span className="absolute right-2 top-2 dark:bg-secondary bg-w-secondary h-8 w-8 rotate-45"></span>
-          <CheckIcon className="absolute right-0 w-3 h-4 top-0 dark:text-secondary text-white" />
+          <span className="absolute right-2 top-2 bg-secondary h-8 w-8 rotate-45"></span>
+          <CheckIcon className="absolute right-0 w-3 h-4 top-0 text-secondary" />
         </button>
       ) : (
         <div
           className={
-            `bg-w-secondary dark:bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg hover:scale-95 transition-all duration-300 ease-in-out w-52 sm:w-72  grow border-2 ` +
+            `bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg  transition-all duration-300 ease-in-out w-52 sm:w-72  grow border-2 ` +
             color
           }
         >
@@ -74,8 +76,8 @@ export const Answer = ({
               tickStyles
             }
           ></span>
-          <span className="absolute right-2 top-2 dark:bg-secondary bg-w-secondary h-8 w-8 rotate-45"></span>
-          <CheckIcon className="absolute right-0 w-3 h-4 top-0 dark:text-secondary text-white" />
+          <span className="absolute right-2 top-2 bg-secondary h-8 w-8 rotate-45"></span>
+          <CheckIcon className="absolute right-0 w-3 h-4 top-0 text-secondary " />
         </div>
       )}
     </div>

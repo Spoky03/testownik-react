@@ -75,7 +75,7 @@ export const SetList = () => {
               return (
                 <div
                   key={set._id}
-                  className={`bg-w-ternary dark:bg-ternary hover:outline font-bold rounded-md px-2 p-1 flex flex-col justify-cent w-full relative pl-5 opacity-50 cursor-not-allowed`}
+                  className={`bg-ternary hover:outline font-bold rounded-md px-2 p-1 flex flex-col justify-cent w-full relative pl-5 opacity-50 cursor-not-allowed`}
                 >
                   {set.name}
                 </div>

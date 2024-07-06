@@ -12,7 +12,7 @@ export const Settings = () => {
     dispatch(updateQuizPreferences(newPreferences));
   };
   return (
-    <div className="flex flex-col gap-4 place-items-center place-self-center shadow-xl dark:bg-secondary bg-w-secondary px-4 pb-4 pt-5 sm:p-6 sm:pb-10">
+    <div className="flex flex-col gap-4 place-items-center place-self-center shadow-xl bg-secondary px-4 pb-4 pt-5 sm:p-6 sm:pb-10">
       <div className="text-success text-center">Ustawienia</div>
       <div className="flex flex-col gap-1 place-items-center">
         <label htmlFor="initialRepetitions" className="font-semibold">

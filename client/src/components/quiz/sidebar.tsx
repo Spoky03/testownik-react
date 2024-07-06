@@ -78,11 +78,11 @@ export const Sidebar = () => {
         setOpen={setOpenSettings}
         content={<Settings />}
       />
-      <aside className="dark:bg-primary bg-w-primary min-w-36 flex flex-col place-items-center h-full gap-5 text-center">
+      <aside className="bg-primary min-w-36 flex flex-col place-items-center h-full gap-5 text-center">
         <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">{constants.LABELS.SIDEBAR.TOTAL_ANSWERS}</h2>
-            <div className="w-full flex max-w-64 rounded-full h-1.5 bg-w-faint dark:bg-faint">
+            <div className="w-full flex max-w-64 rounded-full h-1.5 bg-faint">
               <div
                 className="bg-success h-1.5 rounded-l-full transition-all"
                 style={{
@@ -112,7 +112,7 @@ export const Sidebar = () => {
 
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">{constants.LABELS.SIDEBAR.MASTERED_ANSWERS}</h2>
-            <div className="w-full max-w-64 rounded-full h-1.5 bg-w-faint dark:bg-faint">
+            <div className="w-full max-w-64 rounded-full h-1.5 bg-faint">
               <div
                 className="bg-success h-1.5 rounded-full transition-all"
                 style={{

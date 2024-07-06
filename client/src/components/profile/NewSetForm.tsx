@@ -49,7 +49,7 @@ export const NewSetForm = ({
     setDescription("");
   };
   return (
-    <div className="flex flex-col place-content-center gap-5 dark:bg-ternary bg-w-ternary p-8">
+    <div className="flex flex-col place-content-center gap-5 bg-ternary p-8">
       <h1 className="place-self-center font-semibold">Create new set</h1>
       <form
         className="place-self-center flex gap-1 justify-center flex-col"
