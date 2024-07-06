@@ -72,7 +72,7 @@ export const UserSettings = () => {
         <div className="w-1/3 flex justify-end">
         </div>
       </div>
-      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-w-primary dark:bg-primary">
+      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}

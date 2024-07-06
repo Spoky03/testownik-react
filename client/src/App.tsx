@@ -5,7 +5,6 @@ import { AppDispatch, RootState } from "./store";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { LandingPage } from "./components/landing";
 import Profile from "./components/profile";
-import { createContext } from "react";
 import { Navbar } from "./components/Nav";
 import { fetchAllUserData, reLoginUser } from "./reducers/userReducer";
 import BrowserContainer from "./components/browser";
@@ -14,8 +13,7 @@ import { Login } from "./components/profile/Login";
 import { checkIfTokenIsValid } from "./lib/utils";
 import constants from "./constants";
 import { Register } from "./components/profile/Register";
-export const ThemeContext = createContext<boolean | null>(null);
-
+import { getTheme, setTheme } from "./lib/theme";
 const AuthenticatedRoute = () => {
   const user = useSelector((state: RootState) => state.user.user); // Assuming state.user.user is null or undefined when not logged in
   const isLoggedIn =
@@ -35,15 +33,7 @@ const AuthenticatedRoute = () => {
 };
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [darkMode, setDarkMode] = useState<boolean | null>(() => {
-    const saved = JSON.parse(localStorage.getItem("theme") || "null");
-    document.body.setAttribute("data-theme", saved ? "dark" : "light");
-    return (
-      saved ??
-      (window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
-  });
+  const theme = getTheme();
   useEffect(() => {
     const token = window.localStorage.getItem("loggedUserToken");
     if (token) {
@@ -53,18 +43,17 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    setTheme(theme);
     const monospace = localStorage.getItem("monospace");
     if (monospace) {
       document.body.classList.add("monospace");
     }
-  }, []);
+  }, [theme]);
+  console.log('App theme', theme)
   return (
     <>
       <main
-        className={`w-full min-full bg-ternary text-text h-screen overflow-x-hidden ${
-          darkMode ? "dark" : ""
-        }`}
-        data-theme={darkMode ? "dark" : ""}
+        className={`w-full min-full bg-ternary text-text h-screen overflow-x-hidden`}
       >
         <Navbar />
         <div className="pt-10 min-h-max">

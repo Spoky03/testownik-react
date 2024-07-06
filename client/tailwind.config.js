@@ -80,7 +80,7 @@ export default {
     extend: {},
   },
   plugins: [
-    require("tailwindcss-animate"),
+    // require("tailwindcss-animate"),
     createThemes({
       dark: {
         primary: "#1a1e22",

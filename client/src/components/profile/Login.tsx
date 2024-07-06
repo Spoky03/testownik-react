@@ -37,7 +37,7 @@ export const Login = () => {
   }
   return (
     <div className="flex p-10 flex-col justify-center h-2/3">
-      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-w-primary dark:bg-primary">
+      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary">
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {reason && (
             <p className="text-sm w-3/4 text-center bg-error rounded-md p-2 bg-opacity-30 place-self-center">

@@ -17,7 +17,7 @@ export const Answer = ({
   const state = useSelector((state: RootState) => state.quiz.state);
   const isIncluded = selected && selected.includes(answer.id);
 
-  const blackTheme = localStorage.getItem("theme") === "black";
+  const blackTheme = document.body.getAttribute("data-theme") === "black";
 
   const color =
     state === "waiting"
@@ -43,7 +43,7 @@ export const Answer = ({
         : "bg-error"
       : "opacity-0";
   return (
-    <div className={`place-self-center hover:scale-95 transition-all ${blackTheme ? 'border border-white' : ''}`}>
+    <div className={`place-self-center hover:scale-95 transition-all ${blackTheme ? 'border border-faint' : ''}`}>
       {state === "waiting" ? (
         <button
           className={

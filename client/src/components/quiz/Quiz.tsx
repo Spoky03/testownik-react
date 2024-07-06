@@ -41,7 +41,7 @@ const QuizQuestion = () => {
           <Answer key={answer.id} answer={answer} selected={selected} />
         ))}
       </ul>
-      <div className="rounded-full p-2 px-4 text-sm absolute bottom-5 shadow-md bg-w-primary dark:bg-primary">
+      <div className="rounded-full p-2 px-4 text-sm absolute bottom-5 shadow-md bg-primary">
       {constants.LABELS.SIDEBAR.TOTAL_ANSWERS}{" "}
         <span className="text-success">{question.repeats}</span>
       </div>
