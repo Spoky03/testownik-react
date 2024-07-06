@@ -14,7 +14,6 @@ import { Login } from "./components/profile/Login";
 import { checkIfTokenIsValid } from "./lib/utils";
 import constants from "./constants";
 import { Register } from "./components/profile/Register";
-
 export const ThemeContext = createContext<boolean | null>(null);
 
 const AuthenticatedRoute = () => {
@@ -28,6 +27,7 @@ const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [darkMode, setDarkMode] = useState<boolean | null>(() => {
     const saved = JSON.parse(localStorage.getItem("darkMode") || "null");
+    document.body.setAttribute('data-theme', saved ? "dark" : "light");
     return (
       saved ??
       (window.matchMedia &&
@@ -51,7 +51,7 @@ const App = () => {
   , []);
   return (
     <ThemeContext.Provider value={darkMode}>
-      <main className={`w-full min-w-full h-screen overflow-x-hidden ${darkMode ? "dark" : ""}`}>
+      <main className={`w-full min-full h-screen overflow-x-hidden ${darkMode ? "dark" : ""}`} data-theme={darkMode ? "dark" : ""}>
         <Navbar setDarkMode={setDarkMode} />
         <div className="pt-10 min-h-max">
           <Routes>

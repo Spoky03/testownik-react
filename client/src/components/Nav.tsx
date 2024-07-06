@@ -30,7 +30,6 @@ export const ComboboxDropdownMenu = ({
   const [open, setOpen] = React.useState(false);
   const darkMode =
     localStorage.getItem("darkMode") === "true" ? true : undefined;
-  console.log(darkMode);
   return (
     <div className="flex w-full flex-col items-start justify-between rounded-md border sm:flex-row sm:items-center">
       <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -59,6 +58,7 @@ export const ComboboxDropdownMenu = ({
               onCheckedChange={() => {
                 setDarkMode((prev: boolean | null) => {
                   localStorage.setItem("darkMode", JSON.stringify(!prev));
+                  document.body.setAttribute('data-theme', !prev ? "dark" : "light");
                   return !prev;
                 });
               }}
@@ -81,6 +81,7 @@ const ThemeButton = ({
   const switchTheme = () => {
     setDarkMode((prev: boolean | null) => {
       localStorage.setItem("darkMode", JSON.stringify(!prev));
+      document.body.setAttribute('data-theme', !prev ? "dark" : "light");
       return !prev;
     });
   };
@@ -147,7 +148,7 @@ export const Navbar = ({
   setDarkMode: React.Dispatch<React.SetStateAction<boolean | null>>;
 }) => {
   return (
-    <div className="flex justify-center z-10 mb-1 shadow-md fixed w-full bg-w-primary dark:bg-primary">
+    <div className="flex justify-center z-10 mb-1 shadow-md fixed w-full bg-primary dark:bg-primary">
       <div
         className={`flex justify-between w-full px-2 py-2 ${constants.STYLES.MAX_WIDTH}`}
       >

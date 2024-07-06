@@ -132,7 +132,7 @@ export const UserSettings = () => {
       <div className="p-2 border w-fit rounded-2xl flex gap-2 place-self-end">
         <Button
           onClick={() => setOpenPasswordModal(true)}
-          className="max-w-fit  place-self-start text-wrap"
+          className="max-fit  place-self-start text-wrap"
           variant="secondary"
         >
           Change password
@@ -142,11 +142,14 @@ export const UserSettings = () => {
           onClick={() => {
             console.log("delete account");
           }}
-          className="max-w-fit place-self-start text-wrap"
+          className="max-fit place-self-start text-wrap"
           variant="destructive"
         >
           Delete account
         </Button>
+      </div>
+      <div className="h-16 w-16 bg-tester border-4">
+
       </div>
       <Modal
         open={openPasswordModal}

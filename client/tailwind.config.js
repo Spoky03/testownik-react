@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+import { createThemes } from "tw-colors";
 export default {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -17,43 +18,43 @@ export default {
       },
     },
     extend: {
-      colors: {
-        transparent: 'transparent',
-        'primary': '#1a1e22',
-        'secondary': '#1d2025',
-        'ternary': '#21252b',
-        'white': '#ffffff',
-        'error': '#f15151',
-        'success': '#39b54a',
-        'warning': '#ffdb3a',
-        'faint': '#3f4146',
-        'w-primary': '#eeeeee',
-        'w-secondary': '#ffffff',
-        'w-ternary': '#fafafa',
-        'w-black': '#404040',
-        'w-faint': '#d6d6d6',
-      },
+      // colors: {
+      //   transparent: "transparent",
+      //   primary: "#1a1e22",
+      //   secondary: "#1d2025",
+      //   ternary: "#21252b",
+      //   white: "#ffffff",
+      //   error: "#f15151",
+      //   success: "#39b54a",
+      //   warning: "#ffdb3a",
+      //   faint: "#3f4146",
+      //   "w-primary": "#eeeeee",
+      //   "w-secondary": "#ffffff",
+      //   "w-ternary": "#fafafa",
+      //   "w-black": "#404040",
+      //   "w-faint": "#d6d6d6",
+      // },
       keyframes: {
         wiggle: {
           "0%, 100%": { transform: "rotate(-3deg)" },
-          "50%": { transform: "rotate(3deg)" }
+          "50%": { transform: "rotate(3deg)" },
         },
         explode: {
           "0%": { transform: "scale(1)" },
           "70%": { transform: "scale(1.3)" },
-          "100%": { transform: "scale(0.5)" }
+          "100%": { transform: "scale(0.5)" },
         },
         fade: {
           "0%": { opacity: "1" },
-          "100%": { opacity: "0.5" }
+          "100%": { opacity: "0.5" },
         },
         rotate: {
           "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" }
+          "100%": { transform: "rotate(360deg)" },
         },
         rotateSemi: {
           "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(180deg)" }
+          "100%": { transform: "rotate(180deg)" },
         },
         "accordion-down": {
           from: { height: "0" },
@@ -72,12 +73,43 @@ export default {
         rotateSemi: "rotateSemi 0.65s ease-out",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-      }
+      },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [require("tailwindcss-animate")],
-
-}
+  plugins: [
+    // require("tailwindcss-animate"),
+    createThemes({
+        dark: {
+            primary: "#1a1e22",
+            secondary: "#1d2025",
+            ternary: "#21252b",
+            white: "#ffffff",
+            error: "#f15151",
+            success: "#39b54a",
+            warning: "#ffdb3a",
+            faint: "#3f4146",
+            "tester": "#f00",
+        },
+        light: {
+          // selector: ".theme-light",
+            // primary: "#ffffff",
+            // secondary: "#f9f9f9",
+            // ternary: "#f2f2f2",
+            white: "#1a1e22",
+            error: "#f15151",
+            success: "#39b54a",
+            warning: "#ffdb3a",
+            // faint: "#3f4146",
+            primary: "#eeeeee",
+            secondary: "#ffffff",
+            ternary: "#fafafa",
+            black: "#404040",
+            faint: "#d6d6d6",
+            tester: "#0ff",
+        },
+    }),
+  ],
+};

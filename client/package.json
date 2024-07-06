@@ -59,6 +59,7 @@
     "json-server": "^1.0.0-beta.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
+    "tw-colors": "^3.3.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   },
