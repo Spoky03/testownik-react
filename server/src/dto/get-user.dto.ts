@@ -1,14 +1,10 @@
 import {
   IsNotEmpty,
   IsString,
-  IsEmpty,
-  Length,
   ValidateNested,
   IsNumber,
   IsBoolean,
-  IsObject,
   IsArray,
-  IsNotEmptyObject,
 } from 'class-validator';
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
 class ProgressQuestion {
@@ -137,6 +133,19 @@ class SetAuthorDto {
     Object.assign(this, partial);
   }
 }
+class MetaData {
+  @Expose()
+  @IsArray()
+  readonly tags: string[];
+
+  @Expose()
+  @IsString()
+  readonly date: Date;
+
+  @Expose()
+  @IsString()
+  readonly subject: string;
+}
 export class QuestionSetEntity {
   @Expose()
   @Transform(({ value }) => value.toString(), {
@@ -166,7 +175,7 @@ export class QuestionSetEntity {
   readonly description: string;
 
   @Expose()
-  readonly tags: string[];
+  readonly metaData: MetaData;
 
   @Expose()
   @ValidateNested({ each: true })

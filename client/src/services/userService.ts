@@ -86,16 +86,16 @@ const editQuestionSet = async ({
   name,
   description,
   id,
-  tags,
+  metaData
 }: {
   name?: string;
   description?: string;
-  tags?: string[];
+  metaData?: { tags: string[] };
   id: string;
 }) => {
   const response = await axios.put(
     `${baseUrl}/sets/${id}`,
-    { name: name, description, tags },
+    { name: name, description, metaData },
     {
       headers: {
         Authorization: token,

@@ -77,14 +77,16 @@ export class QuestionsSetsService {
       throw new Error('User not found');
     }
     editQuestionSetDto.author = foundUser._id.toString();
-    await this.questionsSetsModel.findByIdAndUpdate(id, editQuestionSetDto, {
-      new: true,
-    });
+    // await this.questionsSetsModel.findByIdAndUpdate(id, editQuestionSetDto, {
+    //   new: true,
+    // });
     const mySets = await this.questionsSetsModel
       .findById(id)
       // .populate('author')
       .populate('questions')
       .exec();
+    mySets.metaData = { ...mySets.metaData, ...editQuestionSetDto.metaData };
+    mySets.save();
     return {
       ...mySets.toObject(),
       likes: mySets.likes.length,

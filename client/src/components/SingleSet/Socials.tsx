@@ -93,7 +93,7 @@ export const Socials = ({
         {type === SetListTypes.MODAL && <CopyLinkButton id={set._id} />}
       </div>
       <div className="flex flex-wrap place-self-center overflow-x-hidden gap-1">
-        {set.tags.map((tag) => (
+        {set.metaData.tags.map((tag) => (
           <span
             key={tag}
             className={`rounded-full px-2 py-1 text-xs bg-primary text-white light:text-text`}

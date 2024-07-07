@@ -11,10 +11,8 @@ import { useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { editQuestionSet } from "@/reducers/userReducer";
 import { AppDispatch } from "@/store";
-("use client");
-
+import dayjs from "dayjs";
 import * as React from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -129,9 +127,12 @@ function StatusList({
           if (input && input.value) {
             setTags((currentTags) => {
               const updatedTags = [...currentTags, input.value];
-              input.value = ""; 
-              userService.editQuestionSet({ tags: updatedTags, id })
-              return updatedTags; 
+              input.value = "";
+              userService.editQuestionSet({
+                metaData: { tags: updatedTags },
+                id,
+              });
+              return updatedTags;
             });
           }
         }}
@@ -157,10 +158,14 @@ function StatusList({
               value={tag}
               onSelect={(value) => {
                 setTags(tags.filter((t) => t !== value));
-                userService.editQuestionSet({ tags: tags.filter((t) => t !== value), id });
+                userService.editQuestionSet({
+                  metaData: { tags: tags.filter((t) => t !== value) },
+                  id,
+                });
               }}
             >
-              {tag}<CancelIcon className="opacity-50" />
+              {tag}
+              <CancelIcon className="opacity-50" />
             </CommandItem>
           ))}
         </CommandGroup>
@@ -223,7 +228,7 @@ const EditDescriptionInput = ({
 const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
   const [editDescription, setEditDescription] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
-  const [tags, setTags] = useState<string[]>(set.tags);
+  const [tags, setTags] = useState<string[]>(set.metaData.tags);
   useEffect(() => {
     set && setDescription(set.description);
   }, [set]);
@@ -253,16 +258,28 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
       <div className="flex gap-1 flex-wrap">
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">questions: </p>
-          <p className="opacity-75">{set.questions.length}</p>
+          <p className="text-sm opacity-75">{set.questions.length}</p>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">likes: </p>
-          <p className="opacity-75">{set.likes}</p>
+          <p className="text-sm opacity-75">{set.likes}</p>
+        </div>
+        <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
+          <p className="text-sm opacity-75">
+            {dayjs(set.metaData.date).format("DD/MM/YYYY")}
+          </p>
+        </div>
+        <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
+          <p className="text-sm opacity-45 place-self-center">subject: </p>
+          <p className="text-sm opacity-75">{set.metaData.subject || "N/A"}</p>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">tags: </p>
           {tags.map((tag) => (
-            <p key={tag} className="flex opacity-75 text-wrap break-all">
+            <p
+              key={tag}
+              className="flex text-sm opacity-75 text-wrap break-all"
+            >
               {tag}
               {", "}
             </p>

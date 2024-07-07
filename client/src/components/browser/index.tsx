@@ -27,7 +27,7 @@ const SetList = () => {
     (set) =>
       set.name.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
       set.description.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
-      set.tags.some((tag) => tag.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase())
+      set.metaData.tags.some((tag) => tag.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase())
       ) || searchValue === ""
   );
   useEffect(() => {

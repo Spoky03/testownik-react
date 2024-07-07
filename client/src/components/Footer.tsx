@@ -23,13 +23,13 @@ export const Footer = () => {
           {/* <!-- Products section --> */}
           <div className="flex gap-2 flex-col">
             <h6 className="flex justify-center font-semibold uppercase md:justify-start">
-              Products
+              Terms & Conditions
             </h6>
             <p className="">
-              <a>Angular</a>
+              <a href="/profile/agreements" className="underline hover:text-success">Agreements</a>
             </p>
             <p className="">
-              <a>React</a>
+              <a href="/privacy" className="underline hover:text-success">Privacy Policy</a>
             </p>
           </div>
           {/* <!-- Useful links section --> */}
@@ -38,10 +38,10 @@ export const Footer = () => {
               Useful links
             </h6>
             <p>
-              <a href="/profile/dashboard">Dashboard</a>
+              <a href="/profile/dashboard" className="underline hover:text-success">Dashboard</a>
             </p>
             <p>
-              <a href="/browser">Browser</a>
+              <a href="/browser" className="underline hover:text-success">Browser</a>
             </p>
           </div>
           {/* <!-- Contact section --> */}

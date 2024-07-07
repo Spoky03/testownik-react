@@ -6,6 +6,7 @@ import {
   IsArray,
   IsOptional,
   ArrayMaxSize,
+  IsDateString,
 } from 'class-validator';
 import { Question } from 'src/interfaces/questions.interface';
 export class CreateQuestionSetDto {
@@ -21,22 +22,27 @@ export class CreateQuestionSetDto {
   @Length(0, 500)
   readonly description: string;
 }
-class Tag {
+
+class MetaData {
+  @IsArray()
+  @IsOptional()
+  @ArrayMaxSize(5)
+  readonly tags: string[];
+
+  @IsOptional()
+  @IsDateString()
+  readonly date: Date;
+
   @IsString()
-  @Length(1, 16)
-  readonly name: string;
+  @IsOptional()
+  readonly subject: string;
 }
+
 export class EditQuestionSetDto {
   author: string;
   @Length(0, 500)
   @IsOptional()
   readonly description: string;
 
-  @IsArray()
-  @IsOptional()
-  @ArrayMaxSize(5)
-  // @IsUnique('name', {
-  //   message: 'Tags must be unique',
-  // })
-  readonly tags: Tag[];
+  readonly metaData: MetaData;
 }

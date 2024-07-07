@@ -10,5 +10,9 @@ export interface QuestionSet extends Document {
   }[];
   private: boolean;
   likes: string[];
-  tags: string[];
+  metaData: {
+    tags: string[];
+    date: Date;
+    subject: string;
+  };
 }

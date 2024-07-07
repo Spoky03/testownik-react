@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 export interface Answer {
   id: number;
   answer: string;
@@ -20,5 +20,9 @@ export interface Questions extends Document {
   readonly likes: string[];
   readonly private: boolean;
   readonly _id: string;
-  readonly tags: string[];
+  readonly metaData: {
+    tags: string[];
+    date: Date;
+    subject: string;
+  };
 }

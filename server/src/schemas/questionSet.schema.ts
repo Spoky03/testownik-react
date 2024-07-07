@@ -20,11 +20,27 @@ export const QuestionSetSchema = new mongoose.Schema({
     type: String,
     default: 'No description provided',
   },
-  tags: [
-    {
-      type: String,
+  metaData: {
+    type: Object,
+    default: {
+      tags: [],
+      date: Date.now(),
+      subject: '',
     },
-  ],
+    tags: [
+      {
+        type: String,
+      },
+    ],
+    date: {
+      type: Date,
+      default: Date.now(),
+    },
+    subject: {
+      type: String,
+      default: '',
+    },
+  },
   private: {
     type: Boolean,
     default: true,
