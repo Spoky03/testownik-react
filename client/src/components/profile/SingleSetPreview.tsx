@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { editQuestionSet } from "@/reducers/userReducer";
 import { AppDispatch } from "@/store";
-import dayjs from "dayjs";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +29,36 @@ import {
 import { Input } from "../ui/input";
 import userService from "@/services/userService";
 import { useToast } from "../ui/use-toast";
-
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+const DatePicker = ({
+  date,
+  setDate,
+}: {
+  date: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date>>;
+}) => {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <div className="flex cursor-pointer">
+        <CalendarIcon className="mr-2 h-4 w-4" />
+        {date ? format(date, "PPP") : <span className="">Pick a date</span>}</div>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={(date) => {
+            setDate(date as Date);
+          }}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  );
+};
 function TagsDropdown({
   tags,
   setTags,
@@ -228,6 +256,7 @@ const EditDescriptionInput = ({
 const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
   const [editDescription, setEditDescription] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
+  const [date, setDate] = useState<Date>(set.metaData.date);
   const [tags, setTags] = useState<string[]>(set.metaData.tags);
   useEffect(() => {
     set && setDescription(set.description);
@@ -265,9 +294,9 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
           <p className="text-sm opacity-75">{set.likes}</p>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
-          <p className="text-sm opacity-75">
-            {dayjs(set.metaData.date).format("DD/MM/YYYY")}
-          </p>
+          <div className="text-sm opacity-75">
+            <DatePicker date={date} setDate={setDate} />
+          </div>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">subject: </p>
