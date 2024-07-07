@@ -90,7 +90,7 @@ const editQuestionSet = async ({
 }: {
   name?: string;
   description?: string;
-  metaData?: { tags: string[] };
+  metaData?: { tags?: string[]; date?: Date; subject?: string };
   id: string;
 }) => {
   const response = await axios.put(

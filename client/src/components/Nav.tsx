@@ -32,7 +32,7 @@ const ThemeDropdown = ({
   setPosition: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
-    <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+    <DropdownMenuRadioGroup value={position} onValueChange={setPosition} className="bg-secondary text-text">
       <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="black">Black</DropdownMenuRadioItem>
@@ -150,6 +150,7 @@ const NavLinks = () => {
 
   useEffect(() => {
     toggleDarkMode();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position]);
   return (
     <>

@@ -35,9 +35,11 @@ import { Calendar } from "@/components/ui/calendar";
 const DatePicker = ({
   date,
   setDate,
+  id,
 }: {
   date: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
+  id: string;
 }) => {
   return (
     <Popover>
@@ -52,6 +54,10 @@ const DatePicker = ({
           selected={date}
           onSelect={(date) => {
             setDate(date as Date);
+            userService.editQuestionSet({
+              metaData: { date: date as Date },
+              id: id,
+            });
           }}
           initialFocus
         />
@@ -295,7 +301,7 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <div className="text-sm opacity-75">
-            <DatePicker date={date} setDate={setDate} />
+            <DatePicker date={date} setDate={setDate} id={set._id} />
           </div>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
