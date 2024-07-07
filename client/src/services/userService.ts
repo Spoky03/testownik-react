@@ -26,7 +26,11 @@ const login = async (credentials: { username: string; password: string }) => {
     return error;
   }
 };
-const register = async (credentials: { username: string; email:string; password: string }) => {
+const register = async (credentials: {
+  username: string;
+  email: string;
+  password: string;
+}) => {
   try {
     const response = await axios.post(`${authUrl}/register`, credentials);
     return response.data;
@@ -34,23 +38,32 @@ const register = async (credentials: { username: string; email:string; password:
     return error;
   }
 };
-const saveSettings = async (settings: { agreements: boolean, newsletter: boolean }) => {
+const saveSettings = async (settings: {
+  agreements: boolean;
+  newsletter: boolean;
+}) => {
   const response = await axios.put(`${baseUrl}/users/settings`, settings, {
     headers: {
       Authorization: token,
     },
   });
   return response.data;
-}
+};
 const logout = () => {
   localStorage.removeItem("loggedUserToken");
   token = null;
 };
 
-const createQuestionSet = async ({name, description} : {name: string, description: string}) => {
+const createQuestionSet = async ({
+  name,
+  description,
+}: {
+  name: string;
+  description: string;
+}) => {
   const response = await axios.post(
     `${baseUrl}/sets`,
-    { name: name , description },
+    { name: name, description },
     {
       headers: {
         Authorization: token,
@@ -64,15 +77,25 @@ const editQuestion = async (question: CreatedQuestion, id: string) => {
   // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
   const response = await axios.put<Question>(
     `${baseUrl}/questions/${id}`,
-     question ,
+    question,
     { headers: { Authorization: token } }
   );
   return response.data;
 };
-const editQuestionSet = async ({name, description, id,tags} : {name?: string, description?: string, tags?: string[], id: string}) => {
+const editQuestionSet = async ({
+  name,
+  description,
+  id,
+  tags,
+}: {
+  name?: string;
+  description?: string;
+  tags?: string[];
+  id: string;
+}) => {
   const response = await axios.put(
     `${baseUrl}/sets/${id}`,
-    { name: name , description, tags },
+    { name: name, description, tags },
     {
       headers: {
         Authorization: token,
@@ -122,7 +145,13 @@ const saveProgress = async ({
 }: {
   questionSetId: string;
   questions: { id: string; repeats: number | undefined }[];
-  sidebar: { correctAnswers: number; incorrectAnswers: number; totalQuestions: number; masteredQuestions: number; time: number };
+  sidebar: {
+    correctAnswers: number;
+    incorrectAnswers: number;
+    totalQuestions: number;
+    masteredQuestions: number;
+    time: number;
+  };
 }) => {
   const response = await axios.put(
     `${baseUrl}/users/progress`,
@@ -152,11 +181,15 @@ const resetProgress = async (id: string) => {
   return response.data;
 };
 const addBookmark = async (id?: string) => {
-  const response = await axios.post(`${baseUrl}/users/bookmarks`, {id}, {
-    headers: {
-      Authorization: token,
-    },
-  });
+  const response = await axios.post(
+    `${baseUrl}/users/bookmarks`,
+    { id },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
   return response.data;
 };
 const deleteBookmark = async (id: string) => {
@@ -174,15 +207,19 @@ const getForeignSets = async () => {
     },
   });
   return response.data;
-}
+};
 const switchPrivacy = async (id: string) => {
-  const response = await axios.put(`${baseUrl}/sets/${id}/privacy`, {}, {
-    headers: {
-      Authorization: token,
-    },
-  });
+  const response = await axios.put(
+    `${baseUrl}/sets/${id}/privacy`,
+    {},
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
   return response.data;
-}
+};
 const saveUserData = async (data: UserData) => {
   const response = await axios.put(`${baseUrl}/users/me`, data, {
     headers: {
@@ -192,8 +229,10 @@ const saveUserData = async (data: UserData) => {
   return response.data;
 };
 interface UserData {
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
+  currentPassword?: string;
+  newPassword?: string;
 }
 export default {
   getProfile,

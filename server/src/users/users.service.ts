@@ -99,14 +99,35 @@ export class UsersService {
     return userDto;
   }
   async updateMe(
-    userData: { username: string; email: string },
+    userData: {
+      username?: string;
+      email?: string;
+      currentPassword?: string;
+      newPassword?: string;
+    },
     userId: string,
   ) {
-    //for now omit username
-    const userDataOmit = { email: userData.email };
-    return this.userModel
-      .findByIdAndUpdate(userId, userDataOmit, { new: true })
-      .exec();
+    if (!userData.currentPassword || !userData.newPassword) {
+      //for now omit username
+      const userDataOmit = { email: userData.email };
+      return this.userModel
+        .findByIdAndUpdate(userId, userDataOmit, { new: true })
+        .exec();
+    } else {
+      const user = await this.userModel.findById(userId).exec();
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      const isPasswordValid = await bcrypt.compare(
+        userData.currentPassword,
+        user.password,
+      );
+      if (!isPasswordValid) {
+        throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
+      }
+      user.password = await bcrypt.hash(userData.newPassword, 10);
+      return user.save();
+    }
   }
   async findByName(username: string): Promise<User | undefined> {
     return this.userModel

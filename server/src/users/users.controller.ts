@@ -33,7 +33,13 @@ export class UsersController {
   }
   @Put('me')
   async updateMe(
-    @Body() userData: { username: string; email: string },
+    @Body()
+    userData: {
+      username?: string;
+      email?: string;
+      currentPassword?: string;
+      newPassword?: string;
+    },
     @Request() req,
   ) {
     return this.usersService.updateMe(userData, req.user.sub);

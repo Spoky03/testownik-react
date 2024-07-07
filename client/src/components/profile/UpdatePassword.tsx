@@ -8,7 +8,7 @@ import userService from "../../services/userService";
 import { Input } from "../ui/input";
 
 const FormSchema = z.object({
-  currentPassword: z.string().min(8),
+  currentPassword: z.string(),
   newPassword: z.string().min(8),
   confirmPassword: z.string().min(8),
 });
@@ -24,21 +24,21 @@ export const UpdatePassword = () => {
   });
 
   function handleSubmit(data: z.infer<typeof FormSchema>) {
-    // userService
-    //   .updatePassword(data)
-    //   .then(() => {
-    //     toast({
-    //       title: "Password updated",
-    //       variant: "success",
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error updating password",
-    //       description: error.message,
-    //       variant: "destructive",
-    //     });
-    //   });
+    userService
+      .saveUserData(data)
+      .then(() => {
+        toast({
+          title: "Password updated",
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Error updating password",
+          description: error.message,
+          variant: "destructive",
+        });
+      });
     console.log(data);
   }
 
@@ -83,7 +83,7 @@ export const UpdatePassword = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" variant='secondary' className="w-full">
             Update password
           </Button>
         </form>
