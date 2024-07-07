@@ -82,7 +82,7 @@ export class QuestionsSetsService {
     });
     const mySets = await this.questionsSetsModel
       .findById(id)
-      .populate('author')
+      // .populate('author')
       .populate('questions')
       .exec();
     return {

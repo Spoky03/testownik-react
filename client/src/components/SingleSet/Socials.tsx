@@ -52,20 +52,22 @@ export const Socials = ({
     }
   }, [bookmarks, set._id]);
   return (
-    <div className="flex place-items-center">
-      <div className="flex gap-4 mr-2">
+    <div className="flex justify-between h-fit">
+      <div className="flex gap-1 mr-2">
         <button
-          className="rounded-full relative p-1 hover:bg-success hover:bg-opacity-30"
+          className="rounded-full p-1 hover:bg-success hover:bg-opacity-30"
           onClick={(event) => handleLike(event, set._id)}
           disabled={!loggedIn}
         >
-          <LikeIcon
-            size={18}
-            className={`transition-colors outline-2 duration-300  ${
-              set.liked ? "text-red-500" : ""
-            }`}
-          />
-          <span className="absolute right-0 top-3 text-xs">{set.likes}</span>
+          <div className="flex rounded-xl gap-1 p-1 px-2 border border-faint">
+            <LikeIcon
+              size={18}
+              className={`transition-colors outline-2 duration-300  ${
+                set.liked ? "text-red-500" : ""
+              }`}
+            />
+            <span className="text-sm">{set.likes}</span>
+          </div>
         </button>
         <TooltipProvider>
           <Tooltip>
@@ -89,6 +91,16 @@ export const Socials = ({
           </Tooltip>
         </TooltipProvider>
         {type === SetListTypes.MODAL && <CopyLinkButton id={set._id} />}
+      </div>
+      <div className="flex flex-wrap place-self-center overflow-x-hidden gap-1">
+        {set.tags.map((tag) => (
+          <span
+            key={tag}
+            className={`rounded-full px-2 py-1 text-xs bg-primary text-white light:text-text`}
+          >
+            {tag}
+          </span>
+        ))}
       </div>
     </div>
   );

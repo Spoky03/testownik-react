@@ -20,4 +20,5 @@ export interface Questions extends Document {
   readonly likes: string[];
   readonly private: boolean;
   readonly _id: string;
+  readonly tags: string[];
 }

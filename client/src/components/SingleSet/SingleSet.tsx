@@ -16,10 +16,10 @@ const StartQuizIcon = ({ id, styles }: { id: string; styles?: string }) => {
   return (
     <Link
       to={`/dashboard/${id}`}
-      className={` mt-2 px-3 py-2 mr-3  place-self-center ${styles} flex border-success border rounded-2xl hover:bg-success hover:bg-opacity-30 transition-colors`}
+      className={`px-3 py-2 ${styles} flex border-success border rounded-2xl hover:bg-success hover:bg-opacity-30 transition-colors`}
       onClick={(event) => event.stopPropagation()}
     >
-      <span className="text-success font-medium mr-2">Start Quiz</span>
+      <span className="hidden sm:block text-success font-medium mr-2">Start Quiz</span>
       <PlayIcon
         className="text-success opacity-100"
         size={24}
@@ -70,23 +70,27 @@ export const SingleSet = ({
   }, [bookmarks, set._id]);
   return (
     <div
-      className={`border border-faint bg-ternary  font-bold rounded-md px-2 pb-3 flex flex-col justify-between w-full relative ${type!==SetListTypes.QUIZ ? "cursor-pointer hover:outline" : "hover:border-text"}`}
+      className={`border border-faint bg-ternary font-bold rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${type!==SetListTypes.QUIZ ? "cursor-pointer hover:outline" : "hover:border-text"}`}
     >
-      <div className="flex w-full h-full pt-3 text-left">
-        {type === SetListTypes.QUIZ && (
-          <button             onClick={handleBookmark} >
-          <MarkIcon
-            size={16}
-            className={` transition-colors place-self-center duration-300 ${
-              bookmarked
-                ? "text-amber-500 hover:text-amber-400"
-                : "hover:text-amber-200"
-            }`}
-          />
-          </button>
-        )}
-
-        <h1 className="">{set.name}</h1>
+      <div className="flex justify-between w-full h-full pt-3 text-left">
+        <div className="flex">
+          {type === SetListTypes.QUIZ && (
+            <button             onClick={handleBookmark} >
+            <MarkIcon
+              size={16}
+              className={` transition-colors place-self-center duration-300 ${
+                bookmarked
+                  ? "text-amber-500 hover:text-amber-400"
+                  : "hover:text-amber-200"
+              }`}
+            />
+            </button>
+          )}
+          <h1 className="place-self-center text-wrap break-all">{set.name}</h1>
+        </div>
+        {(bookmarked || foreign) && !completed && (
+        <StartQuizIcon id={set._id} styles="place-self-end" />
+      )}
       </div>
       <p className="text-xs opacity-80">
         {"by "}
@@ -105,12 +109,6 @@ export const SingleSet = ({
       )}
       {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
         <Socials set={set} type={type} handleBookmark={handleBookmark} handleLike={handleLike} />
-      )}
-      {(bookmarked || foreign) && !completed && (
-        <StartQuizIcon id={set._id} styles="absolute right-0 top-0" />
-        // <div className="absolute right-1 top-1 rounded-full p-2 bg-success bg-opacity-30">
-        //   <Link className=" w-4 h-4" to={`/dashboard/${set._id}`} onClick={(event) => event.stopPropagation()} />
-        // </div>
       )}
     </div>
   );

@@ -9,7 +9,6 @@ import { HiDotsHorizontal as DotsHorizontalIcon } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -23,7 +22,7 @@ import {
   // DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getTheme, setTheme, useTheme } from "@/lib/theme";
+import { getTheme, useTheme } from "@/lib/theme";
 
 const ThemeDropdown = ({
   position,

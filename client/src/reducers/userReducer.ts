@@ -3,7 +3,6 @@ import userService from "../services/userService";
 import { AppDispatch } from "../store";
 import { CreatedQuestion, Question, QuestionSet, UserState } from "../types";
 import browserService from "@/services/browserService";
-import { stat } from "fs";
 
 const initialState: UserState = {
   user: {
@@ -284,8 +283,9 @@ export const addQuestionSet = ({
       });
       dispatch(addSet(createdQuestionSet));
       return createdQuestionSet._id;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      return error.response.data;
     }
   };
 };

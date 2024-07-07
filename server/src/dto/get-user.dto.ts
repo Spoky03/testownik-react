@@ -166,6 +166,9 @@ export class QuestionSetEntity {
   readonly description: string;
 
   @Expose()
+  readonly tags: string[];
+
+  @Expose()
   @ValidateNested({ each: true })
   @Type(() => GetQuestionDto)
   @Transform(

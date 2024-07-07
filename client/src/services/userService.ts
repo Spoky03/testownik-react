@@ -69,10 +69,10 @@ const editQuestion = async (question: CreatedQuestion, id: string) => {
   );
   return response.data;
 };
-const editQuestionSet = async ({name, description, id} : {name: string, description: string, id: string}) => {
+const editQuestionSet = async ({name, description, id,tags} : {name?: string, description?: string, tags?: string[], id: string}) => {
   const response = await axios.put(
     `${baseUrl}/sets/${id}`,
-    { name: name , description },
+    { name: name , description, tags },
     {
       headers: {
         Authorization: token,

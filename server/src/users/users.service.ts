@@ -72,6 +72,7 @@ export class UsersService {
               answers: question.answers,
             };
           }),
+          tags: questionSet.tags,
         };
       }),
       progress: user.progress.map((progress) => {

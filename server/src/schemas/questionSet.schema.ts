@@ -20,6 +20,11 @@ export const QuestionSetSchema = new mongoose.Schema({
     type: String,
     default: 'No description provided',
   },
+  tags: [
+    {
+      type: String,
+    },
+  ],
   private: {
     type: Boolean,
     default: true,

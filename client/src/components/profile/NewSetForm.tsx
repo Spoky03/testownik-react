@@ -30,7 +30,15 @@ export const NewSetForm = ({
       });
       return;
     }
-    const id = await dispatch(addQuestionSet({ name: nameOfSet, description }));
+    const res = await dispatch(addQuestionSet({ name: nameOfSet, description }));
+    if (res.error) {
+        toast({
+          variant: "destructive",
+          title: "Failed to create set",
+          description: "Please try again, name must be shorter than 32 characters",
+        });
+        return;
+    }
     toast({
       variant: "success",
       title: `Set ${nameOfSet} created`,
@@ -38,7 +46,7 @@ export const NewSetForm = ({
       action: (
         <ToastAction
           altText="Add questions"
-          onClick={() => navigate(`/profile/sets/${id}`)}
+          onClick={() => navigate(`/profile/sets/${res}`)}
         >
           Add questions
         </ToastAction>

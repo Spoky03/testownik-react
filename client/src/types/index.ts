@@ -62,6 +62,7 @@ export interface QuestionSet {
   liked: boolean;
   foreign?: boolean;
   private?: boolean;
+  tags: string[];
 }
 export enum SetListTypes {
   QUIZ = "QUIZ",

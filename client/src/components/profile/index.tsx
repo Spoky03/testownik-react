@@ -139,7 +139,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
-      <div className="flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-6xl">
+      <div className="flex flex-col p-1 mt-4 sm:p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-6xl">
         <Routes>
           <Route
             path=""

@@ -48,11 +48,11 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
         onAnimationEnd={effectCleanup}
       >
         <div className="flex">
-          <Link to={`${set._id}`} className="w-full h-full py-3">
-            <p className="flex opacity-90 hover:opacity-100">
+          <Link to={`${set._id}`} className="flex w-full h-full py-3">
+            <p className="flex text-wrap break-all opacity-90 hover:opacity-100">
               {set.name}
-              <EditIcon className="place-self-center duration-300 transition-colors" />
             </p>
+            <EditIcon className="shrink-0 place-self-center hover:text-success duration-300 transition-colors" />
           </Link>
         </div>
         <div className="flex place-items-center gap-2 ">
