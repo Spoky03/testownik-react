@@ -76,7 +76,7 @@ function TagsDropdown({
 }
 
 function StatusList({
-  setOpen,
+  // setOpen,
   setTags,
   tags,
   id,

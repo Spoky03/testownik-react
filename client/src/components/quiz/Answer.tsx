@@ -59,8 +59,8 @@ export const Answer = ({
               tickStyles
             }
           ></span>
-          <span className="absolute right-2 top-2 bg-secondary h-8 w-8 rotate-45"></span>
-          <CheckIcon className="absolute right-0 w-3 h-4 top-0 text-secondary" />
+          <span className="absolute -z-10 right-2 top-2 bg-secondary h-8 w-8 rotate-45"></span>
+          <CheckIcon className="absolute z-0 right-0 w-3 h-4 top-0 text-secondary" />
         </button>
       ) : (
         <div

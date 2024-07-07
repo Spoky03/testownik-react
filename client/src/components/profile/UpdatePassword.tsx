@@ -43,7 +43,7 @@ export const UpdatePassword = () => {
   }
 
   return (
-    <div className="bg-primary p-8 flex flex-col gap-2">
+    <div className="bg-secondary p-8 flex flex-col gap-2">
       <h2 className="text-2xl font-bold">Change Password</h2>
       <Form {...form}>
         <form className="space-y-2" onSubmit={form.handleSubmit(handleSubmit)}>
@@ -83,6 +83,9 @@ export const UpdatePassword = () => {
               </FormItem>
             )}
           />
+          <Button type="submit" className="w-full">
+            Update password
+          </Button>
         </form>
       </Form>
     </div>

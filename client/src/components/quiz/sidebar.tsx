@@ -140,6 +140,7 @@ export const Sidebar = () => {
             <span className="text-3xl text-success">{formattedTime}</span>
           </p>
           <button
+          ctrl
           onClick={handleSubmit}
           className="w-16 h-16 rounded-full bg-success shadow-xl hover:scale-95 transition-all place-self-center"
         >

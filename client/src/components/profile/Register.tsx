@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, Navigate, Link, useNavigate } from "react-router-dom";
+import { useLocation,  Link, useNavigate } from "react-router-dom";
 import { ShotThroughTitle } from "../ShotThroughTitile";
 import { useToast } from "../ui/use-toast";
 import { registerUser } from "@/reducers/userReducer";
@@ -23,7 +23,7 @@ export const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector((state: RootState) => state.user.user);
-  const { origin, reason } = location.state || {};
+  const { reason } = location.state || {};
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setEffect(true);
