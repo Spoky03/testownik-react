@@ -7,6 +7,7 @@ import {
   IsOptional,
   ArrayMaxSize,
   IsDateString,
+  MaxLength,
 } from 'class-validator';
 import { Question } from 'src/interfaces/questions.interface';
 export class CreateQuestionSetDto {
@@ -35,6 +36,7 @@ class MetaData {
 
   @IsString()
   @IsOptional()
+  @MaxLength(32)
   readonly subject: string;
 }
 
