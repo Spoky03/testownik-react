@@ -25,7 +25,7 @@ const CopyLinkButton = ({ id }: { id: string }) => {
   return (
     <LinkIcon
       size={24}
-      className="hover:text-success transition-colors duration-300 place-self-end"
+      className="hover:text-success transition-colors duration-300 place-self-center"
       onClick={copyLink}
     />
   );

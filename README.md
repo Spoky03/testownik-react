@@ -19,11 +19,10 @@ I plan to deploy it soon.
 - [x] add these settings to shema
 - [ ] delete those testing users
 - [ ] add deleting user backend
-- [ ] add update password backend
+- [x] add update password backend
 - [ ] add something to display at profile
 - [x] decide on where to put dashboard
 - [x] font picker
-- [ ] be aware of theme
 
 - [ ] maybe admin panel???
 

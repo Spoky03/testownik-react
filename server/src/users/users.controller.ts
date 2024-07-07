@@ -13,6 +13,7 @@ import {
 import { UsersService } from './users.service';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UserEntity } from 'src/dto/get-user.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Progress } from 'src/interfaces/user.interface';
 import { SignUpDto } from 'src/dto/signup-user.dto';
 import { Public } from 'src/auth/decorators/public.decorator';

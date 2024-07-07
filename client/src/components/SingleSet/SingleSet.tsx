@@ -86,18 +86,20 @@ export const SingleSet = ({
             />
             </button>
           )}
-          <h1 className="place-self-center text-wrap break-all">{set.name}</h1>
+          <div>
+            <h1 className="place-self-start text-wrap break-all">{set.name}</h1>
+            <p className="text-xs opacity-80">
+                    {"by "}
+                    {foreign
+            ? `you`
+            : `${(set.author as { username: string; _id: string }).username}`}
+                  </p>
+          </div>
         </div>
         {(bookmarked || foreign) && !completed && (
         <StartQuizIcon id={set._id} styles="place-self-end" />
       )}
       </div>
-      <p className="text-xs opacity-80">
-        {"by "}
-        {foreign
-          ? `you`
-          : `${(set.author as { username: string; _id: string }).username}`}
-      </p>
       {type !== SetListTypes.BROWSER && (
         <p className="text-base font-medium text-wrap py-2 break-words">
           {set.description}
