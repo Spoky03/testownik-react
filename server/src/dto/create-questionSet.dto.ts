@@ -7,7 +7,6 @@ import {
   IsOptional,
   ArrayMaxSize,
 } from 'class-validator';
-import { IsUnique } from 'src/helpers';
 import { Question } from 'src/interfaces/questions.interface';
 export class CreateQuestionSetDto {
   @IsString()

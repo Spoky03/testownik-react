@@ -250,7 +250,7 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
           </div>
         )}
       </div>
-      <div className="flex gap-1">
+      <div className="flex gap-1 flex-wrap">
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">questions: </p>
           <p className="opacity-75">{set.questions.length}</p>
@@ -262,8 +262,8 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">tags: </p>
           {tags.map((tag) => (
-            <p key={tag} className="opacity-75">
-              {tag.includes("#") ? tag : "#" + tag}
+            <p key={tag} className="flex opacity-75 text-wrap break-all">
+              {tag}
               {", "}
             </p>
           ))}
