@@ -3,9 +3,17 @@ import { useToast } from "../ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "../ui/form";
 import userService from "../../services/userService";
 import { Input } from "../ui/input";
+import { PasswordRequirements } from "../PasswordRequirements";
 
 const FormSchema = z.object({
   currentPassword: z.string(),
@@ -24,6 +32,13 @@ export const UpdatePassword = () => {
   });
 
   function handleSubmit(data: z.infer<typeof FormSchema>) {
+    if (data.newPassword !== data.confirmPassword) {
+      toast({
+        title: "Passwords do not match",
+        variant: "destructive",
+      });
+      return;
+    }
     userService
       .saveUserData(data)
       .then(() => {
@@ -31,15 +46,15 @@ export const UpdatePassword = () => {
           title: "Password updated",
           variant: "success",
         });
+        form.reset();
       })
       .catch((error) => {
         toast({
           title: "Error updating password",
-          description: error.message,
+          description: error.response.data.message,
           variant: "destructive",
         });
       });
-    console.log(data);
   }
 
   return (
@@ -83,7 +98,10 @@ export const UpdatePassword = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" variant='secondary' className="w-full">
+          <FormDescription>
+            <PasswordRequirements />
+          </FormDescription>
+          <Button type="submit" variant="secondary" className="w-full">
             Update password
           </Button>
         </form>

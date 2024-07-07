@@ -17,6 +17,7 @@ import { Progress } from 'src/interfaces/user.interface';
 import { SignUpDto } from 'src/dto/signup-user.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { SettingsDto } from './dto/save-settings.dto';
+import { UpdateUserEntity } from './dto/update-user.dto';
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -34,12 +35,7 @@ export class UsersController {
   @Put('me')
   async updateMe(
     @Body()
-    userData: {
-      username?: string;
-      email?: string;
-      currentPassword?: string;
-      newPassword?: string;
-    },
+    userData: UpdateUserEntity,
     @Request() req,
   ) {
     return this.usersService.updateMe(userData, req.user.sub);

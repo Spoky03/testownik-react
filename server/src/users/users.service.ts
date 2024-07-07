@@ -11,7 +11,8 @@ import * as bcrypt from 'bcrypt';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { UserEntity } from 'src/dto/get-user.dto';
 import { SignUpDto } from 'src/dto/signup-user.dto';
-import { SettingsDto } from './dto/save-settings.dto';
+import { SettingsDto} from './dto/save-settings.dto';
+import { UpdateUserEntity } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -98,15 +99,7 @@ export class UsersService {
     };
     return userDto;
   }
-  async updateMe(
-    userData: {
-      username?: string;
-      email?: string;
-      currentPassword?: string;
-      newPassword?: string;
-    },
-    userId: string,
-  ) {
+  async updateMe(userData: UpdateUserEntity, userId: string) {
     if (!userData.currentPassword || !userData.newPassword) {
       //for now omit username
       const userDataOmit = { email: userData.email };

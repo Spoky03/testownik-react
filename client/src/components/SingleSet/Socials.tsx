@@ -98,7 +98,7 @@ export const Socials = ({
             key={tag}
             className={`rounded-full px-2 py-1 text-xs bg-primary text-white light:text-text`}
           >
-            {tag}
+            {'#'}{tag}
           </span>
         ))}
       </div>

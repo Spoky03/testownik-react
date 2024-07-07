@@ -26,7 +26,9 @@ const SetList = () => {
   const filteredSets = sets.filter(
     (set) =>
       set.name.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
-      set.description.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase())
+      set.description.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
+      set.tags.some((tag) => tag.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase())
+      ) || searchValue === ""
   );
   useEffect(() => {
     if (id) {

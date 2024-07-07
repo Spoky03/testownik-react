@@ -5,13 +5,14 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation,  Link, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ShotThroughTitle } from "../ShotThroughTitile";
 import { useToast } from "../ui/use-toast";
 import { registerUser } from "@/reducers/userReducer";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
 import { Spinner } from "../Spinner";
+import { PasswordRequirements } from "../PasswordRequirements";
 
 export const Register = () => {
   const [username, setUsername] = useState<string>("");
@@ -86,10 +87,14 @@ export const Register = () => {
             placeholder="example@mail.to"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-4"
+            className=""
             pattern="[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}"
             required
           />
+          <p className="text-xs opacity-75 mb-4 ml-1">
+            We wont send you any emails without your consent
+          </p>
+
           <Label htmlFor="username">Username</Label>
           <Input
             id="username"
@@ -99,8 +104,11 @@ export const Register = () => {
             onChange={(e) => setUsername(e.target.value)}
             required
             pattern=".{4,18}"
-            className="mb-4"
+            className=""
           />
+          <p className="text-xs opacity-75 mb-4 ml-1">
+            *Username must be between 4 and 18 characters and unique
+          </p>
 
           <Label htmlFor="password">Password</Label>
           <Input
@@ -113,7 +121,8 @@ export const Register = () => {
             required
             pattern=".{8,32}"
           />
-          <div className="place-self-center w-100">
+          <PasswordRequirements />
+          <div className="place-self-center mt-4 w-100">
             <Button type="submit" disabled={effect}>
               {effect ? "Please wait" : "Register"}
             </Button>
