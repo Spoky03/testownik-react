@@ -14,6 +14,7 @@ import { checkIfTokenIsValid } from "./lib/utils";
 import constants from "./constants";
 import { Register } from "./components/profile/Register";
 import { useTheme } from "./lib/theme";
+import { Footer } from "./components/Footer";
 const AuthenticatedRoute = () => {
   const user = useSelector((state: RootState) => state.user.user); // Assuming state.user.user is null or undefined when not logged in
   const isLoggedIn =
@@ -57,7 +58,7 @@ const App = () => {
         className={`w-full min-full bg-ternary text-text h-screen overflow-x-hidden`}
       >
         <Navbar />
-        <div className="pt-10 min-h-max">
+        <div className="pt-10 min-h-screen">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
@@ -70,6 +71,7 @@ const App = () => {
             <Route path="browser/*" element={<BrowserContainer />} />
           </Routes>
         </div>
+        <Footer />
       </main>
       <Toaster />
     </>
