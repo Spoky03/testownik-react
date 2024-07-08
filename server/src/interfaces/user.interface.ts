@@ -1,4 +1,4 @@
-import { Document, ObjectId, Types } from 'mongoose';
+import { Document } from 'mongoose';
 import { Questions } from './questions.interface';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
 

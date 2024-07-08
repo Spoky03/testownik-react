@@ -55,6 +55,7 @@ export class QuestionsService {
     await questionSet.save();
     return questionsArray;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async deleteOne(id: string, userId: string): Promise<Question> {
     //TODO check if user is author
     await this.questionsSetsModel

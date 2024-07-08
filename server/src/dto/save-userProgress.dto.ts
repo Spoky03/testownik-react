@@ -1,5 +1,4 @@
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
-import { ObjectId, Types } from 'mongoose';
 export class SaveQuestionSetProgressDto {
   @IsString()
   @IsNotEmpty()
