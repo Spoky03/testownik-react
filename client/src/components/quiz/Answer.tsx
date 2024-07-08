@@ -15,7 +15,7 @@ export const Answer = ({
     dispatch(addSelected(id));
   };
   const state = useSelector((state: RootState) => state.quiz.state);
-  const isIncluded = selected && selected.includes(answer.id);
+  const isIncluded = selected && selected.includes(answer.id as number);
 
   const blackTheme = document.body.getAttribute("data-theme") === "black";
 
@@ -50,7 +50,7 @@ export const Answer = ({
             `bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg  transition-all duration-300 ease-in-out w-52 sm:w-72 grow border-2 ` +
             color
           }
-          onClick={() => handleSelect(answer.id)}
+          onClick={() => handleSelect(answer.id as number)}
         >
           {answer.answer}
           <span
