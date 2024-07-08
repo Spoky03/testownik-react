@@ -164,11 +164,10 @@ export const initializeQuiz = (
 ) => {
   return async (dispatch: AppDispatch) => {
     //find progess for this set
-    const setProgress = progress.find((p: UserState["progress"]) => p.questionSetId === set._id);
-    console.log(setProgress);
-    const questions = set.questions.map((question) => {
+    const setProgress = progress.find((p) => p.questionSetId === set._id);
+    const questions = set.questions.map((question : Question) => {
       const progress = setProgress?.questions.find(
-        (q: any) => q.id === question._id
+        (q: { id: string; repeats: number | undefined }) => q.id === question._id
       );
       return {
         ...question,
