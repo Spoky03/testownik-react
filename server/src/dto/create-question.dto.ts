@@ -6,7 +6,6 @@ import {
   ArrayMinSize,
   IsNumber,
   Length,
-  IsEmail,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { IsUnique } from 'src/helpers';

@@ -31,11 +31,12 @@ export const NewSetForm = ({
       return;
     }
     const res = await dispatch(addQuestionSet({ name: nameOfSet, description }));
-    if (res.error) {
+    console.log('res', res)
+    if (res.response.data.error) {
         toast({
           variant: "destructive",
           title: "Failed to create set",
-          description: "Please try again, name must be shorter than 32 characters",
+          description: res.response.data.message
         });
         return;
     }

@@ -1,9 +1,7 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
 import { QuizState, Question, QuestionSet, UserState, Sidebar } from "../types";
-import quizService from "../services/quizService";
 import userService from "../services/userService";
-import { User } from "discord.js";
 
 const initialState: QuizState = {
   questions: [],

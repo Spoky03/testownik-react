@@ -308,7 +308,7 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">subject: </p>
           {/* <p className="text-sm opacity-75">{set.metaData.subject || "N/A"}</p> */}
-          <input type="text" value={subject} className="max-w-20 text-sm opacity-75 bg-ternary cursor-pointer border-0" 
+          <input type="text" value={subject} className="max-w-16 text-sm opacity-75 bg-ternary cursor-pointer border-0" 
             onChange={(e) => {
               setSubject(e.target.value);
             }}

@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 import { AppDispatch } from "../store";
-import { CreatedQuestion, Question, QuestionSet, UserState } from "../types";
+import { CreatedQuestion, FetchedUser, Question, QuestionSet, UserState } from "../types";
 import browserService from "@/services/browserService";
 
 const initialState: UserState = {
   user: {
     sub: "",
     username: "",
+    email: "",
     questionSets: [],
     iat: 0,
     exp: 0,
     token: null,
   },
+
   preferences: {
     initialRepetitions: 1,
     maxRepetitions: 5,
@@ -88,7 +90,7 @@ const userSlice = createSlice({
         }
       }
     },
-    getSets: (state, action: PayloadAction<any>) => {
+    getSets: (state, action: PayloadAction<FetchedUser>) => {
       state.preferences = action.payload.preferences;
       state.progress = action.payload.progress;
       state.bookmarks = action.payload.bookmarks;
@@ -283,9 +285,9 @@ export const addQuestionSet = ({
       });
       dispatch(addSet(createdQuestionSet));
       return createdQuestionSet._id;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      return error.response.data;
+      return error;
     }
   };
 };
@@ -317,7 +319,7 @@ export const createQuestion = (questions: CreatedQuestion[], id: string) => {
     try {
       const createdQuestions = await userService.createQuestions(questions, id);
       createdQuestions.forEach((createdQuestion) => {
-        dispatch(addQuestionToSet({ createdQuestion, id }));
+        dispatch(addQuestionToSet({ createdQuestion: createdQuestion as unknown as Question, id }));
       });
       return { status: 200, message: "Questions added successfully" };
     } catch (error) {

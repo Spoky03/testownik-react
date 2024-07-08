@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   Request,
-  UseGuards,
 } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { Question } from '../interfaces/questions.interface';
@@ -15,7 +14,6 @@ import {
   AppendQuestionsDto,
   CreateQuestionDto,
 } from 'src/dto/create-question.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('api/questions')
 export class QuestionsController {

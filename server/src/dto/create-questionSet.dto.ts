@@ -36,7 +36,7 @@ class MetaData {
 
   @IsString()
   @IsOptional()
-  @MaxLength(32)
+  @MaxLength(24)
   readonly subject: string;
 }
 

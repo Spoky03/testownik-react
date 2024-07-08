@@ -101,3 +101,14 @@ export interface UserState {
     newsletter: boolean;
   };
   }
+
+  export interface FetchedUser {
+    user: User;
+    progress: UserState["progress"];
+    preferences: UserState["preferences"];
+    bookmarks: UserState["bookmarks"];
+    foreign: QuestionSet[];
+    settings: UserState["settings"];
+    questionSets: QuestionSet[];
+    email: string;
+  }
