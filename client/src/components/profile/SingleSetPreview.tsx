@@ -262,6 +262,7 @@ const EditDescriptionInput = ({
 const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
   const [editDescription, setEditDescription] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
+  const [subject, setSubject] = useState<string>("" || set.metaData.subject);
   const [date, setDate] = useState<Date>(set.metaData.date);
   const [tags, setTags] = useState<string[]>(set.metaData.tags);
   useEffect(() => {
@@ -306,7 +307,18 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">subject: </p>
-          <p className="text-sm opacity-75">{set.metaData.subject || "N/A"}</p>
+          {/* <p className="text-sm opacity-75">{set.metaData.subject || "N/A"}</p> */}
+          <input type="text" value={subject} className="max-w-20 text-sm opacity-75 bg-ternary cursor-pointer border-0" 
+            onChange={(e) => {
+              setSubject(e.target.value);
+            }}
+            onBlur={() => {
+              userService.editQuestionSet({
+                metaData: { subject },
+                id: set._id,
+              });
+            }}
+           />
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">tags: </p>
