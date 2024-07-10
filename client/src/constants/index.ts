@@ -3,8 +3,11 @@ export const APP_NAME = 'Testownik';
 export const LABELS = {
     VIEW_SETS: 'View Sets',
     LOGOUT: 'Logout',
-    WELCOME: 'Dołącz do nas!',
+    HERO : {
+        WELCOME: 'Dołącz do nas!',
     WELCOME_BACK: 'Welcome back! ' || 'Witaj z powrotem! ',
+    DESCRIPTION: 'Testownik to aplikacja do nauki i powtarzania materiałów. Stwórz własne zestawy pytań i odpowiedzi, a następnie powtarzaj je w formie quizu. Zapisuj swoje postępy i śledź swoje wyniki. ' || 'Testownik is an application for learning and repeating materials. Create your own sets of questions and answers, then repeat them in the form of a quiz. Save your progress and track your results.',
+    },
     BROWSER: 'Browser',
     SIDEBAR: {
         SETTINGS: 'Settings',
