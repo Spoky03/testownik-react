@@ -39,6 +39,11 @@ export default {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" },
         },
+        airplane: {
+          "0%": { transform: "rotate(-4deg)" },
+          "50%": { transform: "rotate(4deg)" },
+          "100%": { transform: "rotate(0deg)" },
+        },
         explode: {
           "0%": { transform: "scale(1)" },
           "70%": { transform: "scale(1.3)" },

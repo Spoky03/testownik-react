@@ -1,22 +1,19 @@
-export const APP_NAME = "Testownik";
-
+import i18n from "i18next";
 export const LABELS = {
   VIEW_SETS: "View Sets",
   LOGOUT: "Logout",
   HERO: {
     WELCOME: "Dołącz do nas!",
     WELCOME_BACK: "Welcome back! " || "Witaj z powrotem! ",
-    DESCRIPTION:
-      "Testownik to aplikacja do nauki i powtarzania materiałów. Stwórz własne zestawy pytań i odpowiedzi, a następnie powtarzaj je i udostępniaj. Zapisuj swoje postępy i śledź swoje wyniki. " ||
-      "Testownik is an application for learning and repeating materials. Create your own sets of questions and answers, then repeat them in the form of a quiz. Save your progress and track your results.",
+    // DESCRIPTION: i18n.t("HERO.DESCRIPTION"),
     ANIMATED: [
-      "Przygotuj się na egzamin",
+      i18n.t("HERO.ANIMATED.egzam"),
       7000,
-      "Przygotuj się na kolokwium",
+      i18n.t("HERO.ANIMATED.kolos"),
       5000,
-      "Przygotuj się do testu",
+      i18n.t("HERO.ANIMATED.test"),
       5000,
-      "Przygotuj się do zaliczenia",
+      i18n.t("HERO.ANIMATED.zali"),
       5000,
     ],
   },
@@ -41,12 +38,7 @@ export const LABELS = {
     LOGOUT: "You have been loged out",
   },
 };
-export const STYLES = {
-  MAX_WIDTH:
-    "sm:max-w-[600px] md:max-w-[750px] xl:max-w-[950px] 2xl:max-w-[1150px]",
-};
+
 export default {
-  APP_NAME,
   LABELS,
-  STYLES,
 };

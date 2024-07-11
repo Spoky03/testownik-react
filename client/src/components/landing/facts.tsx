@@ -23,7 +23,7 @@ const DescriptionCard = ({
       }}
       transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5*props.id }}
     >
-      <div className="flex flex-col gap-4 p-4 md:p-6">
+      <div className="flex flex-col justify-around gap-4 p-4 md:p-6 h-full">
         <div className="flex gap-2">
           <props.icon size={32} className="place-self-center" />
           <h2 className="text-xl font-bold">{props.title}</h2>

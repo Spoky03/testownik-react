@@ -5,8 +5,6 @@ import { WiMoonAltFirstQuarter } from "react-icons/wi";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdLanguage } from "react-icons/md";
 import { useEffect, useState } from "react";
-import constants from "@/constants";
-import * as React from "react";
 import { HiDotsHorizontal as DotsHorizontalIcon } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,10 +29,12 @@ const LangDropdown = (
 ) => {
   const [lang, setLang] = useState(i18n.language);
   
-  useEffect(() => {
+  const changeLang = (lang: string) => {
+    setLang(lang);
     document.documentElement.lang = lang;
+    console.log(lang);
     i18n.changeLanguage(lang);
-  }, [lang]);
+  }
   return (
     <DropdownMenuGroup>
         {/* <DropdownMenuLabel>Language</DropdownMenuLabel> */}
@@ -44,17 +44,11 @@ const LangDropdown = (
           <DropdownMenuItem onClick={() => setLang("pl")}>
             <p>Polski</p>
           </DropdownMenuItem> */}
-          <DropdownMenuRadioGroup value={lang} onValueChange={setLang} className="">
+          <DropdownMenuRadioGroup value={lang} onValueChange={changeLang}>
             <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="pl">Polski</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
-      //   <DropdownMenuRadioGroup value={position} onValueChange={setPosition} className="">
-      //   <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-      //   <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
-      //   <DropdownMenuRadioItem value="black">Black</DropdownMenuRadioItem>
-      //   <DropdownMenuRadioItem value="oak">Oak</DropdownMenuRadioItem>
-      // </DropdownMenuRadioGroup>
   )
 }
 
@@ -188,7 +182,7 @@ const SingleLink = ({
 };
 const NavLinks = () => {
   const activeTheme = getTheme();
-  const [position, setPosition] = React.useState(activeTheme);
+  const [position, setPosition] = useState(activeTheme);
   const setTheme = useTheme();
   const switchTheme = () => {
     setTheme(position);
@@ -227,10 +221,10 @@ export const Navbar = () => {
   return (
     <div className="flex justify-center z-10 mb-1 shadow-md fixed w-full bg-primary ">
       <div
-        className={`flex justify-between w-full px-2 py-2 ${constants.STYLES.MAX_WIDTH}`}
+        className={`flex justify-between w-full px-2 py-2 max-w-5xl`}
       >
         <Link to="/" className="place-self-center text-2xl font-bold ml-5">
-          {constants.APP_NAME}
+          Testownik
         </Link>
         <NavLinks />
       </div>

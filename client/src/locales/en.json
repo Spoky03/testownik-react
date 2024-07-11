@@ -1,5 +1,11 @@
 {
-      "Welcome to React": "Welcome to React and react-i18next"
-  
-  
+  "HERO": {
+    "ANIMATED": {
+      "egzam": "Prepare for the exam",
+      "kolos": "Prepare for the colloquium",
+      "test": "Prepare for the test",
+      "zali": "Prepare for the credit"
+    },
+    "DESCRIPTION": "Testownik is an application for learning and repeating materials. Create your own sets of questions and answers, then repeat them in the form of a quiz. Save your progress and track your results."
+  }
 }

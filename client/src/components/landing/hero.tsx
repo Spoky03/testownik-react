@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { AnimatedTyping } from "./AnimatedTyping";
-import constants from "../../constants";
 import { PhoneMock } from "./PhoneMock";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Figure } from "./figure";
 export const Hero = () => {
   const [mockEffect, setMockEffect] = useState(false);
+  const { t } = useTranslation();
   return (
     <section className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-5 p-10 ">
       <div className="flex flex-col col-span-3 gap-4 mt-12">
@@ -28,20 +30,11 @@ export const Hero = () => {
             </h2> */}
         <div className="relative mt-10 h-20 w-full">
           {/* <div className="hidden lg:block bg-success w-48 rounded-md h-12 absolute top-0 right-6"></div> */}
-          <svg
-            height="150"
-            width="250"
-            className="absolute hidden right-10 lg:block -top-6 drop-shadow-xl "
-          >
-            <polygon
-              points="130,10 210,30 240,110 0,100"
-              className="fill-success opacity-70 animate-[wiggle_60s_ease-in-out_infinite]"
-            />
-          </svg>
+          <Figure />
           <AnimatedTyping className="text-3xl md:text-4xl lg:text-[40px] font-bold" />
         </div>
         <p className="text-lg sm:text-xl dark:text-white place-self-center border-l-2 px-2 border-l-success z-[999]">
-          {constants.LABELS.HERO.DESCRIPTION}
+          {t("HERO.DESCRIPTION")}
         </p>
         <div className="flex mt-8 gap-5">
           <Link to="/login">

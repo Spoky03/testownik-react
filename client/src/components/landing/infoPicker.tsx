@@ -56,7 +56,7 @@ function ButtonIcon({ title, icon, active, setActive, id }: ButtonIcon) {
   return (
     <button
       className={`flex flex-col items-center justify-center gap-3 select-none cursor-pointer p-2 duration-200 ${
-        id === active ? "text-success" : " opacity-60"
+        id === active ? "text-success" : "hover:opacity-95 opacity-60"
       }`}
       onClick={() => setActive(id)}
     >
