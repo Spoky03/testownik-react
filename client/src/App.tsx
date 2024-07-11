@@ -46,7 +46,6 @@ const App = () => {
 
   useEffect(() => {
     setTheme(theme);
-    console.log("theme", theme);
     const monospace = localStorage.getItem("monospace");
     if (monospace) {
       document.body.classList.add("monospace");

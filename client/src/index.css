@@ -30,4 +30,13 @@
       mask-size: 200vmax;
     }
   }
+
+  .link {
+    @apply hover:text-success transition-all relative hover:after:w-full;
+  }
+  .link:after {
+    @apply absolute w-0 h-0.5 bg-current translate-y-1 rounded-full transition-all flex;
+    content: "";
+    bottom: 0;
+  }
 }
