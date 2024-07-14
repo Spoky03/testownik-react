@@ -7,7 +7,6 @@ import { initializeBrowser } from "../../reducers/browserReducer";
 import { SingleSet } from "../SingleSet/SingleSet";
 import { Modal } from "../Modal";
 import { BrowserNav } from "./BrowserNav";
-import constants from "@/constants";
 const SetDescription = ({ set }: { set: QuestionSet }) => {
   return (
     <div className="p-3 shadow-x bg-ternary">
