@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "postinstall": "tsc",
-    "deploy": "cd.. && cd client && npm run build:prod && cd.. && cd server && npm run build:prod && cd.. && git add . && git commit -m \"%npm_config_message%\" && git push"
+    "predeploy": "npm install && npm run build",
+    "deploy": "cd.. && cd client && npm run build:prod && cd.. && cd server && npm run build && cd.. && git add . && git commit -m \"%npm_config_message%\" && git push"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.2",
@@ -30,6 +31,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.3.2",
     "@nestjs/schedule": "^4.0.2",
+    "@nestjs/serve-static": "^4.0.2",
     "@types/oauth": "^0.9.5",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
@@ -58,6 +60,7 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
@@ -69,8 +72,7 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.3.3",
-    "copyfiles": "^2.4.1"
+    "typescript": "^5.3.3"
   },
   "jest": {
     "moduleFileExtensions": [

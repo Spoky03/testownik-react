@@ -95,7 +95,7 @@ const ProfileNav = ({
   const match = useMatch("/profile/*");
   const params = match ? match.params["*"] : "";
   const bentoStyles =
-    " bg-ternary p-2 rounded-2xl border borer-faint shadow-sm";
+    " bg-ternary p-2 rounded-2xl black:border black:borer-faint shadow-sm";
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 grid-flow-row gap-2">
       <div className="sm:col-span-4 flex h-fit">

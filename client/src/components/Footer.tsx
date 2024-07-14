@@ -15,7 +15,7 @@ export const Footer = () => {
             <p>
               Testownik app developed entirely by me with ui design inspiration
               from original{" "}
-              <a href="https://github.com/kumalg/testownik-electron" className="underline hover:text-success">
+              <a href="https://github.com/kumalg/testownik-electron" className="link hover:text-success">
                 Testownik electron app.
               </a>
             </p>
@@ -26,10 +26,10 @@ export const Footer = () => {
               Terms & Conditions
             </h6>
             <p className="">
-              <a href="/profile/agreements" className="underline hover:text-success">Agreements</a>
+              <a href="/profile/agreements" className="link hover:text-success">Agreements</a>
             </p>
             <p className="">
-              <a href="/privacy" className="underline hover:text-success">Privacy Policy</a>
+              <a href="/privacy" className="link hover:text-success">Privacy Policy</a>
             </p>
           </div>
           {/* <!-- Useful links section --> */}
@@ -38,10 +38,10 @@ export const Footer = () => {
               Useful links
             </h6>
             <p>
-              <a href="/profile/dashboard" className="underline hover:text-success">Dashboard</a>
+              <a href="/profile/dashboard" className="link hover:text-success">Dashboard</a>
             </p>
             <p>
-              <a href="/browser" className="underline hover:text-success">Browser</a>
+              <a href="/browser" className="link hover:text-success">Browser</a>
             </p>
           </div>
           {/* <!-- Contact section --> */}
@@ -61,7 +61,7 @@ export const Footer = () => {
               </svg>
               <a
                 href={revealMail ? "mailto:stefangrzelec@gmail.com" : ""}
-                className="underline hover:text-success"
+                className="link hover:text-success"
                 onMouseEnter={() => setRevealMail(true)}
                 onMouseLeave={() => setRevealMail(false)}
               >
@@ -70,7 +70,7 @@ export const Footer = () => {
             </p>
             <p className="mb-4 flex items-center justify-center md:justify-start">
               <FaGithub size={20} className="mr-3" />
-              <a href="https://github.com/Spoky03" className="underline hover:text-success">
+              <a href="https://github.com/Spoky03" className="link hover:text-success">
                 Github
               </a>
             </p>
