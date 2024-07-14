@@ -8,13 +8,9 @@ export const LABELS = {
     // DESCRIPTION: i18n.t("HERO.DESCRIPTION"),
     ANIMATED: [
       i18n.t("HERO.ANIMATED.egzam"),
-      7000,
       i18n.t("HERO.ANIMATED.kolos"),
-      5000,
       i18n.t("HERO.ANIMATED.test"),
-      5000,
       i18n.t("HERO.ANIMATED.zali"),
-      5000,
     ],
   },
   BROWSER: "Browser",

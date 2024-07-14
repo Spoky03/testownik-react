@@ -68,7 +68,7 @@ export const PercentageCircle = () => {
               }
               return prevPercentage + 1;
             });
-          }, 100); // Adjust time interval as needed
+          }, 25); // Adjust time interval as needed
         }
       });
     }, { threshold: 0.1 }); // Adjust threshold as needed
