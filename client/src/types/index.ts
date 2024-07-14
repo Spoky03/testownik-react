@@ -48,6 +48,11 @@ export interface QuizState {
 }
 export interface BrowserState {
   sets: QuestionSet[];
+  searchValue: string;
+  sort: {
+    value: 'likes' | 'date' | 'name' | null;
+    ascending: boolean;
+  };
 }
 export interface QuestionSet {
   description: string;

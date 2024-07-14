@@ -26,7 +26,7 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
   const handleDelete = () => {
-    // window.confirm("Are you sure you want to delete this set? This action is irreversible") &&
+    window.confirm("Are you sure you want to delete this set? This action is irreversible") &&
     setEffect(true);
   };
   const handlePrivate = () => {
@@ -138,6 +138,7 @@ export const SetList = () => {
             </Skeleton>
           </div>
         )}
+        <p className="place-self-end p-3 opacity-70 text-xs">Note: Sets without at least 1 question won't be visible to other users.</p>
       </div>
       <Modal
         content={<NewSetForm setShowModal={setShowModal} />}

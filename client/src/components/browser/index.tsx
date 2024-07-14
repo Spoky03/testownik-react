@@ -15,10 +15,13 @@ const SetDescription = ({ set }: { set: QuestionSet }) => {
   );
 };
 
+
 const SetList = () => {
   const sets = useSelector((state: RootState) => state.browser.sets);
   const { id } = useParams();
-  const [searchValue, setSearchValue] = useState<string>("");
+  const searchValue = useSelector(
+    (state: RootState) => state.browser.searchValue
+  );
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [selectedSet, setSelectedSet] = useState<QuestionSet | null>(null);
@@ -29,17 +32,17 @@ const SetList = () => {
         .toLowerCase()
         .replace(/\s+/g, "")
         .includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
-      set.description
-        .toLowerCase()
-        .replace(/\s+/g, "")
-        .includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
-      set.metaData.tags.some((tag) =>
-        tag
+        set.description
           .toLowerCase()
           .replace(/\s+/g, "")
-          .includes(searchValue.replace(/\s+/g, "").toLowerCase())
-      ) ||
-      searchValue === "")
+          .includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
+        set.metaData.tags.some((tag) =>
+          tag
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .includes(searchValue.replace(/\s+/g, "").toLowerCase())
+        ) ||
+        searchValue === "")
   );
   useEffect(() => {
     if (id) {
@@ -64,7 +67,7 @@ const SetList = () => {
         <div
           className={`flex flex-col p-1 sm:p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-6xl gap-2 `}
         >
-          <BrowserNav search={searchValue} setSearch={setSearchValue} />
+          <BrowserNav />
           {filteredSets.map((set) => (
             <div
               key={set._id}
