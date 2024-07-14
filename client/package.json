@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "build:prod": "rd /s /q ..\\server\\dist && tsc && vite build && xcopy /E /I dist ..\\server\\dist"
+    "build:prod": "rd /s /q ..\\server\\public && tsc && vite build && xcopy /E /I dist ..\\server\\public"
   },
   "dependencies": {
     "@headlessui/react": "^2.0.4",

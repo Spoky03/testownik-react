@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "postinstall": "tsc",
-    "deploy": "cd.. && cd client && npm run build:prod && cd.. && cd server && npm run build:prod && cd.. && git add . && git commit -m \"%npm_config_message%\" && git push"
+    "deploy": "cd.. && cd client && npm run build:prod && cd.. && cd server && npm run build && cd.. && git add . && git commit -m \"%npm_config_message%\" && git push"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.2",
