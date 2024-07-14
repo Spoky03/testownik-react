@@ -55,10 +55,10 @@ const App = () => {
   return (
     <>
       <main
-        className={`w-full min-full bg-ternary text-text h-screen overflow-x-hidden`}
+        className={`w-full bg-ternary text-text h-screen`}
       >
         <Navbar />
-        <div className="pt-10 min-h-screen">
+        <div className="pt-10 min-h-screen w-full">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
