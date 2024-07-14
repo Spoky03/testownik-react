@@ -6,9 +6,11 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Figure } from "./figure";
+import { useMediaQuery } from "@uidotdev/usehooks";
 export const Hero = ({ id }: { id?: string }) => {
   const [mockEffect, setMockEffect] = useState(false);
   const { t } = useTranslation();
+  const isMobile = useMediaQuery("(max-width: 640px)");
   return (
     <section
       className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-5 p-10 overflow-x-visible"
@@ -69,6 +71,15 @@ export const Hero = ({ id }: { id?: string }) => {
         onAnimationComplete={() => {
           setMockEffect(true);
         }}
+        drag={!isMobile}
+        dragConstraints={{
+          top: -11,
+          left: -11,
+          right: 11,
+          bottom: 11,
+        }}
+        dragSnapToOrigin
+        dragElastic={0.1}
       >
         <PhoneMock
           className={
@@ -78,12 +89,12 @@ export const Hero = ({ id }: { id?: string }) => {
             <>
               <img
                 src="/mock1.png"
-                className="dark:hidden w-[272px] h-[572px]"
+                className="dark:hidden w-[272px] h-[572px] pointer-events-none"
                 alt=""
               />
               <img
                 src="/mock1.png"
-                className="hidden dark:block w-[272px] h-[572px]"
+                className="hidden dark:block w-[272px] h-[572px] pointer-events-none"
                 alt=""
               />
             </>
