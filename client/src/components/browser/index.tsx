@@ -47,7 +47,7 @@ const SetList = () => {
     }
   };
   return (
-    <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
+    <div className="flex flex-col place-items-center px-5 sm:p-8">
       <Suspense fallback={<h1>Loading...</h1>}>
         <div className={`flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-5xl gap-2  `}>
           <BrowserNav search={searchValue} setSearch={setSearchValue} />

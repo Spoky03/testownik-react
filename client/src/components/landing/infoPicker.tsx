@@ -112,7 +112,7 @@ export const InfoPicker = () => {
           ))}
         </div>
       </div>
-      <div className="w-screen bg-primary black:bordet-t-white black:border-t">
+      <div className="bg-primary black:bordet-t-white black:border-t">
         <div className="max-w-3xl mx-auto flex flex-col md:flex-row justify-center md:justify-start md:items-center gap-12">
           <InnerContent {...Content[active]} />
           <div className="hidden aspect-square max-md:w-full md:h-[28rem] bg-neutral md:order-first"></div>
