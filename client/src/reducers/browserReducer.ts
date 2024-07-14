@@ -20,7 +20,6 @@ const browserSlice = createSlice({
       state.sets = action.payload;
     },
     setLikes: (state, action: PayloadAction<{id: string, likes: number, liked: boolean}>) => {
-      console.log(action.payload);
       const set = state.sets.find((set) => set._id === action.payload.id);
       if (set) {
         set.likes = action.payload.likes;
@@ -31,7 +30,6 @@ const browserSlice = createSlice({
       state.sort.value = action.payload;
       switch (action.payload) {
         case "likes":
-          console.log("sorting by likes");
           state.sets.sort((a, b) => {
             if (state.sort.ascending) {
               return a.likes - b.likes;
@@ -41,7 +39,6 @@ const browserSlice = createSlice({
           });
           break;
         case "date":
-          console.log("sorting by date");
           state.sets.sort((a, b) => {
             if (state.sort.ascending) {
               return new Date(a.metaData.date).getTime() - new Date(b.metaData.date).getTime();
@@ -55,7 +52,6 @@ const browserSlice = createSlice({
       }
     },
     changeAscending: (state) => {
-      console.log("changing sort direction");
       state.sort.ascending = !state.sort.ascending;
     },
     setSearchValue: (state, action: PayloadAction<string>) => {
