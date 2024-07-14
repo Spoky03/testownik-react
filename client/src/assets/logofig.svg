@@ -1,0 +1,14 @@
+<svg
+        height="150"
+        width="250"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"
+      >
+        <polygon
+          points="130,10 210,30 0,100"
+          className="fill-success opacity-70 animate-[airplane_4s_ease-in-out]"
+        />
+        <polygon
+          points=" 210,30 240,110 0,100"
+          className="fill-success opacity-80 animate-[airplane_4s_ease-in-out]"
+        />
+      </svg>

@@ -69,10 +69,10 @@ function ButtonIcon({ title, icon, active, setActive, id }: ButtonIcon) {
     </button>
   );
 }
-export const InfoPicker = () => {
+export const InfoPicker = ({ id }: { id?: string }) => {
   const [active, setActive] = useState<number>(0);
   return (
-    <div className="overflow-x-hidden h-full flex flex-col">
+    <section className="overflow-x-hidden h-full flex flex-col" id={id}>
       <div className="w-full max-w-5xl items-center justify-center place-self-center px-6 sm:px-10 md:px-16 xl:px-24">
         <p className="mb-1">short text above heading</p>
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
@@ -112,13 +112,13 @@ export const InfoPicker = () => {
           ))}
         </div>
       </div>
-      <div className="bg-primary black:bordet-t-white black:border-t">
+      <div className="bg-primary black:bordet-t-white black:border-t w-screen">
         <div className="max-w-3xl mx-auto flex flex-col md:flex-row justify-center md:justify-start md:items-center gap-12">
           <InnerContent {...Content[active]} />
           <div className="hidden aspect-square max-md:w-full md:h-[28rem] bg-neutral md:order-first"></div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

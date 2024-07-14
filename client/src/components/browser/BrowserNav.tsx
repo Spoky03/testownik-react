@@ -11,9 +11,9 @@ export const BrowserNav = ({
     setSearch: (search: string) => void;
   }) => {
     return (
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between pb-2 items-center">
         <div className="w-1/3"><GoBackArrow /></div>
-        <h1 className="text-xl font-semibold place-self-center text-center w-1/3">
+        <h1 className="font-bold text-center text-xl w-1/3 h-fit">
           {constants.LABELS.BROWSER}
         </h1>
         <div className="flex items-center justify-end relative w-1/3">

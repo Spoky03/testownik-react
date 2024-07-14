@@ -36,9 +36,9 @@ const DescriptionCard = ({
     </motion.div>
   );
 };
-export const Facts = () => {
+export const Facts = ({id}: {id?: string}) => {
   return (
-    <section className="max-w-7xl w-full p-10 mt-20">
+    <section className="max-w-7xl w-full p-10 mt-20" id={id}>
       <h3 className="text-2xl pl-4 pb-4 font-bold col-span-3">
         Czy wiesz, że...
       </h3>

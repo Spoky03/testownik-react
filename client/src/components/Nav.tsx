@@ -1,3 +1,4 @@
+//<reference types="vite-plugin-svgr/client" />
 import { Link, useNavigate } from "react-router-dom";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { RxReader } from "react-icons/rx";
@@ -24,7 +25,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getTheme, useTheme } from "@/lib/theme";
 import i18n from "@/i18n";
-
+import Logo from "@/assets/logo.svg?react";
+import FlagPL from "@/assets/pl.svg?react";
+import FlagEN from "@/assets/uk.svg?react";
 const LangDropdown = (
 ) => {
   const [lang, setLang] = useState(i18n.language);
@@ -45,8 +48,14 @@ const LangDropdown = (
             <p>Polski</p>
           </DropdownMenuItem> */}
           <DropdownMenuRadioGroup value={lang} onValueChange={changeLang}>
-            <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="pl">Polski</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="en" className="flex gap-2">
+              <FlagEN className="w-6 h-6"/>
+              <span>English</span>
+              </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="pl" className="flex gap-2">
+              <FlagPL className="w-6 h-6"/>
+              <span>Polski</span>
+              </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
   )
@@ -82,7 +91,6 @@ const ThemeDropdown = ({
       <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="black">Black</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="oak">Oak</DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
   );
 };
@@ -208,8 +216,12 @@ const NavLinks = () => {
           Dashboard
         </SingleLink>
         <SingleLink to="/profile">Profile</SingleLink>
-        <ThemeButton position={position} setPosition={setPosition} />
-        <LangButton />
+        <div className="place-self-center basis-1/4">
+          <ThemeButton position={position} setPosition={setPosition} />
+        </div>
+        <div className="place-self-center basis-1/4">
+          <LangButton />
+        </div>
       </div>
       <div className="block sm:hidden mr-5">
         <ComboboxDropdownMenu position={position} setPosition={setPosition} />
@@ -219,12 +231,12 @@ const NavLinks = () => {
 };
 export const Navbar = () => {
   return (
-    <div className="flex justify-center z-10 mb-1 shadow-md fixed w-full bg-primary ">
+    <div className="flex justify-center max-h-28 w-screen z-10 mb-1 shadow-md sm:fixed bg-primary ">
       <div
-        className={`flex justify-between w-full px-2 py-2 max-w-5xl`}
+        className={`flex justify-between w-full p-2 max-w-5xl`}
       >
         <Link to="/" className="place-self-center text-2xl font-bold ml-5">
-          Testownik
+            <Logo className="h-16 w-fit fill-text"/>
         </Link>
         <NavLinks />
       </div>

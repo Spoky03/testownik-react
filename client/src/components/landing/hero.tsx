@@ -6,11 +6,14 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Figure } from "./figure";
-export const Hero = () => {
+export const Hero = ({ id }: { id?: string }) => {
   const [mockEffect, setMockEffect] = useState(false);
   const { t } = useTranslation();
   return (
-    <section className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-5 p-10 ">
+    <section
+      className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-5 p-10 overflow-x-visible "
+      id={id}
+    >
       <div className="flex flex-col col-span-3 gap-4 mt-12">
         {/* <h1 className="text-4xl sm:text-5xl font-bold text-success pt-10 inline">
               {constants.APP_NAME}
@@ -33,7 +36,7 @@ export const Hero = () => {
           <Figure />
           <AnimatedTyping className="text-3xl md:text-4xl lg:text-[40px] font-bold" />
         </div>
-        <p className="text-lg sm:text-xl dark:text-white place-self-center border-l-2 px-2 border-l-success z-[999]">
+        <p className="text-lg sm:text-xl dark:text-white place-self-center border-l-2 px-2 border-l-success z-100">
           {t("HERO.DESCRIPTION")}
         </p>
         <div className="flex mt-8 gap-5">
@@ -42,16 +45,11 @@ export const Hero = () => {
               Zacznij naukę
             </Button>
           </Link>
-          <Link to="/">
-            <Button
-              type="button"
-              variant={"ghost"}
-              className=""
-              onClick={() => {}}
-            >
+          <a href="#facts">
+            <Button type="button" variant={"ghost"} className="">
               Dowiedz się więcej
             </Button>
-          </Link>
+          </a>
         </div>
       </div>
       {/* <div className="flex gap-5 place-self-center">
@@ -65,30 +63,32 @@ export const Hero = () => {
             <Button type="button">Edit</Button>
           </Link>
         </div> */}
-      <motion.div 
+      <motion.div
         className={`col-span-2 overflow-x-visible"}`}
         initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              // transition={{
-              //   duration: 2,
-              //   ease: "easeInOut",
-              // }}
-              transition={{
-                type: "spring",
-                damping: 5,
-                stiffness: 50,
-              }}
-              variants={{
-                hidden: { translateX: 200 },
-                visible: { translateX: 0 },
-              }}
-              onAnimationComplete={() => {
-                setMockEffect(true);
-              }}
+        whileInView="visible"
+        viewport={{ once: true }}
+        // transition={{
+        //   duration: 2,
+        //   ease: "easeInOut",
+        // }}
+        transition={{
+          type: "spring",
+          damping: 5,
+          stiffness: 50,
+        }}
+        variants={{
+          hidden: { translateX: 200 },
+          visible: { translateX: 0 },
+        }}
+        onAnimationComplete={() => {
+          setMockEffect(true);
+        }}
       >
         <PhoneMock
-          className={mockEffect ? "drop-shadow-xl shadow-2xl shadow-success" : ""}
+          className={
+            mockEffect ? "drop-shadow-xl shadow-2xl shadow-success" : ""
+          }
           children={
             <>
               <img
