@@ -13,21 +13,36 @@ const SetDescription = ({ set }: { set: QuestionSet }) => {
       <SingleSet set={set} type={SetListTypes.MODAL} />
     </div>
   );
-}
+};
+
 
 const SetList = () => {
   const sets = useSelector((state: RootState) => state.browser.sets);
   const { id } = useParams();
-  const [searchValue, setSearchValue] = useState<string>("");
+  const searchValue = useSelector(
+    (state: RootState) => state.browser.searchValue
+  );
   const [open, setOpen] = useState(false);
-  const  navigate  = useNavigate();
+  const navigate = useNavigate();
   const [selectedSet, setSelectedSet] = useState<QuestionSet | null>(null);
   const filteredSets = sets.filter(
     (set) =>
-      set.name.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
-      set.description.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
-      set.metaData.tags.some((tag) => tag.toLowerCase().replace(/\s+/g, "").includes(searchValue.replace(/\s+/g, "").toLowerCase())
-      ) || searchValue === ""
+      set.questions.length > 0 &&
+      (set.name
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
+        set.description
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(searchValue.replace(/\s+/g, "").toLowerCase()) ||
+        set.metaData.tags.some((tag) =>
+          tag
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .includes(searchValue.replace(/\s+/g, "").toLowerCase())
+        ) ||
+        searchValue === "")
   );
   useEffect(() => {
     if (id) {
@@ -47,15 +62,20 @@ const SetList = () => {
     }
   };
   return (
-    <div className="flex flex-col place-items-center w-screen px-5 sm:p-8">
+    <div className="flex flex-col place-items-center px-5 sm:p-8 mt-4">
       <Suspense fallback={<h1>Loading...</h1>}>
-        <div className={`flex flex-col p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-5xl gap-2  `}>
-          <BrowserNav search={searchValue} setSearch={setSearchValue} />
+        <div
+          className={`flex flex-col p-1 sm:p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-6xl gap-2 `}
+        >
+          <BrowserNav />
           {filteredSets.map((set) => (
-            <div key={set._id} onClick={(e) => {
-              e.preventDefault();
-              navigate(`/browser/${set._id}`)
-            }}>
+            <div
+              key={set._id}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/browser/${set._id}`);
+              }}
+            >
               <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER} />
             </div>
           ))}
@@ -64,7 +84,9 @@ const SetList = () => {
           )}
         </div>
       </Suspense>
-      <Modal open={open} setOpen={handleOpen}
+      <Modal
+        open={open}
+        setOpen={handleOpen}
         content={<SetDescription set={selectedSet as QuestionSet} />}
       />
     </div>
@@ -73,14 +95,14 @@ const SetList = () => {
 const BrowserContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-      dispatch(initializeBrowser());
+    dispatch(initializeBrowser());
   }, [dispatch]);
   return (
     <>
-    <Routes>
-      <Route path="" element={<SetList />} />
-      <Route path=":id" element={<SetList />} />
-    </Routes>
+      <Routes>
+        <Route path="" element={<SetList />} />
+        <Route path=":id" element={<SetList />} />
+      </Routes>
     </>
   );
 };

@@ -6,12 +6,17 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Figure } from "./figure";
-export const Hero = () => {
+import { useMediaQuery } from "@uidotdev/usehooks";
+export const Hero = ({ id }: { id?: string }) => {
   const [mockEffect, setMockEffect] = useState(false);
   const { t } = useTranslation();
+  const isMobile = useMediaQuery("(max-width: 640px)");
   return (
-    <section className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-5 p-10 ">
-      <div className="flex flex-col col-span-3 gap-4 mt-12">
+    <section
+      className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-5 p-10 overflow-x-visible"
+      id={id}
+    >
+      <div className="flex flex-col col-span-3 gap-4 sm:mt-12">
         {/* <h1 className="text-4xl sm:text-5xl font-bold text-success pt-10 inline">
               {constants.APP_NAME}
             </h1> */}
@@ -28,12 +33,12 @@ export const Hero = () => {
                 </Link>
               )}
             </h2> */}
-        <div className="relative mt-10 h-20 w-full">
+        <div className="relative md:mt-10 h-20 w-full">
           {/* <div className="hidden lg:block bg-success w-48 rounded-md h-12 absolute top-0 right-6"></div> */}
           <Figure />
           <AnimatedTyping className="text-3xl md:text-4xl lg:text-[40px] font-bold" />
         </div>
-        <p className="text-lg sm:text-xl dark:text-white place-self-center border-l-2 px-2 border-l-success z-[999]">
+        <p className="text-lg sm:text-xl dark:text-white place-self-center border-l-2 px-2 border-l-success z-100">
           {t("HERO.DESCRIPTION")}
         </p>
         <div className="flex mt-8 gap-5">
@@ -42,63 +47,54 @@ export const Hero = () => {
               Zacznij naukę
             </Button>
           </Link>
-          <Link to="/">
-            <Button
-              type="button"
-              variant={"ghost"}
-              className=""
-              onClick={() => {}}
-            >
+          <a href="#facts">
+            <Button type="button" variant={"ghost"} className="">
               Dowiedz się więcej
             </Button>
-          </Link>
+          </a>
         </div>
       </div>
-      {/* <div className="flex gap-5 place-self-center">
-          <Link to="/dashboard" className="place-self-center text-2xl">
-            <Button type="button">Quiz</Button>
-          </Link>
-          <Link to="/browser" className="place-self-center text-2xl">
-            <Button type="button">Browse</Button>
-          </Link>
-          <Link to="/profile/sets" className="place-self-center text-2xl">
-            <Button type="button">Edit</Button>
-          </Link>
-        </div> */}
-      <motion.div 
-        className={`col-span-2 overflow-x-visible"}`}
+      <motion.div
+        className={`col-span-2 overflow-x-visible mt-10 `}
         initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              // transition={{
-              //   duration: 2,
-              //   ease: "easeInOut",
-              // }}
-              transition={{
-                type: "spring",
-                damping: 5,
-                stiffness: 50,
-              }}
-              variants={{
-                hidden: { translateX: 200 },
-                visible: { translateX: 0 },
-              }}
-              onAnimationComplete={() => {
-                setMockEffect(true);
-              }}
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{
+          type: "spring",
+          damping: 5,
+          stiffness: 50,
+        }}
+        variants={{
+          hidden: { translateX: 200 },
+          visible: { translateX: 0 },
+        }}
+        onAnimationComplete={() => {
+          setMockEffect(true);
+        }}
+        drag={!isMobile}
+        dragConstraints={{
+          top: -11,
+          left: -11,
+          right: 11,
+          bottom: 11,
+        }}
+        dragSnapToOrigin
+        dragElastic={0.1}
       >
         <PhoneMock
-          className={mockEffect ? "drop-shadow-xl shadow-2xl shadow-success" : ""}
+          className={
+            mockEffect ? "drop-shadow-xl shadow-2xl shadow-success" : ""
+          }
           children={
             <>
               <img
                 src="/mock1.png"
-                className="dark:hidden w-[272px] h-[572px]"
+                className="dark:hidden w-[272px] h-[572px] pointer-events-none"
                 alt=""
               />
               <img
                 src="/mock1.png"
-                className="hidden dark:block w-[272px] h-[572px]"
+                className="hidden dark:block w-[272px] h-[572px] pointer-events-none"
                 alt=""
               />
             </>

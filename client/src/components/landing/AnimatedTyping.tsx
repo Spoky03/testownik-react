@@ -25,7 +25,7 @@ export const AnimatedTyping = ({className} : {className?:string}) => {
       }
       wrapper="h2"
       speed={40}
-      className={`inline-block z-[100] relative break-words ${className} ${CURSOR_CLASS_NAME}`}
+      className={`inline-block z-100 relative break-words ${className} ${CURSOR_CLASS_NAME}`}
       repeat={Infinity}
       cursor={false}
     />

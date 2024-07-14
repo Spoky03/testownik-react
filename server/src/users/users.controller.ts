@@ -23,7 +23,7 @@ import { UpdateUserEntity } from './dto/update-user.dto';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Public() // DONT FORGET TO REMOVE THIS
+  //@Public() // DONT FORGET TO REMOVE THIS
   @Get()
   async findAll() {
     return this.usersService.findAll();

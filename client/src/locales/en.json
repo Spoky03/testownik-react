@@ -1,4 +1,25 @@
 {
+  "NAV": {
+    "LINKS": {
+      "HOME": "Home",
+      "PROFILE": "Profile",
+      "DASHBOARD": "Dashboard",
+      "BROWSER": "Browser",
+      "NAV": "Navigation"
+    },
+    "CLOSE": "Close",
+    "LANG": {
+      "PL": "Polish",
+      "EN": "English",
+      "LANG": "Language"
+    },
+    "THEME": {
+      "LIGHT": "Light",
+      "DARK": "Dark",
+      "BLACK": "Black",
+      "THEME": "Theme"
+    }
+  },
   "HERO": {
     "ANIMATED": {
       "egzam": "Prepare for the exam",
@@ -7,5 +28,18 @@
       "zali": "Prepare for the credit"
     },
     "DESCRIPTION": "Testownik is an application for learning and repeating materials. Create your own sets of questions and answers, then repeat them in the form of a quiz. Save your progress and track your results."
+  },
+  "BROWSER": {
+    "TITLE": "Browser",
+    "AUTHOR": "by",
+    "NO_RESULTS": "No results found",
+    "NAV": {
+      "ALL": "All",
+      "MINE": "Mine",
+      "SEARCH": "Search",
+      "FAVORITES": "Favorites",
+      "FILTER": "Filter",
+      "SORT": "Sort"
+    }
   }
 }

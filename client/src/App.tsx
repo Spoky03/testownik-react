@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "./store";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { LandingPage } from "./components/landing";
 import Profile from "./components/profile";
-import { Navbar } from "./components/Nav";
+import { Navbar } from "./components/nav/Nav";
 import { fetchAllUserData, reLoginUser } from "./reducers/userReducer";
 import BrowserContainer from "./components/browser";
 import { Toaster } from "./components/ui/toaster";
@@ -54,10 +54,10 @@ const App = () => {
   return (
     <>
       <main
-        className={`w-full min-full bg-ternary text-text h-screen overflow-x-hidden`}
+        className={`w-full bg-ternary text-text min-h-screen`}
       >
         <Navbar />
-        <div className="pt-10 min-h-screen">
+        <div className="sm:pt-10 min-h-screen w-full">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />

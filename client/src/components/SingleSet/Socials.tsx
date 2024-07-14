@@ -80,7 +80,7 @@ export const Socials = ({
                 <MarkIcon
                   size={18}
                   className={` transition-colors duration-300 ${
-                    bookmarked ? "text-amber-500 hover:text-amber-400" : ""
+                    bookmarked && "text-amber-500"
                   }`}
                 />
               </button>
@@ -96,9 +96,10 @@ export const Socials = ({
         {set.metaData.tags.map((tag) => (
           <span
             key={tag}
-            className={`rounded-full px-2 py-1 text-xs bg-primary text-white light:text-text`}
+            className={`rounded-full px-2 py-1 text-xs bg-primary text-white light:text-text black:border`}
           >
-            {'#'}{tag}
+            {"#"}
+            {tag}
           </span>
         ))}
       </div>
