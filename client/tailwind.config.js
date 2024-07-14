@@ -39,6 +39,11 @@ export default {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" },
         },
+        airplane: {
+          "0%": { transform: "rotate(-4deg)" },
+          "50%": { transform: "rotate(4deg)" },
+          "100%": { transform: "rotate(0deg)" },
+        },
         explode: {
           "0%": { transform: "scale(1)" },
           "70%": { transform: "scale(1.3)" },
@@ -47,6 +52,10 @@ export default {
         fade: {
           "0%": { opacity: "1" },
           "100%": { opacity: "0.5" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         rotate: {
           "0%": { transform: "rotate(0deg)" },
@@ -69,6 +78,7 @@ export default {
         wiggle: "wiggle 200ms ease-in-out",
         explode: "explode 600ms ease-in-out",
         fade: "fade 1s ease-in-out",
+        fadeIn: "fadeIn 1s ease-in-out",
         rotate: "rotate 1s ease-out",
         rotateSemi: "rotateSemi 0.65s ease-out",
         "accordion-down": "accordion-down 0.2s ease-out",

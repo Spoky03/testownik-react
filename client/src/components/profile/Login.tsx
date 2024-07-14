@@ -28,11 +28,15 @@ export const Login = () => {
         variant === "success"
           ? "Logged in successfully!"
           : "There was a problem with your request.",
-      description: res.response.data.message || res.message,
+      description:
+        variant === "success"
+          ? "Logged in successfully!"
+          : res.response.data.message,
     });
     setEffect(false);
   };
   if (checkIfTokenIsValid(user.exp)) {
+    if (!origin) return <Navigate to="/profile/dashboard" />;
     return <Navigate to={origin} />;
   }
   return (

@@ -1,0 +1,11 @@
+{
+  "HERO": {
+    "ANIMATED": {
+      "egzam": "Przygotuj się na egzamin",
+      "kolos": "Przygotuj się na kolokwium",
+      "test": "Przygotuj się do testu",
+      "zali": "Przygotuj się do zaliczenia"
+    },
+    "DESCRIPTION": "Testownik to aplikacja do nauki i powtarzania materiałów. Stwórz własne zestawy pytań i odpowiedzi, a następnie powtarzaj je i udostępniaj. Zapisuj swoje postępy i śledź swoje wyniki."
+  }
+}
