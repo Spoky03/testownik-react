@@ -1,4 +1,25 @@
 {
+  "NAV": {
+    "LINKS": {
+      "HOME": "Home",
+      "PROFILE": "Profile",
+      "DASHBOARD": "Dashboard",
+      "BROWSER": "Browser",
+      "NAV": "Navigation"
+    },
+    "CLOSE": "Close",
+    "LANG": {
+      "PL": "Polish",
+      "EN": "English",
+      "LANG": "Language"
+    },
+    "THEME": {
+      "LIGHT": "Light",
+      "DARK": "Dark",
+      "BLACK": "Black",
+      "THEME": "Theme"
+    }
+  },
   "HERO": {
     "ANIMATED": {
       "egzam": "Prepare for the exam",

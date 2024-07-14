@@ -1,4 +1,25 @@
 {
+  "NAV": {
+    "LINKS": {
+      "HOME": "Strona Główna",
+      "PROFILE": "Profil",
+      "DASHBOARD": "Kokpit",
+      "BROWSER": "Przeglądarka",
+      "NAV": "Nawigacja"
+    },
+    "CLOSE": "Zamknij",
+    "LANG": {
+      "PL": "Polski",
+      "EN": "Angielski",
+      "LANG": "Język"
+    },
+    "THEME": {
+      "LIGHT": "Jasny",
+      "DARK": "Ciemny",
+      "BLACK": "Kontrast",
+      "THEME": "Motyw"
+    }
+  },
   "HERO": {
     "ANIMATED": {
       "egzam": "Przygotuj się na egzamin",

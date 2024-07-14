@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "./store";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { LandingPage } from "./components/landing";
 import Profile from "./components/profile";
-import { Navbar } from "./components/Nav";
+import { Navbar } from "./components/nav/Nav";
 import { fetchAllUserData, reLoginUser } from "./reducers/userReducer";
 import BrowserContainer from "./components/browser";
 import { Toaster } from "./components/ui/toaster";
