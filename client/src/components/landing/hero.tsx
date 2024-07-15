@@ -9,7 +9,7 @@ import { Figure } from "./figure";
 import { useMediaQuery } from "@uidotdev/usehooks";
 export const Hero = ({ id }: { id?: string }) => {
   const [mockEffect, setMockEffect] = useState(false);
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation', { keyPrefix: 'HERO' });
   const isMobile = useMediaQuery("(max-width: 640px)");
   return (
     <section
@@ -39,17 +39,17 @@ export const Hero = ({ id }: { id?: string }) => {
           <AnimatedTyping className="text-3xl md:text-4xl lg:text-[40px] font-bold" />
         </div>
         <p className="text-lg sm:text-xl dark:text-white place-self-center border-l-2 px-2 border-l-success z-100">
-          {t("HERO.DESCRIPTION")}
+          {t("DESCRIPTION")}
         </p>
         <div className="flex mt-8 gap-5">
           <Link to="/login">
             <Button type="button" className="" onClick={() => {}}>
-              Zacznij naukę
+              {t("BUTTONS.START")}
             </Button>
           </Link>
           <a href="#facts">
             <Button type="button" variant={"ghost"} className="">
-              Dowiedz się więcej
+              {t("BUTTONS.MORE")}
             </Button>
           </a>
         </div>

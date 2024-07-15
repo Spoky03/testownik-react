@@ -21,6 +21,10 @@
     }
   },
   "HERO": {
+    "BUTTONS": {
+      "START": "Zacznij naukę",
+      "MORE": "Dowiedz się więcej"
+    },
     "ANIMATED": {
       "egzam": "Przygotuj się na egzamin",
       "kolos": "Przygotuj się na kolokwium",

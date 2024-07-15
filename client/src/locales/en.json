@@ -21,6 +21,10 @@
     }
   },
   "HERO": {
+    "BUTTONS": {
+      "START": "Start learning",
+      "MORE": "Learn more"
+    },
     "ANIMATED": {
       "egzam": "Prepare for the exam",
       "kolos": "Prepare for the colloquium",
