@@ -17,8 +17,10 @@ jobs:
       with:
         node-version: '20.11.1'  # Specify the Node.js version
 
-    - name: Remove package-lock.json
-      run: rm -f ./client/package-lock.json
+    - name: Remove package-lock.json and node_modules
+      run: |
+        rm -f ./client/package-lock.json
+        rm -rf ./client/node_modules
       working-directory: ./client
 
     - name: Install dependencies
