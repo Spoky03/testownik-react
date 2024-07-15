@@ -21,10 +21,9 @@
 
     "start:prod": "node dist/main.js",
     "build:prod": "rimraf dist && tsc -p tsconfig.build.json",
-    "heroku-prebuild": "npm install && npm install --only=dev --no-shrinkwrap ",
-    "heroku-build": "npm run build:prod",
-    "postinstall": "tsc",
-    
+    "heroku-prebuild": "npm install && npm install --only=dev --no-shrinkwrap && npm i -g @nestjs/cli",
+    "heroku-build": "npm run build",
+
     "predeploy": "npm install && npm run build:prod",
     "deploy": "cd.. && cd client && npm run build:prod && cd.. && cd server && npm run build && cd.. && git add . && git commit -m \"%npm_config_message%\" && git push"
   },
