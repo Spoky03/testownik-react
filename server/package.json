@@ -12,17 +12,17 @@
     "dev": "nest start --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main.js",
-    "prestart:prod": "rimraf dist && npm run build:prod",
-    "build:prod": "tsc -p tsconfig.build.json",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+
+    "start:prod": "node dist/main.js",
+    "build:prod": "rimraf dist && tsc -p tsconfig.build.json",
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build:prod",
-    "postinstall": "npm run prestart:prod",
+
     "predeploy": "npm install && npm run build:prod",
     "deploy": "cd.. && cd client && npm run build:prod && cd.. && cd server && npm run build && cd.. && git add . && git commit -m \"%npm_config_message%\" && git push"
   },
