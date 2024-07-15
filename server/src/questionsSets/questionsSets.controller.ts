@@ -15,11 +15,13 @@ import {
 } from 'src/dto/create-questionSet.dto';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
 import { GetQuestionSetDto } from 'src/dto/get-questionSet.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('api/sets')
 export class QuestionsSetsController {
   constructor(private questionsSetsService: QuestionsSetsService) {}
 
+  @Public()
   @Get()
   async findAll(@Request() req): Promise<GetQuestionSetDto[]> {
     const userId = req.user ? req.user.sub : null;

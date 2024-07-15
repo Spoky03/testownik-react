@@ -1,6 +1,7 @@
 import { Hero } from "./hero";
 import { Facts } from "./facts";
 import { InfoPicker } from "./infoPicker";
+import { BrowserRedirect } from "./browserRedirect";
 
 export const LandingPage = () => {
   return (
@@ -8,6 +9,7 @@ export const LandingPage = () => {
       <Hero id="home" />
       <Facts id="facts" />
       <InfoPicker id="info" />
+      <BrowserRedirect id="browserInfo" />
     </div>
   );
 };

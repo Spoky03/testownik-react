@@ -9,7 +9,7 @@ import { Figure } from "./figure";
 import { useMediaQuery } from "@uidotdev/usehooks";
 export const Hero = ({ id }: { id?: string }) => {
   const [mockEffect, setMockEffect] = useState(false);
-  const { t } = useTranslation('translation', { keyPrefix: 'HERO' });
+  const { t } = useTranslation("translation", { keyPrefix: "HERO" });
   const isMobile = useMediaQuery("(max-width: 640px)");
   return (
     <section
@@ -62,10 +62,10 @@ export const Hero = ({ id }: { id?: string }) => {
         transition={{
           type: "spring",
           damping: 5,
-          stiffness: 50,
+          stiffness: 25,
         }}
         variants={{
-          hidden: { translateX: 200 },
+          hidden: { translateX: 370 },
           visible: { translateX: 0 },
         }}
         onAnimationComplete={() => {
@@ -85,21 +85,18 @@ export const Hero = ({ id }: { id?: string }) => {
           className={
             mockEffect ? "drop-shadow-xl shadow-2xl shadow-success" : ""
           }
-          children={
-            <>
-              <img
-                src="/mock1.png"
-                className="dark:hidden w-[272px] h-[572px] pointer-events-none"
-                alt=""
-              />
-              <img
-                src="/mock1.png"
-                className="hidden dark:block w-[272px] h-[572px] pointer-events-none"
-                alt=""
-              />
-            </>
-          }
-        />
+        >
+          <img
+            src="/mock1.png"
+            className="dark:hidden w-[272px] h-[572px] pointer-events-none"
+            alt=""
+          />
+          <img
+            src="/mock1.png"
+            className="hidden dark:block w-[272px] h-[572px] pointer-events-none"
+            alt=""
+          />
+        </PhoneMock>
       </motion.div>
     </section>
   );

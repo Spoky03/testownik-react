@@ -49,4 +49,9 @@
       opacity: 0;
     }
   }
+  /* .laptop {
+    transform: translate3d(0, 0, 0) rotateX(0deg);
+    transition: transform 0.5s;
+  }
+    transform: translate3d(0, 390px, 0) rotateX(-90deg); */
 }
