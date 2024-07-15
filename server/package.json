@@ -1,17 +1,20 @@
 {
-  "name": "nest-typescript-starter",
+  "name": "testownik-server",
   "private": true,
   "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
+  "author": "Stefan Grzelec",
+  "description": "Testownik app backend",
   "license": "MIT",
   "scripts": {
     "build": "nest build",
+    "build:prod": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/main.js",
+    "prestart:prod": "rimraf dist && npm run build:prod",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -44,6 +47,7 @@
     "passport": "^0.7.0",
     "passport-oauth": "^1.0.0",
     "reflect-metadata": "^0.2.1",
+    "rimraf": "^6.0.1",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
