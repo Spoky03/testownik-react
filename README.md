@@ -18,3 +18,4 @@ I plan to deploy it soon.
 - [ ] add deleting user backend
 - [ ] add something to display at profile
 - [ ] formularz kontaktowy
+- [ ] server side build !
