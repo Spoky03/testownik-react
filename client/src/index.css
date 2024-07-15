@@ -41,7 +41,7 @@
     bottom: 0;
   }
   .custom-type-animation-cursor::after {
-    content: '|';
+    content: "|";
     animation: cursor 1.1s infinite step-start;
   }
   @keyframes cursor {
@@ -54,4 +54,23 @@
     transition: transform 0.5s;
   }
     transform: translate3d(0, 390px, 0) rotateX(-90deg); */
+  @keyframes shine {
+    0%, 100% {
+      background-position: top left; /* Start from the top left */
+    }
+    50% {
+      background-position: top right; /* Move to the top right */
+    }
+  }
+
+  /* Apply the animation to your element */
+  .shine {
+    position: relative;
+    color: transparent; /* Make the text color transparent to show the background */
+    @apply bg-gradient-to-r from-red-500 via-blue-500 to-red-500;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: shine 4s ease infinite; /* Apply the shine animation */
+    background-size: 200% 100%; /* Set the size of the gradient background */
+  }
 }

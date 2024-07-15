@@ -17,7 +17,7 @@ export const LaptopMock = ({
       viewport={{ once: true }}
       variants={{
         visible: {  transform: "translate3d(0, 0, 0) rotateX(0deg)"},
-        hidden: {  transform: "translate3d(0, 390px, 0) rotateX(-90deg)"}
+        hidden: {  transform: "translate3d(0, 240px, 0) rotateX(-90deg)"}
       }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
       >

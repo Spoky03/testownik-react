@@ -4,11 +4,11 @@ import { LaptopMock } from "./LaptopMock";
 export const BrowserRedirect = ({ id }: { id?: string }) => {
   return (
     <section
-      className="flex flex-col items-center justify-center h-screen"
+      className="flex flex-col items-center justify-center"
       id={id}
     >
-      <div className="flex flex-col space-y-6 items-center justify-center h-screen">
-        <h1 className="text-4xl font-bold text-success">
+      <div className="flex flex-col space-y-6 items-center justify-center">
+        <h1 className="text-4xl black:shine text-success font-bold p-4 ">
           Register now and start your adventure!
         </h1>
         <div className="flex gap-2">
