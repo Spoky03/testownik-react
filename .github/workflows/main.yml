@@ -1,0 +1,25 @@
+name: Frontend Production Build
+
+on:
+  push:
+    branches:
+      - main  # This triggers the workflow when changes are pushed to main, including merges from develop to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Specify the Node.js version
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./client  
+
+    - name: Run build:prod
+      run: npm run build:prod
+      working-directory: ./client
