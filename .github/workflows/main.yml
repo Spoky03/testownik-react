@@ -11,14 +11,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '20.11.1'  # Specify the Node.js version
 
+    - name: Remove package-lock.json
+      run: rm -f ./client/package-lock.json
+      working-directory: ./client
+
     - name: Install dependencies
       run: npm install
-      working-directory: ./client  
+      working-directory: ./client  # Adjust if your client directory is different
 
     - name: Run build:prod
       run: npm run build:prod
