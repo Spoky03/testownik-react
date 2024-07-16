@@ -8,8 +8,27 @@ import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './tasks/tasks.module';
 import { join } from 'path';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        name: 'short',
+        ttl: 1000,
+        limit: 3,
+      },
+      {
+        name: 'medium',
+        ttl: 10000,
+        limit: 20,
+      },
+      {
+        name: 'long',
+        ttl: 60000,
+        limit: 80,
+      },
+    ]),
     QuestionsModule,
     UsersModule,
     QuestionsSetsModule,
@@ -20,6 +39,12 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'), // 'public' is the directory where your React build is located
     }),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

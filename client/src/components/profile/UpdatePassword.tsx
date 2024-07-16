@@ -13,7 +13,7 @@ import {
 } from "../ui/form";
 import userService from "../../services/userService";
 import { Input } from "../ui/input";
-import { PasswordRequirements } from "../PasswordRequirements";
+import { PasswordRequirements } from "../shared/PasswordRequirements";
 
 const FormSchema = z.object({
   currentPassword: z.string(),

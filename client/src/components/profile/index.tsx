@@ -6,7 +6,7 @@ import { Routes, Route, Link, Outlet, useMatch } from "react-router-dom";
 import { SingleSetPreview } from "./SingleSetPreview";
 import { RootState } from "../../types";
 import constants from "../../constants";
-import { GoBackArrow } from "../GoBackArrow";
+import { GoBackArrow } from "../shared/GoBackArrow";
 import { UserAgreements } from "./Agreements";
 import { UserSettings } from "./Settings";
 import QuizContainer from "../quiz";

@@ -1,5 +1,5 @@
 import { MdSearch as SearchIcon } from "react-icons/md";
-import { GoBackArrow } from "../GoBackArrow";
+import { GoBackArrow } from "../shared/GoBackArrow";
 import { Input } from "../ui/input";
 import { useTranslation } from "react-i18next";
 import { SortPopover } from "./sort";

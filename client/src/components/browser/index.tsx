@@ -5,7 +5,7 @@ import { AppDispatch } from "../../store";
 import { QuestionSet, RootState, SetListTypes } from "../../types";
 import { initializeBrowser } from "../../reducers/browserReducer";
 import { SingleSet } from "../SingleSet/SingleSet";
-import { Modal } from "../Modal";
+import { Modal } from "@/components/shared/Modal";
 import { BrowserNav } from "./BrowserNav";
 const SetDescription = ({ set }: { set: QuestionSet }) => {
   return (

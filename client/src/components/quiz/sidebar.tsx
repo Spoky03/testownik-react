@@ -7,7 +7,7 @@ import { RootState } from "../../types";
 import { useEffect, useState } from "react";
 import { MdOutlineSave as SaveIcon } from "react-icons/md";
 import { MdSettings as SettingsIcon } from "react-icons/md";
-import { Modal } from "../Modal";
+import { Modal } from "@/components/shared/Modal";
 import { Settings } from "./Settings";
 import { useNavigate } from "react-router-dom";
 import { Finished } from "./Finished";

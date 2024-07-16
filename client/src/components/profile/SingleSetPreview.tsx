@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
 import { Question, QuestionSet, RootState } from "../../types";
 import { DropFiles } from "./DropFiles";
-import { GoBackArrow } from "../GoBackArrow";
+import { GoBackArrow } from "../shared/GoBackArrow";
 import { NewQuestionForm } from "./NewQuestionForm";
 import { SingleQuestion } from "./SingleQuestion";
 import { MdEdit as EditIcon } from "react-icons/md";

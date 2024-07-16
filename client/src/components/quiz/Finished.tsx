@@ -1,4 +1,4 @@
-import { Modal } from "../Modal";
+import { Modal } from "@/components/shared/Modal";
 import { IoBeerSharp as BeerIcon } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 export const Finished = ({

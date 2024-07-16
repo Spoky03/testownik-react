@@ -7,7 +7,7 @@ import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { checkIfTokenIsValid } from "@/lib/utils";
-import { ShotThroughTitle } from "../ShotThroughTitile";
+import { ShotThroughTitle } from "../shared/ShotThroughTitile";
 export const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -40,7 +40,7 @@ export const Login = () => {
     return <Navigate to={origin} />;
   }
   return (
-    <div className="flex p-10 flex-col justify-center h-2/3">
+    <div className="flex sm:mt-5 p-10 flex-col justify-center h-2/3">
       <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary">
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {reason && (

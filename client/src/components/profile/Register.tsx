@@ -6,13 +6,13 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { ShotThroughTitle } from "../ShotThroughTitile";
+import { ShotThroughTitle } from "../shared/ShotThroughTitile";
 import { useToast } from "../ui/use-toast";
 import { registerUser } from "@/reducers/userReducer";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
-import { Spinner } from "../Spinner";
-import { PasswordRequirements } from "../PasswordRequirements";
+import { Spinner } from "../shared/Spinner";
+import { PasswordRequirements } from "../shared/PasswordRequirements";
 
 export const Register = () => {
   const [username, setUsername] = useState<string>("");
@@ -72,7 +72,7 @@ export const Register = () => {
     return <Spinner className="place-self-center mt-20" />;
   }
   return (
-    <div className="flex p-10 flex-col justify-center h-2/3">
+    <div className="flex sm:mt-5 p-10 flex-col justify-center h-2/3">
       <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary">
         <form onSubmit={handleSubmit} className="flex flex-col">
           {reason && (
@@ -129,6 +129,7 @@ export const Register = () => {
           </div>
         </form>
         <ShotThroughTitle title={"or"} />
+        <p className="text-sm opacity-80 p-2 mb-2"> Already have an account?</p>
         <Link to="/login">
           <Button type="button" variant={"outline"}>
             {"Login"}

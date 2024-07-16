@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AppDispatch } from "../../store";
 import { deleteOneQuestion } from "../../reducers/userReducer";
-import { DeleteConfirmation } from "../DeleteConfirmation";
+import { DeleteConfirmation } from "../shared/DeleteConfirmation";
 import { MdEdit as EditIcon } from "react-icons/md";
 import { useDispatch} from "react-redux";
 import { Question, Answer} from "../../types";

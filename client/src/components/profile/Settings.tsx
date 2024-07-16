@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { UpdatePassword } from "./UpdatePassword";
-import { Modal } from "../Modal";
+import { Modal } from "@/components/shared/Modal";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 

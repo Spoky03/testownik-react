@@ -11,6 +11,7 @@ I plan to deploy it soon.
 
 ### TODO
 - [x] prompt user for setting  and agreements after he registers
+- [ ] move fetching data from app to subroutes
 - [ ] Change form to zod and shadcn (like in NewUserPrompt)
 - [ ] maybe change the path
 - [ ] forbid user from leaving

@@ -1,8 +1,8 @@
-import QuizContainer from "./components/quiz";
+// import QuizContainer from "./components/quiz";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "./store";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { LandingPage } from "./components/landing";
 import Profile from "./components/profile";
 import { Navbar } from "./components/nav/Nav";
@@ -10,28 +10,12 @@ import { fetchAllUserData, reLoginUser } from "./reducers/userReducer";
 import BrowserContainer from "./components/browser";
 import { Toaster } from "./components/ui/toaster";
 import { Login } from "./components/profile/Login";
-import { checkIfTokenIsValid } from "./lib/utils";
-import constants from "./constants";
 import { Register } from "./components/profile/Register";
 import { useTheme } from "./lib/theme";
-import { Footer } from "./components/Footer";
-const AuthenticatedRoute = () => {
-  const user = useSelector((state: RootState) => state.user.user); // Assuming state.user.user is null or undefined when not logged in
-  const isLoggedIn =
-    !!user.sub &&
-    !!user.username &&
-    !!user.exp &&
-    checkIfTokenIsValid(user.exp);
-  const reason = !checkIfTokenIsValid(user.exp)
-    ? constants.LABELS.LOGIN.EXPIRED
-    : constants.LABELS.LOGIN.LOGOUT;
-  const origin = window.location.pathname;
-  return isLoggedIn ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/login" state={{ origin: origin, reason: reason }} replace />
-  );
-};
+import { Footer } from "./components/shared/Footer";
+import { AuthenticatedRoute } from "./components/shared/AuthenticatedRoute";
+import { RouteNotFound } from "./components/shared/RouteNotFound";
+import ScrollToTop from "./components/shared/ScrollToTop";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setTheme = useTheme();
@@ -58,16 +42,17 @@ const App = () => {
       >
         <Navbar />
         <div className="sm:pt-10 min-h-screen w-full">
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route element={<AuthenticatedRoute />}>
               <Route path="profile/*" element={<Profile />} />
-              <Route path="dashboard/*" element={<QuizContainer />} />
+              {/* <Route path="dashboard/*" element={<QuizContainer />} /> */}
             </Route>
-            {/* Add more protected routes inside the AuthenticatedRoute */}
             <Route path="browser/*" element={<BrowserContainer />} />
+            <Route path="/*" element={<RouteNotFound />} />
           </Routes>
         </div>
         <Footer />

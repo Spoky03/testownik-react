@@ -4,7 +4,7 @@ import { SingleSet } from "../SingleSet/SingleSet";
 import { SetListTypes } from "../../types";
 import { MdOutlineSort as SortIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { ShotThroughTitle } from "../ShotThroughTitile";
+import { ShotThroughTitle } from "../shared/ShotThroughTitile";
 export const SetList = () => {
   const [sort, setSort] = useState<boolean>(false);
   const [sortedSetList, setSortedSetList] = useState<QuestionSet[]>([]);

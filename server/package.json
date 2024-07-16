@@ -18,11 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-
     "start:prod": "node dist/main.js",
     "heroku-prebuild": "npm install && npm i -g @nestjs/cli",
     "heroku-build": "rimraf dist && npm run build",
-
     "predeploy": "npm install && npm run build:prod",
     "deploy": "cd.. && cd client && npm run build:prod && cd.. && cd server && npm run build && cd.. && git add . && git commit -m \"%npm_config_message%\" && git push"
   },
@@ -36,6 +34,7 @@
     "@nestjs/platform-express": "^10.3.2",
     "@nestjs/schedule": "^4.0.2",
     "@nestjs/serve-static": "^4.0.2",
+    "@nestjs/throttler": "^6.0.0",
     "@types/oauth": "^0.9.5",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",

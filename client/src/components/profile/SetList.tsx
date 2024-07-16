@@ -9,7 +9,7 @@ import {
 } from "../../reducers/userReducer";
 import { AppDispatch, RootState } from "../../store";
 
-import { DeleteConfirmation } from "../DeleteConfirmation";
+import { DeleteConfirmation } from "../shared/DeleteConfirmation";
 import { MdEdit as EditIcon } from "react-icons/md";
 import { MdPublicOff as PrivateIcon } from "react-icons/md";
 import { MdPublic as PublicIcon } from "react-icons/md";
@@ -19,7 +19,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Modal } from "../Modal";
+import { Modal } from "@/components/shared/Modal";
 import { Button } from "../ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 const SingleSet = ({ set }: { set: QuestionSet }) => {

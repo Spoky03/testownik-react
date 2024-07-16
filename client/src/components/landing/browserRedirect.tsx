@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { LaptopMock } from "./LaptopMock";
 
@@ -12,7 +13,9 @@ export const BrowserRedirect = ({ id }: { id?: string }) => {
           Register now and start your adventure!
         </h1>
         <div className="flex gap-2">
-          <Button variant={"secondary"}>Register Now!</Button>
+          <Link to="/register">
+            <Button variant={"secondary"}>Register Now!</Button>
+          </Link>
         </div>
         <LaptopMock>
           <img

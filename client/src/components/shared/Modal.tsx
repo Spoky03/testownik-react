@@ -4,7 +4,7 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 interface ModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
