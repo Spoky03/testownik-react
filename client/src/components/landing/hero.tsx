@@ -65,7 +65,7 @@ export const Hero = ({ id }: { id?: string }) => {
           stiffness: 25,
         }}
         variants={{
-          hidden: { translateX: 370 },
+          hidden: isMobile ? { translateX: 150 } : { translateX: 400 },
           visible: { translateX: 0 },
         }}
         onAnimationComplete={() => {

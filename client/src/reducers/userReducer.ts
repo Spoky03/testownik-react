@@ -37,7 +37,6 @@ const userSlice = createSlice({
       state.user = action.payload;
     },
     logout: (state) => {
-      state.user.token = null;
       state.user = initialState.user;
     },
     addSet: (state, action: PayloadAction<QuestionSet>) => {

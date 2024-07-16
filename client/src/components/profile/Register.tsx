@@ -5,12 +5,11 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ShotThroughTitle } from "../shared/ShotThroughTitile";
 import { useToast } from "../ui/use-toast";
 import { registerUser } from "@/reducers/userReducer";
 import { ToastAction } from "../ui/toast";
-import { Spinner } from "../shared/Spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -32,6 +31,15 @@ const FormSchema = z.object({
   .regex(/(?=.*\W+)/, "Password must contain at least one special character")
   .regex(/(?=.*[a-z])/, "Password must contain at least one lowercase character")
   .regex(/(?=.*[A-Z])/, "Password must contain at least one uppercase character"),
+  passwordConfirmation: z.string().min(8).max(32),
+}).superRefine(({ passwordConfirmation, password }, ctx) => {
+  if (passwordConfirmation !== password) {
+    ctx.addIssue({
+      code: "custom",
+      message: "The passwords did not match",
+      path: ['passwordConfirmation']
+    });
+  }
 });
 
 export const Register = () => {
@@ -43,6 +51,7 @@ export const Register = () => {
       email: "",
       username: "",
       password: "",
+      passwordConfirmation: "",
     },
   });
   const dispatch = useDispatch<AppDispatch>();
@@ -88,15 +97,17 @@ export const Register = () => {
     }
   };
   if (checkIfTokenIsValid(user.exp)) {
-    console.log(
-      "User is already logged in; checking token validity. Redirecting to origin."
-    );
-    return <Spinner className="place-self-center mt-20" />;
+    toast({
+      variant: "success",
+      title: "Already logged in",
+      description: "You are already logged in.",
+    });
+    return <Navigate to="/profile/dashboard" />;
   }
 
   return (
     <div className="flex sm:mt-5 p-10 flex-col justify-center h-2/3">
-      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary  black:border">
+      <div className="flex flex-col p-5 sm:p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary  black:border">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -150,6 +161,20 @@ export const Register = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="passwordConfirmation"
+              render={({ field }) => (
+                <FormItem className="flex flex-col w-full items-start rounded-md">
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="password" placeholder="Confirm Password" />
+                  </FormControl>
+                  <FormMessage className="w-full text-wrap text-sm" />
+                </FormItem>
+              )}
+            />
+          
             <FormMessage />
             <div className="place-self-center mt-4 w-100">
               <Button type="submit" disabled={effect}>

@@ -1,7 +1,6 @@
 import { RootState } from "@/store";
 import { Navigate, Outlet, } from "react-router-dom";
 import { checkIfTokenIsValid } from "@/lib/utils";
-import constants from "@/constants";
 import { useSelector } from "react-redux";
 export const AuthenticatedRoute = () => {
     const user = useSelector((state: RootState) => state.user.user); // Assuming state.user.user is null or undefined when not logged in
@@ -10,10 +9,8 @@ export const AuthenticatedRoute = () => {
       !!user.username &&
       !!user.exp &&
       checkIfTokenIsValid(user.exp);
-    const reason = !checkIfTokenIsValid(user.exp)
-      ? constants.LABELS.LOGIN.EXPIRED
-      : constants.LABELS.LOGIN.LOGOUT;
     const origin = window.location.pathname;
+    const reason = "You need to be logged in to access this page";
     return isLoggedIn ? (
       <Outlet />
     ) : (

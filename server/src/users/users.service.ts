@@ -180,11 +180,20 @@ export class UsersService {
   //     .exec();
   // }
   async create(user: SignUpDto): Promise<User> {
+    const existingEmail = await this.userModel.findOne({
+      email: user.email,
+    });
+    if (existingEmail) {
+      throw new HttpException(
+        'Account with that email already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     const existingUser = await this.userModel.findOne({
       username: user.username,
     });
     if (existingUser) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('This username is taken', HttpStatus.BAD_REQUEST);
     }
     const createdUser = new this.userModel(user);
     createdUser.password = await bcrypt.hash(user.password, 10);
