@@ -4,6 +4,7 @@ import { IconType } from "react-icons/lib";
 import { MdGroups } from "react-icons/md";
 import { MdLightbulb } from "react-icons/md";
 import { IoMdQuote } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 const DescriptionCard = ({
   className,
   props,
@@ -11,6 +12,7 @@ const DescriptionCard = ({
   className?: string;
   props: CardProps;
 }) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'HERO.FACTS.ITEMS' });
   return (
     <motion.div
       className={`w-full hover:scale-105 transition-all bg-secondary border-text black:border shadow-md rounded-xl ${className}`}
@@ -26,21 +28,22 @@ const DescriptionCard = ({
       <div className="flex flex-col justify-around gap-4 p-4 md:p-6 h-full">
         <div className="flex gap-2">
           <props.icon size={32} className="place-self-center" />
-          <h2 className="text-xl font-bold">{props.title}</h2>
+          <h2 className="text-xl font-bold">{t(props.title)}</h2>
         </div>
-        <p className="text-base">{props.description}</p>
+        <p className="text-base">{t(props.description)}</p>
         <p className="text-xs opacity-50 text-text place-self-end">
-          {props.annotation}
+          {t(props.annotation)}
         </p>
       </div>
     </motion.div>
   );
 };
 export const Facts = ({id}: {id?: string}) => {
+  const { t } = useTranslation('translation', { keyPrefix: 'HERO.FACTS' });
   return (
     <section className="max-w-7xl w-full p-10 mt-20" id={id}>
       <h3 className="text-2xl pl-4 pb-4 font-bold col-span-3">
-        Czy wiesz, że...
+        {t('TITLE')}
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-4 sm:gap-6 md:gap-8">
         {Cards.map((card: CardProps) => (
@@ -59,32 +62,32 @@ interface CardProps {
   title: string;
   id: number;
   description: string;
-  annotation?: string;
+  annotation: string;
   icon: IconType;
 }
 const Cards = [
   {
-    title: "W grupie siła",
+    title: "0.title",
     id: 0,
     description:
-      "Chociaż studenci mogą zdobywać wiedzę poprzez własne doświadczenia, najskuteczniej uczą się, zdobywając informacje od innych. Słuchanie, czytanie tego, co piszą jest znacznie skuteczniejsze niż nauka całkowicie samemu. ",
-    annotation: "Kirschner et al., 2006",
+      "0.description",
+    annotation: "0.annotation",
     icon: MdGroups,
   },
   {
-    title: "Powtórka to klucz",
+    title: "1.title",
     id: 1,
     description:
-      "Studenci, którzy przed egzaminem czy zaliczeniem rozwiązali wielokrotnie quizy, zdobywali lepsze wyniki niż Ci, którzy nie zrobili tego w ogóle. ",
-    annotation: "Applied Cognitive Psychology, Vol. 33, No. 5, 2019.",
+      "1.description",
+    annotation: "1.annotation",
     icon: MdLightbulb,
   },
   {
-    title: "Nie bój się porażki",
+    title: "2.title",
     id: 2,
     description:
-      "Nawet spróbowanie i odniesienie porażki jest lepsze niż niepróbowanie wcale. Sama próba przypomnienia sobie odpowiedzi pomaga utrwalić materiał w pamięci.",
-    annotation: "Regan Gurung",
+      "2.description",
+    annotation: "2.annotation",
     icon: IoMdQuote,
   },
 ];

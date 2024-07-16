@@ -31,8 +31,31 @@
       "test": "Prepare for the test",
       "zali": "Prepare for the credit"
     },
-    "DESCRIPTION": "Testownik is an application for learning and repeating materials. Create your own sets of questions and answers, then repeat them in the form of a quiz. Save your progress and track your results."
-  },
+    "DESCRIPTION": "Testownik is an application for learning and repeating materials. Create your own sets of questions and answers, then repeat them in the form of a quiz. Save your progress and track your results.",
+    "FACTS": {
+      "TITLE": "Czy wiesz, że...",
+      "ITEMS": [
+        {
+          "title": "Strength in Numbers",
+          "description":
+            "Chociaż studenci mogą zdobywać wiedzę poprzez własne doświadczenia, najskuteczniej uczą się, zdobywając informacje od innych. Słuchanie, czytanie tego, co piszą jest znacznie skuteczniejsze niż nauka całkowicie samemu. ",
+          "annotation": "Kirschner et al., 2006"
+        },
+        {
+          "title": "Repetition is Key",
+          "description":
+            "Studenci, którzy przed egzaminem czy zaliczeniem rozwiązali wielokrotnie quizy, zdobywali lepsze wyniki niż Ci, którzy nie zrobili tego w ogóle. ",
+          "annotation": "Applied Cognitive Psychology, Vol. 33, No. 5, 2019."
+        },
+        {
+          "title": "Don't Fear Failure",
+          "description":
+            "Nawet spróbowanie i odniesienie porażki jest lepsze niż niepróbowanie wcale. Sama próba przypomnienia sobie odpowiedzi pomaga utrwalić materiał w pamięci.",
+          "annotation": "Regan Gurung"
+        }
+      ]
+      }
+    },
   "BROWSER": {
     "TITLE": "Browser",
     "AUTHOR": "by",
