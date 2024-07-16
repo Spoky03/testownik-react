@@ -5,6 +5,7 @@ import {
   IsStrongPassword,
   MinLength,
 } from 'class-validator';
+import { IsStrongPasswordRequirements } from 'src/helpers';
 
 export class UpdateUserEntity {
   @IsString()
@@ -19,7 +20,10 @@ export class UpdateUserEntity {
   @IsString()
   readonly currentPassword: string;
 
-  @IsStrongPassword()
+  @IsStrongPassword(
+    IsStrongPasswordRequirements.requirements,
+    IsStrongPasswordRequirements.message,
+  )
   @IsOptional()
   @MinLength(8)
   readonly newPassword: string;

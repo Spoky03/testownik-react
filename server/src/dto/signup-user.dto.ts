@@ -5,6 +5,7 @@ import {
   IsStrongPassword,
   Length,
 } from 'class-validator';
+import { IsStrongPasswordRequirements } from 'src/helpers';
 export class SignUpDto {
   @IsString()
   @IsNotEmpty()
@@ -16,7 +17,10 @@ export class SignUpDto {
   email: string;
 
   @IsString()
-  @IsStrongPassword()
+  @IsStrongPassword(
+    IsStrongPasswordRequirements.requirements,
+    IsStrongPasswordRequirements.message,
+  )
   @Length(8, 32)
   password: string;
 }

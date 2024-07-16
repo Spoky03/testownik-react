@@ -5,30 +5,52 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShotThroughTitle } from "../shared/ShotThroughTitile";
 import { useToast } from "../ui/use-toast";
 import { registerUser } from "@/reducers/userReducer";
-import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
 import { Spinner } from "../shared/Spinner";
-import { PasswordRequirements } from "../shared/PasswordRequirements";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+
+const FormSchema = z.object({
+  email: z.string().email(),
+  username: z.string().min(4).max(18),
+  password: z.string().min(8).max(32)
+  .regex(/(?=.*\d)/, "Password must contain at least one digit")
+  .regex(/(?=.*\W+)/, "Password must contain at least one special character")
+  .regex(/(?=.*[a-z])/, "Password must contain at least one lowercase character")
+  .regex(/(?=.*[A-Z])/, "Password must contain at least one uppercase character"),
+});
 
 export const Register = () => {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [effect, setEffect] = useState<boolean>(false);
-  const dispatch = useDispatch<AppDispatch>();
   const { toast } = useToast();
+  const [effect, setEffect] = useState<boolean>(false);
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      email: "",
+      username: "",
+      password: "",
+    },
+  });
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const location = useLocation();
   const user = useSelector((state: RootState) => state.user.user);
-  const { reason } = location.state || {};
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
     setEffect(true);
-    const res = await dispatch(registerUser(username, email, password));
+    const res = await dispatch(registerUser(data.username, data.email, data.password));
     const variant = res.status === 200 ? "success" : "destructive";
     console.log(res);
     const description =
@@ -71,70 +93,83 @@ export const Register = () => {
     );
     return <Spinner className="place-self-center mt-20" />;
   }
+
   return (
     <div className="flex sm:mt-5 p-10 flex-col justify-center h-2/3">
-      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary">
-        <form onSubmit={handleSubmit} className="flex flex-col">
-          {reason && (
-            <p className="text-sm w-3/4 text-center bg-error rounded-md p-2 bg-opacity-30 place-self-center">
-              {reason}
-            </p>
-          )}
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="example@mail.to"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className=""
-            pattern="[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}"
-            required
-          />
-          <p className="text-xs opacity-75 mb-4 ml-1">
-            We wont send you any emails without your consent
-          </p>
-
-          <Label htmlFor="username">Username</Label>
-          <Input
-            id="username"
-            type="username"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            pattern=".{4,18}"
-            className=""
-          />
-          <p className="text-xs opacity-75 mb-4 ml-1">
-            *Username must be between 4 and 18 characters and unique
-          </p>
-
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mb-4"
-            required
-            pattern=".{8,32}"
-          />
-          <PasswordRequirements />
-          <div className="place-self-center mt-4 w-100">
-            <Button type="submit" disabled={effect}>
-              {effect ? "Please wait" : "Register"}
-            </Button>
-          </div>
-        </form>
-        <ShotThroughTitle title={"or"} />
-        <p className="text-sm opacity-80 p-2 mb-2"> Already have an account?</p>
-        <Link to="/login">
-          <Button type="button" variant={"outline"}>
-            {"Login"}
-          </Button>
-        </Link>
+      <div className="flex flex-col p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary  black:border">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="flex flex-col space-y-6"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="flex flex-col w-full items-start rounded-md">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="email" placeholder="example@email.com" />
+                  </FormControl>
+                  <FormMessage className="w-full text-wrap text-sm" />
+                  <FormDescription className="text-xs">
+                    We wont send you any emails without your consent
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem className="flex flex-col w-full items-start rounded-md">
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Username" />
+                  </FormControl>
+                  <FormMessage className="w-full text-wrap text-sm" />
+                  <FormDescription className="text-xs">
+                    *Username must be between 4 and 18 characters and unique
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="flex flex-col w-full items-start rounded-md">
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="password" placeholder="Password" />
+                  </FormControl>
+                  <FormMessage className="w-full text-wrap text-sm" />
+                  <FormDescription className="text-xs">
+                    *Password must be between 8 and 32 characters
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+            <FormMessage />
+            <div className="place-self-center mt-4 w-100">
+              <Button type="submit" disabled={effect}>
+                {effect ? "Please wait" : "Register"}
+              </Button>
+            </div>
+            <ShotThroughTitle title={"or"} />
+            <div className="flex flex-col place-items-center">
+              <p className="text-sm opacity-80 p-2 mb-2">
+                {" "}
+                Already have an account?
+              </p>
+              <Link to="/login">
+                <Button type="button" variant={"outline"}>
+                  {"Login"}
+                </Button>
+              </Link>
+            </div>
+          </form>
+        </Form>
       </div>
     </div>
   );

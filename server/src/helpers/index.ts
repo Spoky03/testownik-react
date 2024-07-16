@@ -23,3 +23,17 @@ export function IsUnique(
     });
   };
 }
+
+export const IsStrongPasswordRequirements = {
+  requirements: {
+    minLength: 8,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 1,
+  },
+  message: {
+    message:
+      'The password should contain at least 1 uppercase character, 1 lowercase, 1 number, 1 special character and should be at least 8 characters long.',
+  },
+};

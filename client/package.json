@@ -28,7 +28,6 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@types/react-latex": "^2.0.3",
     "@uidotdev/usehooks": "^2.4.1",
-    "@uploadthing/react": "^6.7.2",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
