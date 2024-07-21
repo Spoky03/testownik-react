@@ -15,4 +15,5 @@ export interface QuestionSet extends Document {
     date: Date;
     subject: string;
   };
+  description: string;
 }

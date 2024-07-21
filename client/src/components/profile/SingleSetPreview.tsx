@@ -234,11 +234,12 @@ const EditDescriptionInput = ({
         <button
           className="cursor-pointer hover:bg-success transition-colors hover:bg-opacity-50 rounded-full p-1"
           onClick={() => {
+            console.log(singleSet.name, description, singleSet._id);
             setEditDescription(!editDescription);
             dispatch(
               editQuestionSet({
                 name: singleSet.name,
-                description,
+                description: description,
                 id: singleSet._id,
               })
             );
