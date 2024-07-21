@@ -244,8 +244,10 @@ export const reLoginUser = (token: string) => {
       const user = await userService.getProfile();
       dispatch(getUser(user));
       dispatch(setToken(token));
+      return true;
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+      return false;
     }
   };
 };

@@ -29,12 +29,16 @@ const App = () => {
   }, [setTheme, theme]);
   // relogin user
   useEffect(() => {
-    const token = window.localStorage.getItem("loggedUserToken");
-    if (token) {
-      dispatch(reLoginUser(token));
-      dispatch(fetchAllUserData());
+    async function fetchData() {
+      const token = window.localStorage.getItem("loggedUserToken");
+      if (token) {
+        const reLogin = await dispatch(reLoginUser(token));
+        reLogin && dispatch(fetchAllUserData());
+      }
     }
-  }, [dispatch]);
+    fetchData();
+  }
+  , [dispatch]);
 
   return (
     <>
