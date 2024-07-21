@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { loginUser } from "../../reducers/userReducer";
 import { Button } from "../ui/button";
 import { AppDispatch, RootState } from "../../store";
@@ -100,7 +100,7 @@ export const Login = () => {
             <div className="flex flex-col place-items-center">
               <p className="text-sm opacity-80 p-2 mb-2">
                 {" "}
-                Already have an account?
+                Don't have an account?
               </p>
               <Link to="/register">
                 <Button type="button" variant={"outline"}>

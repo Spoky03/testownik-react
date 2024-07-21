@@ -22,6 +22,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import {
+  HeartIcon,
+} from "lucide-react";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -106,8 +109,9 @@ export const Register = () => {
   }
 
   return (
-    <div className="flex sm:mt-5 p-10 flex-col justify-center h-2/3">
-      <div className="flex flex-col p-5 sm:p-10 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary  black:border">
+    <div className="grid grid-cols-1 sm:grid-cols-3 sm:mt-5 p-10 flex-col justify-center h-2/3">
+      <div className="sm:col-span-2 flex flex-col p-5 sm:px-10 sm:py-6 w-fit place-self-center xl:place-self-end rounded-xl shadow-2xl place-items-center bg-primary  black:border">
+        <h1 className="text-2xl font-semibold">Rejestracja</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -196,6 +200,25 @@ export const Register = () => {
           </form>
         </Form>
       </div>
+      <aside className="col-span-1 flex flex-col gap-5 bg-ternary p-8">
+        <div className="flex">
+          <h1 className="place-self-center font-semibold text-4xl">
+            Zostań jednym z nas!
+          </h1>
+          <HeartIcon className="place-self-center text-success ml-2 shrink-0 fill-success" size={32} />
+        </div>
+        <h2 className="text-xl">
+          Free to use, easy to love
+        </h2>
+        <ul className="list-disc list-inside space-y-1 text-lg">
+          <li>Track your progress</li>
+          <li>Set your goals</li>
+          <li>Get a personalized learning path</li>
+          <li>Test your skills</li>
+          <li>Practice with quizzes</li>
+          <li>Learn with fun</li>
+        </ul>
+      </aside>
     </div>
   );
 };
