@@ -181,7 +181,7 @@ export const Register = () => {
                 {effect ? "Please wait" : "Register"}
               </Button>
             </div>
-            <ShotThroughTitle title={"or"} />
+            <ShotThroughTitle title={" "} />
             <div className="flex flex-col place-items-center">
               <p className="text-sm opacity-80 p-2 mb-2">
                 {" "}

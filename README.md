@@ -13,7 +13,7 @@ I plan to deploy it soon.
 - [x] prompt user for setting  and agreements after he registers
 - [ ] move fetching data from app to subroutes
 - [x] Change register form to zod and shadcn
-- [ ] Change login form to zod and shadcn
+- [x] Change login form to zod and shadcn
 - [ ] Change other form to zod and shadcn
 - [ ] maybe change the path
 - [ ] forbid user from leaving

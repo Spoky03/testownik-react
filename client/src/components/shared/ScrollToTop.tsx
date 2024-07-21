@@ -7,7 +7,6 @@ export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    console.log(pathname);
     // Check if pathname matches any of the ignored paths
     const shouldIgnore = ignoredPaths.some((pattern) => pattern.test(pathname));
     if (!shouldIgnore) {

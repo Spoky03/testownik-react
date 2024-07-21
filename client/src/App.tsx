@@ -1,4 +1,3 @@
-// import QuizContainer from "./components/quiz";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "./store";
@@ -20,6 +19,15 @@ const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setTheme = useTheme();
   const theme = useSelector((state: RootState) => state.theme.theme);
+  // theming
+  useEffect(() => {
+    setTheme(theme);
+    const monospace = localStorage.getItem("monospace");
+    if (monospace) {
+      document.body.classList.add("monospace");
+    }
+  }, [setTheme, theme]);
+  // relogin user
   useEffect(() => {
     const token = window.localStorage.getItem("loggedUserToken");
     if (token) {
@@ -28,18 +36,9 @@ const App = () => {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    setTheme(theme);
-    const monospace = localStorage.getItem("monospace");
-    if (monospace) {
-      document.body.classList.add("monospace");
-    }
-  }, [setTheme, theme]);
   return (
     <>
-      <main
-        className={`w-full bg-ternary text-text min-h-screen`}
-      >
+      <main className={`w-full bg-ternary text-text min-h-screen`}>
         <Navbar />
         <div className="sm:pt-10 min-h-screen w-full">
           <ScrollToTop />
@@ -62,4 +61,4 @@ const App = () => {
   );
 };
 
-export default (App);
+export default App;

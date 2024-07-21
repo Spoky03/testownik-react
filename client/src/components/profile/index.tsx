@@ -149,7 +149,7 @@ const Profile = () => {
           >
             <Route path="/agreements" element={<UserAgreements />} />
             <Route path="/settings" element={<UserSettings />} />
-            <Route path="/dashboard" element={<QuizContainer />} />
+            <Route path="/dashboard/*" element={<QuizContainer />} />
             <Route
               path="sets/*"
               element={
