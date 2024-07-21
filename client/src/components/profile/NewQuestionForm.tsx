@@ -114,13 +114,6 @@ export const NewQuestionForm = ({
               value={question}
             />
           </div>
-
-          {/* <Input
-                className="p-1 mx-3 my-2 rounded-md border-primary border w-full max-w-64 dark:text-primary"
-                placeholder="your question here..."
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-              /> */}
           <div className="place-self-end pb-2">
             <Button
               className="place-self-center"
