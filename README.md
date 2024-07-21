@@ -14,11 +14,11 @@ I plan to deploy it soon.
 - [x] move fetching data from app to subroutes
 - [x] Change register form to zod and shadcn
 - [x] Change login form to zod and shadcn
+- [ ] fill in mocks
 - [ ] Change other form to zod and shadcn
-- [ ] maybe change the path
-- [ ] forbid user from leaving
+- [ ] forbid user from leaving in agreements
 - [ ] delete those testing users
 - [ ] add deleting user backend
 - [ ] add something to display at profile
-- [ ] formularz kontaktowy
-- [ ] server side build !
+- [ ] add contact form
+- [ ] ~~server side frontend build~~

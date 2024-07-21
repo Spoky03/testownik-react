@@ -2,12 +2,13 @@ import { motion } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
+import { IoMdBook } from "react-icons/io";
 import { MdOutlineMoneyOff } from "react-icons/md";
-function InnerContent({ title, content, links, footer, exclamated }: ContentProps) {
+function InnerContent({ title, content, links, annotation, exclamated }: ContentProps) {
   const randomKeyUsedToForceRerender = Math.random();
   return (
     <div
-      className="text-base leading-relaxed space-y-4 px-12 md:px-0 py-12 max-w-xl"
+      className="text-base leading-relaxed space-y-4 px-12 md:px-0 py-12 max-w-xl min-h-80"
       key={randomKeyUsedToForceRerender}
     >
       <p className="font-medium text-lg">{title}</p>
@@ -39,7 +40,7 @@ function InnerContent({ title, content, links, footer, exclamated }: ContentProp
         </li>
       </ul>
       <div className="pt-3 flex items-center gap-6 text-sm font-semibold">
-        {links.map((link, index) => (
+        {links?.map((link, index) => (
           <span key={index}>
             <a href={link.url} target="_blank" className="link">
               {link.name}
@@ -47,7 +48,7 @@ function InnerContent({ title, content, links, footer, exclamated }: ContentProp
           </span>
         ))}
       </div>
-      <div className="text-sm opacity-60 pt-2">{footer}</div>
+      <div className="text-sm opacity-60 pt-2">{annotation}</div>
     </div>
   );
 }
@@ -74,15 +75,12 @@ export const InfoPicker = ({ id }: { id?: string }) => {
   return (
     <section className="overflow-x-hidden h-full flex flex-col" id={id}>
       <div className="w-full max-w-5xl items-center justify-center place-self-center px-6 sm:px-10 md:px-16 xl:px-24">
-        <p className="mb-1">short text above heading</p>
+        <p className="mb-1">{Main.short}</p>
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
-          This is another example way of displaying content
+          {Main.heading}
         </h2>
         <div className="text-base leading-relaxed mb-8 mt-4 lg:text-lg">
-          Bacon ipsum dolor amet drumstick strip steak doner t-bone corned beef
-          tail short ribs bresaola. Pork chop pig landjaeger chislic tri-tip ham
-          hock frankfurter, burgdoggen sirloin short ribs tenderloin filet
-          mignon. Tail sausage flank swine cow shoulder tongue.
+          {Main.description}
         </div>
         <div className="grid grid-cols-4 md:flex justify-start gap-4 md:gap-12 max-md:px-8 max-w-3xl mx-auto mb-8">
           {Content.map((item) => (
@@ -112,7 +110,7 @@ export const InfoPicker = ({ id }: { id?: string }) => {
           ))}
         </div>
       </div>
-      <div className="bg-primary black:bordet-t-white black:border-t w-screen">
+      <div className="bg-primary black:bordet-y-white black:border-y w-screen">
         <div className="max-w-3xl mx-auto flex flex-col md:flex-row justify-center md:justify-start md:items-center gap-12">
           <InnerContent {...Content[active]} />
           <div className="hidden aspect-square max-md:w-full md:h-[28rem] bg-neutral md:order-first"></div>
@@ -121,67 +119,35 @@ export const InfoPicker = ({ id }: { id?: string }) => {
     </section>
   );
 };
-
+const Main = {
+  short: "",
+  heading: "Dlaczego warto korzystać z naszej platformy?",
+  description: "Zapoznaj się z naszymi funkcjami, dowiedz się dlaczego warto korzystać z naszej platformy i zapisz się już dziś! A jeśli masz jakieś sugestie, daj nam znać! ",
+}
 const Content = [
   {
     id: 0,
-    title: "Email",
+    title: "Wiedza",
     content: [
-      "First bullet | with content",
-      "Second bullet with content",
-      "Third bullet",
+      "Potężne narzędzie do nauki",
+      "Dostęp do wielu testów",
+      "Usystematyzowane materiały",
     ],
-    links: [
-      {
-        name: "Link 1",
-        url: "https://www.example.com/",
-      },
-      {
-        name: "Link 2",
-        url: "https://example.com/",
-      },
-    ],
-    footer: (
+    annotation: (
       <span className="font-light">
-        This is faded paragraph text it can contain more information about the
-        content or icons.
+        Nauka nigdy nie była tak prosta, zapisz się już dziś i zacznij
       </span>
     ),
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth="1.5"
-        stroke="currentColor"
-        className="w-8 h-8"
-      >
-        <path
-          strokeLinecap="round"
-          d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25"
-        ></path>
-      </svg>
-    ),
+    icon: IoMdBook,
   },
   {
     id: 1,
     title: "Darmowe",
     content: ["Nie pobieramy opłat", "Bez ukrytych kosztów"],
-    exclamated: "Na zawsze za darmo",
-    links: [
-      {
-        name: "Google",
-        url: "https://www.google.com/",
-      },
-      {
-        name: "Bing",
-        url: "https://www.bing.com/",
-      },
-    ],
-    footer: (
+    exclamated: "*Na zawsze za darmo",
+    annotation: (
       <span className="font-light">
-        This is faded paragraph text it can contain more information about the
-        content or icons.
+        *Prawdopodobnie
       </span>
     ),
     icon: MdOutlineMoneyOff,
@@ -189,21 +155,10 @@ const Content = [
   {
     id: 2,
     title: "Profil",
-    content: ["Meta tags for social media", "Sitemap generation"],
-    links: [
-      {
-        name: "Google",
-        url: "https://www.google.com/",
-      },
-      {
-        name: "Bing",
-        url: "https://www.bing.com/",
-      },
-    ],
-    footer: (
+    content: ["Śledź swoje postępy", "Ustanawiaj cele"],
+    annotation: (
       <span className="font-light">
-        This is faded paragraph text it can contain more information about the
-        content or icons.
+        Nie musisz się martwić o, że zapomnisz o nauce!
       </span>
     ),
     icon: (
@@ -228,20 +183,9 @@ const Content = [
     title: "Zapisuj",
     content: ["Zapisuj swoje postępy", "Śledź swoje wyniki"],
     exclamated: "Na wielu urządzeniach",
-    links: [
-      {
-        name: "Google",
-        url: "https://www.google.com/",
-      },
-      {
-        name: "Bing",
-        url: "https://www.bing.com/",
-      },
-    ],
-    footer: (
+    annotation: (
       <span className="font-light">
-        This is faded paragraph text it can contain more information about the
-        content or icons.
+        Wszystko zapisuje się automatycznie, nie musisz się martwić o utratę postępów
       </span>
     ),
     icon: (
@@ -265,20 +209,9 @@ const Content = [
     id: 4,
     title: "Wyszukuj",
     content: ["Wyszukuj bazy tworzone przez innych", "Udostępniaj swoje"],
-    links: [
-      {
-        name: "Google",
-        url: "https://www.google.com/",
-      },
-      {
-        name: "Bing",
-        url: "https://www.bing.com/",
-      },
-    ],
-    footer: (
+    annotation: (
       <span className="font-light">
-        This is faded paragraph text it can contain more information about the
-        content or icons.
+        Twórz społeczność, dziel się wiedzą z innymi
       </span>
     ),
     icon: (
@@ -300,22 +233,12 @@ const Content = [
   },
   {
     id: 5,
-    title: "Style",
-    content: ["Meta tags for social media", "Sitemap generation"],
-    links: [
-      {
-        name: "Google",
-        url: "https://www.google.com/",
-      },
-      {
-        name: "Bing",
-        url: "https://www.bing.com/",
-      },
-    ],
-    footer: (
+    title: "Treści",
+    content: ["Treści tworzone z dbałością przez użytkowników",
+      "Dostęp do wielu testów"],
+    annotation: (
       <span className="font-light">
-        This is faded paragraph text it can contain more information about the
-        content or icons.
+        Dziel się swoją wiedzą z innymi, twórz treści dla innych
       </span>
     ),
     icon: (
@@ -350,10 +273,9 @@ const Content = [
         url: "mailto:PLACEHOLDER@gmail.com",
       },
     ],
-    footer: (
+    annotation: (
       <span className="font-light">
-        This is faded paragraph text it can contain more information about the
-        content or icons.
+        Jesteśmy otwarci na wszelkie propozycje, skontaktuj się z nami
       </span>
     ),
     icon: (
@@ -379,8 +301,8 @@ interface ContentProps {
   title: string;
   content: string[];
   exclamated?: string;
-  links: { name: string; url: string }[];
-  footer: ReactNode;
+  links?: { name: string; url: string }[];
+  annotation: ReactNode;
   icon: ReactNode | IconType;
 }
 
