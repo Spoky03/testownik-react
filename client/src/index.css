@@ -73,4 +73,7 @@
     animation: shine 4s ease infinite; /* Apply the shine animation */
     background-size: 200% 100%; /* Set the size of the gradient background */
   }
+  input::file-selector-button {
+    @apply text-text cursor-pointer;
+  }
 }
