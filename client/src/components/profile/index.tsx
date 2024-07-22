@@ -20,13 +20,13 @@ const SingleLink = ({
   children: string;
   params: string | undefined;
 }) => {
-  const activeStyle = params === to ? "border shadow-md" : "";
   return (
     <Link
       to={to}
-      className={`hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full sm:w-full px-2 text-base sm:text-lg font-semibold h-fit pl-3 ${activeStyle}`}
+      className={`hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full sm:w-full px-2 text-base sm:text-lg font-semibold h-fit pl-3 ${params === to ? "" : "opacity-60"}`}
     >
-      {children}
+      {params === to && <span className="mr-1">{"•"}</span>}
+      <span>{children}</span>
     </Link>
   );
 };
@@ -43,7 +43,7 @@ const NavLinks = ({
     <nav
       className={`flex sm:flex-col flex-wrap justify-between space-y-2 grow-0 shrink-0 basis-32 w-full overflow-x-hidden sm:min-h-96 ${className}`}
     >
-      <div className="flex justify-between sm:flex-col gap-2 flex-wrap w-full">
+      <div className="flex justify-between sm:flex-col gap-4 flex-wrap w-full">
         <SingleLink to="" params={params}>
           Profile
         </SingleLink>
@@ -95,7 +95,7 @@ const ProfileNav = ({
   const match = useMatch("/profile/*");
   const params = match ? match.params["*"] : "";
   const bentoStyles =
-    " bg-ternary p-2 rounded-2xl black:border black:borer-faint shadow-sm";
+    " bg-ternary p-2 rounded-2xl black:border black:border-faint shadow-sm";
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 grid-flow-row gap-2">
       <div className="sm:col-span-4 flex h-fit">
