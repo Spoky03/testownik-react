@@ -15,10 +15,10 @@ I plan to deploy it soon.
 - [x] Change register form to zod and shadcn
 - [x] Change login form to zod and shadcn
 - [ ] fill in mocks
-- [ ] Change other form to zod and shadcn
+- [x] Change other form to zod and shadcn
 - [ ] forbid user from leaving in agreements
 - [ ] delete those testing users
-- [ ] add deleting user backend
+- [x] add deleting user backend
 - [ ] add something to display at profile
 - [ ] add contact form
 - [ ] ~~server side frontend build~~

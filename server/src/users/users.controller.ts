@@ -16,7 +16,6 @@ import { UserEntity } from 'src/dto/get-user.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Progress } from 'src/interfaces/user.interface';
 import { SignUpDto } from 'src/dto/signup-user.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
 import { SettingsDto } from './dto/save-settings.dto';
 import { UpdateUserEntity } from './dto/update-user.dto';
 @Controller('api/users')
@@ -40,6 +39,10 @@ export class UsersController {
     @Request() req,
   ) {
     return this.usersService.updateMe(userData, req.user.sub);
+  }
+  @Delete('me')
+  async deleteMe(@Request() req) {
+    return this.usersService.deleteMe(req.user.sub);
   }
   @Post()
   async create(@Body() createUserDto: SignUpDto) {

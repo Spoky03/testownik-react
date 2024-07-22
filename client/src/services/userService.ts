@@ -228,6 +228,14 @@ const saveUserData = async (data: UserData) => {
   });
   return response.data;
 };
+const deleteUser = async () => {
+  const response = await axios.delete(`${baseUrl}/users/me`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+}
 interface UserData {
   username?: string;
   email?: string;
@@ -256,4 +264,5 @@ export default {
   getForeignSets,
   switchPrivacy,
   saveUserData,
+  deleteUser
 };

@@ -20,6 +20,7 @@ import { UpdatePassword } from "./UpdatePassword";
 import { Modal } from "@/components/shared/Modal";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { MdClose as CancelIcon, MdCheck as CheckIcon } from "react-icons/md";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -27,6 +28,7 @@ const FormSchema = z.object({
 });
 export const UserSettings = () => {
   const { toast } = useToast();
+  const [openDeleteUser, setOpenDeleteUser] = useState(false);
   const [isMonospace, setIsMonospace] = useState(
     document.body.classList.contains("monospace")
   );
@@ -74,6 +76,26 @@ export const UserSettings = () => {
         });
       });
   }
+  const handleDeleteUser = async () => {
+    try {
+      const confirmation = window.confirm("Are you sure you want to delete your account?")
+      if (!confirmation) {
+        return;
+      }
+      await userService.deleteUser();
+      localStorage.removeItem("loggedUserToken");
+      toast({
+        title: "Account deleted",
+        variant: "success",
+      });
+      window.location.reload();
+    } catch (error) {
+      toast({
+        title: "Error deleting account",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col p-5 gap-2 ">
@@ -137,15 +159,35 @@ export const UserSettings = () => {
           Change password
         </Button>
         <Separator orientation="vertical" />
-        <Button
-          onClick={() => {
-            console.log("delete account");
-          }}
-          className="max-fit place-self-start text-wrap"
-          variant="destructive"
-        >
-          Delete account
-        </Button>
+        <div className="bg-error min-w-32 rounded-lg flex justify-center">
+          {!openDeleteUser ? (
+            <Button
+              onClick={() => setOpenDeleteUser(true)}
+              className="max-fit place-self-start text-wrap min-w-32"
+              variant="destructive"
+            >
+              Delete account
+            </Button>
+          ) : (
+            <>
+              {" "}
+              <Button
+                onClick={() => handleDeleteUser()}
+                className="max-fit place-self-start text-wrap bg-transparent"
+                variant="destructive"
+              >
+                <CheckIcon size={18}/>
+              </Button>
+              <Button
+                onClick={() => setOpenDeleteUser(false)}
+                className="max-fit place-self-start text-wrap bg-transparent"
+                variant="destructive"
+              >
+                <CancelIcon size={18} />
+              </Button>
+            </>
+          )}
+        </div>
       </div>
       <Modal
         open={openPasswordModal}

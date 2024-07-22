@@ -122,6 +122,9 @@ export class UsersService {
       return user.save();
     }
   }
+  async deleteMe(userId: string) {
+    return this.userModel.findByIdAndDelete(userId).exec();
+  }
   async findByName(username: string): Promise<User | undefined> {
     return this.userModel
       .findOne({ username })
