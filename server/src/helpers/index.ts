@@ -37,3 +37,7 @@ export const IsStrongPasswordRequirements = {
       'The password should contain at least 1 uppercase character, 1 lowercase, 1 number, 1 special character and should be at least 8 characters long.',
   },
 };
+
+export const matchRoles = (roles: string[], userRoles: string[]) => {
+  return roles.some((role) => userRoles.includes(role));
+};

@@ -66,6 +66,15 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  roles: {
+    type: [
+      {
+        type: String,
+        enum: ['user', 'admin'],
+      },
+    ],
+    default: ['user'],
+  },
   questionSets: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -9,6 +9,7 @@ import {
   Delete,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
@@ -18,11 +19,14 @@ import { Progress } from 'src/interfaces/user.interface';
 import { SignUpDto } from 'src/dto/signup-user.dto';
 import { SettingsDto } from './dto/save-settings.dto';
 import { UpdateUserEntity } from './dto/update-user.dto';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  //@Public() // DONT FORGET TO REMOVE THIS
+  @UseGuards(RolesGuard)
+  @Roles(['admin'])
   @Get()
   async findAll() {
     return this.usersService.findAll();

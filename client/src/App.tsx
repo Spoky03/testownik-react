@@ -15,6 +15,7 @@ import { Footer } from "./components/shared/Footer";
 import { AuthenticatedRoute } from "./components/shared/AuthenticatedRoute";
 import { RouteNotFound } from "./components/shared/RouteNotFound";
 import ScrollToTop from "./components/shared/ScrollToTop";
+import { AdminPanel } from "./components/admin";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setTheme = useTheme();
@@ -52,6 +53,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route element={<AuthenticatedRoute />}>
               <Route path="profile/*" element={<Profile />} />
+              <Route path="admin/*" element={<AdminPanel />} />
               {/* <Route path="dashboard/*" element={<QuizContainer />} /> */}
             </Route>
             <Route path="browser/*" element={<BrowserContainer />} />

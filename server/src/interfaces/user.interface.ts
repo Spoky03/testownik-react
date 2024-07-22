@@ -19,6 +19,7 @@ export interface Progress extends Document {
 export interface UserReq {
   username: string;
   iat: number;
+  roles: string[];
   exp: number;
   sub: string;
 }
@@ -28,6 +29,7 @@ export interface User extends Document {
   username: string;
   email: string;
   password: string;
+  roles: string[];
   questionSets: Questions[];
   progress: Progress[];
   bookmarks: string[];
