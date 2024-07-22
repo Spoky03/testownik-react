@@ -37,7 +37,7 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
       dispatch(deleteOneQuestionSet(set._id));
       setEffect(false);
     }
-  };
+  };``
 
   return (
     <div className="flex">

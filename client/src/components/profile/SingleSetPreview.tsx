@@ -9,7 +9,13 @@ import { MdEdit as EditIcon } from "react-icons/md";
 import { MdClose as CancelIcon, MdCheck as CheckIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
-import { editQuestionSet } from "@/reducers/userReducer";
+import { MdPublicOff as PrivateIcon } from "react-icons/md";
+import { MdPublic as PublicIcon } from "react-icons/md";
+import {
+  deleteOneQuestionSet,
+  editQuestionSet,
+  switchPrivacyOfSet,
+} from "@/reducers/userReducer";
 import { AppDispatch } from "@/store";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
@@ -26,12 +32,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Input } from "../ui/input";
 import userService from "@/services/userService";
 import { useToast } from "../ui/use-toast";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { DeleteConfirmation } from "../shared/DeleteConfirmation";
+import { Separator } from "../ui/separator";
 const DatePicker = ({
   date,
   setDate,
@@ -227,7 +241,7 @@ const EditDescriptionInput = ({
     <div className="flex">
       <Textarea
         value={description}
-        className="min-h-32 m-2"
+        className="min-h-12 m-2"
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Description"
       />
@@ -235,7 +249,6 @@ const EditDescriptionInput = ({
         <button
           className="cursor-pointer hover:bg-success transition-colors hover:bg-opacity-50 rounded-full p-1"
           onClick={() => {
-            console.log(singleSet.name, description, singleSet._id);
             setEditDescription(!editDescription);
             dispatch(
               editQuestionSet({
@@ -273,8 +286,6 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
   return (
     <div className="flex flex-col gap-1">
       <div className="">
-        <p className="text-sm opacity-45 place-self-center">description: </p>
-
         {editDescription ? (
           <EditDescriptionInput
             singleSet={set}
@@ -344,16 +355,28 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
 };
 const NotAuthorized = () => {
   return <h1 className="text-3xl text-error font-semibold">Not authorized</h1>;
-}
+};
 export const SingleSetPreview = () => {
   const match = useMatch("/profile/sets/:id");
   const userId = useSelector((state: RootState) => state.user.user.sub);
   const [openCreate, setOpenCreate] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
   const singleSet = useSelector((state: RootState) => {
     return state.user?.user?.questionSets?.find(
       (set: QuestionSet) => set._id === match?.params.id
     );
   });
+  if (!singleSet) {
+    return <h1>Set not found</h1>;
+  }
+  const handleDelete = () => {
+    window.confirm(
+      "Are you sure you want to delete this set? This action is irreversible"
+    ) && dispatch(deleteOneQuestionSet(singleSet._id));
+  };
+  const handlePrivate = () => {
+    dispatch(switchPrivacyOfSet(singleSet._id));
+  };
   if (singleSet && typeof singleSet.author === "object") {
     if (singleSet.author._id !== userId) {
       return <NotAuthorized />;
@@ -361,61 +384,99 @@ export const SingleSetPreview = () => {
   } else if (singleSet && singleSet.author !== userId) {
     return <NotAuthorized />;
   }
-  
-  
 
   return (
     <div className="flex flex-col place-items-center justify-center align-center w-full gap-5 ">
       <div className="place-self-start">
         <GoBackArrow />
       </div>
-      {singleSet ? (
-        <>
-          <div className="flex flex-col font-semibold w-full px-2">
-            <h1 className="text-2xl text-wrap break-all">{singleSet.name}</h1>
-            <SingleSetDetails set={singleSet} />
+      <>
+        <div className="flex flex-col font-semibold w-full px-2">
+          <div className="flex">
+            <h1 className="text-2xl text-wrap break-all w-full">
+              {singleSet.name}
+            </h1>
+            <div className="flex place-items-center gap-2 ">
+              <DeleteConfirmation handleDelete={handleDelete} />
+              <div
+                onClick={handlePrivate}
+                className="flex place-items-center gap-2"
+              >
+                {singleSet.private ? (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        {" "}
+                        <PrivateIcon
+                          className="hover:text-warning transition-colors duration-300"
+                          size={24}
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          This set is currently private. Press to publish it.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ) : (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        {" "}
+                        <PublicIcon
+                          className="hover:text-success transition-colors duration-300"
+                          size={24}
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>This set is public. Press to hide it.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )}
+              </div>
+            </div>
           </div>
-          {openCreate ? (
-            <div className="p-2 m-4 gap-2 flex flex-col justify-between w-full border rounded-xl">
-              <div className="w-full flex justify-end">
-                <CancelIcon
-                  onClick={() => setOpenCreate(!openCreate)}
-                  className="cursor-pointer place-self-end bg-error rounded-full"
-                  size={24}
-                />
-              </div>
-              <div className="w-full place-self-center flex">
-                <DropFiles setId={singleSet._id} />
-              </div>
-              <p className="w-full text-center opacity-75">or</p>
-              <div className="w-full place-self-center sm:px-6">
-                <NewQuestionForm />
-              </div>
+          <Separator className="my-2" />
+          <SingleSetDetails set={singleSet} />
+        </div>
+        {openCreate ? (
+          <div className="p-2 m-4 gap-2 flex flex-col justify-between w-full border rounded-xl">
+            <div className="w-full flex justify-end">
+              <CancelIcon
+                onClick={() => setOpenCreate(!openCreate)}
+                className="cursor-pointer place-self-end bg-error rounded-full"
+                size={24}
+              />
             </div>
-          ) : (
-            <div className="flex flex-col m-4 w-full">
-                <Button
-                  onClick={() => setOpenCreate(!openCreate)}
-                  className="place-self-center"
-                  variant="outline"
-                >
-                  Add Questions
-                </Button>
+            <div className="w-full place-self-center flex">
+              <DropFiles setId={singleSet._id} />
             </div>
-          )}
-          <div className="px-2 flex flex-col justify-between w-full">
-            <div className="flex flex-col">
-              {singleSet.questions.map((question: Question) => {
-                return (
-                  <SingleQuestion key={question._id} question={question} />
-                );
-              })}
+            <p className="w-full text-center opacity-75">or</p>
+            <div className="w-full place-self-center sm:px-6">
+              <NewQuestionForm />
             </div>
           </div>
-        </>
-      ) : (
-        <h1>Set not found/Not authorized/Loading</h1>
-      )}
+        ) : (
+          <div className="flex flex-col m-4 w-full">
+            <Button
+              onClick={() => setOpenCreate(!openCreate)}
+              className="place-self-center"
+              variant="outline"
+            >
+              Add Questions
+            </Button>
+          </div>
+        )}
+        <div className="px-2 flex flex-col justify-between w-full">
+          <div className="flex flex-col">
+            {singleSet.questions.map((question: Question) => {
+              return <SingleQuestion key={question._id} question={question} />;
+            })}
+          </div>
+        </div>
+      </>
     </div>
   );
 };
