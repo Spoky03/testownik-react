@@ -342,14 +342,27 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
     </div>
   );
 };
+const NotAuthorized = () => {
+  return <h1 className="text-3xl text-error font-semibold">Not authorized</h1>;
+}
 export const SingleSetPreview = () => {
   const match = useMatch("/profile/sets/:id");
+  const userId = useSelector((state: RootState) => state.user.user.sub);
   const [openCreate, setOpenCreate] = useState(false);
   const singleSet = useSelector((state: RootState) => {
     return state.user?.user?.questionSets?.find(
       (set: QuestionSet) => set._id === match?.params.id
     );
   });
+  if (singleSet && typeof singleSet.author === "object") {
+    if (singleSet.author._id !== userId) {
+      return <NotAuthorized />;
+    }
+  } else if (singleSet && singleSet.author !== userId) {
+    return <NotAuthorized />;
+  }
+  
+  
 
   return (
     <div className="flex flex-col place-items-center justify-center align-center w-full gap-5 ">

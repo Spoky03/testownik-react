@@ -17,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "../ui/button";
 const StartQuizIcon = ({
   id,
   className,
@@ -46,7 +47,11 @@ const StartQuizIcon = ({
           </div>
         </TooltipTrigger>
         <TooltipContent>
-          <p className="break-words text-wrap max-w-sm">{completed ? "You've already completed this quiz. Reset your progress below to play again" : "Press to play this quiz"}</p>
+          <p className="break-words text-wrap max-w-sm">
+            {completed
+              ? "You've already completed this quiz. Reset your progress below to play again"
+              : "Press to play this quiz"}
+          </p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
@@ -87,6 +92,10 @@ export const SingleSet = ({
     event?.stopPropagation();
     dispatch(likeSet(id));
   };
+  const handleEdit = (event: React.MouseEvent) => {
+    event?.stopPropagation();
+    window.location.href = `/profile/sets/${set._id}`;
+  };
   useEffect(() => {
     if (bookmarks.includes(set._id)) {
       setBookmarked(true);
@@ -94,6 +103,11 @@ export const SingleSet = ({
       setBookmarked(false);
     }
   }, [bookmarks, set._id]);
+
+  const isAuthor =
+    typeof set.author === "object"
+      ? userId === set.author._id
+      : userId === set.author;
   return (
     <div
       className={`border border-faint bg-ternary font-bold rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${
@@ -103,17 +117,7 @@ export const SingleSet = ({
       }`}
     >
       <div className="flex justify-between w-full h-full pt-3 text-left">
-        <div className="flex">
-          {type === SetListTypes.QUIZ && (
-            <button onClick={handleBookmark}>
-              <MarkIcon
-                size={16}
-                className={` transition-colors place-self-center duration-300 ${
-                  bookmarked && "text-amber-500"
-                }`}
-              />
-            </button>
-          )}
+        <div className="flex ml-2">
           <div>
             <h1 className="place-self-start text-wrap break-all">{set.name}</h1>
             <p className="text-xs opacity-80">
@@ -125,6 +129,19 @@ export const SingleSet = ({
                   }`}
             </p>
           </div>
+          {type === SetListTypes.QUIZ && (
+            <button
+              onClick={handleBookmark}
+              className="place-self-start ml-1 mt-1.5"
+            >
+              <MarkIcon
+                size={16}
+                className={`place-self-center ${
+                  bookmarked && "text-amber-500"
+                }`}
+              />
+            </button>
+          )}
         </div>
         {(bookmarked || foreign) && (
           <StartQuizIcon
@@ -135,7 +152,7 @@ export const SingleSet = ({
         )}
       </div>
       {type !== SetListTypes.BROWSER && (
-        <div className="flex flex-col">
+        <div className="ml-2 flex flex-col">
           <span className="text-xs opacity-80 mt-3">
             {set.metaData.subject}
           </span>
@@ -151,17 +168,29 @@ export const SingleSet = ({
         </div>
       )}
       <hr className="w-full border-gray-300 dark:border-gray-700 my-2" />
-      {type === SetListTypes.QUIZ && (
-        <Progress set={set} completed={completed} setCompleted={setCompleted} />
-      )}
-      {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
-        <Socials
-          set={set}
-          type={type}
-          handleBookmark={handleBookmark}
-          handleLike={handleLike}
-        />
-      )}
+      <div className="flex justify-between">
+        {type === SetListTypes.QUIZ && (
+          <Progress set={set} completed={completed} setCompleted={setCompleted} />
+        )}
+        {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
+          <Socials
+            set={set}
+            type={type}
+            handleBookmark={handleBookmark}
+            handleLike={handleLike}
+          />
+        )}
+        {type === SetListTypes.QUIZ && isAuthor && (
+          <div>
+            <Button
+              onClick={handleEdit}
+              variant={"outline"}
+            >
+              Edit
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

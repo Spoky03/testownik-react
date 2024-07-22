@@ -48,11 +48,11 @@ export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, c
 
   return (
     <div className="flex place-items-center">
-      <h1 className="px-3">
+      <p className="px-3">
         {completed
           ? "Completed"
           : `${progress.correct}/${progress.total}`}{" "}
-      </h1>
+      </p>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
