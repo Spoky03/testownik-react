@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { QuestionSet } from "../../types";
-import { RootState } from "../../types";
-import { SetListTypes } from "../../types";
+import { QuestionSet } from "../../../types";
+import { RootState } from "../../../types";
+import { SetListTypes } from "../../../types";
 import { Progress } from "./Progress";
 import { Socials } from "./Socials";
 import { FaPlay as PlayIcon } from "react-icons/fa6";
@@ -17,7 +17,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
+import { Separator } from "../../ui/separator";
 const StartQuizIcon = ({
   id,
   className,
@@ -33,7 +34,7 @@ const StartQuizIcon = ({
         <TooltipTrigger>
           <div className={completed ? "opacity-20 cursor-not-allowed" : ""}>
             <Link
-              to={`/dashboard/${id}`}
+              to={`/quiz/${id}`}
               className={`${
                 completed && "pointer-events-none"
               } px-3 py-2 ${className} flex border-success border rounded-2xl hover:bg-success hover:bg-opacity-30 transition-colors`}
@@ -113,7 +114,7 @@ export const SingleSet = ({
       className={`border border-faint bg-ternary font-bold rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${
         type !== SetListTypes.QUIZ
           ? "cursor-pointer hover:outline"
-          : "hover:border-text"
+          : ""
       }`}
     >
       <div className="flex justify-between w-full h-full pt-3 text-left">
@@ -167,8 +168,8 @@ export const SingleSet = ({
           </span>
         </div>
       )}
-      <hr className="w-full border-gray-300 dark:border-gray-700 my-2" />
-      <div className="flex justify-between">
+      {type !== SetListTypes.BROWSER && <Separator className="mt-1" />}
+      <div className="flex mt-3 justify-between">
         {type === SetListTypes.QUIZ && (
           <Progress set={set} completed={completed} setCompleted={setCompleted} />
         )}

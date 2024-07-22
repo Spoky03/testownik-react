@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
 import { logoutUser } from "../../reducers/userReducer";
-import { SetList } from "./SetList";
+import { SetList } from "./edit/SetList";
 import { Routes, Route, Link, Outlet, useMatch } from "react-router-dom";
-import { SingleSetPreview } from "./SingleSetPreview";
+import { SingleSetPreview } from "./edit/SingleSetPreview";
 import { RootState } from "../../types";
 import constants from "../../constants";
 import { GoBackArrow } from "../shared/GoBackArrow";
@@ -149,7 +149,7 @@ const Profile = () => {
           >
             <Route path="/agreements" element={<UserAgreements />} />
             <Route path="/settings" element={<UserSettings />} />
-            <Route path="/dashboard/*" element={<QuizContainer />} />
+            <Route path="/dashboard" element={<QuizContainer />} />
             <Route
               path="sets/*"
               element={

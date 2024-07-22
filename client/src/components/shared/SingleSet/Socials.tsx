@@ -1,7 +1,7 @@
 import { MdLink as LinkIcon } from "react-icons/md";
 import { FaHeart as LikeIcon } from "react-icons/fa";
 import { FaBookmark as MarkIcon } from "react-icons/fa";
-import { QuestionSet, RootState, SetListTypes } from "../../types";
+import { QuestionSet, RootState, SetListTypes } from "../../../types";
 import {
   Tooltip,
   TooltipContent,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
 const CopyLinkButton = ({ id }: { id: string }) => {
   const { toast } = useToast();
   const copyLink = () => {

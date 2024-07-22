@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
-import { Question, QuestionSet, RootState } from "../../types";
+import { Question, QuestionSet, RootState } from "../../../types";
 import { DropFiles } from "./DropFiles";
-import { GoBackArrow } from "../shared/GoBackArrow";
+import { GoBackArrow } from "../../shared/GoBackArrow";
 import { NewQuestionForm } from "./NewQuestionForm";
 import { SingleQuestion } from "./SingleQuestion";
 import { MdEdit as EditIcon } from "react-icons/md";
 import { MdClose as CancelIcon, MdCheck as CheckIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "../../ui/textarea";
 import { MdPublicOff as PrivateIcon } from "react-icons/md";
 import { MdPublic as PublicIcon } from "react-icons/md";
 import {
@@ -38,14 +38,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import userService from "@/services/userService";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { DeleteConfirmation } from "../shared/DeleteConfirmation";
-import { Separator } from "../ui/separator";
+import { DeleteConfirmation } from "../../shared/DeleteConfirmation";
+import { Separator } from "../../ui/separator";
 const DatePicker = ({
   date,
   setDate,

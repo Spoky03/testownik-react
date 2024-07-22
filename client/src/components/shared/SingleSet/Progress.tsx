@@ -1,6 +1,6 @@
 import { MdAutorenew as ResetIcon } from "react-icons/md";
-import { AppDispatch, RootState } from "../../store";
-import { resetSingleProgress } from "../../reducers/userReducer";
+import { AppDispatch, RootState } from "../../../store";
+import { resetSingleProgress } from "../../../reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { QuestionSet } from "@/types";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
 export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, completed: boolean, setCompleted: (value: boolean) => void }) => {
   const [effect, setEffect] = useState(false);
   const { toast } = useToast();

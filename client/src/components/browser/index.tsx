@@ -4,7 +4,7 @@ import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { AppDispatch } from "../../store";
 import { QuestionSet, RootState, SetListTypes } from "../../types";
 import { initializeBrowser } from "../../reducers/browserReducer";
-import { SingleSet } from "../SingleSet/SingleSet";
+import { SingleSet } from "../shared/SingleSet/SingleSet";
 import { Modal } from "@/components/shared/Modal";
 import { BrowserNav } from "./BrowserNav";
 const SetDescription = ({ set }: { set: QuestionSet }) => {
@@ -68,17 +68,19 @@ const SetList = () => {
           className={`flex flex-col p-1 sm:p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-6xl gap-2 `}
         >
           <BrowserNav />
-          {filteredSets.map((set) => (
-            <div
-              key={set._id}
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(`/browser/${set._id}`);
-              }}
-            >
-              <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER} />
-            </div>
-          ))}
+          <div className="flex flex-col gap-6">
+            {filteredSets.map((set) => (
+              <div
+                key={set._id}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/browser/${set._id}`);
+                }}
+              >
+                <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER} />
+              </div>
+            ))}
+          </div>
           {filteredSets.length === 0 && (
             <h1 className="text-2xl text-center p-10">No sets found</h1>
           )}

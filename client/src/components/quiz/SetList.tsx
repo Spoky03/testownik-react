@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { QuestionSet, RootState } from "../../types";
-import { SingleSet } from "../SingleSet/SingleSet";
+import { SingleSet } from "../shared/SingleSet/SingleSet";
 import { SetListTypes } from "../../types";
 import { MdOutlineSort as SortIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
@@ -68,7 +68,7 @@ export const SetList = () => {
       </div>
       <ShotThroughTitle title="Your Sets" />
 
-      <div className="flex gap-2 w-full flex-col">
+      <div className="flex gap-4 w-full flex-col">
         {sortedSetList ? (
           sortedSetList.map((set: QuestionSet) => {
             if (!set.questions.length) {

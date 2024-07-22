@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { NewSetForm } from "./NewSetForm";
-import { QuestionSet } from "../../types";
+import { QuestionSet } from "../../../types";
 import { useState } from "react";
 import {
   deleteOneQuestionSet,
   switchPrivacyOfSet,
-} from "../../reducers/userReducer";
-import { AppDispatch, RootState } from "../../store";
+} from "../../../reducers/userReducer";
+import { AppDispatch, RootState } from "../../../store";
 
-import { DeleteConfirmation } from "../shared/DeleteConfirmation";
+import { DeleteConfirmation } from "../../shared/DeleteConfirmation";
 import { MdEdit as EditIcon } from "react-icons/md";
 import { MdPublicOff as PrivateIcon } from "react-icons/md";
 import { MdPublic as PublicIcon } from "react-icons/md";
@@ -20,7 +20,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Modal } from "@/components/shared/Modal";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,10 +37,10 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
       dispatch(deleteOneQuestionSet(set._id));
       setEffect(false);
     }
-  };``
+  };
 
   return (
-    <div className="flex">
+    <div className="flex black:border rounded-xl px-2 mx-2 md:mx-4">
       <div
         className={`bg-secondary font-bold rounded-md px-2 flex justify-between w-full ${
           effect && "animate-explode"
@@ -112,7 +112,7 @@ export const SetList = () => {
       </div>
       <br />
       {usersSets && usersSets.length > 0 && (
-        <div className="flex justify-between">
+        <div className="flex justify-between mx-2 md:mx-4">
           <h1 className="py-1">Your Sets</h1>
           <h1 className="py-1">Questions</h1>
         </div>

@@ -16,6 +16,7 @@ import { AuthenticatedRoute } from "./components/shared/AuthenticatedRoute";
 import { RouteNotFound } from "./components/shared/RouteNotFound";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import { AdminPanel } from "./components/admin";
+import Quiz from "./components/quiz/Quiz";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setTheme = useTheme();
@@ -54,7 +55,7 @@ const App = () => {
             <Route element={<AuthenticatedRoute />}>
               <Route path="profile/*" element={<Profile />} />
               <Route path="admin/*" element={<AdminPanel />} />
-              {/* <Route path="dashboard/*" element={<QuizContainer />} /> */}
+              <Route path="quiz/:id" element={<Quiz />} />
             </Route>
             <Route path="browser/*" element={<BrowserContainer />} />
             <Route path="/*" element={<RouteNotFound />} />
