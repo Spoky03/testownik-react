@@ -3,6 +3,7 @@ import { AppDispatch } from "@/store";
 import { RootState } from "@/types";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { FaCheck } from "react-icons/fa";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -22,28 +23,40 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import {
-  HeartIcon,
-} from "lucide-react";
+import { HeartIcon } from "lucide-react";
 
-const FormSchema = z.object({
-  email: z.string().email(),
-  username: z.string().min(4).max(18),
-  password: z.string().min(8).max(32)
-  .regex(/(?=.*\d)/, "Password must contain at least one digit")
-  .regex(/(?=.*\W+)/, "Password must contain at least one special character")
-  .regex(/(?=.*[a-z])/, "Password must contain at least one lowercase character")
-  .regex(/(?=.*[A-Z])/, "Password must contain at least one uppercase character"),
-  passwordConfirmation: z.string().min(8).max(32),
-}).superRefine(({ passwordConfirmation, password }, ctx) => {
-  if (passwordConfirmation !== password) {
-    ctx.addIssue({
-      code: "custom",
-      message: "The passwords did not match",
-      path: ['passwordConfirmation']
-    });
-  }
-});
+const FormSchema = z
+  .object({
+    email: z.string().email(),
+    username: z.string().min(4).max(18),
+    password: z
+      .string()
+      .min(8)
+      .max(32)
+      .regex(/(?=.*\d)/, "Password must contain at least one digit")
+      .regex(
+        /(?=.*\W+)/,
+        "Password must contain at least one special character"
+      )
+      .regex(
+        /(?=.*[a-z])/,
+        "Password must contain at least one lowercase character"
+      )
+      .regex(
+        /(?=.*[A-Z])/,
+        "Password must contain at least one uppercase character"
+      ),
+    passwordConfirmation: z.string().min(8).max(32),
+  })
+  .superRefine(({ passwordConfirmation, password }, ctx) => {
+    if (passwordConfirmation !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ["passwordConfirmation"],
+      });
+    }
+  });
 
 export const Register = () => {
   const { toast } = useToast();
@@ -62,7 +75,9 @@ export const Register = () => {
   const user = useSelector((state: RootState) => state.user.user);
   const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
     setEffect(true);
-    const res = await dispatch(registerUser(data.username, data.email, data.password));
+    const res = await dispatch(
+      registerUser(data.username, data.email, data.password)
+    );
     const variant = res.status === 200 ? "success" : "destructive";
     console.log(res);
     const description =
@@ -109,8 +124,9 @@ export const Register = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 sm:mt-5 p-10 flex-col justify-center h-2/3">
-      <div className="sm:col-span-2 flex flex-col p-5 sm:px-10 sm:py-6 w-fit place-self-center xl:place-self-end rounded-xl shadow-2xl place-items-center bg-primary  black:border">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 sm:mt-5 p-10 flex-col justify-center h-2/3">
+      <div className="hidden xl:block xl:col-span-1"></div>
+      <div className="sm:col-span-1 flex flex-col p-5 sm:px-10 sm:py-6 w-fit place-self-center rounded-xl shadow-2xl place-items-center bg-primary  black:border">
         <h1 className="text-2xl font-semibold">Rejestracja</h1>
         <Form {...form}>
           <form
@@ -124,7 +140,11 @@ export const Register = () => {
                 <FormItem className="flex flex-col w-full items-start rounded-md">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} type="email" placeholder="example@email.com" />
+                    <Input
+                      {...field}
+                      type="email"
+                      placeholder="example@email.com"
+                    />
                   </FormControl>
                   <FormMessage className="w-full text-wrap text-sm" />
                   <FormDescription className="text-xs">
@@ -172,13 +192,17 @@ export const Register = () => {
                 <FormItem className="flex flex-col w-full items-start rounded-md">
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="Confirm Password" />
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Confirm Password"
+                    />
                   </FormControl>
                   <FormMessage className="w-full text-wrap text-sm" />
                 </FormItem>
               )}
             />
-          
+
             <FormMessage />
             <div className="place-self-center mt-4 w-100">
               <Button type="submit" disabled={effect}>
@@ -205,20 +229,30 @@ export const Register = () => {
           <h1 className="place-self-center font-semibold text-4xl">
             Zostań jednym z nas!
           </h1>
-          <HeartIcon className="place-self-center text-success ml-2 shrink-0 fill-success" size={32} />
+          <HeartIcon
+            className="place-self-center text-success ml-2 shrink-0 fill-success"
+            size={32}
+          />
         </div>
-        <h2 className="text-xl">
-          Free to use, easy to love
-        </h2>
-        <ul className="list-disc list-inside space-y-1 text-lg">
-          <li>Track your progress</li>
-          <li>Set your goals</li>
-          <li>Get a personalized learning path</li>
-          <li>Test your skills</li>
-          <li>Practice with quizzes</li>
-          <li>Learn with fun</li>
+        <h2 className="text-xl">Free to use, easy to love</h2>
+        <ul className="list-inside space-y-1 text-lg">
+          {Content.map((content) => (
+            <li key={content} className="flex">
+              <FaCheck className="text-success place-self-center shrink-0 mr-2" />
+              <span>{content}</span>
+            </li>
+          ))}
         </ul>
       </aside>
     </div>
   );
 };
+
+const Content = [
+  "Track your progress",
+  "Set your goals",
+  "Get a personalized learning path",
+  "Test your skills",
+  " Practice with quizzes",
+  "Learn with fun",
+];

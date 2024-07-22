@@ -24,6 +24,8 @@ export const NewQuestionForm = ({
   questionToEdit?: Question;
 }) => {
   const { toast } = useToast();
+  const match = useMatch("/profile/sets/:id");
+  const dispatch = useDispatch<AppDispatch>();
   const [question, setQuestion] = useState<string>("");
   const [answers, setAnswers] = useState<CreatedAnswer[]>([
     { answer: "", correct: false, id: 0 },
@@ -62,8 +64,6 @@ export const NewQuestionForm = ({
       }
     });
   };
-  const match = useMatch("/profile/sets/:id");
-  const dispatch = useDispatch<AppDispatch>();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const createdQuestion = {
@@ -105,7 +105,7 @@ export const NewQuestionForm = ({
       <form onSubmit={handleSubmit}>
         <div className="flex justify-between">
           <div className="grid w-full gap-1.5 p-2">
-            <Label htmlFor="question">Your question</Label>
+            <Label htmlFor="question">Create new question</Label>
             <Textarea
               className=""
               placeholder="Type your question here."

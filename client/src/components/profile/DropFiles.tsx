@@ -106,7 +106,7 @@ export const DropFiles = ({ setId }: { setId: string }) => {
   };
 
   return (
-    <div className="grid max-w-sm items-center gap-1.5 dark:text-white place-self-center w-64">
+    <div className="grid max-w-sm items-center gap-1.5 dark:text-white mx-auto w-64">
       <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}

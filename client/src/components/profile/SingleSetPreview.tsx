@@ -45,8 +45,9 @@ const DatePicker = ({
     <Popover>
       <PopoverTrigger asChild>
         <div className="flex cursor-pointer">
-        <CalendarIcon className="mr-2 h-4 w-4" />
-        {date ? format(date, "PPP") : <span className="">Pick a date</span>}</div>
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, "PPP") : <span className="">Pick a date</span>}
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
@@ -309,7 +310,10 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">subject: </p>
           {/* <p className="text-sm opacity-75">{set.metaData.subject || "N/A"}</p> */}
-          <input type="text" value={subject} className="max-w-16 text-sm opacity-75 bg-ternary cursor-pointer border-0" 
+          <input
+            type="text"
+            value={subject}
+            className="max-w-16 text-sm opacity-75 bg-ternary cursor-pointer border-0"
             onChange={(e) => {
               setSubject(e.target.value);
             }}
@@ -319,7 +323,7 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
                 id: set._id,
               });
             }}
-           />
+          />
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
           <p className="text-sm opacity-45 place-self-center">tags: </p>
@@ -340,6 +344,7 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
 };
 export const SingleSetPreview = () => {
   const match = useMatch("/profile/sets/:id");
+  const [openCreate, setOpenCreate] = useState(false);
   const singleSet = useSelector((state: RootState) => {
     return state.user?.user?.questionSets?.find(
       (set: QuestionSet) => set._id === match?.params.id
@@ -357,9 +362,35 @@ export const SingleSetPreview = () => {
             <h1 className="text-2xl text-wrap break-all">{singleSet.name}</h1>
             <SingleSetDetails set={singleSet} />
           </div>
-          <DropFiles setId={singleSet._id} />
+          {openCreate ? (
+            <div className="p-2 m-4 gap-2 flex flex-col justify-between w-full border rounded-xl">
+              <div className="w-full flex justify-end">
+                <CancelIcon
+                  onClick={() => setOpenCreate(!openCreate)}
+                  className="cursor-pointer place-self-end bg-error rounded-full"
+                  size={24}
+                />
+              </div>
+              <div className="w-full place-self-center flex">
+                <DropFiles setId={singleSet._id} />
+              </div>
+              <p className="w-full text-center opacity-75">or</p>
+              <div className="w-full place-self-center sm:px-6">
+                <NewQuestionForm />
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col m-4 w-full">
+                <Button
+                  onClick={() => setOpenCreate(!openCreate)}
+                  className="place-self-center"
+                  variant="outline"
+                >
+                  Add Questions
+                </Button>
+            </div>
+          )}
           <div className="px-2 flex flex-col justify-between w-full">
-            <NewQuestionForm />
             <div className="flex flex-col">
               {singleSet.questions.map((question: Question) => {
                 return (
