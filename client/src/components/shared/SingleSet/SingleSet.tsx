@@ -112,7 +112,7 @@ export const SingleSet = ({
   return (
     <div
       className={`border border-faint bg-ternary font-bold rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${
-        type !== SetListTypes.QUIZ
+        (type !== SetListTypes.QUIZ && type !== SetListTypes.MODAL)
           ? "cursor-pointer hover:outline"
           : ""
       }`}
@@ -152,14 +152,13 @@ export const SingleSet = ({
           />
         )}
       </div>
-      {type !== SetListTypes.BROWSER && (
         <div className="ml-2 flex flex-col">
           <span className="text-xs opacity-80 mt-3">
             {set.metaData.subject}
           </span>
-          <p className="text-base font-medium text-wrap break-words">
+          {<p className="text-base font-medium text-wrap break-words">
             {set.description}
-          </p>
+          </p>}
           <span className="text-xs text-end opacity-80">
             {set.questions.length} Questions
           </span>
@@ -167,8 +166,7 @@ export const SingleSet = ({
             {date.toLocaleDateString()}
           </span>
         </div>
-      )}
-      {type !== SetListTypes.BROWSER && <Separator className="mt-1" />}
+      <Separator className="mt-1" />
       <div className="flex mt-3 justify-between">
         {type === SetListTypes.QUIZ && (
           <Progress set={set} completed={completed} setCompleted={setCompleted} />
@@ -176,7 +174,6 @@ export const SingleSet = ({
         {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
           <Socials
             set={set}
-            type={type}
             handleBookmark={handleBookmark}
             handleLike={handleLike}
           />

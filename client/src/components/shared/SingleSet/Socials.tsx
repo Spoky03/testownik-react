@@ -1,7 +1,7 @@
 import { MdLink as LinkIcon } from "react-icons/md";
 import { FaHeart as LikeIcon } from "react-icons/fa";
 import { FaBookmark as MarkIcon } from "react-icons/fa";
-import { QuestionSet, RootState, SetListTypes } from "../../../types";
+import { QuestionSet, RootState, } from "@/types";
 import {
   Tooltip,
   TooltipContent,
@@ -13,7 +13,8 @@ import { useEffect, useState } from "react";
 import { useToast } from "../../ui/use-toast";
 const CopyLinkButton = ({ id }: { id: string }) => {
   const { toast } = useToast();
-  const copyLink = () => {
+  const copyLink = (e: React.MouseEvent) => {
+    e.stopPropagation()
     navigator.clipboard.writeText(`${window.location.origin}/browser/${id}`);
     toast({
       variant: "success",
@@ -33,11 +34,9 @@ const CopyLinkButton = ({ id }: { id: string }) => {
 export const Socials = ({
   set,
   handleBookmark,
-  type,
   handleLike,
 }: {
   set: QuestionSet;
-  type: SetListTypes;
   handleBookmark: (event: React.MouseEvent, id: string) => void;
   handleLike: (event: React.MouseEvent, id: string) => void;
 }) => {
@@ -52,8 +51,8 @@ export const Socials = ({
     }
   }, [bookmarks, set._id]);
   return (
-    <div className="flex justify-between h-fit">
-      <div className="flex gap-1 mr-2">
+    <div className="flex justify-between w-full h-fit">
+      <div className="flex gap-3 ">
         <button
           className="rounded-full p-1 hover:bg-success hover:bg-opacity-30"
           onClick={(event) => handleLike(event, set._id)}
@@ -62,7 +61,7 @@ export const Socials = ({
           <div className="flex rounded-xl gap-1 p-1 px-2 border border-faint">
             <LikeIcon
               size={18}
-              className={`transition-colors outline-2 duration-300  ${
+              className={`transition-colors outline-1 duration-300  ${
                 set.liked ? "text-red-500" : ""
               }`}
             />
@@ -90,7 +89,7 @@ export const Socials = ({
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {type === SetListTypes.MODAL && <CopyLinkButton id={set._id} />}
+        <CopyLinkButton id={set._id} />
       </div>
       <div className="flex flex-wrap place-self-center overflow-x-hidden gap-1">
         {set.metaData.tags.map((tag) => (

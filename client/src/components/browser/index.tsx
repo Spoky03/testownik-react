@@ -1,21 +1,19 @@
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate, useParams } from "react-router-dom";
-import { AppDispatch } from "../../store";
-import { QuestionSet, RootState, SetListTypes } from "../../types";
-import { initializeBrowser } from "../../reducers/browserReducer";
-import { SingleSet } from "../shared/SingleSet/SingleSet";
-import { Modal } from "@/components/shared/Modal";
+import { AppDispatch } from "@/store";
+import { QuestionSet, RootState, SetListTypes } from "@/types";
+import { initializeBrowser } from "@/reducers/browserReducer";
+import { SingleSet } from "@/components/shared/SingleSet/SingleSet";
 import { BrowserNav } from "./BrowserNav";
-const SetDescription = ({ set }: { set: QuestionSet }) => {
+import { Modal } from "../shared/Modal";
+const ModalContent = ({ set }: { set: QuestionSet }) => {
   return (
     <div className="p-3 shadow-x bg-ternary">
       <SingleSet set={set} type={SetListTypes.MODAL} />
     </div>
   );
 };
-
-
 const SetList = () => {
   const sets = useSelector((state: RootState) => state.browser.sets);
   const { id } = useParams();
@@ -77,7 +75,7 @@ const SetList = () => {
                   navigate(`/browser/${set._id}`);
                 }}
               >
-                <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER} />
+                <SingleSet key={set._id} set={set} type={(open &&  selectedSet?._id === set._id) ? SetListTypes.MODAL : SetListTypes.BROWSER} />
               </div>
             ))}
           </div>
@@ -85,12 +83,13 @@ const SetList = () => {
             <h1 className="text-2xl text-center p-10">No sets found</h1>
           )}
         </div>
+        <Modal
+          open={open}
+          className="max-w-4xl"
+          setOpen={handleOpen}
+          content={<ModalContent set={selectedSet as QuestionSet} />}
+        />
       </Suspense>
-      <Modal
-        open={open}
-        setOpen={handleOpen}
-        content={<SetDescription set={selectedSet as QuestionSet} />}
-      />
     </div>
   );
 };
