@@ -1,14 +1,14 @@
 ///<reference types="vite-plugin-svgr/client" />
-import { Link } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getTheme, useTheme } from "@/lib/theme";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import Logo from "@/assets/logov2.svg?react";
-import { LangButton, } from "./lang";
+import { LangButton } from "./lang";
 import { ThemeButton } from "./theme";
 import { MobileDrawer } from "./menus";
 import { useTranslation } from "react-i18next";
-
+import { FaBars } from "react-icons/fa";
 const SingleLink = ({
   to,
   children,
@@ -27,7 +27,7 @@ const SingleLink = ({
     </div>
   );
 };
-const NavLinks = () => {
+const NavLinks = ({ wrapped }: { wrapped?: boolean }) => {
   const activeTheme = getTheme();
   const { t } = useTranslation("translation", { keyPrefix: "NAV.LINKS" });
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -51,17 +51,26 @@ const NavLinks = () => {
   return (
     <>
       {!isMobile ? (
-        <div className="flex gap-2 sm:gap-5 mr-5">
-          <SingleLink to="/browser">{t("BROWSER")}</SingleLink>
-          <SingleLink to="/profile/dashboard" className="hidden md:block">
-            {t("DASHBOARD")}
-          </SingleLink>
-          <SingleLink to="/profile">{t("PROFILE")}</SingleLink>
+        <div className="flex flex-row-reverse gap-2 sm:gap-5 mr-5">
+          <div className="place-self-center basis-1/4">
+            <LangButton />
+          </div>
           <div className="place-self-center basis-1/4">
             <ThemeButton position={position} setPosition={setPosition} />
           </div>
-          <div className="place-self-center basis-1/4">
-            <LangButton />
+          <div className="place-self-center flex group h-full">
+            {wrapped && <div className="group-hover:hidden px-4 flex justify-end w-full shrink-0">
+              <FaBars className="place-self-center" size={20} />
+              </div>}
+            <div
+              className={`${wrapped ? "hidden group-hover:flex" : ""} transition-all flex gap-2 sm:gap-5 `}
+            >
+              <SingleLink to="/browser">{t("BROWSER")}</SingleLink>
+              <SingleLink to="/profile/dashboard" className="hidden md:block">
+                {t("DASHBOARD")}
+              </SingleLink>
+              <SingleLink to="/profile">{t("PROFILE")}</SingleLink>
+            </div>
           </div>
         </div>
       ) : (
@@ -73,14 +82,20 @@ const NavLinks = () => {
   );
 };
 export const Navbar = () => {
+  const match = useMatch("/profile/*");
+  const params = match && match.params ? true : false;
   return (
     <div className=" overflow-x-hidden">
       <div className="flex justify-center max-h-28 w-screen z-10 mb-1 shadow-md sm:fixed bg-primary ">
         <div className={`flex justify-between w-full p-2 max-w-5xl`}>
           <Link to="/" className="place-self-center text-2xl font-bold ml-5">
-            <Logo className="h-16 w-fit fill-text" />
+            <Logo
+              className={`${
+                params ? "h-8" : "h-14"
+              } w-fit transition-all fill-text`}
+            />
           </Link>
-          <NavLinks />
+          <NavLinks wrapped={params} />
         </div>
       </div>
     </div>

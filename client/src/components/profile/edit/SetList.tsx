@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/tooltip";
 import { Modal } from "@/components/shared/Modal";
 import { Button } from "../../ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
@@ -117,7 +116,7 @@ export const SetList = () => {
           <h1 className="py-1">Questions</h1>
         </div>
       )}
-      <div className="flex gap-2 w-full flex-col">
+      <div className="flex min-h-full gap-2 w-full flex-col">
         {usersSets && usersSets.length > 0 ? (
           usersSets.map((set: QuestionSet) => {
             return (
@@ -127,15 +126,13 @@ export const SetList = () => {
             );
           })
         ) : (
-          <div>
-            <Skeleton className="h-[50px] w-full rounded-md flex">
+          <div className="min-h-full flex">
               <a
                 className="text-center place-self-center w-full mt-5 font-semibold text-xl underline hover:cursor-pointer"
                 onClick={() => setShowModal(true)}
               >
                 Add your first set
               </a>
-            </Skeleton>
           </div>
         )}
         <p className="place-self-end p-3 opacity-70 text-xs">Note: Sets without at least 1 question won't be visible to other users.</p>

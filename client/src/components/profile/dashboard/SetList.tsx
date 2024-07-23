@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
-import { QuestionSet, RootState } from "../../types";
-import { SingleSet } from "../shared/SingleSet/SingleSet";
-import { SetListTypes } from "../../types";
+import { QuestionSet, RootState } from "@/types";
+import { SingleSet } from "@/components/shared/SingleSet/SingleSet";
+import { SetListTypes } from "@/types";
 import { MdOutlineSort as SortIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { ShotThroughTitle } from "../shared/ShotThroughTitile";
+import { ShotThroughTitle } from "@/components/shared/ShotThroughTitile";
 export const SetList = () => {
   const [sort, setSort] = useState<boolean>(false);
   const [sortedSetList, setSortedSetList] = useState<QuestionSet[]>([]);
@@ -66,10 +66,9 @@ export const SetList = () => {
           }`}
         />
       </div>
-      <ShotThroughTitle title="Your Sets" />
-
+      <ShotThroughTitle title="Your Sets" className="pb-4" />
       <div className="flex gap-4 w-full flex-col">
-        {sortedSetList ? (
+        {sortedSetList && sortedSetList.length>0 ? (
           sortedSetList.map((set: QuestionSet) => {
             if (!set.questions.length) {
               return (
@@ -86,12 +85,12 @@ export const SetList = () => {
             );
           })
         ) : (
-          <h1>No sets</h1>
+          <p className="text-center 4xl p-10">No sets found</p>
         )}
       </div>
       {foreignAndNotBookmarked.length > 0 && (
         <div className="flex flex-col">
-          <ShotThroughTitle title="Foreign Sets" />
+          <ShotThroughTitle title="Foreign Sets" className="pb-4"/>
           <div className="flex gap-2 w-full flex-col">
             {foreignAndNotBookmarked.map((set: QuestionSet) => {
               return (

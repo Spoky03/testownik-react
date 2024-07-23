@@ -68,5 +68,17 @@
       "FILTER": "Filtruj",
       "SORT": "Sortuj"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "Kokpit",
+    "NAV": {
+      "PROFILE": "Profile",
+      "DASHBOARD": "Kokpit",
+      "SETS": "Twoje zestawy",
+      "SETTINGS": "Ustawienia",
+      "AGREEMENTS": "Zgody",
+      "BROWSER": "Przeglądarka",
+      "LOGOUT": "Wyloguj"
+    }
   }
 }

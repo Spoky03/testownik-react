@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { SetList } from "./SetList";
+import { SetList } from "../profile/dashboard/SetList";
 import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";

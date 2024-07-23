@@ -37,25 +37,22 @@
       "ITEMS": [
         {
           "title": "Strength in Numbers",
-          "description":
-            "Although students can gain knowledge through their own experiences, they learn most effectively by acquiring information from others. Listening, reading what others write is much more effective than studying entirely on your own. ",
+          "description": "Although students can gain knowledge through their own experiences, they learn most effectively by acquiring information from others. Listening, reading what others write is much more effective than studying entirely on your own. ",
           "annotation": "Kirschner et al., 2006"
         },
         {
           "title": "Repetition is Key",
-          "description":
-            "Students who took quizzes multiple times before an exam or credit scored better than those who did not do it at all. ",
+          "description": "Students who took quizzes multiple times before an exam or credit scored better than those who did not do it at all. ",
           "annotation": "Applied Cognitive Psychology, Vol. 33, No. 5, 2019."
         },
         {
           "title": "Don't Fear Failure",
-          "description":
-            "Even trying and failing is better than not trying at all. The mere attempt to recall an answer helps to consolidate the material in memory.",
+          "description": "Even trying and failing is better than not trying at all. The mere attempt to recall an answer helps to consolidate the material in memory.",
           "annotation": "Regan Gurung"
         }
       ]
-      }
-    },
+    }
+  },
   "BROWSER": {
     "TITLE": "Browser",
     "AUTHOR": "by",
@@ -67,6 +64,19 @@
       "FAVORITES": "Favorites",
       "FILTER": "Filter",
       "SORT": "Sort"
+    }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "NAV": {
+      "PROFILE": "Profile",
+      "DASHBOARD": "Dashboard",
+      "SETS": "Your sets",
+      "NAV": "Navigation",
+      "SETTINGS": "Settings",
+      "AGREEMENTS": "Agreements",
+      "BROWSER": "Browser",
+      "LOGOUT": "Logout"
     }
   }
 }

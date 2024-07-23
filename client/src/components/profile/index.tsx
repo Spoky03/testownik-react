@@ -5,11 +5,13 @@ import { SetList } from "./edit/SetList";
 import { Routes, Route, Link, Outlet, useMatch } from "react-router-dom";
 import { SingleSetPreview } from "./edit/SingleSetPreview";
 import { RootState } from "../../types";
-import constants from "../../constants";
 import { GoBackArrow } from "../shared/GoBackArrow";
 import { UserAgreements } from "./Agreements";
 import { UserSettings } from "./Settings";
 import QuizContainer from "../quiz";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Separator } from "../ui/separator";
 
 const SingleLink = ({
   to,
@@ -20,13 +22,33 @@ const SingleLink = ({
   children: string;
   params: string | undefined;
 }) => {
+  const [active, setActive] = useState(false);
+  useEffect(() => {
+    setActive(params === to);
+  }, [params, to]);
   return (
     <Link
       to={to}
-      className={`hover:bg-opacity-50 bg-success bg-opacity-0 transition-all rounded-full sm:w-full px-2 text-base sm:text-lg font-semibold h-fit pl-3 ${params === to ? "" : "opacity-60"}`}
+      className={`group transition-all rounded-full sm:w-full md:px-2 text-base sm:text-lg font-semibold h-fit ${
+        active ? "" : "opacity-80"
+      }`}
     >
-      {params === to && <span className="mr-1">{"•"}</span>}
-      <span>{children}</span>
+      {
+        <span
+          className={`transition-all ${
+            active ? "opacity-100 ml-1" : "opacity-0"
+          }`}
+        >
+          {"•"}
+        </span>
+      }
+      <span
+        className={`transition-all w-full ${
+          active ? "ml-3" : "group-hover:ml-2"
+        }`}
+      >
+        {children}
+      </span>
     </Link>
   );
 };
@@ -39,33 +61,38 @@ const NavLinks = ({
 }) => {
   const match = useMatch("/profile/*");
   const params = match ? match.params["*"] : "";
+  const { t } = useTranslation("translation", { keyPrefix: "DASHBOARD.NAV" });
   return (
     <nav
       className={`flex sm:flex-col flex-wrap justify-between space-y-2 grow-0 shrink-0 basis-32 w-full overflow-x-hidden sm:min-h-96 ${className}`}
     >
       <div className="flex justify-between sm:flex-col gap-4 flex-wrap w-full">
         <SingleLink to="" params={params}>
-          Profile
+          {t("PROFILE")}
         </SingleLink>
         <SingleLink to="dashboard" params={params}>
-          Dashboard
+          {t("DASHBOARD")}
         </SingleLink>
         <SingleLink to="sets" params={params}>
-          Sets
+          {t("SETS")}
         </SingleLink>
         <SingleLink to="settings" params={params}>
-          Settings
+          {t("SETTINGS")}
         </SingleLink>
         <SingleLink to="agreements" params={params}>
-          Agreements
+          {t("AGREEMENTS")}
+        </SingleLink>
+        <Separator />
+        <SingleLink to="/browser" params={params}>
+          {t("BROWSER")}
         </SingleLink>
       </div>
       <button
         type="button"
-        className="hover:bg-opacity-50 bg-error bg-opacity-0 transition-all rounded-full w-fit px-2 text-base sm:text-lg font-semibold h-fit"
+        className="hover:bg-opacity-50 opacity-60 hover:opacity-100 w-full bg-error bg-opacity-0 transition-all rounded-full px-2 text-base sm:text-lg font-semibold h-fit"
         onClick={() => dispatch(logoutUser())}
       >
-        {constants.LABELS.LOGOUT}
+        {t("LOGOUT")}
       </button>
     </nav>
   );
@@ -115,15 +142,6 @@ const ProfileNav = ({
         className={bentoStyles + "sm:col-span-1  sm:row-span-2"}
         dispatch={dispatch}
       />
-      {/* <ul
-        className={`grow grid col-span-3 row-span-1 gap-4 grid-cols-1 sm:grid-cols-2 min-h-48 place-items-center ${bentoStyles} `}
-      >
-        <li className="w-32 h-32 bg-success"></li>
-        <li className="w-32 h-32 bg-success"></li>
-      </ul>
-      <div className={`${bentoStyles} row-span-1 col-span-3`}>
-        3
-      </div> */}
       <div
         className={`${bentoStyles} row-span-2 col-span-1 sm:row-span-2 sm:col-span-3 flex w-full flex-col`}
       >
