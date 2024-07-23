@@ -92,7 +92,7 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
               </TooltipProvider>
             )}
           </div>
-          <h1 className="p-3">{set.questions.length}</h1>
+          <p className="p-3 w-12">{set.questions.length}</p>
         </div>
       </div>
     </div>
@@ -112,8 +112,8 @@ export const SetList = () => {
       <br />
       {usersSets && usersSets.length > 0 && (
         <div className="flex justify-between mx-2 md:mx-4">
-          <h1 className="py-1">Your Sets</h1>
-          <h1 className="py-1">Questions</h1>
+          <h1 className="py-1 px-4">Your Sets</h1>
+          <h1 className="py-1 px-4">Questions</h1>
         </div>
       )}
       <div className="flex min-h-full gap-2 w-full flex-col">

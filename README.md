@@ -14,12 +14,13 @@ I plan to deploy it soon.
 - [x] move fetching data from app to subroutes
 - [x] Change register form to zod and shadcn
 - [x] Change login form to zod and shadcn
+- [ ] Remove useless and stupid modal from browser
 - [ ] fill in mocks
 - [x] Change other form to zod and shadcn
 - [ ] forbid user from leaving in agreements
 - [ ] delete those testing users
 - [x] add deleting user backend
-- [ ] clean up quiz container because right now it is accesibble with /quiz and /profile/dashboard
+- [x] clean up quiz container because right now it is accesibble with /quiz and /profile/dashboard
 - [ ] add something to display at profile
 - [ ] add goals to display at profile: shadcn graph (dates of users progress will be saved in backend )
 - [ ] add contact form

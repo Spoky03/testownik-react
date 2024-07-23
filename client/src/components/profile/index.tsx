@@ -29,7 +29,7 @@ const SingleLink = ({
   return (
     <Link
       to={to}
-      className={`group transition-all rounded-full sm:w-full md:px-2 text-base sm:text-lg font-semibold h-fit ${
+      className={`group transition-all sm:w-full md:px-2 text-base sm:text-lg font-semibold h-fit ${
         active ? "" : "opacity-80"
       }`}
     >
@@ -64,7 +64,7 @@ const NavLinks = ({
   const { t } = useTranslation("translation", { keyPrefix: "DASHBOARD.NAV" });
   return (
     <nav
-      className={`flex sm:flex-col flex-wrap justify-between space-y-2 grow-0 shrink-0 basis-32 w-full overflow-x-hidden sm:min-h-96 ${className}`}
+      className={`sm:sticky sm:top-28 flex sm:flex-col flex-wrap justify-between space-y-2 grow-0 shrink-0 basis-32 w-full overflow-x-hidden sm:min-h-96 ${className}`}
     >
       <div className="flex justify-between sm:flex-col gap-4 flex-wrap w-full">
         <SingleLink to="" params={params}>
@@ -83,9 +83,9 @@ const NavLinks = ({
           {t("AGREEMENTS")}
         </SingleLink>
         <Separator />
-        <SingleLink to="/browser" params={params}>
-          {t("BROWSER")}
-        </SingleLink>
+        <Link to="/browser" className="sm:w-full ml-2 md:px-2 text-base sm:text-lg font-semibold h-fit">
+          <span className="link opacity-80">{t("BROWSER")}</span>
+        </Link>
       </div>
       <button
         type="button"
@@ -139,7 +139,7 @@ const ProfileNav = ({
         </div>
       </div>
       <NavLinks
-        className={bentoStyles + "sm:col-span-1  sm:row-span-2"}
+        className={bentoStyles + "sm:col-span-1  sm:row-span-1"}
         dispatch={dispatch}
       />
       <div
