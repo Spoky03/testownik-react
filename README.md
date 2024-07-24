@@ -15,7 +15,7 @@ I plan to deploy it soon.
 - [x] Change register form to zod and shadcn
 - [x] Change login form to zod and shadcn
 - [x] BUG: changing subject clears out the description
-- [ ] BUG: when reseting progress if progress not found server throws an error
+- [x] BUG: when reseting progress if progress not found server throws an error
 - [x] Remove useless and stupid modal from browser
 - [ ] fill in mocks
 - [x] Change other form to zod and shadcn

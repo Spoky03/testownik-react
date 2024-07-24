@@ -66,17 +66,9 @@ const SetList = () => {
           className={`flex flex-col p-1 sm:p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-6xl gap-2 `}
         >
           <BrowserNav />
-          <div className="flex flex-col gap-6">
+          <div className="grid lg:grid-cols-2 gap-6">
             {filteredSets.map((set) => (
-              <div
-                key={set._id}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(`/browser/${set._id}`);
-                }}
-              >
-                <SingleSet key={set._id} set={set} type={(open &&  selectedSet?._id === set._id) ? SetListTypes.MODAL : SetListTypes.BROWSER} />
-              </div>
+              <SingleSet key={set._id} set={set} type={SetListTypes.BROWSER} />
             ))}
           </div>
           {filteredSets.length === 0 && (

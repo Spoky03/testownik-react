@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { QuestionSet } from "../../../types";
-import { RootState } from "../../../types";
-import { SetListTypes } from "../../../types";
+import { QuestionSet } from "@/types";
+import { RootState } from "@/types";
+import { SetListTypes } from "@/types";
 import { Progress } from "./Progress";
 import { Socials } from "./Socials";
 import { FaPlay as PlayIcon } from "react-icons/fa6";
@@ -11,6 +11,7 @@ import { FaBookmark as MarkIcon } from "react-icons/fa";
 import { AppDispatch } from "@/store";
 import { addBookmark, deleteBookmark } from "@/reducers/userReducer";
 import { likeSet } from "@/reducers/browserReducer";
+import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
   TooltipContent,
@@ -31,7 +32,7 @@ const StartQuizIcon = ({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger className="h-fit">
           <div className={completed ? "opacity-20 cursor-not-allowed" : ""}>
             <Link
               to={`/quiz/${id}`}
@@ -65,6 +66,7 @@ export const SingleSet = ({
   set: QuestionSet;
   type: SetListTypes;
 }) => {
+  const navigate = useNavigate();
   const [foreign, setForeign] = useState(false);
   const [completed, setCompleted] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -109,67 +111,97 @@ export const SingleSet = ({
     typeof set.author === "object"
       ? userId === set.author._id
       : userId === set.author;
+  const modalRedirect = ({ event }: { event: React.MouseEvent }) => {
+    event.preventDefault();
+    navigate(`/browser/${set._id}`);
+  }
   return (
     <div
-      className={`border border-faint bg-ternary font-bold rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${
-        (type !== SetListTypes.QUIZ && type !== SetListTypes.MODAL)
+      className={`border border-faint bg-ternary rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${
+        type !== SetListTypes.QUIZ && type !== SetListTypes.MODAL
           ? "cursor-pointer hover:outline"
           : ""
       }`}
+      onClick={
+        type === SetListTypes.BROWSER || type === SetListTypes.MODAL
+          ? (event) => modalRedirect({ event })
+          : undefined
+      }
     >
       <div className="flex justify-between w-full h-full pt-3 text-left">
-        <div className="flex ml-2">
-          <div>
-            <h1 className="place-self-start text-wrap break-all">{set.name}</h1>
-            <p className="text-xs opacity-80">
-              {"by "}
-              {foreign
-                ? `you`
-                : `${
-                    (set.author as { username: string; _id: string }).username
+        <div className="flex ml-2 w-full">
+          <div className="w-full">
+            <div className="flex gap-1 w-full justify-between">
+              <div className="flex flex-col">
+                <div className="flex gap-2">
+                  <h2 className="place-self-start max-h-7 overflow-y-hidden text-wrap break-all text-xl font-bold">
+                    {set.name}
+                  </h2>
+                  {type === SetListTypes.QUIZ && (
+                    <button
+                      onClick={handleBookmark}
+                      className="place-self-start ml-1 mt-1.5"
+                    >
+                      <MarkIcon
+                        size={16}
+                        className={`place-self-center ${
+                          bookmarked && "text-amber-500"
+                        }`}
+                      />
+                    </button>
+                  )}
+                </div>
+                <p className="opacity-80 font-medium text-sm -translate-y-1.5">
+                  {"by "}
+                  {foreign
+                    ? `you`
+                    : `${
+                        (set.author as { username: string; _id: string })
+                          .username
+                      }`}
+                </p>
+              </div>
+              {(bookmarked || foreign) && (
+                <StartQuizIcon
+                  id={set._id}
+                  className="shrink-0 text-nowrap"
+                  completed={completed}
+                />
+              )}
+            </div>
+            <div className="flex flex-row gap-6">
+              <div className="flex flex-col shrink-0 font-medium">
+                <p className="text-sm opacity-80">
+                  {set.metaData.subject}
+                </p>
+                <p className="text-sm opacity-80">
+                  Questions: {set.questions.length}
+                </p>
+                <p className="opacity-80 text-sm">
+                  {date.toLocaleDateString()}
+                </p>
+              </div>
+              <div className="p-2 flex gap-4 md:gap-8 justify-between">
+                <p
+                  className={`text-wrap break-words ${
+                    type === SetListTypes.BROWSER && "overflow-ellipsis overflow-hidden max-h-12 text-xs"
                   }`}
-            </p>
+                >
+                  {set.description}
+                </p>
+              </div>
+            </div>
           </div>
-          {type === SetListTypes.QUIZ && (
-            <button
-              onClick={handleBookmark}
-              className="place-self-start ml-1 mt-1.5"
-            >
-              <MarkIcon
-                size={16}
-                className={`place-self-center ${
-                  bookmarked && "text-amber-500"
-                }`}
-              />
-            </button>
-          )}
         </div>
-        {(bookmarked || foreign) && (
-          <StartQuizIcon
-            id={set._id}
-            className="place-self-end"
-            completed={completed}
-          />
-        )}
       </div>
-        <div className="ml-2 flex flex-col">
-          <span className="text-xs opacity-80 mt-3">
-            {set.metaData.subject}
-          </span>
-          {<p className="text-base font-medium text-wrap break-words">
-            {set.description}
-          </p>}
-          <span className="text-xs text-end opacity-80">
-            {set.questions.length} Questions
-          </span>
-          <span className="text-xs text-end opacity-80">
-            {date.toLocaleDateString()}
-          </span>
-        </div>
       <Separator className="mt-1" />
       <div className="flex mt-3 justify-between">
         {type === SetListTypes.QUIZ && (
-          <Progress set={set} completed={completed} setCompleted={setCompleted} />
+          <Progress
+            set={set}
+            completed={completed}
+            setCompleted={setCompleted}
+          />
         )}
         {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
           <Socials
@@ -180,10 +212,7 @@ export const SingleSet = ({
         )}
         {type === SetListTypes.QUIZ && isAuthor && (
           <div>
-            <Button
-              onClick={handleEdit}
-              variant={"outline"}
-            >
+            <Button onClick={handleEdit} variant={"outline"}>
               Edit
             </Button>
           </div>
