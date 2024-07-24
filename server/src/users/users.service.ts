@@ -230,20 +230,20 @@ export class UsersService {
   async getProgress(userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
-      throw new Error('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     return user.progress;
   }
   async resetProgress(id: string, userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
-      throw new Error('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     const progressIndex = user.progress.findIndex(
       (p) => p.questionSetId.toString() === id,
     );
     if (progressIndex === -1) {
-      throw new Error('Progress not found');
+      throw new HttpException('Progress not found', HttpStatus.NOT_FOUND);
     }
     user.progress.splice(progressIndex, 1);
     const savedUser = await user.save();
