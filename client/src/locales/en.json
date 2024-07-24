@@ -5,7 +5,8 @@
       "PROFILE": "Profile",
       "DASHBOARD": "Dashboard",
       "BROWSER": "Browser",
-      "NAV": "Navigation"
+      "NAV": "Navigation",
+      "LOGIN": "Login"
     },
     "CLOSE": "Close",
     "LANG": {

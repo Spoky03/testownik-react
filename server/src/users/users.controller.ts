@@ -80,8 +80,4 @@ export class UsersController {
   async getForeignQuestionSets(@Request() req): Promise<QuestionSet[]> {
     return this.usersService.getBookmarkedForeignQuestionSets(req.user.sub);
   }
-  // @Get('user')
-  // async getUser(@Request() req) {
-  //   return req.user;
-  // }
 }

@@ -7,10 +7,9 @@ import { SetListTypes } from "@/types";
 import { Progress } from "./Progress";
 import { Socials } from "./Socials";
 import { FaPlay as PlayIcon } from "react-icons/fa6";
-import { FaBookmark as MarkIcon } from "react-icons/fa";
+import { Bookmark } from "lucide-react";
 import { AppDispatch } from "@/store";
 import { addBookmark, deleteBookmark } from "@/reducers/userReducer";
-import { likeSet } from "@/reducers/browserReducer";
 import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
@@ -91,10 +90,6 @@ export const SingleSet = ({
       dispatch(addBookmark(set._id));
     }
   };
-  const handleLike = (event: React.MouseEvent, id: string) => {
-    event?.stopPropagation();
-    dispatch(likeSet(id));
-  };
   const handleEdit = (event: React.MouseEvent) => {
     event?.stopPropagation();
     window.location.href = `/profile/sets/${set._id}`;
@@ -114,7 +109,7 @@ export const SingleSet = ({
   const modalRedirect = ({ event }: { event: React.MouseEvent }) => {
     event.preventDefault();
     navigate(`/browser/${set._id}`);
-  }
+  };
   return (
     <div
       className={`border border-faint bg-ternary rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${
@@ -128,23 +123,22 @@ export const SingleSet = ({
           : undefined
       }
     >
-      <div className="flex justify-between w-full h-full pt-3 text-left">
+      <div className="flex justify-between w-full h-full py-3 text-left">
         <div className="flex ml-2 w-full">
-          <div className="w-full">
+          <div className="w-full space-y-2">
             <div className="flex gap-1 w-full justify-between">
               <div className="flex flex-col">
-                <div className="flex gap-2">
+                <div className="flex">
                   <h2 className="place-self-start max-h-7 overflow-y-hidden text-wrap break-all text-xl font-bold">
                     {set.name}
                   </h2>
                   {type === SetListTypes.QUIZ && (
                     <button
                       onClick={handleBookmark}
-                      className="place-self-start ml-1 mt-1.5"
+                      className="place-self-center group"
                     >
-                      <MarkIcon
-                        size={16}
-                        className={`place-self-center ${
+                      <Bookmark
+                        className={`place-self-center group-hover:fill-amber-500 ${
                           bookmarked && "text-amber-500"
                         }`}
                       />
@@ -170,10 +164,12 @@ export const SingleSet = ({
               )}
             </div>
             <div className="flex flex-row gap-6">
-              <div className="flex flex-col shrink-0 font-medium">
-                <p className="text-sm opacity-80">
-                  {set.metaData.subject}
-                </p>
+              <div
+                className={`flex shrink-0 font-medium ${
+                  type === SetListTypes.BROWSER ? "flex-row justify-between  w-full" : "flex-col"
+                }`}
+              >
+                <p className="text-sm opacity-80">{set.metaData.subject}</p>
                 <p className="text-sm opacity-80">
                   Questions: {set.questions.length}
                 </p>
@@ -181,20 +177,27 @@ export const SingleSet = ({
                   {date.toLocaleDateString()}
                 </p>
               </div>
-              <div className="p-2 flex gap-4 md:gap-8 justify-between">
-                <p
-                  className={`text-wrap break-words ${
-                    type === SetListTypes.BROWSER && "overflow-ellipsis overflow-hidden max-h-12 text-xs"
-                  }`}
+              {type !== SetListTypes.BROWSER && (
+                <div className="p-2 flex gap-4 md:gap-8 justify-between">
+                  <p className={`text-wrap break-words `}>{set.description}</p>
+                </div>
+              )}
+            </div>
+            <div className="flex flex-wrap flex-row-reverse overflow-y-hidden max-h-6 place-self-center gap-1">
+              {set.metaData.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className={`max-h-6 rounded-full px-1.5 py-0.5 text-xs bg-primary text-white light:text-text black:border`}
                 >
-                  {set.description}
-                </p>
-              </div>
+                  {"#"}
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </div>
-      <Separator className="mt-1" />
+      <Separator />
       <div className="flex pt-2 pb-1.5 px-1 justify-between">
         {type === SetListTypes.QUIZ && (
           <Progress
@@ -204,11 +207,7 @@ export const SingleSet = ({
           />
         )}
         {(type === SetListTypes.BROWSER || type === SetListTypes.MODAL) && (
-          <Socials
-            set={set}
-            handleBookmark={handleBookmark}
-            handleLike={handleLike}
-          />
+          <Socials set={set} handleBookmark={handleBookmark} />
         )}
         {type === SetListTypes.QUIZ && isAuthor && (
           <div>

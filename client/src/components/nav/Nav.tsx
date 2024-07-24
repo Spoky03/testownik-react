@@ -9,6 +9,8 @@ import { ThemeButton } from "./theme";
 import { MobileDrawer } from "./menus";
 import { useTranslation } from "react-i18next";
 import { FaBars } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { RootState } from "@/types";
 const SingleLink = ({
   to,
   children,
@@ -21,7 +23,7 @@ const SingleLink = ({
   return (
     <div
       role="button"
-      className={`rounded-full px-3 place-self-center hover:bg-success hover:bg-opacity-30 transition:colors duration-300 font-semibold ${className}`}
+      className={`rounded-full text-nowrap px-3 place-self-center hover:bg-success hover:bg-opacity-30 transition:colors duration-300 font-semibold ${className}`}
     >
       <Link to={to}>{children}</Link>
     </div>
@@ -31,6 +33,7 @@ const NavLinks = ({ wrapped }: { wrapped?: boolean }) => {
   const activeTheme = getTheme();
   const { t } = useTranslation("translation", { keyPrefix: "NAV.LINKS" });
   const isMobile = useMediaQuery("(max-width: 640px)");
+  const isUser = useSelector((state: RootState) => state.user.user.sub);
   const [position, setPosition] = useState(activeTheme);
   const setTheme = useTheme();
   const switchTheme = () => {
@@ -66,10 +69,12 @@ const NavLinks = ({ wrapped }: { wrapped?: boolean }) => {
               className={`${wrapped ? "hidden group-hover:flex" : ""} transition-all flex gap-2 sm:gap-5 `}
             >
               <SingleLink to="/browser">{t("BROWSER")}</SingleLink>
-              <SingleLink to="/profile/dashboard" className="hidden md:block">
+              {isUser && <SingleLink to="/profile/dashboard" className="hidden md:block">
                 {t("DASHBOARD")}
+              </SingleLink>}
+              <SingleLink to="/profile">
+               {isUser ? t("PROFILE") : t("LOGIN")}
               </SingleLink>
-              <SingleLink to="/profile">{t("PROFILE")}</SingleLink>
             </div>
           </div>
         </div>

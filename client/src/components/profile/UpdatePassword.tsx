@@ -6,7 +6,6 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -98,9 +97,9 @@ export const UpdatePassword = () => {
               </FormItem>
             )}
           />
-          <FormDescription>
+          <div className="opacity-70">
             <PasswordRequirements />
-          </FormDescription>
+          </div>
           <Button type="submit" variant="secondary" className="w-full">
             Update password
           </Button>

@@ -1,16 +1,17 @@
 import { MdLink as LinkIcon } from "react-icons/md";
-import { FaBookmark as MarkIcon } from "react-icons/fa";
 import { QuestionSet, RootState } from "@/types";
-import { HeartIcon } from "lucide-react";
+import { HeartIcon, Bookmark } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useToast } from "../../ui/use-toast";
+import { AppDispatch } from "@/store";
+import { likeSet } from "@/reducers/browserReducer";
 const CopyLinkButton = ({ id }: { id: string }) => {
   const { toast } = useToast();
   const copyLink = (e: React.MouseEvent) => {
@@ -31,14 +32,36 @@ const CopyLinkButton = ({ id }: { id: string }) => {
     />
   );
 };
+const LikeButton = ({ set, loggedIn }: { set: QuestionSet; loggedIn: boolean }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const handleLike = (event: React.MouseEvent, id: string) => {
+    event?.stopPropagation();
+    dispatch(likeSet(id));
+  };
+  return (
+    <button
+          className="group rounded-full px-1"
+          onClick={(event) => handleLike(event, set._id)}
+          disabled={!loggedIn}
+        >
+          <div className="flex gap-1">
+            <HeartIcon
+              size={22}
+              className={`group-hover:fill-error transition-all   ${
+                set.liked ? "text-error" : ""
+              }`}
+            />
+            <span className="opacity-85">{set.likes}</span>
+          </div>
+        </button>
+  )
+}
 export const Socials = ({
   set,
   handleBookmark,
-  handleLike,
 }: {
   set: QuestionSet;
   handleBookmark: (event: React.MouseEvent, id: string) => void;
-  handleLike: (event: React.MouseEvent, id: string) => void;
 }) => {
   const { bookmarks, user } = useSelector((state: RootState) => state.user);
   const [bookmarked, setBookmarked] = useState(false);
@@ -52,55 +75,32 @@ export const Socials = ({
   }, [bookmarks, set._id]);
   return (
     <div className="flex justify-between w-full h-fit">
-      <div className="flex gap-3 ">
-        <button
-          className="group rounded-full px-1"
-          onClick={(event) => handleLike(event, set._id)}
-          disabled={!loggedIn}
-        >
-          <div className="flex gap-1">
-            <HeartIcon
-              size={24}
-              className={`group-hover:fill-error transition-all   ${
-                set.liked ? "text-error" : ""
-              }`}
-            />
-            <span className="text-sm">{set.likes}</span>
-          </div>
-        </button>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                className="rounded-full p-1 hover:bg-success hover:bg-opacity-30"
-                onClick={(event) => handleBookmark(event, set._id)}
-                disabled={!loggedIn}
-              >
-                <MarkIcon
-                  size={18}
-                  className={` transition-colors duration-300 ${
-                    bookmarked && "text-amber-500"
-                  }`}
-                />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Bookmark</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <CopyLinkButton id={set._id} />
+      <div className="flex ">
+        <LikeButton set={set} loggedIn={loggedIn} />
       </div>
-      <div className="flex flex-wrap place-self-center overflow-x-hidden gap-1">
-        {set.metaData.tags.map((tag) => (
-          <span
-            key={tag}
-            className={`rounded-full px-2 py-1 text-xs bg-primary text-white light:text-text black:border`}
-          >
-            {"#"}
-            {tag}
-          </span>
-        ))}
+      <div className="flex gap-3">
+        <CopyLinkButton id={set._id} />
+        <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className="rounded-full group p-1"
+                  onClick={(event) => handleBookmark(event, set._id)}
+                  disabled={!loggedIn}
+                >
+                  <Bookmark
+                    size={22}
+                    className={` transition-all group-hover:fill-amber-500 ${
+                      bookmarked && "text-amber-500"
+                    }`}
+                  />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Bookmark</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
       </div>
     </div>
   );
