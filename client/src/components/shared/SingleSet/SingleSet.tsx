@@ -195,7 +195,7 @@ export const SingleSet = ({
         </div>
       </div>
       <Separator className="mt-1" />
-      <div className="flex mt-3 justify-between">
+      <div className="flex pt-2 pb-1.5 px-1 justify-between">
         {type === SetListTypes.QUIZ && (
           <Progress
             set={set}

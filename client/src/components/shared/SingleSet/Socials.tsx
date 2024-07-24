@@ -1,7 +1,7 @@
 import { MdLink as LinkIcon } from "react-icons/md";
-import { FaHeart as LikeIcon } from "react-icons/fa";
 import { FaBookmark as MarkIcon } from "react-icons/fa";
-import { QuestionSet, RootState, } from "@/types";
+import { QuestionSet, RootState } from "@/types";
+import { HeartIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -14,7 +14,7 @@ import { useToast } from "../../ui/use-toast";
 const CopyLinkButton = ({ id }: { id: string }) => {
   const { toast } = useToast();
   const copyLink = (e: React.MouseEvent) => {
-    e.stopPropagation()
+    e.stopPropagation();
     navigator.clipboard.writeText(`${window.location.origin}/browser/${id}`);
     toast({
       variant: "success",
@@ -54,15 +54,15 @@ export const Socials = ({
     <div className="flex justify-between w-full h-fit">
       <div className="flex gap-3 ">
         <button
-          className="rounded-full p-1 hover:bg-success hover:bg-opacity-30"
+          className="group rounded-full px-1"
           onClick={(event) => handleLike(event, set._id)}
           disabled={!loggedIn}
         >
-          <div className="flex rounded-xl gap-1 p-1 px-2 border border-faint">
-            <LikeIcon
-              size={18}
-              className={`transition-colors outline-1 duration-300  ${
-                set.liked ? "text-red-500" : ""
+          <div className="flex gap-1">
+            <HeartIcon
+              size={24}
+              className={`group-hover:fill-error transition-all   ${
+                set.liked ? "text-error" : ""
               }`}
             />
             <span className="text-sm">{set.likes}</span>

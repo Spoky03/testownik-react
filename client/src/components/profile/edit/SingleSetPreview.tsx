@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { Textarea } from "../../ui/textarea";
 import { MdPublicOff as PrivateIcon } from "react-icons/md";
 import { MdPublic as PublicIcon } from "react-icons/md";
+import { MdAdd as AddIcon } from "react-icons/md";
 import {
   deleteOneQuestionSet,
   editQuestionSet,
@@ -161,7 +162,7 @@ function StatusList({
   return (
     <Command>
       <form
-        className="flex p-1"
+        className="flex p-1 gap-1"
         onSubmit={async (e) => {
           e.preventDefault();
           const input = e.currentTarget.querySelector("input");
@@ -193,8 +194,8 @@ function StatusList({
           required
           maxLength={16}
         />
-        <Button type="submit" className="" variant="ghost">
-          +
+        <Button type="submit" className="w-1/4" size={"icon"} variant="ghost">
+          <AddIcon size={24}/>
         </Button>
       </form>
       <CommandList>
@@ -203,7 +204,7 @@ function StatusList({
           {tags.map((tag) => (
             <CommandItem
               key={tag}
-              className="flex w-full justify-between data-[selected=true]:bg-error data-[selected=true]:bg-opacity-50 cursor-pointer"
+              className="flex w-full justify-between data-[selected=true]:border cursor-pointer"
               value={tag}
               onSelect={(value) => {
                 setTags(tags.filter((t) => t !== value));
@@ -214,7 +215,7 @@ function StatusList({
               }}
             >
               {tag}
-              <CancelIcon className="opacity-50" />
+              <CancelIcon size={20} />
             </CommandItem>
           ))}
         </CommandGroup>

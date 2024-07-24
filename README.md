@@ -16,7 +16,9 @@ I plan to deploy it soon.
 - [x] Change login form to zod and shadcn
 - [x] BUG: changing subject clears out the description
 - [x] BUG: when reseting progress if progress not found server throws an error
+- [x] BUG: fetching likes
 - [x] Remove useless and stupid modal from browser
+- [ ] Make addding tags code more clean
 - [ ] fill in mocks
 - [x] Change other form to zod and shadcn
 - [ ] forbid user from leaving in agreements
