@@ -94,7 +94,7 @@ export const ThemeDropdown = ({
         <DropdownMenuTrigger asChild>
           <div
             role="button"
-            className="rounded-full px-3 place-self-center hover:bg-success hover:bg-opacity-30 transition:colors duration-300 font-semibold"
+            className="rounded-full px-3 py-1 place-self-center hover:bg-success hover:bg-opacity-30 transition:colors duration-300 font-semibold"
           >
             <ThemeIcon position={position} />
           </div>

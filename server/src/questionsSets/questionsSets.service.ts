@@ -86,7 +86,10 @@ export class QuestionsSetsService {
       .populate('questions')
       .exec();
     mySets.metaData = { ...mySets.metaData, ...editQuestionSetDto.metaData };
-    mySets.description = editQuestionSetDto.description;
+    console.log(editQuestionSetDto);
+    if (editQuestionSetDto.description) {
+      mySets.description = editQuestionSetDto.description;
+    }
     mySets.save();
     return {
       ...mySets.toObject(),
