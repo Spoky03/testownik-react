@@ -1,5 +1,33 @@
 import * as mongoose from 'mongoose';
-
+export const GlobalStatsSchema = new mongoose.Schema(
+  {
+    correctAnswers: {
+      type: Number,
+      default: 0,
+    },
+    incorrectAnswers: {
+      type: Number,
+      default: 0,
+    },
+    totalQuestions: {
+      type: Number,
+      default: 0,
+    },
+    masteredQuestions: {
+      type: Number,
+      default: 0,
+    },
+    time: {
+      type: Number,
+      default: 0,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: false },
+);
 const ProgressSchema = new mongoose.Schema(
   {
     questionSetId: {
@@ -98,4 +126,5 @@ export const UserSchema = new mongoose.Schema({
       default: false,
     },
   },
+  globalStats: [GlobalStatsSchema],
 });

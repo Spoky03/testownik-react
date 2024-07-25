@@ -18,6 +18,7 @@ I plan to deploy it soon.
 - [x] BUG: when reseting progress if progress not found server throws an error
 - [x] BUG: fetching likes
 - [x] Remove useless and stupid modal from browser
+- [ ] "Finished" band on finished sets insead of disabled start button
 - [ ] Make addding tags code more clean
 - [ ] fill in mocks
 - [x] Change other form to zod and shadcn
@@ -27,5 +28,7 @@ I plan to deploy it soon.
 - [x] clean up quiz container because right now it is accesibble with /quiz and /profile/dashboard
 - [ ] add something to display at profile
 - [ ] add goals to display at profile: shadcn graph (dates of users progress will be saved in backend )
+- [ ] add global stats by summing the stats at 00:00 each day and assigning them to todays date
+- [ ] add cron job for this at tasks /\
 - [ ] add contact form
 - [ ] ~~server side frontend build~~

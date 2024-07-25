@@ -294,4 +294,64 @@ export class UsersService {
 
     return populatedForeignQuestionSets;
   }
+  async getGlobalStats(
+    userId: string,
+    startDate?: string,
+    endDate?: string,
+  ): Promise<any> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    if (startDate && !endDate) {
+      const globalStats = user.globalStats.find(
+        (stat) => stat.date.toISOString().split('T')[0] === startDate,
+      );
+      if (!globalStats) {
+        throw new HttpException('Stats not found', HttpStatus.NOT_FOUND);
+      }
+      return globalStats;
+    } else if (startDate && endDate) {
+      const globalStats = user.globalStats.filter(
+        (stat) =>
+          stat.date.toISOString().split('T')[0] >= startDate &&
+          stat.date.toISOString().split('T')[0] <= endDate,
+      );
+      if (!globalStats) {
+        throw new HttpException('Stats not found', HttpStatus.NOT_FOUND);
+      }
+      return globalStats;
+    }
+    return user.globalStats;
+  }
+  async saveGlobalStats(userId: string): Promise<any> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    const progress = user.progress;
+    const globalStats = progress.reduce(
+      (acc, curr) => {
+        acc.correctAnswers += curr.sidebar.correctAnswers;
+        acc.incorrectAnswers += curr.sidebar.incorrectAnswers;
+        acc.totalQuestions += curr.sidebar.totalQuestions;
+        acc.masteredQuestions += curr.sidebar.masteredQuestions;
+        acc.time += curr.sidebar.time;
+        return acc;
+      },
+      {
+        correctAnswers: 0,
+        incorrectAnswers: 0,
+        totalQuestions: 0,
+        masteredQuestions: 0,
+        time: 0,
+      },
+    );
+    user.globalStats.push({
+      ...globalStats,
+      date: new Date(),
+    });
+    await user.save();
+    return user.globalStats;
+  }
 }

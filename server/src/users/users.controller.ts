@@ -80,4 +80,12 @@ export class UsersController {
   async getForeignQuestionSets(@Request() req): Promise<QuestionSet[]> {
     return this.usersService.getBookmarkedForeignQuestionSets(req.user.sub);
   }
+  @Get('globalStats')
+  async getGlobalStatsByDate(@Request() req, @Body() { startDate, endDate }) {
+    return this.usersService.getGlobalStats(req.user.sub, startDate, endDate);
+  }
+  @Post('globalStats')
+  async saveGlobalStats(@Request() req) {
+    return this.usersService.saveGlobalStats(req.user.sub);
+  }
 }

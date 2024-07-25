@@ -1,7 +1,14 @@
 import { Document } from 'mongoose';
 import { Questions } from './questions.interface';
 import { SaveQuestionSetProgressDto } from 'src/dto/save-userProgress.dto';
-
+export interface GlobalStats {
+  correctAnswers: number;
+  incorrectAnswers: number;
+  totalQuestions: number;
+  masteredQuestions: number;
+  time: number;
+  date: Date;
+}
 export interface Progress extends Document {
   splice(progressIndex: unknown, arg1: number): unknown;
   findIndex(arg0: (p: any) => boolean): unknown;
@@ -37,4 +44,5 @@ export interface User extends Document {
     agreements: boolean;
     newsletter: boolean;
   };
+  globalStats: [GlobalStats];
 }

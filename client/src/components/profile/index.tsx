@@ -133,9 +133,6 @@ const ProfileNav = ({
           {params ? titles[params] : `Welcome ${username}`}
         </h3>
         <div className="w-1/3  h-fit flex justify-end">
-          {/* <Button type="button" onClick={() => dispatch(logoutUser())}>
-            {constants.LABELS.LOGOUT}
-          </Button> */}
         </div>
       </div>
       <NavLinks
