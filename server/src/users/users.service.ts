@@ -209,6 +209,13 @@ export class UsersService {
       { new: true },
     );
   }
+  async getProgress(userId: string): Promise<Progress[]> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user.progress;
+  }
   async saveProgress(progress: Progress, userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
@@ -217,22 +224,88 @@ export class UsersService {
     const progressIndex = user.progress.findIndex((p) => {
       return new Types.ObjectId(p.questionSetId).equals(
         new Types.ObjectId(progress.questionSetId),
-      ); // Step 2: Convert and compare
+      );
     });
+    const globalStats = user.globalStats;
+    const globalStatsIndex = globalStats.findIndex(
+      (stat) =>
+        stat.date.toISOString().split('T')[0] ===
+        new Date().toISOString().split('T')[0],
+    );
     if (progressIndex === -1) {
       user.progress.push(progress);
+      if (globalStatsIndex === -1) {
+        user.globalStats.push({
+          date: new Date(),
+          correctAnswers: progress.sidebar.correctAnswers,
+          incorrectAnswers: progress.sidebar.incorrectAnswers,
+          totalQuestions: progress.sidebar.totalQuestions,
+          masteredQuestions: progress.sidebar.masteredQuestions,
+          time: progress.sidebar.time,
+        });
+      } else {
+        user.globalStats[globalStatsIndex] = {
+          ...user.globalStats[globalStatsIndex],
+          correctAnswers:
+            progress.sidebar.correctAnswers +
+            user.globalStats[globalStatsIndex].correctAnswers,
+          incorrectAnswers:
+            progress.sidebar.incorrectAnswers +
+            user.globalStats[globalStatsIndex].incorrectAnswers,
+          totalQuestions:
+            progress.sidebar.totalQuestions +
+            user.globalStats[globalStatsIndex].totalQuestions,
+          masteredQuestions:
+            progress.sidebar.masteredQuestions +
+            user.globalStats[globalStatsIndex].masteredQuestions,
+          time: progress.sidebar.time + user.globalStats[globalStatsIndex].time,
+        };
+      }
     } else {
+      //find the difference between in data (incorrect, correct, mastered, time)
+      const sidebar = user.progress[progressIndex].sidebar;
+      const diff = {
+        correctAnswers:
+          progress.sidebar.correctAnswers - sidebar.correctAnswers,
+        incorrectAnswers:
+          progress.sidebar.incorrectAnswers - sidebar.incorrectAnswers,
+        masteredQuestions:
+          progress.sidebar.masteredQuestions - sidebar.masteredQuestions,
+        time: progress.sidebar.time - sidebar.time,
+      };
+      //update global stats
+      if (globalStatsIndex === -1) {
+        user.globalStats.push({
+          date: new Date(),
+          correctAnswers: diff.correctAnswers,
+          incorrectAnswers: diff.incorrectAnswers,
+          totalQuestions: diff.correctAnswers + diff.incorrectAnswers,
+          masteredQuestions: diff.masteredQuestions,
+          time: diff.time,
+        });
+      } else {
+        user.globalStats[globalStatsIndex] = {
+          ...user.globalStats[globalStatsIndex],
+          correctAnswers:
+            diff.correctAnswers +
+            user.globalStats[globalStatsIndex].correctAnswers,
+          incorrectAnswers:
+            diff.incorrectAnswers +
+            user.globalStats[globalStatsIndex].incorrectAnswers,
+          totalQuestions:
+            diff.correctAnswers +
+            diff.incorrectAnswers +
+            user.globalStats[globalStatsIndex].totalQuestions,
+          masteredQuestions:
+            diff.masteredQuestions +
+            user.globalStats[globalStatsIndex].masteredQuestions,
+          time: diff.time + user.globalStats[globalStatsIndex].time,
+        };
+      }
       user.progress[progressIndex] = progress;
     }
     const savedUser = await user.save();
     return savedUser.progress;
-  }
-  async getProgress(userId: string): Promise<Progress[]> {
-    const user = await this.userModel.findById(userId).exec();
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-    return user.progress;
   }
   async resetProgress(id: string, userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
@@ -245,6 +318,41 @@ export class UsersService {
     if (progressIndex === -1) {
       throw new HttpException('Progress not found', HttpStatus.NOT_FOUND);
     }
+    // before reseting progress, save it to global stats
+    // const progress = user.progress[progressIndex];
+    // const globalStats = user.globalStats;
+    // const globalStatsIndex = globalStats.findIndex(
+    //   (stat) =>
+    //     stat.date.toISOString().split('T')[0] ===
+    //     new Date().toISOString().split('T')[0],
+    // );
+    // if (globalStatsIndex === -1) {
+    //   globalStats.push({
+    //     date: new Date(),
+    //     correctAnswers: progress.sidebar.correctAnswers,
+    //     incorrectAnswers: progress.sidebar.incorrectAnswers,
+    //     totalQuestions: progress.sidebar.totalQuestions,
+    //     masteredQuestions: progress.sidebar.masteredQuestions,
+    //     time: progress.sidebar.time,
+    //   });
+    // } else {
+    //   globalStats[globalStatsIndex] = {
+    //     ...globalStats[globalStatsIndex],
+    //     correctAnswers:
+    //       progress.sidebar.correctAnswers +
+    //       globalStats[globalStatsIndex].correctAnswers,
+    //     incorrectAnswers:
+    //       progress.sidebar.incorrectAnswers +
+    //       globalStats[globalStatsIndex].incorrectAnswers,
+    //     totalQuestions:
+    //       progress.sidebar.totalQuestions +
+    //       globalStats[globalStatsIndex].totalQuestions,
+    //     masteredQuestions:
+    //       progress.sidebar.masteredQuestions +
+    //       globalStats[globalStatsIndex].masteredQuestions,
+    //     time: progress.sidebar.time + globalStats[globalStatsIndex].time,
+    //   };
+    // }
     user.progress.splice(progressIndex, 1);
     const savedUser = await user.save();
     return savedUser.progress;
@@ -324,60 +432,111 @@ export class UsersService {
     }
     return user.globalStats;
   }
-  async saveGlobalStats(userId: string): Promise<any> {
-    const user = await this.userModel.findById(userId).exec();
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-    const progress = user.progress;
-    // get sum of all progress
-    console.log(progress);
-    const globalStats = progress.reduce(
-      (acc, curr) => {
-        acc.correctAnswers += curr.sidebar.correctAnswers;
-        acc.incorrectAnswers += curr.sidebar.incorrectAnswers;
-        acc.totalQuestions += curr.sidebar.totalQuestions;
-        acc.masteredQuestions += curr.sidebar.masteredQuestions;
-        acc.time += curr.sidebar.time;
-        return acc;
-      },
-      {
-        correctAnswers: 0,
-        incorrectAnswers: 0,
-        totalQuestions: 0,
-        masteredQuestions: 0,
-        time: 0,
-      },
-    );
-    // calcualte todays progress by comparing with last global stats
-    console.log(globalStats);
-    // last global stats is stats from day before
-    const lastGlobalStats = user.globalStats.find(
-      (stat) =>
-        stat.date.toISOString().split('T')[0] ===
-        new Date(new Date().setDate(new Date().getDate() - 1))
-          .toISOString()
-          .split('T')[0],
-    );
-    const todaysProgress = lastGlobalStats
-      ? {
-          correctAnswers:
-            globalStats.correctAnswers - lastGlobalStats.correctAnswers,
-          incorrectAnswers:
-            globalStats.incorrectAnswers - lastGlobalStats.incorrectAnswers,
-          totalQuestions:
-            globalStats.totalQuestions - lastGlobalStats.totalQuestions,
-          masteredQuestions:
-            globalStats.masteredQuestions - lastGlobalStats.masteredQuestions,
-          time: globalStats.time - lastGlobalStats.time,
-        }
-      : globalStats;
-    //push it with date
-    user.globalStats.push({
-      date: new Date(),
-      ...todaysProgress,
-    });
-    await user.save();
-    return user.globalStats;
-  }
+  // async saveGlobalStats(userId: string): Promise<any> {
+  //   const user = await this.userModel.findById(userId).exec();
+  //   if (!user) {
+  //     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+  //   }
+  //   const progress = user.progress;
+  //   // get sum of all progress
+  //   console.log(progress);
+  //   const globalStats = progress.reduce(
+  //     (acc, curr) => {
+  //       acc.correctAnswers += curr.sidebar.correctAnswers;
+  //       acc.incorrectAnswers += curr.sidebar.incorrectAnswers;
+  //       acc.totalQuestions += curr.sidebar.totalQuestions;
+  //       acc.masteredQuestions += curr.sidebar.masteredQuestions;
+  //       acc.time += curr.sidebar.time;
+  //       return acc;
+  //     },
+  //     {
+  //       correctAnswers: 0,
+  //       incorrectAnswers: 0,
+  //       totalQuestions: 0,
+  //       masteredQuestions: 0,
+  //       time: 0,
+  //     },
+  //   );
+  //   // calcualte todays progress by comparing with last global stats
+  //   // last global stats is stats from day before
+  //   const lastGlobalStats = user.globalStats.find(
+  //     (stat) =>
+  //       stat.date.toISOString().split('T')[0] ===
+  //       new Date(new Date().setDate(new Date().getDate() - 1))
+  //         .toISOString()
+  //         .split('T')[0],
+  //   );
+  //   const todaysProgress = lastGlobalStats
+  //     ? {
+  //         correctAnswers:
+  //           globalStats.correctAnswers - lastGlobalStats.correctAnswers,
+  //         incorrectAnswers:
+  //           globalStats.incorrectAnswers - lastGlobalStats.incorrectAnswers,
+  //         totalQuestions:
+  //           globalStats.totalQuestions - lastGlobalStats.totalQuestions,
+  //         masteredQuestions:
+  //           globalStats.masteredQuestions - lastGlobalStats.masteredQuestions,
+  //         time: globalStats.time - lastGlobalStats.time,
+  //       }
+  //     : globalStats;
+  //   //push it with date
+  //   user.globalStats.push({
+  //     date: new Date(),
+  //     ...todaysProgress,
+  //   });
+  //   await user.save();
+  //   return user.globalStats;
+  // }
+  // async saveGlobalStatsAllUsers() {
+  //   const users = await this.userModel.find().exec();
+  //   users.forEach(async (user) => {
+  //     const progress = user.progress;
+  //     // get sum of all progress
+  //     const globalStats = progress.reduce(
+  //       (acc, curr) => {
+  //         acc.correctAnswers += curr.sidebar.correctAnswers;
+  //         acc.incorrectAnswers += curr.sidebar.incorrectAnswers;
+  //         acc.totalQuestions += curr.sidebar.totalQuestions;
+  //         acc.masteredQuestions += curr.sidebar.masteredQuestions;
+  //         acc.time += curr.sidebar.time;
+  //         return acc;
+  //       },
+  //       {
+  //         correctAnswers: 0,
+  //         incorrectAnswers: 0,
+  //         totalQuestions: 0,
+  //         masteredQuestions: 0,
+  //         time: 0,
+  //       },
+  //     );
+  //     // last global stats is stats from day before
+  //     const lastGlobalStats = user.globalStats.find(
+  //       (stat) =>
+  //         stat.date.toISOString().split('T')[0] ===
+  //         new Date(new Date().setDate(new Date().getDate() - 1))
+  //           .toISOString()
+  //           .split('T')[0],
+  //     );
+  //     const todaysProgress = lastGlobalStats
+  //       ? {
+  //           correctAnswers:
+  //             globalStats.correctAnswers - lastGlobalStats.correctAnswers,
+  //           incorrectAnswers:
+  //             globalStats.incorrectAnswers - lastGlobalStats.incorrectAnswers,
+  //           totalQuestions:
+  //             globalStats.totalQuestions - lastGlobalStats.totalQuestions,
+  //           masteredQuestions:
+  //             globalStats.masteredQuestions - lastGlobalStats.masteredQuestions,
+  //           time: globalStats.time - lastGlobalStats.time,
+  //         }
+  //       : globalStats;
+  //     //push it with date
+  //     user.globalStats.push({
+  //       date: new Date(),
+  //       ...todaysProgress,
+  //     });
+  //     await user.save();
+  //   });
+  //   return { message: 'Global stats saved for all users', count: users.length };
+  // }
 }

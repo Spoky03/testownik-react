@@ -84,8 +84,8 @@ export class UsersController {
   async getGlobalStatsByDate(@Request() req, @Body() { startDate, endDate }) {
     return this.usersService.getGlobalStats(req.user.sub, startDate, endDate);
   }
-  @Post('globalStats')
-  async saveGlobalStats(@Request() req) {
-    return this.usersService.saveGlobalStats(req.user.sub);
-  }
+  // @Post('globalStats')
+  // async saveGlobalStats(@Request() req) {
+  //   return this.usersService.saveGlobalStats(req.user.sub);
+  // }
 }
