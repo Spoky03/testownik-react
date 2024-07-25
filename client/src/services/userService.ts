@@ -236,6 +236,15 @@ const deleteUser = async () => {
   });
   return response.data;
 }
+const getGlobalStats = async (startDate?: Date, endDate?: Date) => {
+  const response = await axios.get(`${baseUrl}/users/globalStats`, {
+    headers: {
+      Authorization: token,
+    },
+    data: { startDate, endDate },
+  });
+  return response.data;
+};
 interface UserData {
   username?: string;
   email?: string;
@@ -264,5 +273,6 @@ export default {
   getForeignSets,
   switchPrivacy,
   saveUserData,
-  deleteUser
+  deleteUser,
+  getGlobalStats,
 };

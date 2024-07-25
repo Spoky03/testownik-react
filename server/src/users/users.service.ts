@@ -330,6 +330,8 @@ export class UsersService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     const progress = user.progress;
+    // get sum of all progress
+    console.log(progress);
     const globalStats = progress.reduce(
       (acc, curr) => {
         acc.correctAnswers += curr.sidebar.correctAnswers;
@@ -347,9 +349,33 @@ export class UsersService {
         time: 0,
       },
     );
+    // calcualte todays progress by comparing with last global stats
+    console.log(globalStats);
+    // last global stats is stats from day before
+    const lastGlobalStats = user.globalStats.find(
+      (stat) =>
+        stat.date.toISOString().split('T')[0] ===
+        new Date(new Date().setDate(new Date().getDate() - 1))
+          .toISOString()
+          .split('T')[0],
+    );
+    const todaysProgress = lastGlobalStats
+      ? {
+          correctAnswers:
+            globalStats.correctAnswers - lastGlobalStats.correctAnswers,
+          incorrectAnswers:
+            globalStats.incorrectAnswers - lastGlobalStats.incorrectAnswers,
+          totalQuestions:
+            globalStats.totalQuestions - lastGlobalStats.totalQuestions,
+          masteredQuestions:
+            globalStats.masteredQuestions - lastGlobalStats.masteredQuestions,
+          time: globalStats.time - lastGlobalStats.time,
+        }
+      : globalStats;
+    //push it with date
     user.globalStats.push({
-      ...globalStats,
       date: new Date(),
+      ...todaysProgress,
     });
     await user.save();
     return user.globalStats;

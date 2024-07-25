@@ -12,6 +12,7 @@ import QuizContainer from "../quiz";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Separator } from "../ui/separator";
+import { GlobalStats } from "./profile/GlobalStats";
 
 const SingleLink = ({
   to,
@@ -162,6 +163,7 @@ const Profile = () => {
               <ProfileNav username={user.username} dispatch={dispatch} />
             }
           >
+            <Route path="" element={<GlobalStats />} />
             <Route path="/agreements" element={<UserAgreements />} />
             <Route path="/settings" element={<UserSettings />} />
             <Route path="/dashboard" element={<QuizContainer />} />
