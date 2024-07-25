@@ -42,7 +42,7 @@ export function StackedBarChart({ chartData }: { chartData: ChartData[] }) {
   const incorrectSum = chartData.reduce((acc, curr) => acc + curr.incorrect, 0);
   const ratio = CalculateRatio(correctSum, incorrectSum);
   return (
-    <Card>
+    <Card className="dark:bg-secondary black:bg-secondary text-text">
       <CardHeader>
         <CardTitle>Twój tydzień</CardTitle>
         <CardDescription></CardDescription>
