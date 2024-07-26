@@ -1,6 +1,5 @@
 import userService from "@/services/userService";
 import { useEffect, useState } from "react";
-import { StatsBarChart } from "./BarChart";
 import { StackedBarChart } from "./StackedBarChart";
 import { TimeGoal } from "./TimeGoal";
 
@@ -18,11 +17,7 @@ export const GlobalStats = () => {
     startDate: new Date(new Date().setDate(new Date().getDate() - 7)),
     endDate: new Date(),
   };
-  const todayTime = stats?.find(
-    (stat: GlobalStatsProps) =>
-      new Date(stat.date).toLocaleDateString() ===
-      new Date().toLocaleDateString()
-  )?.time;
+
   useEffect(() => {
     const fetchStats = async () => {
       const response = await userService.getGlobalStats(startDate, endDate);
@@ -46,6 +41,11 @@ export const GlobalStats = () => {
       incorrect: stat.incorrectAnswers,
     };
   });
+  const todayTime = stats?.find(
+    (stat: GlobalStatsProps) =>
+      new Date(stat.date).toLocaleDateString() ===
+      new Date().toLocaleDateString()
+  )?.time;
   return (
     <div>
       <div className="flex flex-col gap-4">
