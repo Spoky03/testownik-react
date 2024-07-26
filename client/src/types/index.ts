@@ -2,6 +2,7 @@ export interface RootState {
   quiz: QuizState;
   user: UserState;
   browser: BrowserState;
+  stats: StatsState;
 }
 export interface Answer {
   id: number | null | undefined;
@@ -53,6 +54,26 @@ export interface BrowserState {
     value: 'likes' | 'date' | 'name' | null;
     ascending: boolean;
   };
+}
+export interface GlobalStatsProps {
+  correctAnswers: number;
+  incorrectAnswers: number;
+  masteredQuestions: number;
+  totalQuestions: number;
+  time: number;
+  date: Date;
+}
+export interface ChartData {
+  weekday: string;
+  correct: number;
+  incorrect: number;
+}
+export interface StatsState {
+  lastWeek: GlobalStatsProps[];
+  chartData: ChartData[];
+  weeklyGoal: number;
+  currentGoalTime: number;
+  totalMastered: number;
 }
 export interface QuestionSet {
   description: string;

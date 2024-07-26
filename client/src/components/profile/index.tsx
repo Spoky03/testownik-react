@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Separator } from "../ui/separator";
 import { GlobalStats } from "./profile/GlobalStats";
+import { initializeStats } from "@/reducers/statsReducer";
 
 const SingleLink = ({
   to,
@@ -152,6 +153,10 @@ const ProfileNav = ({
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
+  //dispatch initial stats
+  useEffect(() => {
+    dispatch(initializeStats());
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col place-items-center px-5 sm:p-8">

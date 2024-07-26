@@ -26,9 +26,11 @@ I plan to deploy it soon.
 - [ ] delete those testing users
 - [x] add deleting user backend
 - [x] clean up quiz container because right now it is accesibble with /quiz and /profile/dashboard
-- [ ] add something to display at profile
-- [ ] add goals to display at profile: shadcn graph (dates of users progress will be saved in backend )
+- [x] add something to display at profile
+- [x] add goals to display at profile: shadcn graph (dates of users progress will be saved in backend )
 - [x] add global stats by summing new stats eacch time user saves and assigning them to todays date
+- [ ] save goal to backend
+- [ ] save finished counter sets to backend
 - [ ] ~~add cron job for this at tasks~~
 - [ ] add contact form
 - [ ] ~~server side frontend build~~
