@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
 import userService from "@/services/userService";
-import { ChartData, GlobalStatsProps, StatsState } from "@/types";
+import { ChartData, FinishedSet, GlobalStatsProps, StatsState } from "@/types";
 
 const initialState: StatsState = {
   lastWeek: [],
@@ -9,6 +9,7 @@ const initialState: StatsState = {
   weeklyGoal: 0,
   currentGoalTime: 0,
   totalMastered: 0,
+  finishedSets: [],
 };
 
 const statsSlice = createSlice({
@@ -30,6 +31,9 @@ const statsSlice = createSlice({
     initTotalMastered: (state, action: PayloadAction<number>) => {
       state.totalMastered = action.payload;
     },
+    initFinishedSets: (state, action: PayloadAction<FinishedSet[]>) => {
+      state.finishedSets = action.payload;
+    },
   },
 });
 
@@ -39,6 +43,7 @@ export const {
   setGoal,
   setCurrentTime,
   initTotalMastered,
+  initFinishedSets,
 } = statsSlice.actions;
 
 export const initializeStats = () => {
@@ -84,6 +89,13 @@ export const initializeStats = () => {
     try {
       const goal = await userService.getWeeklyTimeGoal();
       dispatch(setGoal(goal));
+    } catch (error) {
+      console.log(error);
+    }
+    // finished sets
+    try {
+      const finishedSets = await userService.getFinishedSets();
+      dispatch(initFinishedSets(finishedSets));
     } catch (error) {
       console.log(error);
     }

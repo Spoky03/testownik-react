@@ -22,6 +22,7 @@ import { UpdateUserEntity } from './dto/update-user.dto';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { WeeklyTimeGoalDto } from './dto/weekly-timeGoal.dto';
+import { FinishedSet } from './dto/finishedSets.dto';
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -99,5 +100,13 @@ export class UsersController {
     @Request() req,
   ) {
     return this.usersService.saveWeeklyTimeGoal(req.user.sub, weeklyTimeGoal);
+  }
+  @Get('finishedSets')
+  async getFinishedSets(@Request() req) {
+    return this.usersService.getFinishedSets(req.user.sub);
+  }
+  @Post('finishedSets')
+  async saveFinishedSets(@Request() req, @Body() finishedSet: FinishedSet) {
+    return this.usersService.saveFinishedSet(req.user.sub, finishedSet);
   }
 }

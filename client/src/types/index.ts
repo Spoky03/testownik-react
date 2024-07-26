@@ -68,12 +68,17 @@ export interface ChartData {
   correct: number;
   incorrect: number;
 }
+export interface FinishedSet {
+  setId: string;
+  date: Date;
+}
 export interface StatsState {
   lastWeek: GlobalStatsProps[];
   chartData: ChartData[];
   weeklyGoal: number;
   currentGoalTime: number;
   totalMastered: number;
+  finishedSets: FinishedSet[];
 }
 export interface QuestionSet {
   description: string;

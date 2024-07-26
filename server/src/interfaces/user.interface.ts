@@ -46,4 +46,10 @@ export interface User extends Document {
   };
   globalStats: [GlobalStats];
   weeklyTimeGoal: number;
+  finishedSets: FinishedSet[];
+}
+
+interface FinishedSet {
+  setId: string;
+  date: Date;
 }

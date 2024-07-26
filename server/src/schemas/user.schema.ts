@@ -131,4 +131,17 @@ export const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  //finished sets with date of finish
+  finishedSets: [
+    {
+      setId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'QuestionSets',
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });

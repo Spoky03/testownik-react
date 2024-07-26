@@ -265,6 +265,22 @@ const getWeeklyTimeGoal = async () => {
   });
   return response.data;
 }
+const getFinishedSets = async () => {
+  const response = await axios.get(`${baseUrl}/users/finishedSets`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+};
+const saveFinishedSet = async (setId: string) => {
+  const response = await axios.post(`${baseUrl}/users/finishedSets`, { setId }, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+}
 interface UserData {
   username?: string;
   email?: string;
@@ -297,4 +313,6 @@ export default {
   getGlobalStats,
   saveWeeklyTimeGoal,
   getWeeklyTimeGoal,
+  getFinishedSets,
+  saveFinishedSet,
 };

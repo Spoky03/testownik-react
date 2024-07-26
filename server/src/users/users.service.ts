@@ -14,6 +14,7 @@ import { SignUpDto } from 'src/dto/signup-user.dto';
 import { SettingsDto } from './dto/save-settings.dto';
 import { UpdateUserEntity } from './dto/update-user.dto';
 import { WeeklyTimeGoalDto } from './dto/weekly-timeGoal.dto';
+import { FinishedSet, GetFinishedSetsDto } from './dto/finishedSets.dto';
 
 @Injectable()
 export class UsersService {
@@ -552,5 +553,33 @@ export class UsersService {
     return this.userModel
       .findByIdAndUpdate(userId, weeklyTimeGoal, { new: true })
       .exec();
+  }
+  async getFinishedSets(userId: string): Promise<any> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    // const finishedSets = user.finishedSets.filter(
+    //   (set) =>
+    //     set.date.toISOString().split('T')[0] >= dates.startDate.toString() &&
+    //     set.date.toISOString().split('T')[0] <= dates.endDate.toString(),
+    // );
+    return user.finishedSets;
+  }
+  async saveFinishedSet(
+    userId: string,
+    finishedSet: FinishedSet,
+  ): Promise<any> {
+    //check if setId is type of ObjectId
+    if (!Types.ObjectId.isValid(finishedSet.setId)) {
+      throw new HttpException('Invalid set id', HttpStatus.BAD_REQUEST);
+    }
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    user.finishedSets.push({ setId: finishedSet.setId, date: new Date() });
+    await user.save();
+    return user.finishedSets;
   }
 }
