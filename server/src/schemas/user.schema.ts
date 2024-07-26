@@ -127,4 +127,8 @@ export const UserSchema = new mongoose.Schema({
     },
   },
   globalStats: [GlobalStatsSchema],
+  weeklyTimeGoal: {
+    type: Number,
+    default: 0,
+  },
 });

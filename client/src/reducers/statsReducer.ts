@@ -82,9 +82,14 @@ export const initializeStats = () => {
     }
   };
 };
-export const setWeeklyGoal = (goal: number) => {
+export const setWeeklyGoal = (weeklyTimeGoal: number) => {
   return async (dispatch: AppDispatch) => {
-    dispatch(setGoal(goal));
+    try {
+      await userService.saveWeeklyTimeGoal(weeklyTimeGoal);
+      dispatch(setGoal(weeklyTimeGoal));
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

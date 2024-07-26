@@ -21,6 +21,7 @@ import { SettingsDto } from './dto/save-settings.dto';
 import { UpdateUserEntity } from './dto/update-user.dto';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { WeeklyTimeGoalDto } from './dto/weekly-timeGoal.dto';
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -88,4 +89,11 @@ export class UsersController {
   // async saveGlobalStats(@Request() req) {
   //   return this.usersService.saveGlobalStats(req.user.sub);
   // }
+  @Post('weeklyTimeGoal')
+  async saveWeeklyGoal(
+    @Body() weeklyTimeGoal: WeeklyTimeGoalDto,
+    @Request() req,
+  ) {
+    return this.usersService.saveWeeklyGoal(req.user.sub, weeklyTimeGoal);
+  }
 }

@@ -13,6 +13,7 @@ import { UserEntity } from 'src/dto/get-user.dto';
 import { SignUpDto } from 'src/dto/signup-user.dto';
 import { SettingsDto } from './dto/save-settings.dto';
 import { UpdateUserEntity } from './dto/update-user.dto';
+import { WeeklyTimeGoalDto } from './dto/weekly-timeGoal.dto';
 
 @Injectable()
 export class UsersService {
@@ -539,4 +540,10 @@ export class UsersService {
   //   });
   //   return { message: 'Global stats saved for all users', count: users.length };
   // }
+  async saveWeeklyGoal(userId: string, weeklyTimeGoal: WeeklyTimeGoalDto) {
+    console.log(weeklyTimeGoal);
+    return this.userModel
+      .findByIdAndUpdate(userId, weeklyTimeGoal, { new: true })
+      .exec();
+  }
 }

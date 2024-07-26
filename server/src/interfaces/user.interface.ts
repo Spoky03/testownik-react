@@ -45,4 +45,5 @@ export interface User extends Document {
     newsletter: boolean;
   };
   globalStats: [GlobalStats];
+  weeklyTimeGoal: number;
 }
