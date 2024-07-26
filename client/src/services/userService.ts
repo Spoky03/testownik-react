@@ -257,6 +257,14 @@ const saveWeeklyTimeGoal = async (weeklyTimeGoal: number) => {
   );
   return response.data;
 }
+const getWeeklyTimeGoal = async () => {
+  const response = await axios.get(`${baseUrl}/users/weeklyTimeGoal`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+}
 interface UserData {
   username?: string;
   email?: string;
@@ -288,4 +296,5 @@ export default {
   deleteUser,
   getGlobalStats,
   saveWeeklyTimeGoal,
+  getWeeklyTimeGoal,
 };

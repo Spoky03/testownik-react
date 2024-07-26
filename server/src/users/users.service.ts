@@ -540,7 +540,14 @@ export class UsersService {
   //   });
   //   return { message: 'Global stats saved for all users', count: users.length };
   // }
-  async saveWeeklyGoal(userId: string, weeklyTimeGoal: WeeklyTimeGoalDto) {
+  async getWeeklyTimeGoal(userId: string): Promise<number> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user.weeklyTimeGoal;
+  }
+  async saveWeeklyTimeGoal(userId: string, weeklyTimeGoal: WeeklyTimeGoalDto) {
     console.log(weeklyTimeGoal);
     return this.userModel
       .findByIdAndUpdate(userId, weeklyTimeGoal, { new: true })

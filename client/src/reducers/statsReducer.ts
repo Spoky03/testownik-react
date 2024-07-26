@@ -80,6 +80,13 @@ export const initializeStats = () => {
     } catch (error) {
       console.log(error);
     }
+    // weekly goal
+    try {
+      const goal = await userService.getWeeklyTimeGoal();
+      dispatch(setGoal(goal));
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 export const setWeeklyGoal = (weeklyTimeGoal: number) => {

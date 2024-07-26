@@ -89,11 +89,15 @@ export class UsersController {
   // async saveGlobalStats(@Request() req) {
   //   return this.usersService.saveGlobalStats(req.user.sub);
   // }
+  @Get('weeklyTimeGoal')
+  async getWeeklyGoal(@Request() req) {
+    return this.usersService.getWeeklyTimeGoal(req.user.sub);
+  }
   @Post('weeklyTimeGoal')
   async saveWeeklyGoal(
     @Body() weeklyTimeGoal: WeeklyTimeGoalDto,
     @Request() req,
   ) {
-    return this.usersService.saveWeeklyGoal(req.user.sub, weeklyTimeGoal);
+    return this.usersService.saveWeeklyTimeGoal(req.user.sub, weeklyTimeGoal);
   }
 }
