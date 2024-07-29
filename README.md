@@ -31,7 +31,7 @@ I plan to deploy it soon.
 - [x] add global stats by summing new stats eacch time user saves and assigning them to todays date
 - [x] save goal to backend
 - [x] save finished counter sets to backend
-- [ ] dispatch saving finished set after finishing it
+- [x] dispatch saving finished set after finishing it 
 - [ ] add contact form
 - [ ] ~~add cron job for this at tasks~~
 - [ ] ~~server side frontend build~~

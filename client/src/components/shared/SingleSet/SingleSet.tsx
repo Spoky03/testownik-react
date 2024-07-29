@@ -31,8 +31,12 @@ const StartQuizIcon = ({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger className="h-fit">
-          <div className={completed ? "opacity-20 cursor-not-allowed" : ""}>
+        <TooltipTrigger className="h-fit relative">
+          {completed ? 
+          <div className="-right-10 top-2 absolute h-6 w-40 bg-success rotate-45">
+            <span className="text-center ml-4 font-semibold text-white">Completed</span>
+            </div>
+          : <div className={completed ? "opacity-20 cursor-not-allowed" : ""}>
             <Link
               to={`/quiz/${id}`}
               className={`${
@@ -45,7 +49,7 @@ const StartQuizIcon = ({
               </span>
               <PlayIcon className="text-success opacity-100" size={24} />
             </Link>
-          </div>
+          </div>}
         </TooltipTrigger>
         <TooltipContent>
           <p className="break-words text-wrap max-w-sm">
@@ -75,6 +79,19 @@ export const SingleSet = ({
   const [bookmarked, setBookmarked] = useState(
     bookmarks ? bookmarks.includes(set._id) : false
   );
+  const fetchedProgress = useSelector(
+    (state: RootState) => state.user.progress
+  );
+  const setProgress = fetchedProgress.find((p) => p.questionSetId === set._id);
+  const progress = {
+    correct: setProgress?.questions.filter((q) => q.repeats === 0).length || 0,
+    total: set.questions.length,
+  };
+  useEffect(() => {
+    if (progress.correct === progress.total) {
+      setCompleted(true);
+    }
+  }, [progress.correct, progress.total, setCompleted]);
   useEffect(() => {
     if (typeof set.author === "object" && set.author._id === userId) {
       setForeign(true);
@@ -112,7 +129,7 @@ export const SingleSet = ({
   };
   return (
     <div
-      className={`border border-faint bg-ternary rounded-md px-2 pb-1 flex flex-col justify-between w-full relative ${
+      className={`border border-faint bg-ternary rounded-md px-2 pb-1 flex flex-col justify-between w-full relative  overflow-hidden ${
         type !== SetListTypes.QUIZ && type !== SetListTypes.MODAL
           ? "cursor-pointer hover:outline"
           : ""
@@ -201,7 +218,8 @@ export const SingleSet = ({
       <div className="flex pt-2 pb-1.5 px-1 justify-between">
         {type === SetListTypes.QUIZ && (
           <Progress
-            set={set}
+            setId={set._id}
+            progress={progress}
             completed={completed}
             setCompleted={setCompleted}
           />

@@ -1,39 +1,39 @@
 import { MdAutorenew as ResetIcon } from "react-icons/md";
-import { AppDispatch, RootState } from "../../../store";
-import { resetSingleProgress } from "../../../reducers/userReducer";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { AppDispatch } from "@/store";
+import { resetSingleProgress } from "@/reducers/userReducer";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { QuestionSet } from "@/types";
-import { useToast } from "../../ui/use-toast";
-export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, completed: boolean, setCompleted: (value: boolean) => void }) => {
+import { useToast } from "@/components/ui/use-toast";
+export const Progress = ({
+  setId,
+  progress,
+  completed,
+  setCompleted,
+}: {
+  setId: string;
+  progress: {
+    correct: number;
+    total: number;
+  }
+  completed: boolean;
+  setCompleted: (value: boolean) => void;
+}) => {
   const [effect, setEffect] = useState(false);
   const { toast } = useToast();
   const dispatch = useDispatch<AppDispatch>();
-  const fetchedProgress = useSelector(
-    (state: RootState) => state.user.progress
-  );
-  const setProgress = fetchedProgress.find((p) => p.questionSetId === set._id);
-  const progress = {
-    correct: setProgress?.questions.filter((q) => q.repeats === 0).length || 0,
-    total: set.questions.length,
-  };
-  useEffect(() => {
-    if (progress.correct === progress.total) {
-      setCompleted(true);
-    }
-  }, [progress.correct, progress.total, setCompleted]);
+
   const handleReset = async () => {
     setEffect(true);
   };
   const effectCleanup = async () => {
     if (effect) {
-      const res = await dispatch(resetSingleProgress(set._id));
+      const res = await dispatch(resetSingleProgress(setId));
       if (res) {
         toast({
           variant: "destructive",
@@ -49,9 +49,7 @@ export const Progress = ({ set, completed, setCompleted }: { set: QuestionSet, c
   return (
     <div className="flex place-items-center">
       <p className="px-3">
-        {completed
-          ? "Completed"
-          : `${progress.correct}/${progress.total}`}{" "}
+        {completed ? "Completed" : `${progress.correct}/${progress.total}`}{" "}
       </p>
       <TooltipProvider>
         <Tooltip>
