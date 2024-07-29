@@ -14,7 +14,7 @@ import { SignUpDto } from 'src/dto/signup-user.dto';
 import { SettingsDto } from './dto/save-settings.dto';
 import { UpdateUserEntity } from './dto/update-user.dto';
 import { WeeklyTimeGoalDto } from './dto/weekly-timeGoal.dto';
-import { FinishedSet, GetFinishedSetsDto } from './dto/finishedSets.dto';
+import { FinishedSet } from './dto/finishedSets.dto';
 
 @Injectable()
 export class UsersService {

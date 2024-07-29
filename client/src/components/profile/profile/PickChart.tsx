@@ -33,10 +33,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function CalculateRatio(correct: number, incorrect: number) {
+const CalculateRatio = (correct: number, incorrect: number) => {
   return Math.round((correct / (incorrect + correct)) * 100);
 }
-export function PickChart({ chartData }: { chartData: ChartData[] }) {
+export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
   const [isBarChart, setIsBarChart] = useState(false);
   const correctSum = chartData.reduce((acc, curr) => acc + curr.correct, 0);
   const incorrectSum = chartData.reduce((acc, curr) => acc + curr.incorrect, 0);

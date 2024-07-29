@@ -29,8 +29,9 @@ I plan to deploy it soon.
 - [x] add something to display at profile
 - [x] add goals to display at profile: shadcn graph (dates of users progress will be saved in backend )
 - [x] add global stats by summing new stats eacch time user saves and assigning them to todays date
-- [ ] save goal to backend
-- [ ] save finished counter sets to backend
-- [ ] ~~add cron job for this at tasks~~
+- [x] save goal to backend
+- [x] save finished counter sets to backend
+- [ ] dispatch saving finished set after finishing it
 - [ ] add contact form
+- [ ] ~~add cron job for this at tasks~~
 - [ ] ~~server side frontend build~~

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Finished } from "./Finished";
 import constants from "@/constants";
 import { useToast } from "../ui/use-toast";
+import userService from "@/services/userService";
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +21,7 @@ export const Sidebar = () => {
   const { toast } = useToast();
   const [openSettings, setOpenSettings] = useState(false);
   const [openFinished, setOpenFinished] = useState(false);
-  const { questions, state, sidebar, finished } = useSelector(
+  const { questions, state, sidebar, finished, setId } = useSelector(
     (state: RootState) => state.quiz
   );
   const [timer, setTimer] = useState<number>(sidebar.time);
@@ -42,9 +43,10 @@ export const Sidebar = () => {
       });
       setOpenFinished(true);
       dispatch(saveQuizProgress(questionsToSave, timer));
+      userService.saveFinishedSet(setId);
       dispatch(resetQuiz());
     }
-  }, [dispatch, finished, navigate, questions, timer]);
+  }, [dispatch, finished, navigate, questions, setId, timer]);
   const handleSubmit = () => {
     dispatch(submitAnswersAction());
   };
