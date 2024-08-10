@@ -10,12 +10,17 @@ export interface Answer {
   answer: string;
   correct: boolean;
 }
+export interface QuestionImage {
+  url: string;
+}
 export interface Question {
   forEach(arg0: (question: string) => void): unknown;
   _id: string;
   question: string;
   answers: Answer[];
   repeats?: number;
+  image?: QuestionImage;
+
 }
 export interface CreatedAnswer {
   id: number;

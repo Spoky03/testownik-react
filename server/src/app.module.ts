@@ -10,6 +10,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { join } from 'path';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { OpenaiModule } from './openai/openai.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -39,6 +40,7 @@ import { APP_GUARD } from '@nestjs/core';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'), // 'public' is the directory where your React build is located
     }),
+    OpenaiModule,
   ],
   providers: [
     {

@@ -1,80 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { QuestionSet } from "@/types";
 import { RootState } from "@/types";
 import { SetListTypes } from "@/types";
 import { Progress } from "./Progress";
 import { Socials } from "./Socials";
-import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { Bookmark } from "lucide-react";
 import { AppDispatch } from "@/store";
 import { addBookmark, deleteBookmark } from "@/reducers/userReducer";
 import { useNavigate } from "react-router-dom";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Button } from "../../ui/button";
 import { Separator } from "../../ui/separator";
-import { ResetProgressButton } from "./ResetProgressButton";
-const StartQuizIcon = ({
-  id,
-  className,
-  completed,
-  setCompleted,
-}: {
-  id: string;
-  className?: string;
-  completed?: boolean;
-  setCompleted?: (value: boolean) => void;
-}) => {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger className="h-fit relative">
-          {completed ? (
-            <div className="-right-10 top-2 absolute h-6 w-40 bg-success rotate-45">
-              <span className="text-center ml-4 font-semibold text-white">
-                Completed
-              </span>
-            </div>
-          ) : (
-            <div className={completed ? "opacity-20 cursor-not-allowed" : ""}>
-              <Link
-                to={`/quiz/${id}`}
-                className={`${
-                  completed && "pointer-events-none"
-                } px-3 py-2 ${className} flex border-success border rounded-2xl hover:bg-success hover:bg-opacity-30 transition-colors`}
-                onClick={(event) => event.stopPropagation()}
-              >
-                <span className="hidden sm:block text-success font-medium mr-2">
-                  Start Quiz
-                </span>
-                <PlayIcon className="text-success opacity-100" size={24} />
-              </Link>
-            </div>
-          )}
-        </TooltipTrigger>
-        <TooltipContent>
-          <p className="break-words text-wrap max-w-sm">
-            {completed ? (
-              <>
-                "You've already completed this quiz. Reset your progress below
-                to play again"{" "}
-                <ResetProgressButton setId={id} setCompleted={setCompleted} />
-              </>
-            ) : (
-              "Press to play this quiz"
-            )}
-          </p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-};
+import { StartQuizIcon } from "./StartQuizButton";
 export const SingleSet = ({
   set,
   type,
@@ -188,6 +125,16 @@ export const SingleSet = ({
               {(bookmarked || foreign) && (
                 <StartQuizIcon
                   id={set._id}
+                  className="shrink-0 text-nowrap"
+                  completed={completed}
+                  setCompleted={setCompleted}
+                />
+              )}
+              {/*  ELSE */}
+              {(!foreign && !bookmarked) && (
+                <StartQuizIcon
+                  id={set._id}
+                  variant={"bookmark"}
                   className="shrink-0 text-nowrap"
                   completed={completed}
                   setCompleted={setCompleted}

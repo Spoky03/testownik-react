@@ -12,6 +12,9 @@ import { Question, Answer } from "@/types";
 import { AppDispatch } from "@/store";
 import { useMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { IoMdImage as UploadImageIcon } from "react-icons/io";
+import { Modal } from "@/components/shared/Modal";
+import { DropImage } from "./DropImage";
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
 export const NewQuestionForm = ({
@@ -24,6 +27,7 @@ export const NewQuestionForm = ({
   questionToEdit?: Question;
 }) => {
   const { toast } = useToast();
+  const [openImageModal, setOpenImageModal] = useState(false);
   const match = useMatch("/profile/sets/:id");
   const dispatch = useDispatch<AppDispatch>();
   const [question, setQuestion] = useState<string>("");
@@ -103,41 +107,63 @@ export const NewQuestionForm = ({
   return (
     <div className="bg-ternary rounded-md px-2 py-1 flex justify-between flex-col mb-3">
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-between">
+        <div className="flex flex-col">
           <div className="grid w-full gap-1.5 p-2">
             <Label htmlFor="question">Create new question</Label>
             <Textarea
-              className=""
+              className="min-h-24"
               placeholder="Type your question here."
               id="question"
               onChange={(e) => setQuestion(e.target.value)}
               value={question}
             />
           </div>
-          <div className="place-self-end pb-2">
-            <Button
-              className="place-self-center"
-              type="submit"
-              variant="outline"
-              size={"icon"}
-            >
-              {editMode && setEditMode ? (
-                <CheckIcon size={24} className="mx-3" />
-              ) : (
-                <AddIcon size={24} className="mx-2" />
-              )}
-            </Button>
-            {editMode && setEditMode && (
+          <div className="flex justify-between  p-2">
+            <div className="w-full flex flex-row gap-2">
               <Button
-                className=" place-self-center"
-                type="button"
-                variant={"outline"}
+                className="place-self-center"
+                type="submit"
+                variant="outline"
                 size={"icon"}
-                onClick={() => setEditMode(false)}
               >
-                {<CloseIcon size={24} />}
+                {editMode && setEditMode ? (
+                  <CheckIcon size={22} />
+                ) : (
+                  <AddIcon size={24} className="mx-2" />
+                )}
               </Button>
-            )}
+              {editMode && setEditMode && (
+                <Button
+                  className=" place-self-center"
+                  type="button"
+                  variant={"outline"}
+                  size={"icon"}
+                  onClick={() => setEditMode(false)}
+                >
+                  {<CloseIcon size={24} />}
+                </Button>
+              )}
+            </div>
+            <div className="w-full flex flex-row-reverse gap-2 place-self-end">
+              <Button
+                className="place-self-center"
+                type="submit"
+                variant="outline"
+                size={"icon"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenImageModal(true);
+                }}
+              >
+                <UploadImageIcon size={24} />
+              </Button>
+              <Label
+                htmlFor="image"
+                className="place-self-center opacity-80 font-normal"
+              >
+                No image selected
+              </Label>
+            </div>
           </div>
         </div>
         <hr />
@@ -183,6 +209,13 @@ export const NewQuestionForm = ({
             })}
         </div>
       </form>
+      <Modal
+        open={openImageModal}
+        setOpen={setOpenImageModal}
+        content={
+          <DropImage question={questionToEdit as Question} />
+        }
+      />
     </div>
   );
 };

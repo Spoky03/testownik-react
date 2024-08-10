@@ -19,6 +19,7 @@ I plan to deploy it soon.
 - [x] BUG: fetching likes
 - [x] Remove useless and stupid modal from browser
 - [x] "Finished" band on finished sets insead of disabled start button
+- [ ] adding images to questions
 - [ ] Make addding tags code more clean
 - [ ] fill in mocks
 - [x] Change other form to zod and shadcn
@@ -32,6 +33,9 @@ I plan to deploy it soon.
 - [x] save goal to backend
 - [x] save finished counter sets to backend
 - [x] dispatch saving finished set after finishing it 
+- [ ] add uploading images with S3
+- [ ] reset weekly progress every 7 days (make it collect progress from last 7 days)
+- [ ] do same for daily goal
 - [ ] add contact form
 - [ ] ~~add cron job for this at tasks~~
 - [ ] ~~server side frontend build~~
