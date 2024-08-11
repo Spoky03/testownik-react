@@ -20,6 +20,7 @@ export interface Question {
   answers: Answer[];
   repeats?: number;
   image?: QuestionImage;
+  explanation?: string;
 }
 export interface CreatedAnswer {
   id: number;

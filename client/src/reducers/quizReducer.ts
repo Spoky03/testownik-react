@@ -239,10 +239,10 @@ export const updateQuizPreferences = (
     dispatch(updatePreferences(preferences));
   };
 };
-export const requestExplanation = (prompt: string, questionId: string) => {
+export const requestExplanation = (questionId: string) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const res = await userService.getQuestionExplanation(`Provide short answer and short explanation for following question: ${prompt}`, questionId);
+      const res = await userService.getQuestionExplanation(questionId);
       dispatch(setExplanation({ visible: true, content: res }));
     } catch (e) {
       dispatch(

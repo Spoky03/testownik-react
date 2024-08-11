@@ -291,8 +291,8 @@ const saveFinishedSet = async (setId: string) => {
   });
   return response.data;
 }
-const getQuestionExplanation = async (prompt: string, questionId: string) => {
-  const response = await axios.post(`${baseUrl}/openai/ask`, { messages: [{ role: "user", content: prompt }] , questionId }, {
+const getQuestionExplanation = async (questionId: string) => {
+  const response = await axios.post(`${baseUrl}/openai/ask`, { questionId }, {
     headers: {
       Authorization: token,
     },

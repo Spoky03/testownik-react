@@ -84,7 +84,7 @@ export const Sidebar = () => {
         setOpen={setOpenSettings}
         content={<Settings />}
       />
-      <aside className="bg-primary min-w-36 flex flex-col place-items-center h-full gap-5 text-center">
+      <aside className="bg-primary min-w-32 flex flex-col place-items-center h-full gap-2 sm:gap-5 text-center">
         <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">
@@ -147,7 +147,7 @@ export const Sidebar = () => {
           </p>
           <p className="flex flex-col text-sm">
             {constants.LABELS.SIDEBAR.TOTAL_TIME}
-            <span className="text-3xl text-success">{formattedTime}</span>
+            <span className="text-2xl sm:text-3xl text-success">{formattedTime}</span>
           </p>
           <button
             onClick={handleSubmit}

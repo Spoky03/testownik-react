@@ -73,6 +73,7 @@ export class UsersService {
               _id: new Types.ObjectId(question._id).toHexString(),
               question: question.question,
               answers: question.answers,
+              explanation: question.explanation,
             };
           }),
           metaData: questionSet.metaData,

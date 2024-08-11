@@ -12,14 +12,22 @@ export class OpenaiService {
     private readonly questionsService: QuestionsService,
   ) {}
 
-  async createChatCompletion(
-    messages: ChatCompletionMessageDto[],
-    questionId: string,
-  ) {
-    const explanation = await this.questionsService.getExplanation(questionId);
-    console.log('explanation', explanation);
-    if (!explanation || explanation === '') {
+  async createChatCompletion(questionId: string) {
+    const question = await this.questionsService.getOne(questionId);
+    if (!question) {
+      throw new HttpException('Question not found', 404);
+    }
+    if (!question.explanation || question.explanation === '') {
       try {
+        const messages: ChatCompletionMessageDto[] = [
+          {
+            role: 'system',
+            //TODO: Subject to change
+            content: `Provide short answer and short explanation for following question: ${question.question} with possible answers ${question.answers.map(
+              (answer) => answer.answer,
+            )}`,
+          },
+        ];
         const aiResponse = await this.openai.chat.completions.create({
           messages: messages as ChatCompletionMessageParam[],
           model: 'gpt-4o-mini',
@@ -30,44 +38,13 @@ export class OpenaiService {
           aiResponse.choices[0].message.content,
         );
       } catch (error) {
-        console.error(error);
         throw new HttpException(
           'Failed to get response from OpenAi',
           error.status,
         );
       }
     } else {
-      return explanation;
+      return question.explanation;
     }
-    // return this.openai.chat.completions.create({
-    //   messages: messages as ChatCompletionMessageParam[],
-    //   model: 'gpt-4o-mini',
-    // });
-    // const jsonResponse = {
-    //   id: 'chatcmpl-9v0igLCvupE8da0MjbKPuHvsamv6P',
-    //   object: 'chat.completion',
-    //   created: 1723374490,
-    //   model: 'gpt-4o-mini-2024-07-18',
-    //   choices: [
-    //     {
-    //       index: 0,
-    //       message: {
-    //         role: 'assistant',
-    //         content:
-    //           'There isn\'t a definitive "best" programming language; the choice depends on various factors such as the specific application, project requirements, and personal or team preferences. Here are some popular programming languages and their typical use cases:\n\n1. **Python**: Known for its simplicity and readability, Python is widely used in web development, data analysis, artificial intelligence, scientific computing, and automation.\n\n2. **JavaScript**: The go-to language for web development, JavaScript is essential for creating interactive web pages and is also used for server-side development with Node.js.\n\n3. **Java**: A versatile, platform-independent language commonly used for enterprise-level applications, mobile app development (especially Android), and large systems.\n\n4. **C#**: Primarily used for developing Windows applications and games using the Unity game engine, C# is part of the .NET framework and is suitable for various application types.\n\n5. **C++**: Known for its performance and efficiency, C++ is often used in system/software development, game development, and applications requiring high performance.\n\n6. **Go (Golang)**: Developed by Google, Go is known for its simplicity and performance, making it popular for cloud services, distributed systems, and microservices.\n\n7. **Ruby**: Best known for its use in web development with the Ruby on Rails framework, Ruby emphasizes simplicity and productivity.\n\n8. **Swift**: The primary programming language for iOS and macOS app development, Swift is designed to be easy to use and efficient.\n\n9. **R**: An excellent choice for statistical analysis and data visualization, R is popular among data scientists.\n\nUltimately, the "best" programming language for you will depend on your goals, the project you\'re working on, and the environment in which you\'ll be developing.',
-    //         refusal: null,
-    //       },
-    //       logprobs: null,
-    //       finish_reason: 'stop',
-    //     },
-    //   ],
-    //   usage: {
-    //     prompt_tokens: 15,
-    //     completion_tokens: 361,
-    //     total_tokens: 376,
-    //   },
-    //   system_fingerprint: 'fp_48196bc67a',
-    // };
-    // return jsonResponse;
   }
 }

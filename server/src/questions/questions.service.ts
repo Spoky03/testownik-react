@@ -63,6 +63,9 @@ export class QuestionsService {
       .exec();
     return this.questionModel.findByIdAndDelete(id).exec();
   }
+  async getOne(id: string): Promise<Question> {
+    return this.questionModel.findById(id).exec();
+  }
   async updateOne(id: string, body: CreateQuestionDto): Promise<Question> {
     //TODO check if user is author
     const updatedQuestion = await this.questionModel
@@ -95,10 +98,6 @@ export class QuestionsService {
       deleted: deleted.deletedCount,
       found: questionsNotInAnySet.length,
     };
-  }
-  async getExplanation(id: string): Promise<string> {
-    const question = await this.questionModel.findById(id);
-    return question.explanation;
   }
   async setExplanation(id: string, explanation: string): Promise<string> {
     const question = await this.questionModel.findById(id);

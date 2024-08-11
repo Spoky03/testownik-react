@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { IoMdImage as UploadImageIcon } from "react-icons/io";
 import { Modal } from "@/components/shared/Modal";
 import { DropImage } from "./DropImage";
+import Markdown from "react-markdown";
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
 export const NewQuestionForm = ({
@@ -31,6 +32,7 @@ export const NewQuestionForm = ({
   const match = useMatch("/profile/sets/:id");
   const dispatch = useDispatch<AppDispatch>();
   const [question, setQuestion] = useState<string>("");
+  const [showExplanation, setShowExplanation] = useState(false);
   const [answers, setAnswers] = useState<CreatedAnswer[]>([
     { answer: "", correct: false, id: 0 },
   ]);
@@ -209,12 +211,27 @@ export const NewQuestionForm = ({
             })}
         </div>
       </form>
+      {questionToEdit?.explanation ? (
+        <Button
+          onClick={() => setShowExplanation(!showExplanation)}
+          variant={"ghost"}
+        >
+          {showExplanation ? "Hide explanation" : "Show explanation"}
+        </Button>
+      ) : (
+        <Button variant={"ghost"} disabled>
+          {"No explanation availiable"}
+        </Button>
+      )}
+      <div className="text-sm px-4">
+        <Markdown>
+          {showExplanation ? questionToEdit?.explanation : ""}
+        </Markdown>
+      </div>
       <Modal
         open={openImageModal}
         setOpen={setOpenImageModal}
-        content={
-          <DropImage question={questionToEdit as Question} />
-        }
+        content={<DropImage question={questionToEdit as Question} />}
       />
     </div>
   );
