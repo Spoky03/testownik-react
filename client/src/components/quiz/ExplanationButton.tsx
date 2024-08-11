@@ -16,7 +16,7 @@ export const ExplanationButton = ({
   const handleExplanation = () => {
     if (state === "waiting") return;
     if (!active) return;
-    dispatch(requestExplanation(active.question));
+    dispatch(requestExplanation(active.question, active._id));
     //scroll to bottom
     const explanation = document.getElementById("explanation");
     explanation?.scrollIntoView({ behavior: "smooth" });

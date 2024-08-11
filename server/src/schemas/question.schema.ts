@@ -17,4 +17,9 @@ export const QuestionSchema = new mongoose.Schema({
       },
     },
   },
+  explanation: {
+    type: String,
+    required: true,
+    default: '',
+  },
 });

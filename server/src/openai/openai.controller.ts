@@ -8,6 +8,9 @@ export class OpenaiController {
 
   @Post('ask')
   async createChatCompletion(@Body() body: CreateChatCompletionRequest) {
-    return this.openaiService.createChatCompletion(body.messages);
+    return this.openaiService.createChatCompletion(
+      body.messages,
+      body.questionId,
+    );
   }
 }

@@ -96,4 +96,14 @@ export class QuestionsService {
       found: questionsNotInAnySet.length,
     };
   }
+  async getExplanation(id: string): Promise<string> {
+    const question = await this.questionModel.findById(id);
+    return question.explanation;
+  }
+  async setExplanation(id: string, explanation: string): Promise<string> {
+    const question = await this.questionModel.findById(id);
+    question.explanation = explanation;
+    await question.save();
+    return explanation;
+  }
 }

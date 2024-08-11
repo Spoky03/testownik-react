@@ -6,6 +6,9 @@ export class CreateChatCompletionRequest {
   @ValidateNested({ each: true })
   @Type(() => ChatCompletionMessageDto)
   messages: ChatCompletionMessageDto[];
+
+  @IsString()
+  questionId: string;
 }
 
 export class ChatCompletionMessageDto {
