@@ -5,7 +5,6 @@ import Sidebar from "./sidebar";
 import { useMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import constants from "@/constants";
 import {
   initializeQuiz,
   resetQuiz,
@@ -16,6 +15,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Separator } from "../ui/separator";
+import { Explanation } from "./Explanation";
 
 const QuizQuestion = () => {
   const { selected, active: question } = useSelector(
@@ -42,7 +43,7 @@ const QuizQuestion = () => {
         ))}
       </ul>
       <div className="rounded-full p-2 px-4 text-sm absolute bottom-5 shadow-md bg-primary">
-      {constants.LABELS.SIDEBAR.TOTAL_ANSWERS}{" "}
+        {"Total Answers"}
         <span className="text-success">{question.repeats}</span>
       </div>
     </div>
@@ -68,15 +69,22 @@ const Quiz = () => {
     dispatch(setQuizSetId(activeSet._id));
   }, [activeSet, dispatch, initReps, progress]);
   return (
+    <>
       <ResizablePanelGroup direction="horizontal" className="-pb-10">
         <ResizablePanel className="min-w-56 h-screen">
           <QuizQuestion />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={28} className="min-w-32 sm:min-w-40 md:min-w-44">
+        <ResizablePanel
+          defaultSize={28}
+          className="min-w-32 sm:min-w-40 md:min-w-44"
+        >
           <Sidebar />
         </ResizablePanel>
       </ResizablePanelGroup>
+      <Separator />
+      <Explanation/>
+    </>
   );
 };
 export default Quiz;

@@ -291,6 +291,14 @@ const saveFinishedSet = async (setId: string) => {
   });
   return response.data;
 }
+const getQuestionExplanation = async (prompt: string) => {
+  const response = await axios.post(`${baseUrl}/openai/ask`, { messages: [{ role: "user", content: prompt }] }, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+}
 interface UserData {
   username?: string;
   email?: string;
@@ -326,4 +334,5 @@ export default {
   getWeeklyTimeGoal,
   getFinishedSets,
   saveFinishedSet,
+  getQuestionExplanation,
 };

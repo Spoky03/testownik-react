@@ -20,7 +20,6 @@ export interface Question {
   answers: Answer[];
   repeats?: number;
   image?: QuestionImage;
-
 }
 export interface CreatedAnswer {
   id: number;
@@ -40,7 +39,7 @@ export interface Sidebar {
 }
 export interface QuizState {
   questions: Question[];
-  state: 'waiting' | 'feedback';
+  state: "waiting" | "feedback";
   active: Question | null;
   selected: number[];
   finished: boolean;
@@ -51,12 +50,16 @@ export interface QuizState {
     maxRepetitions: number;
     additionalRepetitions: number;
   };
+  explanation: {
+    visible: boolean;
+    content: string;
+  };
 }
 export interface BrowserState {
   sets: QuestionSet[];
   searchValue: string;
   sort: {
-    value: 'likes' | 'date' | 'name' | null;
+    value: "likes" | "date" | "name" | null;
     ascending: boolean;
   };
 }
@@ -89,10 +92,12 @@ export interface QuestionSet {
   description: string;
   _id: string;
   name: string;
-  author: {
-    username: string;
-    _id: string;
-  } | string;
+  author:
+    | {
+        username: string;
+        _id: string;
+      }
+    | string;
   questions: Question[];
   likes: number;
   liked: boolean;
@@ -136,15 +141,15 @@ export interface UserState {
     agreements: boolean;
     newsletter: boolean;
   };
-  }
+}
 
-  export interface FetchedUser {
-    user: User;
-    progress: UserState["progress"];
-    preferences: UserState["preferences"];
-    bookmarks: UserState["bookmarks"];
-    foreign: QuestionSet[];
-    settings: UserState["settings"];
-    questionSets: QuestionSet[];
-    email: string;
-  }
+export interface FetchedUser {
+  user: User;
+  progress: UserState["progress"];
+  preferences: UserState["preferences"];
+  bookmarks: UserState["bookmarks"];
+  foreign: QuestionSet[];
+  settings: UserState["settings"];
+  questionSets: QuestionSet[];
+  email: string;
+}
