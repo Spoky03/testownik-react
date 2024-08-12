@@ -9,9 +9,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { RootState } from "@/types";
 import Markdown from "react-markdown";
+import { ExplanationButton } from "./ExplanationButton";
 
 export const Explanation = () => {
-  const { explanation, active } = useSelector((state: RootState) => state.quiz);
+  const { explanation, active, state  } = useSelector((state: RootState) => state.quiz);
   return (
     <section className="mx-auto max-w-4xl w-full py-10 px-2" id="explanation">
       <Card className="p-5">
@@ -19,18 +20,22 @@ export const Explanation = () => {
           <CardTitle>{active?.question}</CardTitle>
         </CardHeader>
         <CardContent>
-          {explanation.visible ? (
-            <></>
-          ) : (
-            <><p className="font-medium text-lg mb-2">Answer: </p>
-            <Skeleton className="w-3/4 h-[16px] rounded-md mb-2" /></>
-          )}
-          <p className="font-medium text-lg mb-2">Explanation: </p>
-          {explanation.visible ? (
-            <Markdown children={explanation.content} />
-          ) : (
-            // <p dangerouslySetInnerHTML={{__html: explanation.content}}></p>
+          {!explanation.visible && (
             <>
+            <ExplanationButton variant="link" state={state} active={active} />
+            </>
+          )}
+          {explanation.visible && explanation.content.length > 0 && (
+            <>
+              {/* <p className="font-medium text-lg mb-2">Explanation: </p> */}
+              <Markdown children={explanation.content} />
+            </>
+          )}
+          {explanation.visible && explanation.content.length === 0 && (
+            <>
+              <p className="font-medium text-lg mb-2">Answer: </p>
+              <Skeleton className="w-3/4 h-[16px] rounded-md mb-2" />
+              <p className="font-medium text-lg mb-2">Explanation: </p>
               <Skeleton className="w-3/4 h-[16px] rounded-md mb-2" />
               <Skeleton className="w-full h-[48px] rounded-md" />
             </>

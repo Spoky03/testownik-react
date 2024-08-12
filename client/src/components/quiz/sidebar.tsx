@@ -162,7 +162,7 @@ export const Sidebar = () => {
             </div>
           </button>
         </div>
-        <ExplanationButton state={state} active={active} />
+        <ExplanationButton state={state} active={active} variant="button" />
         <div className="flex flex-row justify-evenly h-full gap-5">
           <button onClick={handleSave}>
             <SaveIcon size={24} />

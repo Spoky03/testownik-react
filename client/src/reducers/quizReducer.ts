@@ -155,6 +155,9 @@ const quizSlice = createSlice({
     ) => {
       state.explanation = action.payload;
     },
+    setExplanationVisible: (state, action: PayloadAction<boolean>) => {
+      state.explanation.visible = action.payload;
+    },
   },
 });
 
@@ -171,6 +174,7 @@ export const {
   updateSidebar,
   setSidebar,
   setExplanation,
+  setExplanationVisible,
 } = quizSlice.actions;
 
 export const initializeQuiz = (
@@ -242,6 +246,7 @@ export const updateQuizPreferences = (
 export const requestExplanation = (questionId: string) => {
   return async (dispatch: AppDispatch) => {
     try {
+      dispatch(setExplanationVisible(true));
       const res = await userService.getQuestionExplanation(questionId);
       dispatch(setExplanation({ visible: true, content: res }));
     } catch (e) {

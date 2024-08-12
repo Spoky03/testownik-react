@@ -4,7 +4,13 @@ import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { IoMdBook } from "react-icons/io";
 import { MdOutlineMoneyOff } from "react-icons/md";
-function InnerContent({ title, content, links, annotation, exclamated }: ContentProps) {
+function InnerContent({
+  title,
+  content,
+  links,
+  annotation,
+  exclamated,
+}: ContentProps) {
   const randomKeyUsedToForceRerender = Math.random();
   return (
     <div
@@ -30,8 +36,8 @@ function InnerContent({ title, content, links, annotation, exclamated }: Content
               }}
               className="inline-flex items-center gap-2"
             >
-            <FaCheck className="text-success" />
-            {item}
+              <FaCheck className="text-success" />
+              {item}
             </motion.div>
           </li>
         ))}
@@ -62,9 +68,7 @@ function ButtonIcon({ title, icon, active, setActive, id }: ButtonIcon) {
       onClick={() => setActive(id)}
     >
       <span className="">
-        {typeof icon === "function" ? 
-        icon({size: 34 })
-         : icon}
+        {typeof icon === "function" ? icon({ size: 34 }) : icon}
       </span>
       <span className="font-medium text-sm">{title}</span>
     </button>
@@ -122,8 +126,9 @@ export const InfoPicker = ({ id }: { id?: string }) => {
 const Main = {
   short: "",
   heading: "Dlaczego warto korzystać z naszej platformy?",
-  description: "Zapoznaj się z naszymi funkcjami, dowiedz się dlaczego warto korzystać z naszej platformy i zapisz się już dziś! A jeśli masz jakieś sugestie, daj nam znać! ",
-}
+  description:
+    "Zapoznaj się z naszymi funkcjami, dowiedz się dlaczego warto korzystać z naszej platformy i zapisz się już dziś! A jeśli masz jakieś sugestie, daj nam znać! ",
+};
 const Content = [
   {
     id: 0,
@@ -145,11 +150,7 @@ const Content = [
     title: "Darmowe",
     content: ["Nie pobieramy opłat", "Bez ukrytych kosztów"],
     exclamated: "*Na zawsze za darmo",
-    annotation: (
-      <span className="font-light">
-        *Prawdopodobnie
-      </span>
-    ),
+    annotation: <span className="font-light">*Prawdopodobnie</span>,
     icon: MdOutlineMoneyOff,
   },
   {
@@ -185,7 +186,8 @@ const Content = [
     exclamated: "Na wielu urządzeniach",
     annotation: (
       <span className="font-light">
-        Wszystko zapisuje się automatycznie, nie musisz się martwić o utratę postępów
+        Wszystko zapisuje się automatycznie, nie musisz się martwić o utratę
+        postępów
       </span>
     ),
     icon: (
@@ -233,9 +235,12 @@ const Content = [
   },
   {
     id: 5,
-    title: "Treści",
-    content: ["Treści tworzone z dbałością przez użytkowników",
-      "Dostęp do wielu testów"],
+    title: "AI",
+    content: [
+      "Wyjaśnienia do pytań wspierane przez sztuczną inteligencję",
+      "Automatyczne generowanie wyjaśnień",
+      "Edytuj i dodawaj własne wyjaśnienia",
+    ],
     annotation: (
       <span className="font-light">
         Dziel się swoją wiedzą z innymi, twórz treści dla innych
@@ -243,18 +248,21 @@ const Content = [
     ),
     icon: (
       <svg
+        version="1.1"
+        id="Layer_1"
         xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth="1.5"
-        stroke="currentColor"
+        viewBox="0 0 320 320"
         className="w-8 h-8"
+        fill="currentColor"
       >
         <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"
-        ></path>
+          id="XMLID_12_"
+          d="M160,0C91.075,0,35,56.075,35,125c0,39.627,18.545,76.425,50,100.005V245v60c0,8.284,6.716,15,15,15h120
+	c8.284,0,15-6.716,15-15v-60v-19.995c31.455-23.58,50-60.378,50-100.005C285,56.075,228.925,0,160,0z M205,290h-90v-30h90V290z
+	 M211.807,204.638c-4.246,2.768-6.807,7.495-6.807,12.564V230h-30v-60h15c8.284,0,15-6.716,15-15s-6.716-15-15-15h-60
+	c-8.284,0-15,6.716-15,15s6.716,15,15,15h15v60h-30v-12.797c0-5.069-2.561-9.796-6.807-12.564C81.147,187.001,65,157.23,65,125
+	c0-52.383,42.617-95,95-95s95,42.617,95,95C255,157.23,238.852,187.001,211.807,204.638z"
+        />
       </svg>
     ),
   },
@@ -306,7 +314,7 @@ interface ContentProps {
   icon: ReactNode | IconType;
 }
 
-type IconProps = Pick<ContentProps, 'id' | 'title' | 'icon'>;
+type IconProps = Pick<ContentProps, "id" | "title" | "icon">;
 
 interface ButtonIcon extends IconProps {
   active: number;
