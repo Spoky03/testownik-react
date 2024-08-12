@@ -38,9 +38,9 @@ const Quiz = () => {
     dispatch(setQuizSetId(activeSet._id));
   }, [activeSet, dispatch, initReps, progress]);
   return (
-    <>
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel className="min-w-56">
+    <div>
+      <ResizablePanelGroup direction="horizontal" >
+        <ResizablePanel className="min-w-60 bg-ternary">
           <QuizQuestion />
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -53,7 +53,7 @@ const Quiz = () => {
       </ResizablePanelGroup>
       <Separator />
       <Explanation/>
-    </>
+    </div>
   );
 };
 export default Quiz;

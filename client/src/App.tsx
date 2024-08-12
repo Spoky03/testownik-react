@@ -39,28 +39,25 @@ const App = () => {
       }
     }
     fetchData();
-  }
-  , [dispatch]);
+  }, [dispatch]);
 
   return (
     <>
-      <main className={`w-full bg-ternary text-text min-h-screen`}>
+      <main className={`w-full bg-ternary text-text min-h-screen h-screen`}>
         <Navbar />
-        <div className="min-h-screen w-full">
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route element={<AuthenticatedRoute />}>
-              <Route path="profile/*" element={<Profile />} />
-              <Route path="admin/*" element={<AdminPanel />} />
-              <Route path="quiz/:id" element={<Quiz />} />
-            </Route>
-            <Route path="browser/*" element={<BrowserContainer />} />
-            <Route path="/*" element={<RouteNotFound />} />
-          </Routes>
-        </div>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route element={<AuthenticatedRoute />}>
+            <Route path="profile/*" element={<Profile />} />
+            <Route path="admin/*" element={<AdminPanel />} />
+            <Route path="quiz/:id" element={<Quiz />} />
+          </Route>
+          <Route path="browser/*" element={<BrowserContainer />} />
+          <Route path="/*" element={<RouteNotFound />} />
+        </Routes>
         <Footer />
       </main>
       <Toaster />

@@ -14,18 +14,17 @@ export const QuizQuestion = () => {
       );
     }
     return (
-      <div className="flex relative flex-col place-items-center sm:mt-10 gap-y-5 grow h-full">
-        <div className="container justify-content-center py-5">
-          <h2 className="text-center font-semibold sm:text-xl text-wrap">
+      <div className="flex relative flex-col place-items-center gap-y-5 grow min-h-full">
+          <h2 className="text-center font-semibold sm:text-xl my-2 sm:my-5 text-wrap max-w-3xl mx-auto">
             {question.question}
           </h2>
-        </div>
-        <ul className="flex gap-5 flex-wrap justify-center container max-w-2xl">
+
+        <ul className="flex gap-5 flex-wrap justify-center items-stretch max-w-4xl mb-20">
           {question.answers.map((answer: AnswerType) => (
             <Answer key={answer.id} answer={answer} selected={selected} />
           ))}
         </ul>
-        <div className="rounded-full py-2 px-4 text-sm absolute bottom-20 shadow-md bg-primary">
+        <div className="rounded-full py-2 px-4 text-sm absolute bottom-2 shadow-md bg-primary">
           {"Total Answers"}
           <span className="text-success">{question.repeats}</span>
         </div>

@@ -43,23 +43,23 @@ export const Answer = ({
         : "bg-error"
       : "opacity-0";
   return (
-    <div className={`place-self-center hover:scale-95 transition-all ${blackTheme ? 'border border-faint' : ''}`}>
+    <div className={`hover:scale-95 transition-all ${blackTheme ? 'border border-faint' : ''}`}>
       {state === "waiting" ? (
         <button
           className={
-            `bg-secondary relative p-5 text-center rounded-sm dark:shadow-sm shadow-lg  transition-all duration-300 ease-in-out w-52 sm:w-72 grow border-2 ` +
+            `h-full bg-secondary relative p-2 sm:p-5 text-center rounded-sm dark:shadow-sm shadow-lg  transition-all duration-300 ease-in-out w-52 sm:w-72 grow border-2 ` +
             color
           }
           onClick={() => handleSelect(answer.id as number)}
         >
-          {answer.answer}
+          <span className="z-10 relative">{answer.answer}</span>
           <span
             className={
-              `transition-opacity scale-105 duration-300 absolute right-0 top-0 h-6 w-6 bg-faint ` +
+              `transition-opacity scale-105 z-0 duration-300 absolute right-0 top-0 h-6 w-6 bg-faint ` +
               tickStyles
             }
           ></span>
-          <span className="absolute -z-10 right-2 top-2 bg-secondary h-8 w-8 rotate-45"></span>
+          <span className="absolute z-0 right-2 top-2 bg-secondary h-8 w-8 rotate-45"></span>
           <CheckIcon className="absolute z-0 right-0 w-3 h-4 top-0 text-secondary" />
         </button>
       ) : (

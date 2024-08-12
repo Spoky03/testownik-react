@@ -77,14 +77,14 @@ export const Sidebar = () => {
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   return (
-    <>
+    <div>
       <Finished open={openFinished} setOpen={setOpenFinished} />
       <Modal
         open={openSettings}
         setOpen={setOpenSettings}
         content={<Settings />}
       />
-      <aside className="bg-primary min-w-32 flex flex-col place-items-center gap-2 sm:gap-5 text-center h-screen">
+      <aside className="bg-primary min-w-32 flex flex-col place-items-center gap-2 sm:gap-5 text-center h-[calc(100vh-74px)] max-h-full">
         <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">
@@ -172,7 +172,7 @@ export const Sidebar = () => {
           </button>
         </div>
       </aside>
-    </>
+    </div>
   );
 };
 
