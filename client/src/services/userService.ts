@@ -96,7 +96,7 @@ const editQuestionSet = async ({
   name,
   description,
   id,
-  metaData
+  metaData,
 }: {
   name?: string;
   description?: string;
@@ -114,7 +114,10 @@ const editQuestionSet = async ({
   );
   return response.data;
 };
-const createQuestions = async (questions: CreatedQuestion[], id: string) : Promise<Question> => {
+const createQuestions = async (
+  questions: CreatedQuestion[],
+  id: string
+): Promise<Question> => {
   //change this too
   // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
   const response = await axios.post<Question>(
@@ -245,13 +248,16 @@ const deleteUser = async () => {
     },
   });
   return response.data;
-}
+};
 const getGlobalStats = async (startDate?: Date, endDate?: Date) => {
   const response = await axios.get(`${baseUrl}/users/globalStats`, {
+    params: {
+      startDate: startDate,
+      endDate: endDate,
+    },
     headers: {
       Authorization: token,
     },
-    data: { startDate, endDate },
   });
   return response.data;
 };
@@ -266,7 +272,7 @@ const saveWeeklyTimeGoal = async (weeklyTimeGoal: number) => {
     }
   );
   return response.data;
-}
+};
 const getWeeklyTimeGoal = async () => {
   const response = await axios.get(`${baseUrl}/users/weeklyTimeGoal`, {
     headers: {
@@ -274,7 +280,7 @@ const getWeeklyTimeGoal = async () => {
     },
   });
   return response.data;
-}
+};
 const getFinishedSets = async () => {
   const response = await axios.get(`${baseUrl}/users/finishedSets`, {
     headers: {
@@ -284,21 +290,29 @@ const getFinishedSets = async () => {
   return response.data;
 };
 const saveFinishedSet = async (setId: string) => {
-  const response = await axios.post(`${baseUrl}/users/finishedSets`, { setId }, {
-    headers: {
-      Authorization: token,
-    },
-  });
+  const response = await axios.post(
+    `${baseUrl}/users/finishedSets`,
+    { setId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
   return response.data;
-}
+};
 const getQuestionExplanation = async (questionId: string) => {
-  const response = await axios.post(`${baseUrl}/openai/ask`, { questionId }, {
-    headers: {
-      Authorization: token,
-    },
-  });
+  const response = await axios.post(
+    `${baseUrl}/openai/ask`,
+    { questionId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
   return response.data;
-}
+};
 interface UserData {
   username?: string;
   email?: string;

@@ -35,9 +35,9 @@ const chartConfig = {
 
 const CalculateRatio = (correct: number, incorrect: number) => {
   return Math.round((correct / (incorrect + correct)) * 100);
-}
+};
 export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
-  const [isBarChart, setIsBarChart] = useState(false);
+  const [isBarChart, setIsBarChart] = useState(chartData.length <= 1);
   const correctSum = chartData.reduce((acc, curr) => acc + curr.correct, 0);
   const incorrectSum = chartData.reduce((acc, curr) => acc + curr.incorrect, 0);
   const ratio = CalculateRatio(correctSum, incorrectSum);
@@ -48,18 +48,28 @@ export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
         <CardTitle className="w-full flex justify-between">
           <span>Twój tydzień</span>
           <div className="flex items-center space-x-2">
-          <Button onClick={() => setIsBarChart(prev => !prev)} size={"icon"} variant={"ghost"}>
-            <Sparkles className={isBarChart ? "fill-amber-500" : ""} />
-          </Button>
-        </div>
-          </CardTitle>
+            <Button
+              onClick={() => setIsBarChart((prev) => !prev)}
+              size={"icon"}
+              variant={"ghost"}
+            >
+              <Sparkles className={isBarChart ? "fill-success" : ""} />
+            </Button>
+          </div>
+        </CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
       <CardContent>
-        {isBarChart ? (
-          <PickBarChart chartData={chartData} />
+        {chartData.length>0 ? (
+          isBarChart ? (
+            <PickBarChart chartData={chartData} />
+          ) : (
+            <PickAreaChart chartData={chartData} />
+          )
         ) : (
-          <PickAreaChart chartData={chartData} />
+          <div className="flex justify-center items-center h-16 opacity-80">
+            Brak danych
+          </div>
         )}
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
@@ -73,7 +83,7 @@ export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
       </CardFooter>
     </Card>
   );
-}
+};
 const PickAreaChart = ({ chartData }: { chartData: ChartData[] }) => {
   return (
     <ChartContainer config={chartConfig}>

@@ -33,7 +33,8 @@ I plan to deploy it soon.
 - [x] save goal to backend
 - [x] save finished counter sets to backend
 - [x] dispatch saving finished set after finishing it 
-- [ ] AI
+- [ ] autosave quiz progres
+- [x] AI
 - [ ] add uploading images with S3
 - [ ] reset weekly progress every 7 days (make it collect progress from last 7 days)
 - [ ] do same for daily goal

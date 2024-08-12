@@ -12,7 +12,7 @@ export const FinishedSetsCard = () => {
         <div>
           <h3 className="text-2xl font-semibold">Finished Sets</h3>
           <p className="text-sm opacity-60">
-            Total number of sets you have finished this week
+            Total number of sets you have finished
             <span>{finishedSetsLenght > 4 ? " 🔥" : finishedSetsLenght > 2 ? " 👍" : " 👀"}</span>
           </p>
         </div>

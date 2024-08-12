@@ -17,6 +17,7 @@ import {
 import { Separator } from "../ui/separator";
 import { Explanation } from "./Explanation";
 import { QuizQuestion } from "./QuizQuestion";
+import { QuestionDestails } from "./QuestionDetails";
 
 const Quiz = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -39,7 +40,7 @@ const Quiz = () => {
   }, [activeSet, dispatch, initReps, progress]);
   return (
     <div>
-      <ResizablePanelGroup direction="horizontal" >
+      <ResizablePanelGroup direction="horizontal">
         <ResizablePanel className="min-w-60 bg-ternary">
           <QuizQuestion />
         </ResizablePanel>
@@ -52,7 +53,13 @@ const Quiz = () => {
         </ResizablePanel>
       </ResizablePanelGroup>
       <Separator />
-      <Explanation/>
+      <section
+        className="max-w-7xl mx-auto flex justify-between flex-col gap-10 md:flex-row w-full py-10 px-2"
+        id="explanation"
+      >
+        <Explanation />
+        <QuestionDestails />
+      </section>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
@@ -83,7 +84,11 @@ export class UsersController {
     return this.usersService.getBookmarkedForeignQuestionSets(req.user.sub);
   }
   @Get('globalStats')
-  async getGlobalStatsByDate(@Request() req, @Body() { startDate, endDate }) {
+  async getGlobalStatsByDate(
+    @Request() req,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ) {
     return this.usersService.getGlobalStats(req.user.sub, startDate, endDate);
   }
   // @Post('globalStats')
