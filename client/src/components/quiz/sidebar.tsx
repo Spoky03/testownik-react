@@ -84,7 +84,7 @@ export const Sidebar = () => {
         setOpen={setOpenSettings}
         content={<Settings />}
       />
-      <aside className="bg-primary min-w-32 flex flex-col place-items-center h-full gap-2 sm:gap-5 text-center">
+      <aside className="bg-primary min-w-32 flex flex-col place-items-center gap-2 sm:gap-5 text-center h-screen">
         <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">

@@ -90,8 +90,7 @@ export const Navbar = () => {
   const match = useMatch("/profile/*");
   const params = match && match.params ? true : false;
   return (
-    <div className=" overflow-x-hidden">
-      <div className="flex justify-center max-h-28 w-screen z-10 mb-1 shadow-md sm:fixed bg-primary ">
+    <div className="top-0 left-0 w-full max-h-28  sticky overflow-x-hidden z-50 flex justify-center bg-primary border-b sm:border-b-0 sm:shadow-md">
         <div className={`flex justify-between w-full p-2 max-w-5xl`}>
           <Link to="/" className="place-self-center text-2xl font-bold ml-5">
             <Logo
@@ -102,7 +101,6 @@ export const Navbar = () => {
           </Link>
           <NavLinks wrapped={params} />
         </div>
-      </div>
     </div>
   );
 };
