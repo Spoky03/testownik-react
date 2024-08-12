@@ -76,6 +76,16 @@ export const Sidebar = () => {
   const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+  //auto save progress every 5 minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("auto save...");
+      handleSave();
+    }, 300000);
+    return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <Finished open={openFinished} setOpen={setOpenFinished} />
