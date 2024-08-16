@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/button";
 import { Separator } from "../../ui/separator";
 import { StartQuizIcon } from "./StartQuizButton";
+import { Card } from "@/components/ui/card";
 export const SingleSet = ({
   set,
   type,
@@ -78,7 +79,7 @@ export const SingleSet = ({
     navigate(`/browser/${set._id}`);
   };
   return (
-    <div
+    <Card
       className={`border border-faint bg-ternary rounded-md px-2 pb-1 flex flex-col justify-between w-full relative  overflow-hidden ${
         type !== SetListTypes.QUIZ && type !== SetListTypes.MODAL
           ? "cursor-pointer hover:outline"
@@ -91,8 +92,7 @@ export const SingleSet = ({
       }
     >
       <div className="flex justify-between w-full h-full py-3 text-left">
-        <div className="flex ml-2 w-full">
-          <div className="w-full space-y-2">
+          <div className="w-full space-y-2 ml-1">
             <div className="flex gap-1 w-full justify-between">
               <div className="flex flex-col">
                 <div className="flex">
@@ -175,7 +175,6 @@ export const SingleSet = ({
               ))}
             </div>
           </div>
-        </div>
       </div>
       <Separator />
       <div className="flex pt-2 pb-1.5 px-1 justify-between">
@@ -198,6 +197,6 @@ export const SingleSet = ({
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 };

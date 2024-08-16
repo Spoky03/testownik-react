@@ -46,7 +46,7 @@ const App = () => {
       <main className={`w-full bg-ternary text-text min-h-screen h-screen`}>
         <Navbar />
         <ScrollToTop />
-        <div className="min-h-[calc(100vh-74px)]">
+        <div className="min-h-[calc(100vh-74px)] bg-ternary">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
