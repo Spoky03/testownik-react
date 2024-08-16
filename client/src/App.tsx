@@ -46,6 +46,7 @@ const App = () => {
       <main className={`w-full bg-ternary text-text min-h-screen h-screen`}>
         <Navbar />
         <ScrollToTop />
+        <div className="min-h-[calc(100vh-74px)]">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="browser/*" element={<BrowserContainer />} />
           <Route path="/*" element={<RouteNotFound />} />
         </Routes>
+        </div>
         <Footer />
       </main>
       <Toaster />

@@ -27,6 +27,10 @@ export class CreateQuestionDto {
   @Length(1, 999) // Removed @IsNotEmpty for the same reason as above
   readonly question: string;
 
+  @IsString()
+  @Length(0, 999)
+  readonly explanation: string;
+
   @IsArray()
   @ArrayMinSize(1) // Ensures the array is not empty, so @IsNotEmpty is not needed
   @ValidateNested({ each: true })

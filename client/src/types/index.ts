@@ -30,6 +30,7 @@ export interface CreatedAnswer {
 export interface CreatedQuestion {
   question: string;
   answers: CreatedAnswer[];
+  explanation?: string;
 }
 export interface Sidebar {
   correctAnswers: number;

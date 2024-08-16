@@ -39,5 +39,3 @@ I plan to deploy it soon.
 - [x] reset weekly progress every 7 days (make it collect progress from last 7 days)
 - [ ] do same for daily goal
 - [ ] add contact form
-- [ ] ~~add cron job for this at tasks~~
-- [ ] ~~server side frontend build~~

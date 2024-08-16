@@ -46,6 +46,7 @@ export class QuestionsService {
     if (questionSet.author.toString() !== user._id.toString()) {
       throw new Error('You are not the author of this question set');
     }
+    console.log(appendQuestionsDto.questions);
     // Ensure questions is an array
     const questions = await this.questionModel.create(
       appendQuestionsDto.questions,

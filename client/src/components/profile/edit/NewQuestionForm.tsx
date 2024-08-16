@@ -75,6 +75,7 @@ export const NewQuestionForm = ({
     const createdQuestion = {
       question,
       answers: answers.filter((answer) => answer.answer.trim() !== ""),
+      explanation: "",
     };
     if (match?.params.id) {
       let res;
@@ -121,32 +122,7 @@ export const NewQuestionForm = ({
             />
           </div>
           <div className="flex justify-between  p-2">
-            <div className="w-full flex flex-row gap-2">
-              <Button
-                className="place-self-center"
-                type="submit"
-                variant="outline"
-                size={"icon"}
-              >
-                {editMode && setEditMode ? (
-                  <CheckIcon size={22} />
-                ) : (
-                  <AddIcon size={24} className="mx-2" />
-                )}
-              </Button>
-              {editMode && setEditMode && (
-                <Button
-                  className=" place-self-center"
-                  type="button"
-                  variant={"outline"}
-                  size={"icon"}
-                  onClick={() => setEditMode(false)}
-                >
-                  {<CloseIcon size={24} />}
-                </Button>
-              )}
-            </div>
-            <div className="w-full flex flex-row-reverse gap-2 place-self-end">
+          <div className="w-full flex gap-2">
               <Button
                 className="place-self-center"
                 type="submit"
@@ -165,6 +141,31 @@ export const NewQuestionForm = ({
               >
                 No image selected
               </Label>
+            </div>
+            <div className="w-full flex flex-row gap-2 place-self-end justify-end">
+              <Button
+                className="place-self-center  border-success dark:border-success black:border-success"
+                type="submit"
+                variant="outline"
+                size={"icon"}
+              >
+                {(editMode && setEditMode) ? (
+                  <CheckIcon size={22} />
+                ) : (
+                  <AddIcon size={24} className="mx-2" />
+                )}
+              </Button>
+              {editMode && setEditMode && (
+                <Button
+                  className=" place-self-center"
+                  type="button"
+                  variant={"outline"}
+                  size={"icon"}
+                  onClick={() => setEditMode(false)}
+                >
+                  {<CloseIcon size={24} />}
+                </Button>
+              )}
             </div>
           </div>
         </div>
