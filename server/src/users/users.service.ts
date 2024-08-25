@@ -221,6 +221,7 @@ export class UsersService {
   }
   async saveProgress(progress: Progress, userId: string): Promise<Progress[]> {
     const user = await this.userModel.findById(userId).exec();
+    console.log(progress);
     if (!user) {
       throw new Error('User not found');
     }
@@ -571,16 +572,33 @@ export class UsersService {
     userId: string,
     finishedSet: FinishedSet,
   ): Promise<any> {
-    //check if setId is type of ObjectId
+    // Check if setId is type of ObjectId
     if (!Types.ObjectId.isValid(finishedSet.setId)) {
       throw new HttpException('Invalid set id', HttpStatus.BAD_REQUEST);
     }
+
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+
     user.finishedSets.push({ setId: finishedSet.setId, date: new Date() });
-    await user.save();
-    return user.finishedSets;
+
+    try {
+      const updatedUser = await this.userModel
+        .findOneAndUpdate(
+          { _id: userId, __v: user.__v }, // Match the document by ID and version key
+          { $set: { finishedSets: user.finishedSets } }, // Update the finishedSets array
+          { new: true, runValidators: true, optimisticConcurrency: true }, // Options
+        )
+        .exec();
+
+      return updatedUser.finishedSets;
+    } catch (error) {
+      throw new HttpException(
+        `Failed to update user: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
