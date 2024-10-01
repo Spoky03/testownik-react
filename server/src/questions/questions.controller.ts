@@ -53,6 +53,7 @@ export class QuestionsController {
   async put(
     @Param('id') id: string,
     @Body() body: CreateQuestionDto,
+    @Request() req,
   ): Promise<Question> {
     return this.questionsService.updateOne(id, body, req.user.sub);
   }
