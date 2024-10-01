@@ -54,7 +54,7 @@ export class QuestionsController {
     @Param('id') id: string,
     @Body() body: CreateQuestionDto,
   ): Promise<Question> {
-    return this.questionsService.updateOne(id, body);
+    return this.questionsService.updateOne(id, body, req.user.sub);
   }
   @Put(':id/image')
   @UseInterceptors(FileInterceptor('file'))

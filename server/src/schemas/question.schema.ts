@@ -21,4 +21,8 @@ export const QuestionSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  set: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'QuestionSet',
+  },
 });

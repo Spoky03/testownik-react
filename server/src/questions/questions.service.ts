@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Question, Questions } from 'src/interfaces/questions.interface';
 import {
@@ -56,9 +56,24 @@ export class QuestionsService {
     await questionSet.save();
     return questionsArray;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async deleteOne(id: string, userId: string): Promise<Question> {
-    //TODO check if user is author
+    // TODO this is inefficient
+    const question = await this.questionModel.findById(id);
+    if (!question) {
+      throw new HttpException('Question not found', 404);
+    }
+    const questionSet = await this.questionsSetsModel.findOne({
+      questions: id,
+    });
+    if (!questionSet) {
+      throw new HttpException('Question not found in any set', 404);
+    }
+    if (questionSet.author.toString() !== userId) {
+      throw new HttpException(
+        'You are not the author of this question set',
+        403,
+      );
+    }
     await this.questionsSetsModel
       .updateMany({ questions: id }, { $pull: { questions: id } })
       .exec();
@@ -67,8 +82,28 @@ export class QuestionsService {
   async getOne(id: string): Promise<Question> {
     return this.questionModel.findById(id).exec();
   }
-  async updateOne(id: string, body: CreateQuestionDto): Promise<Question> {
-    //TODO check if user is author
+  async updateOne(
+    id: string,
+    body: CreateQuestionDto,
+    userId: string,
+  ): Promise<Question> {
+    //TODO
+    const question = await this.questionModel.findById(id);
+    if (!question) {
+      throw new HttpException('Question not found', 404);
+    }
+    const questionSet = await this.questionsSetsModel.findOne({
+      questions: id,
+    });
+    if (!questionSet) {
+      throw new HttpException('Question not found in any set', 404);
+    }
+    if (questionSet.author.toString() !== userId) {
+      throw new HttpException(
+        'You are not the author of this question set',
+        403,
+      );
+    }
     const updatedQuestion = await this.questionModel
       .findByIdAndUpdate(id, body, { new: true })
       .exec();

@@ -37,6 +37,5 @@ I plan to deploy it soon.
 - [ ] adding images to questions
 - [ ] add uploading images with S3
 - [x] reset weekly progress every 7 days (make it collect progress from last 7 days)
-- [x] BUG: when finishing set: [Nest] 17952  - 16.08.2024, 21:15:02   ERROR [ExceptionsHandler] No matching document found for id "665edb361421bf20e1d1981f" version 99 modifiedPaths "globalStats, globalStats.7, progress, progress.2"
 - [ ] do same for daily goal
 - [ ] add contact form
