@@ -34,7 +34,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const CalculateRatio = (correct: number, incorrect: number) => {
-  return Math.round((correct / (incorrect + correct)) * 100);
+  return Math.round((correct / (incorrect + correct)) * 100) || 0;
 };
 export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
   const [isBarChart, setIsBarChart] = useState(chartData.length <= 1);
@@ -67,9 +67,13 @@ export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
             <PickAreaChart chartData={chartData} />
           )
         ) : (
-          <div className="flex justify-center items-center h-16 opacity-80">
+          <>
+          <div className="flex justify-center items-center opacity-80">
             Brak danych
+            <span className="ml-2">📊</span>
           </div>
+          <span className="flex justify-center items-center opacity-80 text-sm mb-10">Zacznij naukę, aby zobaczyć swoje postępy</span>
+          </>
         )}
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">

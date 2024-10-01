@@ -9,6 +9,12 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -92,25 +98,48 @@ export const TimeGoal = () => {
       <div className="flex flex-col md:flex-row gap-4 p-4 place-items-center">
         {weeklyGoal > 0 ? (
           <div className="flex gap-2 w-full">
-            <h3 className="font-semibold basis-fit place-self-center text-nowrap">Weekly Goal</h3>
-            <div
-              className={`basis-full my-auto h-4 bg-faint rounded-full relative overflow-hidden`}
-            >
-              <div
-                className="bg-success h-full rounded-l-full rounded-r-full transition-all"
-                style={{
-                  width: `${
-                    (Math.min(currentGoalTime, weeklyGoal) / weeklyGoal) * 100
-                  }%`,
-                }}
-              ></div>
-              <p className="top-0 left-2 place-content-center h-full absolute text-xs font-semibold">
-                {Math.round(currentGoalTime / 60)} minutes
-              </p>
-              <p className="top-0 right-2 place-content-center h-full absolute text-xs font-semibold">
-                {Math.round((weeklyGoal - currentGoalTime) / 60)} minutes
-              </p>
-            </div>
+            <h3 className="font-semibold basis-fit place-self-center text-nowrap">
+              Weekly Goal
+            </h3>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className={`basis-full my-auto h-4 bg-faint rounded-full relative overflow-hidden`}
+                  >
+                    <div
+                      className="bg-success h-full rounded-l-full rounded-r-full transition-all"
+                      style={{
+                        width: `${
+                          (Math.min(currentGoalTime, weeklyGoal) / weeklyGoal) *
+                          100
+                        }%`,
+                      }}
+                    ></div>
+                    <p className="top-0 left-2 place-content-center h-full absolute text-xs font-semibold">
+                      {Math.round(currentGoalTime / 60)} minutes
+                    </p>
+                    <p className="top-0 right-2 place-content-center h-full absolute text-xs font-semibold">
+                      {Math.round((weeklyGoal - currentGoalTime) / 60)} minutes
+                    </p>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <div className="flex flex-col">
+                    <span>
+                      {Math.round(currentGoalTime / 60)}/
+                      {Math.round((weeklyGoal - currentGoalTime) / 60)} minutes
+                    </span>
+                    <span>
+                      (
+                      {Math.round((weeklyGoal - currentGoalTime) / 60) -
+                        Math.round(currentGoalTime / 60)}{" "}
+                      minutes left)
+                    </span>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <Button
               onClick={() => setGoalTime(0)}
               variant={"ghost"}
