@@ -38,25 +38,96 @@
       "ITEMS": [
         {
           "title": "W grupie siła",
-          "description":
-            "Chociaż studenci mogą zdobywać wiedzę poprzez własne doświadczenia, najskuteczniej uczą się, zdobywając informacje od innych. Słuchanie, czytanie tego, co piszą jest znacznie skuteczniejsze niż nauka całkowicie samemu. ",
+          "description": "Chociaż studenci mogą zdobywać wiedzę poprzez własne doświadczenia, najskuteczniej uczą się, zdobywając informacje od innych. Słuchanie, czytanie tego, co piszą jest znacznie skuteczniejsze niż nauka całkowicie samemu. ",
           "annotation": "Kirschner et al., 2006"
         },
         {
           "title": "Powtórka to klucz",
-          "description":
-            "Studenci, którzy przed egzaminem czy zaliczeniem rozwiązali wielokrotnie quizy, zdobywali lepsze wyniki niż Ci, którzy nie zrobili tego w ogóle. ",
+          "description": "Studenci, którzy przed egzaminem czy zaliczeniem rozwiązali wielokrotnie quizy, zdobywali lepsze wyniki niż Ci, którzy nie zrobili tego w ogóle. ",
           "annotation": "Applied Cognitive Psychology, Vol. 33, No. 5, 2019."
         },
         {
           "title": "Nie bój się porażki",
-          "description":
-            "Nawet spróbowanie i odniesienie porażki jest lepsze niż niepróbowanie wcale. Sama próba przypomnienia sobie odpowiedzi pomaga utrwalić materiał w pamięci.",
+          "description": "Nawet spróbowanie i odniesienie porażki jest lepsze niż niepróbowanie wcale. Sama próba przypomnienia sobie odpowiedzi pomaga utrwalić materiał w pamięci.",
           "annotation": "Regan Gurung"
         }
       ]
-      }
     },
+    "INFO_PICKER": {
+      "TITLE": "Dlaczego warto korzystać z naszej platformy?",
+      "DESCRIPTION": "Zapoznaj się z naszymi funkcjami, dowiedz się dlaczego warto korzystać z naszej platformy i zapisz się już dziś! A jeśli masz jakieś sugestie, daj nam znać!",
+      "ITEMS": [
+        {
+          "title": "Wiedza",
+          "annotation": "Nauka nigdy nie była tak prosta, zapisz się już dziś i zacznij.",
+          "content": [
+            "Potężne narzędzie do nauki",
+            "Dostęp do wielu testów",
+            "Usystematyzowane materiały"
+          ]
+        },
+        {
+          "title": "Darmowe",
+          "annotation": "*Prawdopodobnie",
+          "content": [
+            "Nie pobieramy opłat",
+            "Bez ukrytych kosztów",
+            "*Na zawsze za darmo"
+          ]
+        },
+        {
+          "title": "Profil",
+          "annotation": "Nie musisz się martwić o, że zapomnisz o nauce!",
+          "content": ["Śledź swoje postępy", "Ustanawiaj cele"]
+        },
+        {
+          "title": "Zapisuj",
+          "annotation": "Wszystko zapisuje się automatycznie, nie musisz się martwić o utratę postępów",
+          "content": [
+            "Zapisuj swoje postępy",
+            "Śledź swoje wyniki",
+            "Na wielu urządzeniach"
+          ]
+        },
+        {
+          "title": "Wyszukuj",
+          "annotation": "Twórz społeczność, dziel się wiedzą z innymi",
+          "content": [
+            "Wyszukuj bazy tworzone przez innych",
+            "Udostępniaj swoje"
+          ]
+        },
+        {
+          "title": "AI",
+          "annotation": "Dziel się swoją wiedzą z innymi, twórz treści dla innych",
+          "content": [
+            "Wyjaśnienia do pytań wspierane przez sztuczną inteligencję",
+            "Automatyczne generowanie wyjaśnień",
+            "Edytuj i dodawaj własne wyjaśnienia"
+          ]
+        },
+        {
+          "title": "Więcej",
+          "annotation": "Jesteśmy otwarci na wszelkie propozycje, skontaktuj się z nami",
+          "content": [
+            "Ciągły rozwój",
+            "Nowe funkcje wkrótce",
+            "Jeśli masz pomysł albo sugestie, daj znać ⇩"
+          ],
+          "links": [
+            {
+              "name": "Email",
+              "url": "mailto:PLACEHOLDER@gmail.com"
+            },
+            {
+              "name": "Formularz kontaktowy",
+              "url": "https://www.google.com/"
+            }
+          ]
+        }
+      ]
+    }
+  },
   "BROWSER": {
     "TITLE": "Przeglądarka",
     "AUTHOR": "autorstwa",

@@ -37,5 +37,5 @@ I plan to deploy it soon.
 - [ ] adding images to questions
 - [ ] add uploading images with S3
 - [x] reset weekly progress every 7 days (make it collect progress from last 7 days)
-- [ ] do same for daily goal
+- [x] do same for daily goal
 - [ ] add contact form

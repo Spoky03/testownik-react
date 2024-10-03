@@ -52,6 +52,77 @@
           "annotation": "Regan Gurung"
         }
       ]
+    },
+    "INFO_PICKER": {
+      "TITLE": "Why is it worth using our platform?",
+      "DESCRIPTION": "Get to know our features, find out why it's worth using our platform, and sign up today! And if you have any suggestions, let us know!",
+      "ITEMS": [
+        {
+          "title": "Knowledge",
+          "annotation": "Learning has never been so easy, sign up today and start.",
+          "content": [
+            "Powerful learning tool",
+            "Access to many tests",
+            "Systematized materials"
+          ]
+        },
+        {
+          "title": "Free",
+          "annotation": "*Probably",
+          "content": [
+            "We do not charge fees",
+            "No hidden costs",
+            "*Forever free"
+          ]
+        },
+        {
+          "title": "Profile",
+          "annotation": "You don't have to worry about forgetting to study!",
+          "content": ["Track your progress", "Set goals"]
+        },
+        {
+          "title": "Save",
+          "annotation": "Everything is saved automatically, you don't have to worry about losing progress",
+          "content": [
+            "Save your progress",
+            "Track your results",
+            "On multiple devices"
+          ]
+        },
+        {
+          "title": "Search",
+          "annotation": "Create a community, share knowledge with others",
+          "content": ["Search databases created by others", "Share your own"]
+        },
+        {
+          "title": "AI",
+          "annotation": "Share your knowledge with others, create content for others",
+          "content": [
+            "AI-supported question explanations",
+            "Automatic generation of explanations",
+            "Edit and add your own explanations"
+          ]
+        },
+        {
+          "title": "More",
+          "annotation": "We are open to any suggestions, contact us",
+          "content": [
+            "Continuous development",
+            "New features coming soon",
+            "If you have an idea or suggestion, let us know ⇩"
+          ],
+          "links": [
+            {
+              "name": "Email",
+              "url": "mailto:PLACEHOLDER@gmail.com"
+            },
+            {
+              "name": "Contact Form",
+              "url": "https://www.google.com/"
+            }
+          ]
+        }
+      ]
     }
   },
   "BROWSER": {
