@@ -16,12 +16,13 @@ import { Modal } from "@/components/shared/Modal";
 import { Settings } from "./Settings";
 import { useNavigate } from "react-router-dom";
 import { Finished } from "./Finished";
-import constants from "@/constants";
 import { useToast } from "../ui/use-toast";
 import userService from "@/services/userService";
 import { ExplanationButton } from "./ExplanationButton";
+import { useTranslation } from "react-i18next";
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation("translation", { keyPrefix: "QUIZ.SIDEBAR" });
   const navigate = useNavigate();
   const { toast } = useToast();
   const [openSettings, setOpenSettings] = useState(false);
@@ -89,7 +90,7 @@ export const Sidebar = () => {
         <div className="flex flex-col justify-evenly h-full p-0 sm:p-3">
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">
-              {constants.LABELS.SIDEBAR.TOTAL_ANSWERS}
+              {t("TOTAL")}
             </h2>
             <div className="w-full flex max-w-64 rounded-full h-1.5 bg-faint">
               <div
@@ -121,7 +122,7 @@ export const Sidebar = () => {
 
           <section className="flex flex-col">
             <h2 className="text-sm mb-2">
-              {constants.LABELS.SIDEBAR.MASTERED_ANSWERS}
+              {t("MASTERED")}
             </h2>
             <div className="w-full max-w-64 rounded-full h-1.5 bg-faint">
               <div
@@ -141,13 +142,13 @@ export const Sidebar = () => {
         </div>
         <div className="flex flex-col justify-evenly h-full">
           <p className="flex flex-col text-sm">
-            {constants.LABELS.SIDEBAR.TOTAL_QUESTIONS}
+            {t("TOTAL_QUESTIONS")}
             <span className="text-3xl text-success">
               {sidebar.totalQuestions}
             </span>
           </p>
           <p className="flex flex-col text-sm">
-            {constants.LABELS.SIDEBAR.TOTAL_TIME}
+            {t("TIME")}
             <span className="text-2xl sm:text-3xl text-success">{formattedTime}</span>
           </p>
           <button

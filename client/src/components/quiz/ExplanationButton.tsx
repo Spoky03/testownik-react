@@ -4,6 +4,7 @@ import { RootState } from "@/types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { requestExplanation } from "@/reducers/quizReducer";
+import { useTranslation } from "react-i18next";
 
 export const ExplanationButton = ({
   state,
@@ -15,6 +16,7 @@ export const ExplanationButton = ({
   variant: "button" | "link";
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation("translation", { keyPrefix: "QUIZ.SIDEBAR" });
   const handleExplanation = () => {
     if (state === "waiting") return;
     if (!active) return;
@@ -34,7 +36,7 @@ export const ExplanationButton = ({
           disabled={state === "waiting"}
           onClick={handleExplanation}
         >
-          <span>Explanation</span>
+          <span>{t("EXPLANATION")}</span>
           <Sparkles
             size={20}
             className="shrink-0 place-self-center hidden sm:block"

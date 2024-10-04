@@ -159,19 +159,30 @@
       "MINUTES_LEFT" : "Pozostało minut",
       "PROGRESS" : "Postęp",
       "MASTERED" : {
-        "TITLE" : "Mastered Questions",
-        "DESCRIPTION" : "Total number of questions you have mastered this week"
+        "TITLE" : "Opanowane pytania",
+        "DESCRIPTION" : "Całkowita liczba pytań, które opanowałeś w tym tygodniu"
       },
       "FINISHED" : {
-        "TITLE" : "Finished Sets",
-        "DESCRIPTION" : "Total number of sets you have finished"
+        "TITLE" : "Ukończone zestawy",
+        "DESCRIPTION" : "Całkowita liczba zestawów, które ukończyłeś w tym tygodniu"
       },
       "CHART" : {
         "TITLE" : "Twój tydzień",
         "DESCRIPTION" : "Twój postęp w tym tygodniu",
         "PERCENT" : "twoich opdpowiedzi jest poprawne",
-        "NO_DATA": "Brak danych"
+        "NO_DATA": "Brak danych",
+        "CORRECT" : "Poprawne",
+        "INCORRECT" : "Niepoprawne"
       }
+    }
+  },
+  "QUIZ" : {
+    "SIDEBAR": {
+      "TOTAL": "Odpowiedzi",
+      "MASTERED" : "Opanowane pytania",
+      "TOTAL_QUESTIONS" : "Wszystkie pytania",
+      "TIME" : "Łączny czas",
+      "EXPLANATION" : "Wyjaśnienie"
     }
   },
   "FOOTER": {
