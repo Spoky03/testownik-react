@@ -151,6 +151,27 @@
       "AGREEMENTS": "Zgody",
       "BROWSER": "Przeglądarka",
       "LOGOUT": "Wyloguj"
+    },
+    "PROFILE" : {
+      "WEEKLY" : "Tygodniowy Cel",
+      "GOAL_TIME": "Twój cel",
+      "MINUTES" : " Minuty",
+      "MINUTES_LEFT" : "Pozostało minut",
+      "PROGRESS" : "Postęp",
+      "MASTERED" : {
+        "TITLE" : "Mastered Questions",
+        "DESCRIPTION" : "Total number of questions you have mastered this week"
+      },
+      "FINISHED" : {
+        "TITLE" : "Finished Sets",
+        "DESCRIPTION" : "Total number of sets you have finished"
+      },
+      "CHART" : {
+        "TITLE" : "Twój tydzień",
+        "DESCRIPTION" : "Twój postęp w tym tygodniu",
+        "PERCENT" : "twoich opdpowiedzi jest poprawne",
+        "NO_DATA": "Brak danych"
+      }
     }
   },
   "FOOTER": {

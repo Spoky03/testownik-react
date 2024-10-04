@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/types";
 import { setWeeklyGoal } from "@/reducers/statsReducer";
 import { AppDispatch } from "@/store";
+import { useTranslation } from "react-i18next";
 const FormSchema = z.object({
   goalTime: z.coerce
     .number()
@@ -36,6 +37,7 @@ export const SetTimeGoal = ({
   goalTime: number;
   setGoalTime: (time: number) => void;
 }) => {
+  const { t } = useTranslation("translation", { keyPrefix: "DASHBOARD.PROFILE" });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -60,7 +62,7 @@ export const SetTimeGoal = ({
                 htmlFor="goalTime"
                 className="w-full absolute text-xs  duration-300 transform -translate-y-2 scale-75 top-2 z-10 origin-[0] bg-secondary px-2 peer-focus:px-2 peer-focus:text-success  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
-                Goal time (minutes)
+                {t("GOAL_TIME")} (min)
               </FormLabel>
               <FormControl>
                 <Input
@@ -90,6 +92,7 @@ export const TimeGoal = () => {
     (state: RootState) => state.stats
   );
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation("translation", { keyPrefix: "DASHBOARD.PROFILE" });
   const setGoalTime = (time: number) => {
     dispatch(setWeeklyGoal(time));
   };
@@ -99,7 +102,7 @@ export const TimeGoal = () => {
         {weeklyGoal > 0 ? (
           <div className="flex gap-2 w-full">
             <h3 className="font-semibold basis-fit place-self-center text-nowrap">
-              Weekly Goal
+              {t("WEEKLY")}:
             </h3>
             <TooltipProvider>
               <Tooltip>
@@ -117,10 +120,10 @@ export const TimeGoal = () => {
                       }}
                     ></div>
                     <p className="top-0 left-2 place-content-center h-full absolute text-xs font-semibold">
-                      {Math.round(currentGoalTime / 60)} minutes
+                      {Math.round(currentGoalTime / 60)} {t("MINUTES")}
                     </p>
                     <p className="top-0 right-2 place-content-center h-full absolute text-xs font-semibold">
-                      {Math.round((weeklyGoal - currentGoalTime) / 60)} minutes
+                      {Math.round((weeklyGoal - currentGoalTime) / 60)} {t("MINUTES")}
                     </p>
                   </div>
                 </TooltipTrigger>
@@ -128,13 +131,13 @@ export const TimeGoal = () => {
                   <div className="flex flex-col">
                     <span>
                       {Math.round(currentGoalTime / 60)}/
-                      {Math.round((weeklyGoal - currentGoalTime) / 60)} minutes
+                      {Math.round((weeklyGoal - currentGoalTime) / 60)} {t("MINUTES")}
                     </span>
                     <span>
                       (
                       {Math.round((weeklyGoal - currentGoalTime) / 60) -
                         Math.round(currentGoalTime / 60)}{" "}
-                      minutes left)
+                      {t("MINUTES_LEFT")})
                     </span>
                   </div>
                 </TooltipContent>

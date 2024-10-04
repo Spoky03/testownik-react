@@ -22,6 +22,7 @@ import {
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChartData } from "@/types";
+import { useTranslation } from "react-i18next";
 const chartConfig = {
   correct: {
     label: "Correct",
@@ -37,6 +38,7 @@ const CalculateRatio = (correct: number, incorrect: number) => {
   return Math.round((correct / (incorrect + correct)) * 100) || 0;
 };
 export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
+  const { t } = useTranslation("translation", { keyPrefix: "DASHBOARD.PROFILE.CHART" });
   const [isBarChart, setIsBarChart] = useState(chartData.length <= 1);
   const correctSum = chartData.reduce((acc, curr) => acc + curr.correct, 0);
   const incorrectSum = chartData.reduce((acc, curr) => acc + curr.incorrect, 0);
@@ -46,7 +48,7 @@ export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
     <Card>
       <CardHeader>
         <CardTitle className="w-full flex justify-between">
-          <span>Twój tydzień</span>
+          <span>{t("TITLE")}</span>
           <div className="flex items-center space-x-2">
             <Button
               onClick={() => setIsBarChart((prev) => !prev)}
@@ -69,7 +71,7 @@ export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
         ) : (
           <>
           <div className="flex justify-center items-center opacity-80">
-            Brak danych
+            {t("NO_DATA")}
             <span className="ml-2">📊</span>
           </div>
           <span className="flex justify-center items-center opacity-80 text-sm mb-10">Zacznij naukę, aby zobaczyć swoje postępy</span>
@@ -78,11 +80,11 @@ export const PickChart = ({ chartData }: { chartData: ChartData[] }) => {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          <span>{ratio}% twoich opdpowiedzi jest poprawne</span>
+          <span>{ratio}% {t("PERCENT")}</span>
           <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Twój postęp w tym tygodniu
+          {t("DESCRIPTION")}
         </div>
       </CardFooter>
     </Card>
