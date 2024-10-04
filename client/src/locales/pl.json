@@ -152,5 +152,30 @@
       "BROWSER": "Przeglądarka",
       "LOGOUT": "Wyloguj"
     }
+  },
+  "FOOTER": {
+    "TITLE" : "© Stefan Grzelec",
+    "DESCRIPTION" : "Aplikacja Testownika w całości stworzona przezemnie, z inspiracją od ",
+    "INLINE": "Testownik electron app.",
+    "LINKS": [
+      {
+        "name" : "Terms & Conditions",
+        "ITEMS" : [
+          "Agreements", "Privacy Policy"
+        ]
+      },
+      {
+        "name" : "Przydatne Linki",
+        "ITEMS" : [
+          "Dashboard", "Browser"
+        ]
+      },
+      {
+        "name" : "Kontakt",
+        "ITEMS" : [
+          "Email", "Github"
+        ]
+      }
+    ]
   }
 }

@@ -1,7 +1,11 @@
 import { FaGithub } from "react-icons/fa";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 export const Footer = () => {
   const year = new Date().getFullYear();
+  const { t } = useTranslation("translation", {
+    keyPrefix: "FOOTER",
+  });
   const [revealMail, setRevealMail] = useState(false);
   return (
     <footer className="flex justify-center bg-primary text-text lg:text-left black:border-t">
@@ -10,44 +14,43 @@ export const Footer = () => {
           {/* <!-- TW Elements section --> */}
           <div className="col-span-2">
             <h6 className="mb-4 flex items-center justify-center font-semibold uppercase md:justify-start">
-              © Stefan Grzelec {year}
+              {t("TITLE")} {year}
             </h6>
             <p>
-              Testownik app developed entirely by me with ui design inspiration
-              from original{" "}
+              {t("DESCRIPTION")}{" "}
               <a href="https://github.com/kumalg/testownik-electron" className="link hover:text-success">
-                Testownik electron app.
+                {t("INLINE")}
               </a>
             </p>
           </div>
           {/* <!-- Products section --> */}
           <div className="flex gap-2 flex-col">
             <h6 className="flex justify-center font-semibold uppercase md:justify-start">
-              Terms & Conditions
+              {t("LINKS.0.name")}
             </h6>
             <p className="">
-              <a href="/profile/agreements" className="link hover:text-success">Agreements</a>
+              <a href="/profile/agreements" className="link hover:text-success">{t("LINKS.0.ITEMS.0")}</a>
             </p>
             <p className="">
-              <a href="/privacy" className="link hover:text-success">Privacy Policy</a>
+              <a href="/privacy" className="link hover:text-success">{t("LINKS.0.ITEMS.1")}</a>
             </p>
           </div>
           {/* <!-- Useful links section --> */}
           <div className="flex gap-2 flex-col">
             <h6 className="flex justify-center font-semibold uppercase md:justify-start">
-              Useful links
+              {t("LINKS.1.name")}
             </h6>
             <p>
-              <a href="/profile/dashboard" className="link hover:text-success">Dashboard</a>
+              <a href="/profile/dashboard" className="link hover:text-success">{t("LINKS.1.ITEMS.0")}</a>
             </p>
             <p>
-              <a href="/browser" className="link hover:text-success">Browser</a>
+              <a href="/browser" className="link hover:text-success">{t("LINKS.1.ITEMS.1")}</a>
             </p>
           </div>
           {/* <!-- Contact section --> */}
           <div className="flex gap-2 flex-col">
             <h6 className="flex justify-center font-semibold uppercase md:justify-start">
-              Contact
+              {t("LINKS.2.name")}
             </h6>
             <p className="flex items-center justify-center md:justify-start">
               <svg
@@ -65,13 +68,13 @@ export const Footer = () => {
                 onMouseEnter={() => setRevealMail(true)}
                 onMouseLeave={() => setRevealMail(false)}
               >
-                {revealMail ? "stefangrzelec@gmail.com" : "Contact me"}
+                {revealMail ? "stefangrzelec@gmail.com" : t("LINKS.2.ITEMS.0")}
               </a>
             </p>
             <p className="mb-4 flex items-center justify-center md:justify-start">
               <FaGithub size={20} className="mr-3" />
               <a href="https://github.com/Spoky03" className="link hover:text-success">
-                Github
+                {t("LINKS.2.ITEMS.1")}
               </a>
             </p>
           </div>

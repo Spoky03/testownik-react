@@ -150,5 +150,30 @@
       "BROWSER": "Browser",
       "LOGOUT": "Logout"
     }
+  },
+  "FOOTER": {
+    "TITLE" : "© Stefan Grzelec",
+    "DESCRIPTION" : "Testownik app developed entirely by me with ui design inspiration from original",
+    "INLINE": "Testownik electron app.",
+    "LINKS": [
+      {
+        "name" : "Terms & Conditions",
+        "ITEMS" : [
+          "Agreements", "Privacy Policy"
+        ]
+      },
+      {
+        "name" : "Useful Links",
+        "ITEMS" : [
+          "Dashboard", "Browser"
+        ]
+      },
+      {
+        "name" : "Contact",
+        "ITEMS" : [
+          "Email", "Github"
+        ]
+      }
+    ]
   }
 }
