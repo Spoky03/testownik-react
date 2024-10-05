@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { IoFlag } from "react-icons/io5";
 import { Modal } from "../shared/Modal";
 import { useState } from "react";
+import { ReportExplanation } from "./ReportExplanation";
 export const Explanation = () => {
   const { explanation, active, state } = useSelector(
     (state: RootState) => state.quiz
@@ -23,9 +24,21 @@ export const Explanation = () => {
     keyPrefix: "QUIZ.EXPLANATION",
   });
   return (
-    <Card className="p-4 max-w-4xl">
-      <CardHeader>
-        <CardTitle>{active?.question}</CardTitle>
+    <Card className="p-4 max-w-4xl w-full">
+      <CardHeader className="flex flex-row justify-between">
+        <CardTitle className="w-full">{active?.question}</CardTitle>
+        {explanation.visible &&
+          <div className="flex justify-end w-full group">
+          <button
+            className="flex items-center "
+            onClick={() => setOpenReportModal(true)}
+          >
+            <IoFlag className="text-error" size={24} />
+            <p className="pl-1 text-error group-hover:block hidden font-semibold">
+              Report this explanation
+            </p>
+          </button>
+        </div>}
       </CardHeader>
       <CardContent>
         {!explanation.visible && (
@@ -37,14 +50,6 @@ export const Explanation = () => {
           <>
             {/* <p className="font-medium text-lg mb-2">Explanation: </p> */}
             <Markdown children={explanation.content} />
-            <div className="mt-1 sm:mt-5">
-              <button className="flex items-center " onClick={() => setOpenReportModal(true)}>
-                <IoFlag className="text-error" size={24} />
-                <p className="pl-1 text-error hover:underline">
-                  Report this explanation
-                </p>
-              </button>
-            </div>
           </>
         )}
         {explanation.visible && explanation.content.length === 0 && (
@@ -63,7 +68,11 @@ export const Explanation = () => {
           {t("DISCLAIMER.DESCRIPTION")}
         </p>
       </CardFooter>
-      <Modal open={false} setOpen={setOpenReportModal} content={<div>Report</div>} />
+      <Modal
+        open={OpenReportModal}
+        setOpen={setOpenReportModal}
+        content={<ReportExplanation />}
+      />
     </Card>
   );
 };

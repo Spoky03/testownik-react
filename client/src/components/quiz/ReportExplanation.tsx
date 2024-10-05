@@ -10,17 +10,19 @@ import {
 } from "@/components/ui/form";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
+
+const EnumValues = ["Inappropriate", "Invalid", "Other"] as const;
 const FormSchema = z.object({
   text: z.string().min(2).max(1024),
+  reason: z.enum(EnumValues),
 });
 export const ReportExplanation = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
   const { toast } = useToast();
-  const [effect, setEffect] = useState<boolean>(false);
   const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
-    setEffect(true);
+    console.log(data);
     try {
       // await dispatch(reportExplanation(data.text));
       toast({
@@ -36,43 +38,62 @@ export const ReportExplanation = () => {
         description: error.response.data.message,
       });
     }
-    setEffect(false);
   };
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex gap-2 w-fit"
-      >
-        <FormField
-          control={form.control}
-          name="text"
-          render={({ field }) => (
-            <FormItem className="flex flex-col w-full items-start rounded-md plac-eself-center relative">
-              <FormLabel
-                htmlFor="text"
-                className="text-sm font-semibold text-gray-500"
-              >
-                Explanation
-              </FormLabel>
-              <FormControl
-                {...field}
-                as={Input}
-                id="text"
-                placeholder="Enter your explanation here"
-                className="w-full"
-              />
-            </FormItem>
-          )}
-        />
-        <Button
-          type="submit"
-          className="bg-primary text-white"
-          disabled={effect}
+    <div className="flex flex-col items-center border bg-ternary p-5 space-y-4">
+      <h3 className="text-lg font-semibold text-error">
+        Report invalid or inappropriate explanation
+      </h3>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="flex flex-col gap-2 w-full place-items-center space-y-2"
         >
-          Submit
-        </Button>
-      </form>
-    </Form>
+          <FormField control={form.control} name="reason"
+            render={({ field }) => (
+              <FormItem className="flex flex-col w-full items-start rounded-md plac-eself-center relative">
+                <FormLabel
+                  htmlFor="reason"
+                  className="text-sm font-semibold"
+                >
+                  Reason
+                </FormLabel>
+                <FormControl>
+                  <select {...field} className="w-full">
+                    {EnumValues.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="text"
+            render={({ field }) => (
+              <FormItem className="flex flex-col w-full items-start rounded-md plac-eself-center relative">
+                <FormLabel
+                  htmlFor="text"
+                  className="text-sm font-semibold"
+                >
+                  Explanation
+                </FormLabel>
+                <FormControl>
+                  <textarea {...field} className="w-full h-32 rounded-md" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+          >
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };
