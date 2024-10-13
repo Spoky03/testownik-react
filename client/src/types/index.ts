@@ -21,6 +21,11 @@ export interface Question {
   repeats?: number;
   image?: QuestionImage;
   explanation?: string;
+  report?: number;
+  difficulty?: {
+    user: string;
+    value: number;
+  }[];
 }
 export interface CreatedAnswer {
   id: number;
@@ -154,4 +159,10 @@ export interface FetchedUser {
   settings: UserState["settings"];
   questionSets: QuestionSet[];
   email: string;
+}
+
+export interface ReportExplanation {
+  explanation: string;
+  reason: string;
+  questionId: string;
 }

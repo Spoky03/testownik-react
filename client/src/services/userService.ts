@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreatedQuestion, Question } from "../types";
+import { CreatedQuestion, Question, ReportExplanation } from "../types";
 
 const authUrl = "/auth";
 const baseUrl = "/api";
@@ -313,6 +313,33 @@ const getQuestionExplanation = async (questionId: string) => {
   );
   return response.data;
 };
+
+// ------------------------------OTHER SERVICE FUNCTIONS------------------------------
+//reportExplanation
+const reportExplanation = async (data: ReportExplanation) => {
+  const response = await axios.post(
+    `${baseUrl}/other/reportExplanation`,
+    data,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
+const voteDifficulty = async (questionId: string, value: number) => {
+  const response = await axios.post(
+    `${baseUrl}/questions/${questionId}/voteDifficulty`,
+    { value },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
 interface UserData {
   username?: string;
   email?: string;
@@ -349,4 +376,6 @@ export default {
   getFinishedSets,
   saveFinishedSet,
   getQuestionExplanation,
+  reportExplanation,
+  voteDifficulty,
 };

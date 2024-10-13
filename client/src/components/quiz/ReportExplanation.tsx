@@ -10,32 +10,42 @@ import {
 } from "@/components/ui/form";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
-
+import userService from "@/services/userService";
+import { useSelector } from "react-redux";
+import { RootState } from "@/types";
 const EnumValues = ["Inappropriate", "Invalid", "Other"] as const;
 const FormSchema = z.object({
-  text: z.string().min(2).max(1024),
+  explanation: z.string().min(2).max(1024),
   reason: z.enum(EnumValues),
 });
 export const ReportExplanation = () => {
+  const { toast } = useToast();
+  const question = useSelector((state : RootState) => state.quiz.active);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      reason: "Inappropriate",
+      explanation: "",
+    },
   });
-  const { toast } = useToast();
   const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log(data);
     try {
-      // await dispatch(reportExplanation(data.text));
+      await userService.reportExplanation({
+        explanation: data.explanation,
+        reason: data.reason,
+        questionId: question?._id || "",
+      });
       toast({
         variant: "success",
         title: "Explanation reported successfully!",
         description: "Thank you for your feedback.",
       });
       form.reset();
-    } catch (error) {
+    } catch (error: unknown) {
       toast({
         variant: "destructive",
-        title: "There was a problem with your request.",
-        description: error.response.data.message,
+        title: "There was a problem with your request."
       });
     }
   };
@@ -72,11 +82,11 @@ export const ReportExplanation = () => {
           />
           <FormField
             control={form.control}
-            name="text"
+            name="explanation"
             render={({ field }) => (
               <FormItem className="flex flex-col w-full items-start rounded-md plac-eself-center relative">
                 <FormLabel
-                  htmlFor="text"
+                  htmlFor="explanation"
                   className="text-sm font-semibold"
                 >
                   Explanation

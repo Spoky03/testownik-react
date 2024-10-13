@@ -15,6 +15,7 @@ import { IoFlag } from "react-icons/io5";
 import { Modal } from "../shared/Modal";
 import { useState } from "react";
 import { ReportExplanation } from "./ReportExplanation";
+import { FiTriangle } from "react-icons/fi";
 export const Explanation = () => {
   const { explanation, active, state } = useSelector(
     (state: RootState) => state.quiz
@@ -27,18 +28,30 @@ export const Explanation = () => {
     <Card className="p-4 max-w-4xl w-full">
       <CardHeader className="flex flex-row justify-between">
         <CardTitle className="w-full">{active?.question}</CardTitle>
-        {explanation.visible &&
+        {explanation.visible && (
           <div className="flex justify-end w-full group">
-          <button
-            className="flex items-center "
-            onClick={() => setOpenReportModal(true)}
-          >
-            <IoFlag className="text-error" size={24} />
-            <p className="pl-1 text-error group-hover:block hidden font-semibold">
-              Report this explanation
-            </p>
-          </button>
-        </div>}
+            <button
+              className="flex items-center "
+              onClick={() => setOpenReportModal(true)}
+            >
+              <IoFlag className="text-error" size={24} />
+              <p className="pl-1 text-error group-hover:block hidden font-semibold">
+                Report this explanation
+              </p>
+            </button>
+            {(active?.report && active?.report > 0) && (
+              <div className="ml-2 pr-4 text-xl text-error relative">
+                <FiTriangle
+                  className="text-error absolute"
+                  size={48}
+                />
+                <p className="absolute left-[18px] top-3 font-bold">
+                  {active?.report}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         {!explanation.visible && (

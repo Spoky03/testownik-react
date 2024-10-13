@@ -1,3 +1,4 @@
+import { RootState } from "@/types";
 import {
   Card,
   CardContent,
@@ -11,8 +12,41 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useSelector } from "react-redux";
+import ReactStars from "../shared/Stars";
+import { useToast } from "../ui/use-toast";
+import userService from "@/services/userService";
+import { useEffect, useState } from "react";
+
+function CalculateDifficulty(difficulty: NonNullable<RootState["quiz"]["active"]>["difficulty"]) {
+  if (!difficulty) return 0;
+  const total = difficulty.reduce((acc, curr) => acc + curr.value, 0);
+  return total / difficulty.length;
+}
 export const QuestionDestails = () => {
-  const difficulty = 3.5;
+  const difficulty = useSelector((state: RootState) => state.quiz.active?.difficulty);
+  const id = useSelector((state: RootState) => state.quiz.active?._id);
+  const [difficultyRating, setDifficultyRating] = useState(CalculateDifficulty(difficulty));
+  useEffect(() => {
+    setDifficultyRating(CalculateDifficulty(difficulty));
+  }, [difficulty]);
+  const { toast } = useToast();
+  const VoteDifficulty = async (value: number) => {
+    try {
+      await userService.voteDifficulty(id || "", value);
+      toast({
+        title: "Vote submitted",
+        description: "Thank you for submitting your vote",
+      })
+      setDifficultyRating(value);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred while submitting your vote",
+        variant: "destructive",
+      });
+    }
+  }
   return (
     <Card className="p-2 max-w-4xl">
       <CardHeader>
@@ -23,20 +57,16 @@ export const QuestionDestails = () => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="stars-container container bg-faint">
-                <div className={`stars-container bg-success`}
-                    style={{ width: `${difficulty * 20}%` }}
-                >
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <span key={i} className="text-2xl">
-                      ★
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <ReactStars 
+                count={5}
+                value={difficultyRating}
+                size={24}
+                edit={false}
+                onChange={VoteDifficulty}
+              />
             </TooltipTrigger>
             <TooltipContent>
-              <p>Difficulty: {difficulty}</p>
+              <p>Difficulty: {difficultyRating}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
