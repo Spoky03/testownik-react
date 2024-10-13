@@ -5,7 +5,7 @@ import {
   AppendQuestionsDto,
   CreateQuestionDto,
 } from '../dto/create-question.dto';
-
+import { DifficultyVoteDto } from './dto/difficulty-vote.dto';
 @Injectable()
 export class QuestionsService {
   constructor(
@@ -140,5 +140,35 @@ export class QuestionsService {
     question.explanation = explanation;
     await question.save();
     return explanation;
+  }
+  async incrementReport(id: string): Promise<number> {
+    const question = await this.questionModel.findById(id);
+    question.report++;
+    await question.save();
+    return question.report;
+  }
+  async voteDifficulty(
+    questionId: string,
+    DifficultyVoteDto: DifficultyVoteDto,
+    userId: string,
+  ) {
+    const question = await this.questionModel.findById(questionId);
+    const user = await this.usersModel.findById(userId);
+    if (!user) {
+      throw new HttpException('User not found', 404);
+    }
+    if (!question) {
+      throw new HttpException('Question not found', 404);
+    }
+    // Check if user has already voted
+    if (question.difficulty.some((vote) => vote.user === userId)) {
+      // Remove previous vote
+      question.difficulty = question.difficulty.filter(
+        (vote) => vote.user !== userId,
+      );
+    }
+    question.difficulty.push({ user: userId, value: DifficultyVoteDto.value });
+    await question.save();
+    return question.difficulty;
   }
 }

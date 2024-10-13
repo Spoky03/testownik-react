@@ -20,6 +20,7 @@ import {
   CreateQuestionDto,
 } from 'src/dto/create-question.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { DifficultyVoteDto } from './dto/difficulty-vote.dto';
 @Controller('api/questions')
 export class QuestionsController {
   constructor(private questionsService: QuestionsService) {}
@@ -71,5 +72,17 @@ export class QuestionsController {
     file: Express.Multer.File,
   ) {
     console.log(file);
+  }
+  @Post(':id/voteDifficulty')
+  async voteDifficulty(
+    @Param('id') id: string,
+    @Body() DifficultyVoteDto: DifficultyVoteDto,
+    @Request() req,
+  ) {
+    return this.questionsService.voteDifficulty(
+      id,
+      DifficultyVoteDto,
+      req.user.sub,
+    );
   }
 }

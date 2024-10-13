@@ -74,6 +74,8 @@ export class UsersService {
               question: question.question,
               answers: question.answers,
               explanation: question.explanation,
+              report: question.report,
+              difficulty: question.difficulty,
             };
           }),
           metaData: questionSet.metaData,
