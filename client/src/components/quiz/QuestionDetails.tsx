@@ -17,18 +17,16 @@ import ReactStars from "../shared/Stars";
 import { useToast } from "../ui/use-toast";
 import userService from "@/services/userService";
 import { useEffect, useState } from "react";
-
-function CalculateDifficulty(difficulty: NonNullable<RootState["quiz"]["active"]>["difficulty"]) {
-  if (!difficulty) return 0;
-  const total = difficulty.reduce((acc, curr) => acc + curr.value, 0);
-  return total / difficulty.length;
-}
 export const QuestionDestails = () => {
-  const difficulty = useSelector((state: RootState) => state.quiz.active?.difficulty);
+  const difficulty = useSelector(
+    (state: RootState) => state.quiz.active?.difficulty
+  );
   const id = useSelector((state: RootState) => state.quiz.active?._id);
-  const [difficultyRating, setDifficultyRating] = useState(CalculateDifficulty(difficulty));
+  const [difficultyRating, setDifficultyRating] = useState<number>(
+    difficulty?.value || 0
+  );
   useEffect(() => {
-    setDifficultyRating(CalculateDifficulty(difficulty));
+    setDifficultyRating(difficulty?.value || 0);
   }, [difficulty]);
   const { toast } = useToast();
   const VoteDifficulty = async (value: number) => {
@@ -37,7 +35,7 @@ export const QuestionDestails = () => {
       toast({
         title: "Vote submitted",
         description: "Thank you for submitting your vote",
-      })
+      });
       setDifficultyRating(value);
     } catch (error) {
       toast({
@@ -46,7 +44,7 @@ export const QuestionDestails = () => {
         variant: "destructive",
       });
     }
-  }
+  };
   return (
     <Card className="p-2 max-w-4xl">
       <CardHeader>
@@ -54,25 +52,18 @@ export const QuestionDestails = () => {
       </CardHeader>
       <CardContent>
         <p>Users difficulty rating: </p>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <ReactStars 
-                count={5}
-                value={difficultyRating}
-                size={24}
-                edit={false}
-                onChange={VoteDifficulty}
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Difficulty: {difficultyRating}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+          <ReactStars
+            count={5}
+            value={difficultyRating}
+            size={24}
+            edit={false}
+            onChange={VoteDifficulty}
+          />
       </CardContent>
-      <CardFooter>
-        <p className="text-xs">This is a footer</p>
+      <CardFooter className="flex flex-col items-start">
+        <p className="text-xs">Total votes: {difficulty?.length} </p>
+        <p className="text-xs">Average: ({difficultyRating})</p>
+
       </CardFooter>
     </Card>
   );

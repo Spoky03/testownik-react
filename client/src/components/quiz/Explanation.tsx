@@ -40,13 +40,9 @@ export const Explanation = () => {
               </p>
             </button>
             {(active?.report && active?.report > 0) && (
-              <div className="ml-2 pr-4 text-xl text-error relative">
-                <FiTriangle
-                  className="text-error absolute"
-                  size={48}
-                />
-                <p className="absolute left-[18px] top-3 font-bold">
-                  {active?.report}
+              <div className="ml-2 text-lg text-error">
+                <p className="font-semibold">
+                  ({active?.report})
                 </p>
               </div>
             )}

@@ -75,7 +75,13 @@ export class UsersService {
               answers: question.answers,
               explanation: question.explanation,
               report: question.report,
-              difficulty: question.difficulty,
+              difficulty: {
+                value:
+                  question.difficulty.reduce((acc, curr) => {
+                    return acc + curr.value;
+                  }, 0) / question.difficulty.length,
+                length: question.difficulty.length,
+              },
             };
           }),
           metaData: questionSet.metaData,

@@ -23,9 +23,9 @@ export interface Question {
   explanation?: string;
   report?: number;
   difficulty?: {
-    user: string;
     value: number;
-  }[];
+    length: number;
+  }
 }
 export interface CreatedAnswer {
   id: number;
