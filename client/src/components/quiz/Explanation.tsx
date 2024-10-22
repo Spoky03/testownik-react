@@ -15,7 +15,6 @@ import { IoFlag } from "react-icons/io5";
 import { Modal } from "../shared/Modal";
 import { useState } from "react";
 import { ReportExplanation } from "./ReportExplanation";
-import { FiTriangle } from "react-icons/fi";
 export const Explanation = () => {
   const { explanation, active, state } = useSelector(
     (state: RootState) => state.quiz
@@ -36,7 +35,7 @@ export const Explanation = () => {
             >
               <IoFlag className="text-error" size={24} />
               <p className="pl-1 text-error group-hover:block hidden font-semibold">
-                Report this explanation
+                {t("REPORT.TITLE")}
               </p>
             </button>
             {(active?.report && active?.report > 0) && (
@@ -63,9 +62,9 @@ export const Explanation = () => {
         )}
         {explanation.visible && explanation.content.length === 0 && (
           <>
-            <p className="font-medium text-lg mb-2">Answer: </p>
+            <p className="font-medium text-lg mb-2">{t("ANSWER")}</p>
             <Skeleton className="w-3/4 h-[16px] rounded-md mb-2" />
-            <p className="font-medium text-lg mb-2">Explanation: </p>
+            <p className="font-medium text-lg mb-2">{t("EXPLANATION")}</p>
             <Skeleton className="w-3/4 h-[16px] rounded-md mb-2" />
             <Skeleton className="w-full h-[48px] rounded-md" />
           </>

@@ -23,7 +23,7 @@ I plan to deploy it soon.
 - [ ] fill in mocks
 - [x] Change other form to zod and shadcn
 - [ ] forbid user from leaving in agreements
-- [ ] delete those testing users
+- [ ] delete testing users
 - [x] add deleting user backend
 - [x] clean up quiz container because right now it is accesibble with /quiz and /profile/dashboard
 - [x] add something to display at profile
@@ -38,4 +38,11 @@ I plan to deploy it soon.
 - [ ] add uploading images with S3
 - [x] reset weekly progress every 7 days (make it collect progress from last 7 days)
 - [x] do same for daily goal
+- [ ] cookies notification
+- [ ] register email confirmation
+- [ ] register captcha
+- [ ] delete account confirmation
+- [ ] question comments / sets comments
+- [ ] federal login/register
+- [ ] login using usos web api
 - [ ] add contact form

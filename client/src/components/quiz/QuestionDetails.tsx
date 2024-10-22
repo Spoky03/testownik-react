@@ -6,18 +6,16 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useSelector } from "react-redux";
 import ReactStars from "../shared/Stars";
 import { useToast } from "../ui/use-toast";
 import userService from "@/services/userService";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 export const QuestionDestails = () => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "QUIZ.DETAILS",
+  });
   const difficulty = useSelector(
     (state: RootState) => state.quiz.active?.difficulty
   );
@@ -48,10 +46,10 @@ export const QuestionDestails = () => {
   return (
     <Card className="p-2 max-w-4xl">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">Question details</CardTitle>
+        <CardTitle className="text-xl font-bold">{t("TITLE")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>Users difficulty rating: </p>
+        <p>{t("DESCRIPTION")}</p>
           <ReactStars
             count={5}
             value={difficultyRating}
@@ -61,8 +59,8 @@ export const QuestionDestails = () => {
           />
       </CardContent>
       <CardFooter className="flex flex-col items-start">
-        <p className="text-xs">Total votes: {difficulty?.length} </p>
-        <p className="text-xs">Average: ({difficultyRating})</p>
+        <p className="text-xs">{t("TOTAL")}{difficulty?.length} </p>
+        <p className="text-xs">{t("AVERAGE")}({difficultyRating})</p>
 
       </CardFooter>
     </Card>

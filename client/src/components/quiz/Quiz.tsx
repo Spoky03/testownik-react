@@ -18,6 +18,7 @@ import { Separator } from "../ui/separator";
 import { Explanation } from "./Explanation";
 import { QuizQuestion } from "./QuizQuestion";
 import { QuestionDestails } from "./QuestionDetails";
+import { ChatBot } from "./ChatBot";
 
 const Quiz = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -60,6 +61,7 @@ const Quiz = () => {
         <Explanation />
         <QuestionDestails />
       </section>
+      <ChatBot />
     </div>
   );
 };
