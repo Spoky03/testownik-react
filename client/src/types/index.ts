@@ -44,6 +44,10 @@ export interface Sidebar {
   masteredQuestions: number;
   time: number;
 }
+export interface ChatMessage {
+  role: "user" | "system";
+  content: string;
+}
 export interface QuizState {
   questions: Question[];
   state: "waiting" | "feedback";
@@ -60,6 +64,11 @@ export interface QuizState {
   explanation: {
     visible: boolean;
     content: string;
+  };
+  chat: {
+    visible: boolean;
+    agreed: boolean;
+    messages: ChatMessage[];
   };
 }
 export interface BrowserState {

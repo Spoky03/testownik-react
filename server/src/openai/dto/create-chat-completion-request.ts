@@ -1,8 +1,11 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateChatCompletionRequest {
   @IsString()
   questionId: string;
+
+  @IsArray()
+  messages: ChatCompletionMessageDto[];
 }
 
 export class ChatCompletionMessageDto {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import { QuizState, Question, QuestionSet, UserState, Sidebar } from "../types";
+import { QuizState, Question, QuestionSet, UserState, Sidebar, ChatMessage } from "../types";
 import userService from "../services/userService";
 
 const initialState: QuizState = {
@@ -25,6 +25,11 @@ const initialState: QuizState = {
   explanation: {
     visible: false,
     content: "",
+  },
+  chat: {
+    visible: false,
+    agreed: false,
+    messages: [],
   },
 };
 
@@ -158,6 +163,19 @@ const quizSlice = createSlice({
     setExplanationVisible: (state, action: PayloadAction<boolean>) => {
       state.explanation.visible = action.payload;
     },
+    toggleChatVisible: (state) => {
+      state.chat.visible = !state.chat.visible;
+    },
+    toggleAgreed: (state) => {
+      state.chat.agreed = !state.chat.agreed;
+    },
+    addMessage: (state, action: PayloadAction<ChatMessage>) => {
+      state.chat.messages.push(action.payload);
+    },
+    editLastMessage: (state, action: PayloadAction<string>) => {
+      state.chat.messages[state.chat.messages.length - 1].content =
+        action.payload;
+    },
   },
 });
 
@@ -175,6 +193,10 @@ export const {
   setSidebar,
   setExplanation,
   setExplanationVisible,
+  toggleChatVisible,
+  addMessage,
+  toggleAgreed,
+  editLastMessage,
 } = quizSlice.actions;
 
 export const initializeQuiz = (
@@ -259,6 +281,44 @@ export const requestExplanation = (questionId: string) => {
 export const resetExplanation = () => {
   return async (dispatch: AppDispatch) => {
     dispatch(setExplanation({ visible: false, content: "" }));
+  };
+}
+export const toggleChatVisibility = () => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(toggleChatVisible());
+  };
+}
+export const setAgreed = (questionId: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const res = await userService.createChatCompletion(questionId, []);
+      console.log(res)
+      dispatch(addMessage({
+        role: "system",
+        content: res
+      }));
+      dispatch(toggleAgreed());
+    }
+    catch (e) {
+      dispatch(addMessage({ role: "system", content: "Failed to get response from OpenAi" }));
+    }
+  }
+}
+export const addChatMessage = (message: ChatMessage, questionId: string, messages: ChatMessage[]) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(addMessage(message));
+      dispatch(addMessage({
+        role: "system",
+        content: ""
+      }));
+      const res = await userService.createChatCompletion(questionId, [...messages, message]);
+      dispatch(editLastMessage(res));
+      
+    }
+    catch (e) {
+      dispatch(addMessage({ role: "system", content: "Failed to get response from OpenAi" }));
+    }
   };
 }
 

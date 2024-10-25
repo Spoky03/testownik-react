@@ -9,35 +9,57 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
 import { Input } from "../ui/input";
+import { ChatMessage, RootState } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addChatMessage,
+  setAgreed,
+  toggleChatVisibility,
+} from "@/reducers/quizReducer";
+import { AppDispatch } from "@/store";
+import { useEffect, useRef } from "react";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem } from "../ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-const messages = [
-  {
-    id: 1,
-    text: "Hello",
-    sender: "bot",
-  },
-  {
-    id: 2,
-    text: "How are you?",
-    sender: "bot",
-  },
-  {
-    id: 3,
-    text: "I'm fine, thank you",
-    sender: "user",
-  },
-  {
-    id: 4,
-    text: "What can I help you with?",
-    sender: "bot",
-  },
-];
 type CardProps = React.ComponentProps<typeof Card>;
-
+function randomId() {
+  return Math.random().toString(36);
+}
+const FormSchema = z.object({
+  message: z.string().min(3, "Message is required"),
+});
 export const ChatBot = ({ className, ...props }: CardProps) => {
-  const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const visible = useSelector((state: RootState) => state.quiz.chat.visible);
+  const messages = useSelector((state: RootState) => state.quiz.chat.messages);
+  const agreed = useSelector((state: RootState) => state.quiz.chat.agreed);
+  const id = useSelector((state: RootState) => state.quiz.active?._id);
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      message: "",
+    },
+  });
+  useEffect(() => {
+    if (containerRef.current) {
+      // containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      containerRef.current?.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+  const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const body = { content: data.message, role: "user" } as ChatMessage;
+    console.log(messages);
+    console.log(data);
+    dispatch(addChatMessage(body, id as string, messages));
+    form.setValue("message", "");
+  };
   return (
     <>
       {visible ? (
@@ -45,37 +67,87 @@ export const ChatBot = ({ className, ...props }: CardProps) => {
           className={cn("w-[380px] fixed bottom-0 right-0", className)}
           {...props}
         >
-          <CardHeader>
-            <CardTitle className="flex justify-between">
+          <CardHeader className="pt-4">
+            <CardTitle className="flex justify-between items-center">
               Chat
               <Button
                 className="ml-auto"
                 variant={"ghost"}
                 size={"icon"}
-                onClick={() => setVisible(false)}
+                onClick={() => dispatch(toggleChatVisibility())}
               >
                 <SidebarCloseIcon className="-rotate-90" />
               </Button>
             </CardTitle>
-            <CardDescription>Ask about more details regarding your question.</CardDescription>
+            <CardDescription>
+              Ask about more details regarding your question.
+            </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
             {/* chatbot */}
-            <div className="flex flex-col gap-2">
+            <div
+              ref={containerRef}
+              className="flex flex-col gap-2 max-h-[320px] overflow-y-scroll px-2 thin-scroll"
+            >
               {messages.map((message) => (
-                <div key={message.id} className={`flex gap-2 ${message.sender==="bot" ? "justify-start" : "justify-end"}`}>
-                  <div className={`bg-primary black:border p-2 rounded-lg ${message.sender==="user" && "bg-success bg-opacity-80"}`}>
-                    {message.text}
+                <div
+                  key={randomId()}
+                  className={`flex gap-2 ${
+                    message.role === "system" ? "justify-start" : "justify-end"
+                  }`}
+                >
+                  <div
+                    className={`bg-primary black:border p-2 rounded-lg ${
+                      message.role === "user" && "bg-success bg-opacity-60"
+                    }`}
+                  >
+                    {message.content.length === 0 ? (
+                      <div className="h-4 w-12 rounded-full m-0 flex justify-center items-center">
+                        <span className="circle"></span>
+                        <span className="circle"></span>
+                        <span className="circle"></span>
+                      </div>
+                    ) : (
+                      message.content
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           </CardContent>
           <CardFooter className="w-full">
-            <div className="flex gap-2 w-full">
-              <Input placeholder="Type a message" />
-              <Button>Send</Button>
-            </div>
+            {agreed ? (
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(handleSubmit)}
+                  className="flex gap-2 w-full"
+                >
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Type your message here"
+                            className="w-full"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit">Send</Button>
+                </form>
+              </Form>
+            ) : (
+              <Button
+                className="w-full"
+                onClick={() => dispatch(setAgreed(id as string))}
+              >
+                Agree and Proceed
+              </Button>
+            )}
           </CardFooter>
         </Card>
       ) : (
@@ -83,7 +155,7 @@ export const ChatBot = ({ className, ...props }: CardProps) => {
           <Button
             className="w-full h-2 bg-secondary border text-text text-xs border-b-0 rounded-bl-none rounded-br-none"
             variant={"ghost"}
-            onClick={() => setVisible(true)}
+            onClick={() => dispatch(toggleChatVisibility())}
           >
             Chat
           </Button>

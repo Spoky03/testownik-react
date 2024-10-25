@@ -12,6 +12,18 @@ export class OpenaiController {
   @Roles(['admin', 'premium'])
   @Post('ask')
   async createChatCompletion(@Body() body: CreateChatCompletionRequest) {
-    return this.openaiService.createChatCompletion(body.questionId);
+    return this.openaiService.askForExplanation(body.questionId);
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(['admin', 'premium'])
+  @Post('chat')
+  async createChatCompletionFromChat(
+    @Body() body: CreateChatCompletionRequest,
+  ) {
+    return this.openaiService.createChatCompletion(
+      body.questionId,
+      body.messages,
+    );
   }
 }

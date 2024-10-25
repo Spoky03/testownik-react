@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreatedQuestion, Question, ReportExplanation } from "../types";
+import { ChatMessage, CreatedQuestion, Question, ReportExplanation } from "../types";
 
 const authUrl = "/auth";
 const baseUrl = "/api";
@@ -301,6 +301,7 @@ const saveFinishedSet = async (setId: string) => {
   );
   return response.data;
 };
+// ------------------------------OPENAI SERVICE FUNCTIONS------------------------------
 const getQuestionExplanation = async (questionId: string) => {
   const response = await axios.post(
     `${baseUrl}/openai/ask`,
@@ -313,6 +314,18 @@ const getQuestionExplanation = async (questionId: string) => {
   );
   return response.data;
 };
+const createChatCompletion = async (questionId: string, messages: ChatMessage[]) => {
+  const response = await axios.post(
+    `${baseUrl}/openai/chat`,
+    { questionId, messages: messages },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+}
 
 // ------------------------------OTHER SERVICE FUNCTIONS------------------------------
 //reportExplanation
@@ -378,4 +391,5 @@ export default {
   getQuestionExplanation,
   reportExplanation,
   voteDifficulty,
+  createChatCompletion,
 };
