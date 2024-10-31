@@ -1,4 +1,4 @@
-import { Component, CSSProperties, MouseEvent } from 'react';
+import React, { Component, CSSProperties, MouseEvent } from 'react';
 
 interface ReactStarsProps {
   className?: string;
@@ -19,7 +19,7 @@ interface Star {
 
 interface HalfStar {
   at: number;
-  hidden: boolean | undefined;
+  hidden: boolean;
 }
 
 interface ReactStarsState {
@@ -73,8 +73,8 @@ class ReactStars extends Component<ReactStarsProps, ReactStarsState> {
     count: 5,
     char: '★',
     size: 15,
-    color1: "#d6d6d6",
-    color2: "#39B54A",
+    color1: '#d6d6d6',
+    color2: '#39b54a',
     onChange: () => {},
   };
 
@@ -87,14 +87,14 @@ class ReactStars extends Component<ReactStarsProps, ReactStarsState> {
       stars: [],
       halfStar: {
         at: Math.floor(props.value || 0),
-        hidden: props.half && (props.value || 0) % 1 < 0.5,
+        hidden: (props.half ?? true) && (props.value || 0) % 1 < 0.5,
       },
       config: {
         count: props.count || 5,
         size: props.size || 15,
         char: props.char || '★',
-        color1: props.color1 || 'gray',
-        color2: props.color2 || '#ffd700',
+        color1: props.color1 || '#d6d6d6',
+        color2: props.color2 || '#39b54a',
         half: props.half || true,
         edit: props.edit || true,
       },
@@ -107,15 +107,17 @@ class ReactStars extends Component<ReactStarsProps, ReactStarsState> {
     });
   }
 
-  componentWillReceiveProps(nextProps: ReactStarsProps) {
-    this.setState({
-      stars: this.getStars(nextProps.value),
-      value: nextProps.value || 0,
-      halfStar: {
-        at: Math.floor(nextProps.value || 0),
-        hidden: this.state.config.half && (nextProps.value || 0) % 1 < 0.5,
-      },
-    });
+  componentDidUpdate(prevProps: ReactStarsProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({
+        stars: this.getStars(this.props.value),
+        value: this.props.value || 0,
+        halfStar: {
+          at: Math.floor(this.props.value || 0),
+          hidden: this.state.config.half && (this.props.value || 0) % 1 < 0.5,
+        },
+      });
+    }
   }
 
   isDecimal(value: number) {

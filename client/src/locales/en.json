@@ -198,6 +198,13 @@
       "DESCRIPTION": "Users difficulty rating: ",
       "TOTAL": "Total votes: ",
       "AVERAGE": "Average: "
+    },
+    "CHATBOT" : {
+      "TITLE": "Chat",
+      "DESCRIPTION": "Ask about more details regarding your question.",
+      "AGREE": "Agree and proceed",
+      "SEND": "Send",
+      "PLACEHOLDER": "Type your message here..."
     }
   },
   "FOOTER": {

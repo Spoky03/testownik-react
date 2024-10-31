@@ -88,7 +88,8 @@ const NavLinks = ({ wrapped }: { wrapped?: boolean }) => {
 };
 export const Navbar = () => {
   const match = useMatch("/profile/*");
-  const params = match && match.params ? true : false;
+  const quizMatch = useMatch("/quiz/*");
+  const params = match && match.params ? true : false || quizMatch && quizMatch.params ? true : false;
   return (
     <div className="top-0 left-0 w-full max-h-28  sticky overflow-x-hidden z-50 flex justify-center bg-primary border-b sm:border-b-0 sm:shadow-md">
         <div className={`flex justify-between w-full p-2 max-w-5xl`}>

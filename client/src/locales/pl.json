@@ -183,6 +183,30 @@
       "TOTAL_QUESTIONS" : "Wszystkie pytania",
       "TIME" : "Łączny czas",
       "EXPLANATION" : "Wyjaśnienie"
+    },
+    "EXPLANATION": {
+      "DISCLAIMER": {
+        "TITLE": "Uwaga ",
+        "DESCRIPTION": "Wyjaśnienia są generowane automatycznie i mogą zawierać błędy. Jeśli znajdziesz błąd, zgłoś go."
+      },
+      "ANSWER": "Odpowiedź",
+      "EXPLANATION": "Wyjaśnienie",
+      "REPORT": {
+        "TITLE": "Zgłoś błąd"
+      }
+    },
+    "DETAILS": {
+      "TITLE": "Szczegóły",
+      "DESCRIPTION": "Trudność na podstawie ocen użytkowników: ",
+      "TOTAL": "Wszystkie głosy: ",
+      "AVERAGE": "Średnia: "
+    },
+    "CHATBOT" : {
+      "TITLE": "Chat",
+      "DESCRIPTION": "Zadaj pytanie, a chatbot odpowie na nie.",
+      "AGREE": "Przejdź do chatu",
+      "SEND": "Wyślij",
+      "PLACEHOLDER": "Wpisz wiadomość tutaj..."
     }
   },
   "FOOTER": {

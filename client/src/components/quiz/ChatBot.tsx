@@ -23,6 +23,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 type CardProps = React.ComponentProps<typeof Card>;
 function randomId() {
@@ -33,6 +34,9 @@ const FormSchema = z.object({
 });
 export const ChatBot = ({ className, ...props }: CardProps) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation("translation", {
+    keyPrefix: "QUIZ.CHATBOT",
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const visible = useSelector((state: RootState) => state.quiz.chat.visible);
   const messages = useSelector((state: RootState) => state.quiz.chat.messages);
@@ -64,12 +68,12 @@ export const ChatBot = ({ className, ...props }: CardProps) => {
     <>
       {visible ? (
         <Card
-          className={cn("w-[380px] fixed bottom-0 right-0", className)}
+          className={cn("md:w-[320px] lg:w-[460px] xl:w-[560px] fixed bottom-0 right-0 z-50", className)}
           {...props}
         >
           <CardHeader className="pt-4">
             <CardTitle className="flex justify-between items-center">
-              Chat
+              {t("TITLE")}
               <Button
                 className="ml-auto"
                 variant={"ghost"}
@@ -80,7 +84,7 @@ export const ChatBot = ({ className, ...props }: CardProps) => {
               </Button>
             </CardTitle>
             <CardDescription>
-              Ask about more details regarding your question.
+              {t("DESCRIPTION")}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
@@ -130,14 +134,14 @@ export const ChatBot = ({ className, ...props }: CardProps) => {
                         <FormControl>
                           <Input
                             {...field}
-                            placeholder="Type your message here"
+                            placeholder={t("PLACEHOLDER")}
                             className="w-full"
                           />
                         </FormControl>
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Send</Button>
+                  <Button type="submit">{t("SEND")}</Button>
                 </form>
               </Form>
             ) : (
@@ -145,7 +149,7 @@ export const ChatBot = ({ className, ...props }: CardProps) => {
                 className="w-full"
                 onClick={() => dispatch(setAgreed(id as string))}
               >
-                Agree and Proceed
+                {t("AGREE")}
               </Button>
             )}
           </CardFooter>
@@ -157,7 +161,7 @@ export const ChatBot = ({ className, ...props }: CardProps) => {
             variant={"ghost"}
             onClick={() => dispatch(toggleChatVisibility())}
           >
-            Chat
+            {t("TITLE")}
           </Button>
         </div>
       )}
