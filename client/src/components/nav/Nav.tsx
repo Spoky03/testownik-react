@@ -3,7 +3,7 @@ import { Link, useMatch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getTheme, useTheme } from "@/lib/theme";
 import { useMediaQuery } from "@uidotdev/usehooks";
-import Logo from "@/assets/logov2.svg?react";
+import Logo from "@/assets/logov3.svg?react";
 import { LangButton } from "./lang";
 import { ThemeButton } from "./theme";
 import { MobileDrawer } from "./menus";
