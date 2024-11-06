@@ -8,6 +8,12 @@ export interface Question extends Document {
   readonly _id: string;
   readonly question: string;
   readonly answers: Answer[];
+  explanation: string;
+  report: number;
+  difficulty: {
+    user: string;
+    value: number;
+  }[];
 }
 export interface Questions extends Document {
   readonly author: {

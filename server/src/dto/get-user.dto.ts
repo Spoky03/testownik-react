@@ -111,6 +111,10 @@ class GetQuestionDto {
   })
   readonly answers: AnswerDto[];
 
+  @IsString()
+  @Expose()
+  readonly explanation: string;
+
   constructor(partial: Partial<GetQuestionDto>) {
     Object.assign(this, partial);
   }

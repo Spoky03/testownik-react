@@ -1,5 +1,33 @@
 import * as mongoose from 'mongoose';
-
+export const GlobalStatsSchema = new mongoose.Schema(
+  {
+    correctAnswers: {
+      type: Number,
+      default: 0,
+    },
+    incorrectAnswers: {
+      type: Number,
+      default: 0,
+    },
+    totalQuestions: {
+      type: Number,
+      default: 0,
+    },
+    masteredQuestions: {
+      type: Number,
+      default: 0,
+    },
+    time: {
+      type: Number,
+      default: 0,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: false },
+);
 const ProgressSchema = new mongoose.Schema(
   {
     questionSetId: {
@@ -66,6 +94,15 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  roles: {
+    type: [
+      {
+        type: String,
+        enum: ['user', 'admin'],
+      },
+    ],
+    default: ['user'],
+  },
   questionSets: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -89,4 +126,22 @@ export const UserSchema = new mongoose.Schema({
       default: false,
     },
   },
+  globalStats: [GlobalStatsSchema],
+  weeklyTimeGoal: {
+    type: Number,
+    default: 0,
+  },
+  //finished sets with date of finish
+  finishedSets: [
+    {
+      setId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'QuestionSets',
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });

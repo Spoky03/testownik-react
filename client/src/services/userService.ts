@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreatedQuestion, Question } from "../types";
+import { ChatMessage, CreatedQuestion, Question, ReportExplanation } from "../types";
 
 const authUrl = "/auth";
 const baseUrl = "/api";
@@ -82,11 +82,21 @@ const editQuestion = async (question: CreatedQuestion, id: string) => {
   );
   return response.data;
 };
+const editQuestionImage = async (form: FormData, id: string) => {
+  //change this too
+  // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
+  const response = await axios.put<Question>(
+    `${baseUrl}/questions/${id}/image`,
+    form,
+    { headers: { Authorization: token } }
+  );
+  return response.data;
+};
 const editQuestionSet = async ({
   name,
   description,
   id,
-  metaData
+  metaData,
 }: {
   name?: string;
   description?: string;
@@ -104,7 +114,10 @@ const editQuestionSet = async ({
   );
   return response.data;
 };
-const createQuestions = async (questions: CreatedQuestion[], id: string) : Promise<Question> => {
+const createQuestions = async (
+  questions: CreatedQuestion[],
+  id: string
+): Promise<Question> => {
   //change this too
   // const response = await axios.post<Question>(`${baseUrl}/sets/appendQuestion`, {question, id}, {headers: {Authorization: token}})
   const response = await axios.post<Question>(
@@ -235,7 +248,111 @@ const deleteUser = async () => {
     },
   });
   return response.data;
+};
+const getGlobalStats = async (startDate?: Date, endDate?: Date) => {
+  const response = await axios.get(`${baseUrl}/users/globalStats`, {
+    params: {
+      startDate: startDate,
+      endDate: endDate,
+    },
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+};
+const saveWeeklyTimeGoal = async (weeklyTimeGoal: number) => {
+  const response = await axios.post(
+    `${baseUrl}/users/weeklyTimeGoal`,
+    { weeklyTimeGoal },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
+const getWeeklyTimeGoal = async () => {
+  const response = await axios.get(`${baseUrl}/users/weeklyTimeGoal`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+};
+const getFinishedSets = async () => {
+  const response = await axios.get(`${baseUrl}/users/finishedSets`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+};
+const saveFinishedSet = async (setId: string) => {
+  const response = await axios.post(
+    `${baseUrl}/users/finishedSets`,
+    { setId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
+// ------------------------------OPENAI SERVICE FUNCTIONS------------------------------
+const getQuestionExplanation = async (questionId: string) => {
+  const response = await axios.post(
+    `${baseUrl}/openai/ask`,
+    { questionId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
+const createChatCompletion = async (questionId: string, messages: ChatMessage[]) => {
+  const response = await axios.post(
+    `${baseUrl}/openai/chat`,
+    { questionId, messages: messages },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
 }
+
+// ------------------------------OTHER SERVICE FUNCTIONS------------------------------
+//reportExplanation
+const reportExplanation = async (data: ReportExplanation) => {
+  const response = await axios.post(
+    `${baseUrl}/other/reportExplanation`,
+    data,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
+const voteDifficulty = async (questionId: string, value: number) => {
+  const response = await axios.post(
+    `${baseUrl}/questions/${questionId}/voteDifficulty`,
+    { value },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return response.data;
+};
 interface UserData {
   username?: string;
   email?: string;
@@ -253,6 +370,7 @@ export default {
   createQuestions,
   editQuestionSet,
   editQuestion,
+  editQuestionImage,
   getAllUserData,
   deleteOneQuestion,
   deleteOneQuestionSet,
@@ -264,5 +382,14 @@ export default {
   getForeignSets,
   switchPrivacy,
   saveUserData,
-  deleteUser
+  deleteUser,
+  getGlobalStats,
+  saveWeeklyTimeGoal,
+  getWeeklyTimeGoal,
+  getFinishedSets,
+  saveFinishedSet,
+  getQuestionExplanation,
+  reportExplanation,
+  voteDifficulty,
+  createChatCompletion,
 };

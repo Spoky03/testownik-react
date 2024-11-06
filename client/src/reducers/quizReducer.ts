@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import { QuizState, Question, QuestionSet, UserState, Sidebar } from "../types";
+import { QuizState, Question, QuestionSet, UserState, Sidebar, ChatMessage } from "../types";
 import userService from "../services/userService";
 
 const initialState: QuizState = {
@@ -21,6 +21,15 @@ const initialState: QuizState = {
     initialRepetitions: 1,
     maxRepetitions: 5,
     additionalRepetitions: 1,
+  },
+  explanation: {
+    visible: false,
+    content: "",
+  },
+  chat: {
+    visible: false,
+    agreed: false,
+    messages: [],
   },
 };
 
@@ -113,7 +122,13 @@ const quizSlice = createSlice({
         }
       }
     },
-    save: (state, action: PayloadAction<{questions: {id:string,repeats:number}[], time: number}>) => {
+    save: (
+      state,
+      action: PayloadAction<{
+        questions: { id: string; repeats: number }[];
+        time: number;
+      }>
+    ) => {
       const progress = {
         questions: action.payload.questions,
         questionSetId: state.setId,
@@ -123,7 +138,6 @@ const quizSlice = createSlice({
         },
       };
       userService.saveProgress(progress);
-      
     },
     setSetId: (state, action: PayloadAction<string>) => {
       state.setId = action.payload;
@@ -135,11 +149,33 @@ const quizSlice = createSlice({
       state.preferences = action.payload;
     },
     updateSidebar: (state, action: PayloadAction<QuizState["sidebar"]>) => {
-      state.sidebar = action.payload
+      state.sidebar = action.payload;
     },
     setSidebar: (state, action: PayloadAction<Sidebar>) => {
-      state.sidebar = action.payload
-    }
+      state.sidebar = action.payload;
+    },
+    setExplanation: (
+      state,
+      action: PayloadAction<{ visible: boolean; content: string }>
+    ) => {
+      state.explanation = action.payload;
+    },
+    setExplanationVisible: (state, action: PayloadAction<boolean>) => {
+      state.explanation.visible = action.payload;
+    },
+    toggleChatVisible: (state) => {
+      state.chat.visible = !state.chat.visible;
+    },
+    toggleAgreed: (state) => {
+      state.chat.agreed = !state.chat.agreed;
+    },
+    addMessage: (state, action: PayloadAction<ChatMessage>) => {
+      state.chat.messages.push(action.payload);
+    },
+    editLastMessage: (state, action: PayloadAction<string>) => {
+      state.chat.messages[state.chat.messages.length - 1].content =
+        action.payload;
+    },
   },
 });
 
@@ -154,7 +190,13 @@ export const {
   setSetId,
   updatePreferences,
   updateSidebar,
-  setSidebar
+  setSidebar,
+  setExplanation,
+  setExplanationVisible,
+  toggleChatVisible,
+  addMessage,
+  toggleAgreed,
+  editLastMessage,
 } = quizSlice.actions;
 
 export const initializeQuiz = (
@@ -165,17 +207,21 @@ export const initializeQuiz = (
   return async (dispatch: AppDispatch) => {
     //find progess for this set
     const setProgress = progress.find((p) => p.questionSetId === set._id);
-    const questions = set.questions.map((question : Question) => {
+    const questions = set.questions.map((question: Question) => {
       const progress = setProgress?.questions.find(
-        (q: { id: string; repeats: number | undefined }) => q.id === question._id
+        (q: { id: string; repeats: number | undefined }) =>
+          q.id === question._id
       );
       return {
         ...question,
-        repeats: progress?.repeats !== undefined ? progress.repeats : initialRepeats,
+        repeats:
+          progress?.repeats !== undefined ? progress.repeats : initialRepeats,
       };
     });
     setProgress && dispatch(updateSidebar(setProgress.sidebar));
-    dispatch(setActive(questions.find((question) => question.repeats) as Question));
+    dispatch(
+      setActive(questions.find((question) => question.repeats) as Question)
+    );
     dispatch(init(questions));
   };
 };
@@ -199,9 +245,12 @@ export const resetQuiz = () => {
     dispatch(reset());
   };
 };
-export const saveQuizProgress = (questions: {id:string,repeats:number}[], time: number) => {
+export const saveQuizProgress = (
+  questions: { id: string; repeats: number }[],
+  time: number
+) => {
   return async (dispatch: AppDispatch) => {
-    dispatch(save({questions, time}));
+    dispatch(save({ questions, time }));
   };
 };
 export const setQuizSetId = (id: string) => {
@@ -216,6 +265,61 @@ export const updateQuizPreferences = (
     dispatch(updatePreferences(preferences));
   };
 };
-
+export const requestExplanation = (questionId: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(setExplanationVisible(true));
+      const res = await userService.getQuestionExplanation(questionId);
+      dispatch(setExplanation({ visible: true, content: res }));
+    } catch (e) {
+      dispatch(
+        setExplanation({ visible: true, content: "No explanation available" })
+      );
+    }
+  };
+};
+export const resetExplanation = () => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setExplanation({ visible: false, content: "" }));
+  };
+}
+export const toggleChatVisibility = () => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(toggleChatVisible());
+  };
+}
+export const setAgreed = (questionId: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const res = await userService.createChatCompletion(questionId, []);
+      console.log(res)
+      dispatch(addMessage({
+        role: "system",
+        content: res
+      }));
+      dispatch(toggleAgreed());
+    }
+    catch (e) {
+      dispatch(addMessage({ role: "system", content: "Failed to get response from OpenAi" }));
+    }
+  }
+}
+export const addChatMessage = (message: ChatMessage, questionId: string, messages: ChatMessage[]) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(addMessage(message));
+      dispatch(addMessage({
+        role: "system",
+        content: ""
+      }));
+      const res = await userService.createChatCompletion(questionId, [...messages, message]);
+      dispatch(editLastMessage(res));
+      
+    }
+    catch (e) {
+      dispatch(addMessage({ role: "system", content: "Failed to get response from OpenAi" }));
+    }
+  };
+}
 
 export default quizSlice.reducer;

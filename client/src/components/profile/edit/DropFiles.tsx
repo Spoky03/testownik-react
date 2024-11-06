@@ -3,7 +3,7 @@ import { createQuestion } from "@/reducers/userReducer";
 import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
 import { MdFileUpload as UploadIcon } from "react-icons/md";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

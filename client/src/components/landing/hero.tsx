@@ -55,7 +55,7 @@ export const Hero = ({ id }: { id?: string }) => {
         </div>
       </div>
       <motion.div
-        className={`col-span-2 overflow-x-visible mt-10 `}
+        className={`col-span-2 overflow-x-visible `}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}

@@ -11,14 +11,16 @@ export const DeleteConfirmation = ({
   }) => {
     const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
     const [effect, setEffect] = useState<boolean>(false);
-    const handleDeleteCallback = (event: React.MouseEvent) => {
+    const handleDeleteCallback = (event: React.MouseEvent<Element, MouseEvent>) => {
       event.stopPropagation();
       handleDelete(event);
       setConfirmDelete(false);
     }
 
     return (
-      <div className="place-self-center flex">
+      <div className="place-self-center flex"
+        onClick={(event) => event.stopPropagation()}
+      >
         {confirmDelete ? (
           <>
             <button onClick={handleDeleteCallback} className="pr-1">

@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import { createThemes } from "tw-colors";
-export default {
+import { withUt } from "uploadthing/tw";
+export default withUt({
   darkMode: [],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -140,4 +141,4 @@ export default {
       },
     }),
   ],
-};
+});

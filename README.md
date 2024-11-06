@@ -14,11 +14,35 @@ I plan to deploy it soon.
 - [x] move fetching data from app to subroutes
 - [x] Change register form to zod and shadcn
 - [x] Change login form to zod and shadcn
+- [x] BUG: changing subject clears out the description
+- [x] BUG: when reseting progress if progress not found server throws an error
+- [x] BUG: fetching likes
+- [x] Remove useless and stupid modal from browser
+- [x] "Finished" band on finished sets insead of disabled start button
+- [ ] Make addding tags code more clean
 - [ ] fill in mocks
 - [x] Change other form to zod and shadcn
 - [ ] forbid user from leaving in agreements
-- [ ] delete those testing users
+- [ ] delete testing users
 - [x] add deleting user backend
-- [ ] add something to display at profile
+- [x] clean up quiz container because right now it is accesibble with /quiz and /profile/dashboard
+- [x] add something to display at profile
+- [x] add goals to display at profile: shadcn graph (dates of users progress will be saved in backend )
+- [x] add global stats by summing new stats eacch time user saves and assigning them to todays date
+- [x] save goal to backend
+- [x] save finished counter sets to backend
+- [x] dispatch saving finished set after finishing it 
+- [ ] autosave quiz progres
+- [x] AI
+- [ ] adding images to questions
+- [ ] add uploading images with S3
+- [x] reset weekly progress every 7 days (make it collect progress from last 7 days)
+- [x] do same for daily goal
+- [ ] cookies notification
+- [ ] register email confirmation
+- [ ] register captcha
+- [ ] delete account confirmation
+- [ ] question comments / sets comments
+- [ ] federal login/register
+- [ ] login using usos web api
 - [ ] add contact form
-- [ ] ~~server side frontend build~~

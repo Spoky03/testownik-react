@@ -26,7 +26,6 @@ export const LangDropdown = () => {
   const changeLang = (lang: string) => {
     setLang(lang);
     document.documentElement.lang = lang;
-    console.log(lang);
     i18n.changeLanguage(lang);
   };
   return (

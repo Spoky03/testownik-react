@@ -9,6 +9,8 @@ import {
   Delete,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { QuestionSet } from 'src/interfaces/questionSet.interface';
@@ -18,11 +20,16 @@ import { Progress } from 'src/interfaces/user.interface';
 import { SignUpDto } from 'src/dto/signup-user.dto';
 import { SettingsDto } from './dto/save-settings.dto';
 import { UpdateUserEntity } from './dto/update-user.dto';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { WeeklyTimeGoalDto } from './dto/weekly-timeGoal.dto';
+import { FinishedSet } from './dto/finishedSets.dto';
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  //@Public() // DONT FORGET TO REMOVE THIS
+  @UseGuards(RolesGuard)
+  @Roles(['admin'])
   @Get()
   async findAll() {
     return this.usersService.findAll();
@@ -76,8 +83,35 @@ export class UsersController {
   async getForeignQuestionSets(@Request() req): Promise<QuestionSet[]> {
     return this.usersService.getBookmarkedForeignQuestionSets(req.user.sub);
   }
-  // @Get('user')
-  // async getUser(@Request() req) {
-  //   return req.user;
+  @Get('globalStats')
+  async getGlobalStatsByDate(
+    @Request() req,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ) {
+    return this.usersService.getGlobalStats(req.user.sub, startDate, endDate);
+  }
+  // @Post('globalStats')
+  // async saveGlobalStats(@Request() req) {
+  //   return this.usersService.saveGlobalStats(req.user.sub);
   // }
+  @Get('weeklyTimeGoal')
+  async getWeeklyGoal(@Request() req) {
+    return this.usersService.getWeeklyTimeGoal(req.user.sub);
+  }
+  @Post('weeklyTimeGoal')
+  async saveWeeklyGoal(
+    @Body() weeklyTimeGoal: WeeklyTimeGoalDto,
+    @Request() req,
+  ) {
+    return this.usersService.saveWeeklyTimeGoal(req.user.sub, weeklyTimeGoal);
+  }
+  @Get('finishedSets')
+  async getFinishedSets(@Request() req) {
+    return this.usersService.getFinishedSets(req.user.sub);
+  }
+  @Post('finishedSets')
+  async saveFinishedSets(@Request() req, @Body() finishedSet: FinishedSet) {
+    return this.usersService.saveFinishedSet(req.user.sub, finishedSet);
+  }
 }

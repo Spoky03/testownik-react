@@ -5,7 +5,8 @@
       "PROFILE": "Profile",
       "DASHBOARD": "Dashboard",
       "BROWSER": "Browser",
-      "NAV": "Navigation"
+      "NAV": "Navigation",
+      "LOGIN": "Login"
     },
     "CLOSE": "Close",
     "LANG": {
@@ -37,25 +38,93 @@
       "ITEMS": [
         {
           "title": "Strength in Numbers",
-          "description":
-            "Although students can gain knowledge through their own experiences, they learn most effectively by acquiring information from others. Listening, reading what others write is much more effective than studying entirely on your own. ",
+          "description": "Although students can gain knowledge through their own experiences, they learn most effectively by acquiring information from others. Listening, reading what others write is much more effective than studying entirely on your own. ",
           "annotation": "Kirschner et al., 2006"
         },
         {
           "title": "Repetition is Key",
-          "description":
-            "Students who took quizzes multiple times before an exam or credit scored better than those who did not do it at all. ",
+          "description": "Students who took quizzes multiple times before an exam or credit scored better than those who did not do it at all. ",
           "annotation": "Applied Cognitive Psychology, Vol. 33, No. 5, 2019."
         },
         {
           "title": "Don't Fear Failure",
-          "description":
-            "Even trying and failing is better than not trying at all. The mere attempt to recall an answer helps to consolidate the material in memory.",
+          "description": "Even trying and failing is better than not trying at all. The mere attempt to recall an answer helps to consolidate the material in memory.",
           "annotation": "Regan Gurung"
         }
       ]
-      }
     },
+    "INFO_PICKER": {
+      "TITLE": "Why is it worth using our platform?",
+      "DESCRIPTION": "Get to know our features, find out why it's worth using our platform, and sign up today! And if you have any suggestions, let us know!",
+      "ITEMS": [
+        {
+          "title": "Knowledge",
+          "annotation": "Learning has never been so easy, sign up today and start.",
+          "content": [
+            "Powerful learning tool",
+            "Access to many tests",
+            "Systematized materials"
+          ]
+        },
+        {
+          "title": "Free",
+          "annotation": "*Probably",
+          "content": [
+            "We do not charge fees",
+            "No hidden costs",
+            "*Forever free"
+          ]
+        },
+        {
+          "title": "Profile",
+          "annotation": "You don't have to worry about forgetting to study!",
+          "content": ["Track your progress", "Set goals"]
+        },
+        {
+          "title": "Save",
+          "annotation": "Everything is saved automatically, you don't have to worry about losing progress",
+          "content": [
+            "Save your progress",
+            "Track your results",
+            "On multiple devices"
+          ]
+        },
+        {
+          "title": "Search",
+          "annotation": "Create a community, share knowledge with others",
+          "content": ["Search databases created by others", "Share your own"]
+        },
+        {
+          "title": "AI",
+          "annotation": "Share your knowledge with others, create content for others",
+          "content": [
+            "AI-supported question explanations",
+            "Automatic generation of explanations",
+            "Edit and add your own explanations"
+          ]
+        },
+        {
+          "title": "More",
+          "annotation": "We are open to any suggestions, contact us",
+          "content": [
+            "Continuous development",
+            "New features coming soon",
+            "If you have an idea or suggestion, let us know ⇩"
+          ],
+          "links": [
+            {
+              "name": "Email",
+              "url": "mailto:PLACEHOLDER@gmail.com"
+            },
+            {
+              "name": "Contact Form",
+              "url": "https://www.google.com/"
+            }
+          ]
+        }
+      ]
+    }
+  },
   "BROWSER": {
     "TITLE": "Browser",
     "AUTHOR": "by",
@@ -68,5 +137,99 @@
       "FILTER": "Filter",
       "SORT": "Sort"
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "NAV": {
+      "PROFILE": "Profile",
+      "DASHBOARD": "Dashboard",
+      "SETS": "Your sets",
+      "NAV": "Navigation",
+      "SETTINGS": "Settings",
+      "AGREEMENTS": "Agreements",
+      "BROWSER": "Browser",
+      "LOGOUT": "Logout"
+    },
+    "PROFILE" : {
+      "WEEKLY" : "Tygodniowy Cel",
+      "GOAL_TIME": "Twój cel",
+      "MINUTES" : " Minuty",
+      "MINUTES_LEFT" : "Pozostało minut",
+      "PROGRESS" : "Postęp",
+      "MASTERED" : {
+        "TITLE" : "Mastered Questions",
+        "DESCRIPTION" : "Total number of questions you have mastered this week"
+      },
+      "FINISHED" : {
+        "TITLE" : "Finished Sets",
+        "DESCRIPTION" : "Total number of sets you have finished"
+      },
+      "CHART" : {
+        "TITLE" : "Your Week",
+        "DESCRIPTION" : "Your weekly progress in mastering questions",
+        "PERCENT" : "of your answers were correct",
+        "NO_DATA": "No data to display",
+        "CORRECT" : "Correct",
+        "INCORRECT" : "Incorrect"
+      }
+    }
+  },
+  "QUIZ" : {
+    "SIDEBAR": {
+      "TOTAL": "Answers",
+      "MASTERED" : "Mastered Questions",
+      "TOTAL_QUESTIONS" : "Total Questions",
+      "TIME" : "Total Time",
+      "EXPLANATION" : "Explanation"
+    },
+    "EXPLANATION": {
+      "DISCLAIMER": {
+        "TITLE": "Disclaimer ",
+        "DESCRIPTION": "This explanation is generated by generative artificial intelligence. It means that the answer may not be 100% accurate. Always verify the answer with more reliable sources."
+      },
+      "ANSWER": "Answer",
+      "EXPLANATION": "Explanation",
+      "REPORT": {
+        "TITLE": "Report this Explanation"
+      }
+    },
+    "DETAILS": {
+      "TITLE": "Question Details",
+      "DESCRIPTION": "Users difficulty rating: ",
+      "TOTAL": "Total votes: ",
+      "AVERAGE": "Average: "
+    },
+    "CHATBOT" : {
+      "TITLE": "Chat",
+      "DESCRIPTION": "Ask about more details regarding your question.",
+      "AGREE": "Agree and proceed",
+      "SEND": "Send",
+      "PLACEHOLDER": "Type your message here..."
+    }
+  },
+  "FOOTER": {
+    "TITLE" : "© Stefan Grzelec",
+    "DESCRIPTION" : "Testownik app developed entirely by me with ui design inspiration from original",
+    "INLINE": "Testownik electron app.",
+    "LINKS": [
+      {
+        "name" : "Terms & Conditions",
+        "ITEMS" : [
+          "Agreements", "Privacy Policy"
+        ]
+      },
+      {
+        "name" : "Useful Links",
+        "ITEMS" : [
+          "Dashboard", "Browser"
+        ]
+      },
+      {
+        "name" : "Contact",
+        "ITEMS" : [
+          "Email", "Github"
+        ]
+      }
+    ]
   }
 }

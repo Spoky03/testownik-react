@@ -1,17 +1,21 @@
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { FaCheck as CheckIcon } from "react-icons/fa6";
 import { MdAdd as AddIcon } from "react-icons/md";
 import { MdClose as CloseIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { createQuestion, editQuestion } from "../../reducers/userReducer";
-import { Question, Answer } from "../../types";
+import { Button } from "@/components/ui/button";
+import { createQuestion, editQuestion } from "@//reducers/userReducer";
+import { Question, Answer } from "@/types";
 import { AppDispatch } from "@/store";
 import { useMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { IoMdImage as UploadImageIcon } from "react-icons/io";
+import { Modal } from "@/components/shared/Modal";
+import { DropImage } from "./DropImage";
+import Markdown from "react-markdown";
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
 export const NewQuestionForm = ({
@@ -24,9 +28,11 @@ export const NewQuestionForm = ({
   questionToEdit?: Question;
 }) => {
   const { toast } = useToast();
+  const [openImageModal, setOpenImageModal] = useState(false);
   const match = useMatch("/profile/sets/:id");
   const dispatch = useDispatch<AppDispatch>();
   const [question, setQuestion] = useState<string>("");
+  const [showExplanation, setShowExplanation] = useState(false);
   const [answers, setAnswers] = useState<CreatedAnswer[]>([
     { answer: "", correct: false, id: 0 },
   ]);
@@ -69,6 +75,7 @@ export const NewQuestionForm = ({
     const createdQuestion = {
       question,
       answers: answers.filter((answer) => answer.answer.trim() !== ""),
+      explanation: "",
     };
     if (match?.params.id) {
       let res;
@@ -103,41 +110,63 @@ export const NewQuestionForm = ({
   return (
     <div className="bg-ternary rounded-md px-2 py-1 flex justify-between flex-col mb-3">
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-between">
+        <div className="flex flex-col">
           <div className="grid w-full gap-1.5 p-2">
             <Label htmlFor="question">Create new question</Label>
             <Textarea
-              className=""
+              className="min-h-24"
               placeholder="Type your question here."
               id="question"
               onChange={(e) => setQuestion(e.target.value)}
               value={question}
             />
           </div>
-          <div className="place-self-end pb-2">
-            <Button
-              className="place-self-center"
-              type="submit"
-              variant="outline"
-              size={"icon"}
-            >
-              {editMode && setEditMode ? (
-                <CheckIcon size={24} className="mx-3" />
-              ) : (
-                <AddIcon size={24} className="mx-2" />
-              )}
-            </Button>
-            {editMode && setEditMode && (
+          <div className="flex justify-between  p-2">
+          <div className="w-full flex gap-2">
               <Button
-                className=" place-self-center"
-                type="button"
-                variant={"outline"}
+                className="place-self-center"
+                type="submit"
+                variant="outline"
                 size={"icon"}
-                onClick={() => setEditMode(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenImageModal(true);
+                }}
               >
-                {<CloseIcon size={24} />}
+                <UploadImageIcon size={24} />
               </Button>
-            )}
+              <Label
+                htmlFor="image"
+                className="place-self-center opacity-80 font-normal"
+              >
+                No image selected
+              </Label>
+            </div>
+            <div className="w-full flex flex-row gap-2 place-self-end justify-end">
+              <Button
+                className="place-self-center  border-success dark:border-success black:border-success"
+                type="submit"
+                variant="outline"
+                size={"icon"}
+              >
+                {(editMode && setEditMode) ? (
+                  <CheckIcon size={22} />
+                ) : (
+                  <AddIcon size={24} className="mx-2" />
+                )}
+              </Button>
+              {editMode && setEditMode && (
+                <Button
+                  className=" place-self-center"
+                  type="button"
+                  variant={"outline"}
+                  size={"icon"}
+                  onClick={() => setEditMode(false)}
+                >
+                  {<CloseIcon size={24} />}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
         <hr />
@@ -183,6 +212,28 @@ export const NewQuestionForm = ({
             })}
         </div>
       </form>
+      {questionToEdit?.explanation ? (
+        <Button
+          onClick={() => setShowExplanation(!showExplanation)}
+          variant={"ghost"}
+        >
+          {showExplanation ? "Hide explanation" : "Show explanation"}
+        </Button>
+      ) : (
+        <Button variant={"ghost"} disabled>
+          {"No explanation availiable"}
+        </Button>
+      )}
+      <div className="text-sm px-4">
+        <Markdown>
+          {showExplanation ? questionToEdit?.explanation : ""}
+        </Markdown>
+      </div>
+      <Modal
+        open={openImageModal}
+        setOpen={setOpenImageModal}
+        content={<DropImage question={questionToEdit as Question} />}
+      />
     </div>
   );
 };

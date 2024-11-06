@@ -17,4 +17,23 @@ export const QuestionSchema = new mongoose.Schema({
       },
     },
   },
+  explanation: {
+    type: String,
+    default: '',
+  },
+  report: {
+    type: Number,
+    default: 0,
+  },
+  difficulty: {
+    type: Array,
+    items: {
+      type: Object,
+      properties: {
+        user: String,
+        value: Number,
+      },
+    },
+    default: [],
+  },
 });

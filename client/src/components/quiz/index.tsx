@@ -1,6 +1,5 @@
-import Quiz from "./Quiz";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { SetList } from "./SetList";
+import { useLocation } from "react-router-dom";
+import { SetList } from "../profile/dashboard/SetList";
 import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -9,16 +8,12 @@ const QuizContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   useEffect(() => {
-    if (location.pathname === '/dashboard') {
-      console.log("fetching progress");
+    if (location.pathname === "/profile/dashboard") {
       dispatch(getProgress());
     }
-  }, [dispatch,location.pathname]);
+  }, [dispatch, location.pathname]);
   return (
-    <Routes>
-      <Route path="/" element={<SetList />} />
-      <Route path="/:id" element={<Quiz />} />
-    </Routes>
+    <SetList />
   );
 };
 

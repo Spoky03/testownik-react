@@ -43,6 +43,7 @@ export class QuestionsSetsService {
         liked: false,
       }));
     }
+    console.log(sets);
     return sets.map((set) => ({
       ...set.toObject(), // Assuming set is a Mongoose document. Use set.toObject() if _doc doesn't work
       likes: set.likes.length,
@@ -86,7 +87,9 @@ export class QuestionsSetsService {
       .populate('questions')
       .exec();
     mySets.metaData = { ...mySets.metaData, ...editQuestionSetDto.metaData };
-    mySets.description = editQuestionSetDto.description;
+    if (editQuestionSetDto.description) {
+      mySets.description = editQuestionSetDto.description;
+    }
     mySets.save();
     return {
       ...mySets.toObject(),

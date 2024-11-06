@@ -10,13 +10,17 @@ import { TasksModule } from './tasks/tasks.module';
 import { join } from 'path';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { OpenaiModule } from './openai/openai.module';
+import { OtherModule } from './other/other.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
       {
         name: 'short',
         ttl: 1000,
-        limit: 3,
+        limit: 6, // change this to 5 later TODO IMPORTANT
       },
       {
         name: 'medium',
@@ -36,8 +40,31 @@ import { APP_GUARD } from '@nestjs/core';
     AuthModule,
     ScheduleModule.forRoot(),
     TasksModule,
+    OtherModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'), // 'public' is the directory where your React build is located
+    }),
+    OpenaiModule,
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.SMTP_HOST,
+        port: parseInt(process.env.SMTP_PORT, 10),
+        secure: true,
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      },
+      defaults: {
+        from: `"nest-modules" <${process.env.SMTP_USER}>`,
+      },
+      template: {
+        dir: __dirname + '/templates',
+        adapter: new PugAdapter(),
+        options: {
+          strict: true,
+        },
+      },
     }),
   ],
   providers: [

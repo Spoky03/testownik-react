@@ -24,8 +24,8 @@ export class QuestionsSetsController {
   @Public()
   @Get()
   async findAll(@Request() req): Promise<GetQuestionSetDto[]> {
-    const userId = req.user ? req.user.sub : null;
-    return await this.questionsSetsService.findAll(userId);
+    console.log(req.user);
+    return await this.questionsSetsService.findAll(req.user?.sub);
   }
   @Post()
   async create(

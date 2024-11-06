@@ -15,6 +15,8 @@ import { Footer } from "./components/shared/Footer";
 import { AuthenticatedRoute } from "./components/shared/AuthenticatedRoute";
 import { RouteNotFound } from "./components/shared/RouteNotFound";
 import ScrollToTop from "./components/shared/ScrollToTop";
+import { AdminPanel } from "./components/admin";
+import Quiz from "./components/quiz/Quiz";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setTheme = useTheme();
@@ -37,26 +39,26 @@ const App = () => {
       }
     }
     fetchData();
-  }
-  , [dispatch]);
+  }, [dispatch]);
 
   return (
     <>
-      <main className={`w-full bg-ternary text-text min-h-screen`}>
+      <main className={`w-full bg-ternary text-text min-h-screen h-screen`}>
         <Navbar />
-        <div className="sm:pt-10 min-h-screen w-full">
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route element={<AuthenticatedRoute />}>
-              <Route path="profile/*" element={<Profile />} />
-              {/* <Route path="dashboard/*" element={<QuizContainer />} /> */}
-            </Route>
-            <Route path="browser/*" element={<BrowserContainer />} />
-            <Route path="/*" element={<RouteNotFound />} />
-          </Routes>
+        <ScrollToTop />
+        <div className="min-h-[calc(100vh-74px)] bg-ternary">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route element={<AuthenticatedRoute />}>
+            <Route path="profile/*" element={<Profile />} />
+            <Route path="admin/*" element={<AdminPanel />} />
+            <Route path="quiz/:id" element={<Quiz />} />
+          </Route>
+          <Route path="browser/*" element={<BrowserContainer />} />
+          <Route path="/*" element={<RouteNotFound />} />
+        </Routes>
         </div>
         <Footer />
       </main>
