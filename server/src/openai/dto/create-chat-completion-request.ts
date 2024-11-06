@@ -1,5 +1,9 @@
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
+export class CreateAskForExplanationRequest {
+  @IsString()
+  questionId: string;
+}
 export class CreateChatCompletionRequest {
   @IsString()
   questionId: string;

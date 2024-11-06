@@ -121,7 +121,17 @@ RestAPI
 ## 4. Backend
 
 ### 4.1 Struktura Plików
-Opis struktury katalogów i plików w folderze backendowym.
+src:
+- **auth**: serwis związany z uwierzytelnianiem oraz autoryzacją
+- **database**: moduł bazodanowy
+- **helpers**: funkcje pomocnicze
+- **interfaces**: typy
+- **mail**: moduł mailowy
+- **questions**: moduł pytań
+- **questionsSets**: moduł quizów
+- **schemas**: definicje bazy danych
+- **tasks**: crony
+- **users**: moduł użytkowników
 
 ### 4.2 Technologie i Biblioteki
 - Typescript
@@ -194,21 +204,6 @@ erDiagram
     USERS ||--o{ QUESTION_SETS : author
 ```
 
----
-
-## 6. Testy
-
-### 6.1 Testy Jednostkowe
-Opis struktury i pokrycia testów jednostkowych (np. testy komponentów frontendowych, testy funkcji backendowych).
-
-### 6.2 Testy Integracyjne
-Opis testów integracyjnych (np. testy API, testy bazy danych).
-
-### 6.3 Narzędzia do Testów
-Lista narzędzi do testowania (np. Jest, Mocha, Cypress).
-
----
-
 ## 7. Wdrożenie
 
 ### 7.1 Wymagania Systemowe
@@ -244,12 +239,14 @@ Lista narzędzi do testowania (np. Jest, Mocha, Cypress).
     cd server
     npm run deploy -m "your commit message"
 ```
-then merge develop to main
+then merge pull main <-- develop
 
 ## 8. Bezpieczeństwo
 
 ### 8.1 Środki Bezpieczeństwa
-Opis środków bezpieczeństwa wdrożonych w aplikacji (np. zabezpieczenia przed CSRF, XSS, SQL Injection).
+- React sanityzuje wszystkie inputy
+- DTO
+- RoleGuards
 
 ### 8.2 Zarządzanie Danymi Osobowymi
 Zasady przetwarzania i przechowywania danych osobowych zgodnie z wymogami RODO.
@@ -258,14 +255,7 @@ Zasady przetwarzania i przechowywania danych osobowych zgodnie z wymogami RODO.
 
 ## 9. Monitoring i Logowanie
 
-### 9.1 Logowanie
-Opis struktury logów oraz narzędzi do logowania.
-
-### 9.2 Monitoring
-Opis narzędzi do monitoringu aplikacji (np. Prometheus, Grafana).
-
-### 9.3 Zarządzanie Błędami
-Opis strategii obsługi błędów i ich zgłaszania (np. Sentry, własne mechanizmy alertów).
+Wbudowane narzędzie monitorowania heroku
 
 
 **Dokument przygotowany przez**: Stefan Grzelec  

@@ -1,5 +1,8 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { CreateChatCompletionRequest } from './dto/create-chat-completion-request';
+import {
+  CreateAskForExplanationRequest,
+  CreateChatCompletionRequest,
+} from './dto/create-chat-completion-request';
 import { OpenaiService } from './openai.service';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -11,7 +14,7 @@ export class OpenaiController {
   @UseGuards(RolesGuard)
   @Roles(['admin', 'premium'])
   @Post('ask')
-  async createChatCompletion(@Body() body: CreateChatCompletionRequest) {
+  async createChatCompletion(@Body() body: CreateAskForExplanationRequest) {
     return this.openaiService.askForExplanation(body.questionId);
   }
 
