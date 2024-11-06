@@ -1,4 +1,4 @@
-import React, { Component, CSSProperties, MouseEvent } from 'react';
+import { Component, CSSProperties, MouseEvent } from 'react';
 
 interface ReactStarsProps {
   className?: string;
