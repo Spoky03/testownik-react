@@ -240,14 +240,11 @@ Lista narzędzi do testowania (np. Jest, Mocha, Cypress).
 ```
 
 ### 7.4 Proces Wdrożenia na heroku
-Must be on main branch
 ```sh
-    cd client
-    npm run build:prod (build:prod-w on windows)
-    cd ..
     cd server
     npm run deploy -m "your commit message"
 ```
+then merge develop to main
 
 ## 8. Bezpieczeństwo
 
