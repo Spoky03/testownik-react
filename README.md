@@ -1,7 +1,6 @@
 # TESTOWNIK
 ### React, Nest.js
-A Fullstack project that I have worked on. It's a quiz app that lets you create and study flashcards. Users can login and see their progess, share quizzes with ohers, browse for public ones, and edit them. App enables you to store your quizzes on the server as well as your progress. It was built with React, Nest.js, and MongoDB. I have learned a lot about fullstack development while working on this project. I plan to add more features in the future.
-I plan to deploy it soon.
+A Fullstack project that I have worked on. It's a quiz app that lets you create and study flashcards. Users can login and see their progess, share quizzes with ohers, browse for public ones, and edit them. App enables you to store your quizzes on the server as well as your progress. It was built with React, Nest.js, and MongoDB.
 ![image info](https://stefangrzelec.top/public/images/testo1.png)
 ![image info](https://stefangrzelec.top/public/images/testo2.png)
 ![image info](https://stefangrzelec.top/public/images/testo3.png)
@@ -19,11 +18,9 @@ I plan to deploy it soon.
 - [x] BUG: fetching likes
 - [x] Remove useless and stupid modal from browser
 - [x] "Finished" band on finished sets insead of disabled start button
-- [ ] Make addding tags code more clean
-- [ ] fill in mocks
+- [x] reset weekly progress every 7 days (make it collect progress from last 7 days)
+- [x] do same for daily goal
 - [x] Change other form to zod and shadcn
-- [ ] forbid user from leaving in agreements
-- [ ] delete testing users
 - [x] add deleting user backend
 - [x] clean up quiz container because right now it is accesibble with /quiz and /profile/dashboard
 - [x] add something to display at profile
@@ -32,17 +29,16 @@ I plan to deploy it soon.
 - [x] save goal to backend
 - [x] save finished counter sets to backend
 - [x] dispatch saving finished set after finishing it 
-- [ ] autosave quiz progres
 - [x] AI
+- [ ] forbid user from leaving in agreements
+- [ ] delete testing users
+- [ ] autosave quiz progres
 - [ ] adding images to questions
 - [ ] add uploading images with S3
-- [x] reset weekly progress every 7 days (make it collect progress from last 7 days)
-- [x] do same for daily goal
+- [ ] Make addding tags code more clean
+- [ ] fill in mocks
 - [ ] cookies notification
 - [ ] register email confirmation
 - [ ] register captcha
 - [ ] delete account confirmation
-- [ ] question comments / sets comments
-- [ ] federal login/register
 - [ ] login using usos web api
-- [ ] add contact form

@@ -1,4 +1,4 @@
-# Dokumentacja Techniczna Aplikacji Fullstack
+# Dokumentacja Techniczna interaktywnej aplikacji edukacyjnej wspomaganej przez ChatGPT
 
 **Nazwa Aplikacji**:  Testo
 **Wersja**:  1.0.0
@@ -33,7 +33,7 @@ graph TD
 
     %% External Services Section
     D -->|Auth, mailer| B
-    D -->|AWS S3| B
+    D -->|OpenAI API| B
     
     %% Monitoring and Logging
     B --> E[Monitoring i Logowanie]
@@ -108,7 +108,11 @@ Decorators, MVC
 - Axios
 
 ### 3.3 Kluczowe Komponenty
-Opis głównych komponentów interfejsu użytkownika i ich funkcji.
+- Strona główna
+- Quiz
+- Zestawy użytkownika
+- Postępy
+- Edytowanie zestawów
 
 ### 3.4 Logika Stanu
 Redux toolkit przechowuje i aktualizuje stan aplikacji otrzymując dane i wykonując zapytania do servera.
@@ -142,18 +146,68 @@ src:
 
 ### 4.3 Endpoints API
 
-| Metoda | Endpoint            | Opis                                  | Parametry          |
-|--------|----------------------|---------------------------------------|---------------------|
-| GET    | `/api/users`        | Pobiera listę użytkowników            | `page`, `limit`    |
-| POST   | `/api/users`        | Tworzy nowego użytkownika             | `name`, `email`    |
+```api/users``` :
+| Metoda | Endpoint                | Opis                                               | Parametry                |
+|--------|-------------------------|----------------------------------------------------|--------------------------|
+| GET | `/me` | Zwracam informacje o użytkowniku | `--` | 
+| PUT    | `/me`               | Aktualizuje informacje o użytkowniku               | `userData`               |
+| DELETE | `/me`               | Usuwa konto użytkownika                            |                          |
+| POST   | `/`                  | Tworzy nowego użytkownika                          | `createUserDto`          |
+| PUT    | `/settings`         | Zapisuje ustawienia użytkownika                    | `settings`               |
+| PUT    | `/progress`         | Zapisuje postęp użytkownika                        | `Progress`               |
+| GET    | `/progress`         | Zwraca postęp użytkownika                          |                          |
+| DELETE | `/progress/:id`     | Resetuje postęp użytkownika                        | `id`                     |
+| POST   | `/bookmarks`        | Dodaje zakładkę                                    | `id`                     |
+| DELETE | `/bookmarks/:id`    | Usuwa zakładkę                                     | `id`                     |
+| GET    | `/foreign`          | Zwraca zestawy pytań oznaczone jako obce           |                          |
+| GET    | `/globalStats`      | Zwraca globalne statystyki użytkownika             | `startDate`, `endDate`   |
+| GET    | `/weeklyTimeGoal`   | Zwraca tygodniowy cel czasowy użytkownika          |                          |
+| POST   | `/weeklyTimeGoal`   | Zapisuje tygodniowy cel czasowy użytkownika        | `weeklyTimeGoal`         |
+| GET    | `/finishedSets`     | Zwraca ukończone zestawy użytkownika               |                          |
+| POST   | `/finishedSets`     | Zapisuje ukończony zestaw użytkownika              | `finishedSet`            |
 
-### 4.4 Logika Biznesowa
-Opis kluczowych funkcji i algorytmów zaimplementowanych po stronie backendu.
+```api/sets``` :
+| Metoda | Endpoint                   | Opis                                               | Parametry                |
+|--------|----------------------------|----------------------------------------------------|--------------------------|
+| GET    |       `/`          | Zwraca wszystkie zestawy pytań                     |                          |
+| POST   |     `/`            | Tworzy nowy zestaw pytań                           | `createQuestionSetDto`   |
+| PUT    | `/:id`            | Edytuje istniejący zestaw pytań                    | `editQuestionSetDto`, `id` |
+| GET    | `/:id`            | Zwraca jeden zestaw pytań                          | `id`                     |
+| DELETE | `/:id`            | Usuwa jeden zestaw pytań                           | `id`                     |
+| PUT    | `/:id/privacy`    | Zmienia prywatność zestawu pytań                   | `id`                     |
+| POST   | `/:id/like`       | Dodaje lub usuwa polubienie zestawu pytań          | `id`                     |
 
-### 4.5 Autoryzacja i Autentykacja
-Json web token
+```api/questions``` :
 
-### 4.6 Walidacja Danych
+| Metoda | Endpoint                          | Opis                                  | Parametry                |
+|--------|-----------------------------------|----------------------------------------------------|--------------------------|
+| GET    |     `/`              | Zwraca wszystkie pytania                           |                          |
+| POST   |     `/`              | Dodaje pytania do zestawu                          | `appendQuestionsDto`     |
+| DELETE | `/:id`              | Usuwa pytanie                                      | `id`                     |
+| PUT    | `/:id`              | Aktualizuje pytanie                                | `id`, `body`             |
+| PUT    | `/:id/image`        | Przesyła obraz do pytania                          | `file`                   |
+| POST   | `/:id/voteDifficulty`| Głosuje na trudność pytania                        | `id`, `DifficultyVoteDto`|
+
+```auth``` :
+
+| Metoda | Endpoint         | Opis                                               | Parametry                |
+|--------|------------------|----------------------------------------------------|--------------------------|
+| POST   | `/login`    | Loguje użytkownika                                 | `signInDto`              |
+| POST   | `/auth/register` | Rejestruje nowego użytkownika                      | `signUpDto`              |
+| GET    | `/auth/profile`  | Zwraca profil zalogowanego użytkownika             |                          |
+
+
+```api/openai``` :
+
+| Metoda | Endpoint             | Opis                                               | Parametry                          |
+|--------|----------------------|----------------------------------------------------|------------------------------------|
+| POST   | `/ask`    | Tworzy wyjaśnienie pytania                         | `CreateAskForExplanationRequest`   |
+| POST   | `/chat`   | Tworzy chat completion na podstawie wiadomości     | `CreateChatCompletionRequest`      |
+
+### 4.4 Autoryzacja i Autentykacja
+Json web token, wbudowane narzędia nest.js
+
+### 4.5 Walidacja Danych
 DTO, class-validators
 
 ---
@@ -204,18 +258,17 @@ erDiagram
     USERS ||--o{ QUESTION_SETS : author
 ```
 
-## 7. Wdrożenie
+## 6. Wdrożenie
 
-### 7.1 Wymagania Systemowe
-- **Serwer**: Minimalne wymagania sprzętowe i system operacyjny.
-- **Środowisko Uruchomieniowe**: Wersje języka programowania, bazy danych, itp.
+### 6.1 Wymagania Systemowe
+- **Środowisko Uruchomieniowe**: wymagany node.js oraz git
 
-### 7.2 Konfiguracja
+### 6.2 Konfiguracja
 #### Zmienne środowiskowe:
 - CONSUMER_KEY="abc"
 - CONSUMER_SECRET="abc"
-- DATABASE_URL="mongodb+srv://..."
-- DB_PASSWORD=""
+- DATABASE_URL="mongodb+srv://abc"
+- DB_PASSWORD="abc"
 - JWT_SECRET="abc"
 - OPENAI_API_KEY="sk-proj-abc"
 - SECRET="abc"
@@ -225,7 +278,7 @@ erDiagram
 - SMTP_USER=your-email@gmail.com
 - SMTP_PASS=your-email-password
 
-### 7.3 Instrukcje Instalacji w środowisku lokalnym
+### 6.3 Instrukcje Instalacji w środowisku lokalnym
 ```sh
     cd client
     npm run build:prod (build:prod-w on windows)
@@ -234,26 +287,25 @@ erDiagram
     npm run build
 ```
 
-### 7.4 Proces Wdrożenia na heroku
+### 6.4 Proces Wdrożenia na heroku
 ```sh
     cd server
     npm run deploy -m "your commit message"
 ```
-then merge pull main <-- develop
+następnie: merge pull main <-- develop
 
-## 8. Bezpieczeństwo
+## 7. Bezpieczeństwo
 
-### 8.1 Środki Bezpieczeństwa
+### 7.1 Środki Bezpieczeństwa
 - React sanityzuje wszystkie inputy
 - DTO
 - RoleGuards
 
-### 8.2 Zarządzanie Danymi Osobowymi
-Zasady przetwarzania i przechowywania danych osobowych zgodnie z wymogami RODO.
-
+### 7.2 Zarządzanie Danymi Osobowymi
+~~Zasady przetwarzania i przechowywania danych osobowych zgodnie z wymogami RODO.~~
 ---
 
-## 9. Monitoring i Logowanie
+## 8. Monitoring i Logowanie
 
 Wbudowane narzędzie monitorowania heroku
 
