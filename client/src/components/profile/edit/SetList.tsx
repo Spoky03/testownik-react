@@ -22,6 +22,7 @@ import {
 import { Modal } from "@/components/shared/Modal";
 import { Button } from "../../ui/button";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 const SingleSet = ({ set }: { set: QuestionSet }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [effect, setEffect] = useState(false);
@@ -110,20 +111,21 @@ const SingleSet = ({ set }: { set: QuestionSet }) => {
 };
 export const SetList = () => {
   const sets = useSelector((state: RootState) => state.user.user.questionSets);
+  const { t } = useTranslation("translation", { keyPrefix: "DASHBOARD.SETS" });
   const [showModal, setShowModal] = useState(false);
   const usersSets = sets?.filter((set: QuestionSet) => !set.foreign);
   return (
     <div className="w-full">
       <div className="flex w-full place-content-end p-2">
         <Button type={"button"} onClick={() => setShowModal(true)}>
-          {"Create new set"}
+          {t("ADD_NEW")}
         </Button>
       </div>
       <br />
       {usersSets && usersSets.length > 0 && (
         <div className="flex justify-between mx-2 md:mx-4">
-          <h1 className="py-1 px-4">Your Sets</h1>
-          <h1 className="py-1 px-4">Questions</h1>
+          <h3 className="py-1 px-4">{t("SETS")}</h3>
+          <h3 className="py-1 px-4">{t("QUESTIONS")}</h3>
         </div>
       )}
       <div className="flex min-h-full gap-2 w-full flex-col">
@@ -141,13 +143,12 @@ export const SetList = () => {
               className="text-center place-self-center w-full mt-5 font-semibold text-xl underline hover:cursor-pointer"
               onClick={() => setShowModal(true)}
             >
-              Add your first set
+              {t("ADD_NEW")}
             </a>
           </div>
         )}
         <p className="place-self-end p-3 opacity-70 text-xs">
-          Note: Sets without at least 1 question won't be visible to other
-          users.
+          {t("DISCLAIMER")}
         </p>
       </div>
       <Modal

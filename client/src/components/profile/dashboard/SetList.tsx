@@ -5,8 +5,10 @@ import { SetListTypes } from "@/types";
 import { MdOutlineSort as SortIcon } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { ShotThroughTitle } from "@/components/shared/ShotThroughTitile";
+import { useTranslation } from "react-i18next";
 export const SetList = () => {
   const [sort, setSort] = useState<boolean>(false);
+  const { t } = useTranslation("translation", { keyPrefix: "DASHBOARD.DASHBOARD" });
   const [sortedSetList, setSortedSetList] = useState<QuestionSet[]>([]);
   const [foreignAndNotBookmarked, setforeignAndNotBookmarked] = useState<
     QuestionSet[]
@@ -66,7 +68,7 @@ export const SetList = () => {
           }`}
         />
       </div>
-      <ShotThroughTitle title="Your Sets" className="pb-4" />
+      <ShotThroughTitle title={t("SETS")} className="pb-4" />
       <div className="flex gap-4 w-full flex-col">
         {sortedSetList && sortedSetList.length>0 ? (
           sortedSetList.map((set: QuestionSet) => {
@@ -85,7 +87,7 @@ export const SetList = () => {
             );
           })
         ) : (
-          <p className="text-center 4xl p-10">No sets found</p>
+          <p className="text-center 4xl p-10">{t("NOSETS")}</p>
         )}
       </div>
       {foreignAndNotBookmarked.length > 0 && (

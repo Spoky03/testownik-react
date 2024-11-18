@@ -152,6 +152,18 @@
       "BROWSER": "Przeglądarka",
       "LOGOUT": "Wyloguj"
     },
+    "DASHBOARD": {
+      "SETS": "Twoje zestawy",
+      "NOSETS": "Nie masz jeszcze żadnych zestawów"
+    },
+    "SETS": {
+      "SETS":"Twoje zestawy",
+      "QUESTIONS": "Pytania",
+      "EDIT": "Edytuj",
+      "DELETE": "Usuń",
+      "ADD_NEW": "Dodaj nowy zestaw",
+      "DISCLAIMER": "Zestawy bez przynajmniej jednego pytania nie będą widoczne dla innych użytkowników."
+    },
     "PROFILE" : {
       "WEEKLY" : "Tygodniowy Cel",
       "GOAL_TIME": "Twój cel",

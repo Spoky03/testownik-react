@@ -150,6 +150,18 @@
       "BROWSER": "Browser",
       "LOGOUT": "Logout"
     },
+    "DASHBOARD": {
+      "SETS": "Your sets",
+      "NOSETS": "No sets yet"
+    },
+    "SETS": {
+      "SETS":"Your sets",
+      "QUESTIONS": "Questions",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "ADD_NEW": "Create new set",
+      "DISCLAIMER": "Note: Sets without at least 1 question won't be visible to other users."
+    },
     "PROFILE" : {
       "WEEKLY" : "Tygodniowy Cel",
       "GOAL_TIME": "Twój cel",

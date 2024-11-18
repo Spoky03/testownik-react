@@ -42,7 +42,6 @@ I plan to deploy it soon.
 - [ ] register email confirmation
 - [ ] register captcha
 - [ ] delete account confirmation
-- [ ] question comments / sets comments
 - [ ] federal login/register
 - [ ] login using usos web api
 - [ ] add contact form
