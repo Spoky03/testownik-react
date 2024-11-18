@@ -20,6 +20,7 @@ import {
   CreateQuestionDto,
 } from 'src/dto/create-question.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DifficultyVoteDto } from './dto/difficulty-vote.dto';
 @Controller('api/questions')
 export class QuestionsController {
