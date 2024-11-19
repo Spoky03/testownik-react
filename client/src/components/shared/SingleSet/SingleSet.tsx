@@ -13,6 +13,7 @@ import { Button } from "../../ui/button";
 import { Separator } from "../../ui/separator";
 import { StartQuizIcon } from "./StartQuizButton";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 export const SingleSet = ({
   set,
   type,
@@ -20,6 +21,10 @@ export const SingleSet = ({
   set: QuestionSet;
   type: SetListTypes;
 }) => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "DASHBOARD.SETS",
+  });
+
   const navigate = useNavigate();
   const [foreign, setForeign] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -113,7 +118,7 @@ export const SingleSet = ({
                   )}
                 </div>
                 <p className="opacity-80 font-medium text-sm -translate-y-1.5">
-                  {"by "}
+                  {t("BY")}
                   {foreign
                     ? `you`
                     : `${
@@ -149,10 +154,12 @@ export const SingleSet = ({
                     : "flex-col"
                 }`}
               >
-                <p className="text-sm opacity-80">{set.metaData.subject}</p>
-                <p className="text-sm opacity-80">
-                  Questions: {set.questions.length}
-                </p>
+                <div className="flex flex-col">
+                  <p className="text-sm opacity-80">{set.metaData.subject}</p>
+                  <p className="text-sm opacity-80">
+                    {t("QUESTIONS")}: {set.questions.length}
+                  </p>
+                </div>
                 <p className="opacity-80 text-sm">
                   {date.toLocaleDateString()}
                 </p>
@@ -163,7 +170,7 @@ export const SingleSet = ({
                 </div>
               )}
             </div>
-            <div className="flex flex-wrap flex-row-reverse overflow-y-hidden max-h-6 place-self-center gap-1">
+            <div className="flex flex-wrap flex-row-reverse overflow-y-hidden max-h-6 place-self-end gap-1">
               {set.metaData.tags.map((tag) => (
                 <span
                   key={tag}

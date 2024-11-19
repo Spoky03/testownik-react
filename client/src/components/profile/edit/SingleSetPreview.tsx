@@ -47,6 +47,7 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { DeleteConfirmation } from "../../shared/DeleteConfirmation";
 import { Separator } from "../../ui/separator";
+import { useTranslation } from "react-i18next";
 const DatePicker = ({
   date,
   setDate,
@@ -195,7 +196,7 @@ function StatusList({
           maxLength={16}
         />
         <Button type="submit" className="w-1/4" size={"icon"} variant="ghost">
-          <AddIcon size={24}/>
+          <AddIcon size={24} />
         </Button>
       </form>
       <CommandList>
@@ -276,9 +277,12 @@ const EditDescriptionInput = ({
   );
 };
 const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "DASHBOARD.SETS.NEW_SET.NEW_QUESTION",
+  });
   const [editDescription, setEditDescription] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
-  const [subject, setSubject] = useState<string>("" || set.metaData.subject);
+  const [subject, setSubject] = useState<string>(set.metaData.subject);
   const [date, setDate] = useState<Date>(set.metaData.date);
   const [tags, setTags] = useState<string[]>(set.metaData.tags);
   useEffect(() => {
@@ -307,11 +311,11 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
       </div>
       <div className="flex gap-1 flex-wrap">
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
-          <p className="text-sm opacity-45 place-self-center">questions: </p>
+          <p className="text-sm opacity-45 place-self-center">{t("QUESTIONS")}</p>
           <p className="text-sm opacity-75">{set.questions.length}</p>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
-          <p className="text-sm opacity-45 place-self-center">likes: </p>
+          <p className="text-sm opacity-45 place-self-center">{t("LIKES")}</p>
           <p className="text-sm opacity-75">{set.likes}</p>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
@@ -320,7 +324,7 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
           </div>
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
-          <p className="text-sm opacity-45 place-self-center">subject: </p>
+          <p className="text-sm opacity-45 place-self-center">{t("SUBJECT")}</p>
           {/* <p className="text-sm opacity-75">{set.metaData.subject || "N/A"}</p> */}
           <input
             type="text"
@@ -338,7 +342,7 @@ const SingleSetDetails = ({ set }: { set: QuestionSet }) => {
           />
         </div>
         <div className="flex whitespace-pre h-fit border rounded-2xl px-3 border-faint justify-center w-fit">
-          <p className="text-sm opacity-45 place-self-center">tags: </p>
+          <p className="text-sm opacity-45 place-self-center">{t("TAGS")}</p>
           {tags.map((tag) => (
             <p
               key={tag}
@@ -358,6 +362,9 @@ const NotAuthorized = () => {
   return <h1 className="text-3xl text-error font-semibold">Not authorized</h1>;
 };
 export const SingleSetPreview = () => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "DASHBOARD.SETS.NEW_SET",
+  });
   const match = useMatch("/profile/sets/:id");
   const userId = useSelector((state: RootState) => state.user.user.sub);
   const [openCreate, setOpenCreate] = useState(false);
@@ -372,7 +379,7 @@ export const SingleSetPreview = () => {
   }
   const handleDelete = () => {
     window.confirm(
-      "Are you sure you want to delete this set? This action is irreversible"
+      t("DELETE_CONFIRMATION")
     ) && dispatch(deleteOneQuestionSet(singleSet._id));
   };
   const handlePrivate = () => {
@@ -454,7 +461,7 @@ export const SingleSetPreview = () => {
             <div className="w-full place-self-center flex">
               <DropFiles setId={singleSet._id} />
             </div>
-            <p className="w-full text-center opacity-75">or</p>
+            <p className="w-full text-center opacity-75">{t("OR")}</p>
             <div className="w-full place-self-center sm:px-6">
               <NewQuestionForm />
             </div>
@@ -466,7 +473,7 @@ export const SingleSetPreview = () => {
               className="place-self-center"
               variant="outline"
             >
-              Add Questions
+              {t("ADD_QUESTIONS")}
             </Button>
           </div>
         )}

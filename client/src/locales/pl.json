@@ -163,10 +163,34 @@
     "SETS": {
       "SETS":"Twoje zestawy",
       "QUESTIONS": "Pytania",
+      "BY" : "autorstwa: ",
       "EDIT": "Edytuj",
       "DELETE": "Usuń",
       "ADD_NEW": "Dodaj nowy zestaw",
-      "DISCLAIMER": "Zestawy bez przynajmniej jednego pytania nie będą widoczne dla innych użytkowników."
+      "DISCLAIMER": "Zestawy bez przynajmniej jednego pytania nie będą widoczne dla innych użytkowników.",
+      "NEW_SET":{
+        "TITLE": "Stwórz nowy zestaw",
+        "NAME": "Nazwa zestawu",
+        "DESCRIPTION": "Opis zestawu",
+        "CREATE": "Stwórz",
+        "ADD_QUESTIONS": "Dodaj pytania",
+        "ADD_QUESTIONS_TITLE" : "Możesz teraz dodać pytania do swojego zestawu",
+        "DELETE_CONFIRMATION" : "Czy na pewno chcesz usunąć ten zestaw? Tej operacji nie można cofnąć.",
+        "OR" : "lub",
+        "NEW_QUESTION": {
+          "NEW": "Dodaj nowe pytanie",
+          "NEW_DESC": "Tu wpisz treść pytania...",
+          "NO_IMG": "Nie wybrano obrazu",
+          "HIDE_EXP": "Ukryj wyjaśnienie",
+          "SHOW_EXP": "Pokaż wyjaśnienie",
+          "NO_EXP": "Brak wyjaśnienia",
+          "TAGS": "tagi: ",
+          "LIKES": "polubienia: ",
+          "QUESTIONS": "pytania: ",
+          "SUBJECT": "przedmiot: ",
+          "ANSWER" : "Odpowiedź"
+        }
+      }
     },
     "PROFILE" : {
       "WEEKLY" : "Tygodniowy Cel",
@@ -235,7 +259,9 @@
       "START": "Naciśnij aby rozpocząć",
       "RESET": "Zresetuj postęp",
       "COMPLETED": "Ukończono",
-      "COMPLETED_DESC":"Gratulacje! Ukończyłeś ten zestaw. Zresetuj postęp poniżej aby rozegrać ponownie."
+      "COMPLETED_DESC":"Gratulacje! Ukończyłeś ten zestaw. Zresetuj postęp poniżej aby rozegrać ponownie.",
+      "PLAY" : "Rozpocznij Quiz",
+      "BOOKMARK": "Zapisz & "
     }
   },
   "FOOTER": {

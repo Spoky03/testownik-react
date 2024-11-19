@@ -16,6 +16,7 @@ import { IoMdImage as UploadImageIcon } from "react-icons/io";
 import { Modal } from "@/components/shared/Modal";
 import { DropImage } from "./DropImage";
 import Markdown from "react-markdown";
+import { useTranslation } from "react-i18next";
 type CreatedAnswer = Omit<Answer, "_id"> & { id: string | number };
 
 export const NewQuestionForm = ({
@@ -27,6 +28,9 @@ export const NewQuestionForm = ({
   setEditMode?: (value: boolean) => void;
   questionToEdit?: Question;
 }) => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "DASHBOARD.SETS.NEW_SET.NEW_QUESTION",
+  });
   const { toast } = useToast();
   const [openImageModal, setOpenImageModal] = useState(false);
   const match = useMatch("/profile/sets/:id");
@@ -112,10 +116,10 @@ export const NewQuestionForm = ({
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <div className="grid w-full gap-1.5 p-2">
-            <Label htmlFor="question">Create new question</Label>
+            <Label htmlFor="question">{t("NEW")}</Label>
             <Textarea
               className="min-h-24"
-              placeholder="Type your question here."
+              placeholder={t("NEW_DESC")}
               id="question"
               onChange={(e) => setQuestion(e.target.value)}
               value={question}
@@ -139,7 +143,7 @@ export const NewQuestionForm = ({
                 htmlFor="image"
                 className="place-self-center opacity-80 font-normal"
               >
-                No image selected
+                {t("NO_IMG")}{" "}
               </Label>
             </div>
             <div className="w-full flex flex-row gap-2 place-self-end justify-end">
@@ -184,7 +188,7 @@ export const NewQuestionForm = ({
                 >
                   <Input
                     className="p-1 w-full"
-                    placeholder="answer"
+                    placeholder={t("ANSWER")}
                     value={answer.answer}
                     onChange={(e) =>
                       handleAnswerChange(answer.id, e.target.value)
@@ -217,11 +221,11 @@ export const NewQuestionForm = ({
           onClick={() => setShowExplanation(!showExplanation)}
           variant={"ghost"}
         >
-          {showExplanation ? "Hide explanation" : "Show explanation"}
+          {showExplanation ? t("HIDE_EXP") : t("SHOW_EXP")}
         </Button>
       ) : (
         <Button variant={"ghost"} disabled>
-          {"No explanation availiable"}
+          {t("NO_EXP")}
         </Button>
       )}
       <div className="text-sm px-4">

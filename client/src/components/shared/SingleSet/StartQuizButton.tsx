@@ -60,7 +60,7 @@ export const StartQuizIcon = ({
                 onClick={handleClick}
               >
                 <span className="hidden sm:block font-medium mr-1">
-                  {variant === "bookmark" ? "Bookmark & " : "Play Quiz"}
+                  {variant === "bookmark" ? t("BOOKMARK") : t("PLAY") }
                 </span>
                 <PlayIcon
                   className="ml-0.5 place-self-center text-success opacity-100"

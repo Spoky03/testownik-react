@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useTranslation } from "react-i18next";
 const FormSchema = z.object({
   name: z.string().min(4).max(32),
   description: z.string().max(500),
@@ -27,6 +28,10 @@ export const NewSetForm = ({
 }: {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "DASHBOARD.SETS.NEW_SET",
+  });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -61,13 +66,13 @@ export const NewSetForm = ({
     toast({
       variant: "success",
       title: `Set ${data.name} created`,
-      description: "You can now add questions to your set",
+      description: t("ADD_QUESTIONS_TITLE"),
       action: (
         <ToastAction
           altText="Add questions"
           onClick={() => navigate(`/profile/sets/${res}`)}
         >
-          Add questions
+          {t("ADD_QUESTIONS")}
         </ToastAction>
       ),
     });
@@ -77,7 +82,7 @@ export const NewSetForm = ({
   return (
     <div className="flex flex-col place-content-center gap-5 bg-ternary p-8">
       <h1 className="place-self-center font-semibold text-lg">
-        Create new set
+        {t("TITLE")}
       </h1>
       <Form {...form}>
         <form
@@ -89,7 +94,7 @@ export const NewSetForm = ({
             name="name"
             render={({ field }) => (
               <FormItem className="flex flex-col w-full items-start rounded-md">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{t("NAME")}</FormLabel>
                 <FormControl>
                   <Input {...field} type="text" placeholder="name of set" />
                 </FormControl>
@@ -102,14 +107,14 @@ export const NewSetForm = ({
             name="description"
             render={({ field }) => (
               <FormItem className="flex flex-col w-full items-start rounded-md">
-                <FormLabel>Description</FormLabel>
+                <FormLabel>{t("DESCRIPTION")}</FormLabel>
                 <FormControl>
                   <Textarea {...field} placeholder="description" />
                 </FormControl>
               </FormItem>
             )}
           />
-          <Button type="submit">Create</Button>
+          <Button type="submit">{t("CREATE")}</Button>
         </form>
       </Form>
     </div>

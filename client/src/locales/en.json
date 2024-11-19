@@ -161,10 +161,34 @@
     "SETS": {
       "SETS":"Your sets",
       "QUESTIONS": "Questions",
+      "BY" : "by: ",
       "EDIT": "Edit",
       "DELETE": "Delete",
       "ADD_NEW": "Create new set",
-      "DISCLAIMER": "Note: Sets without at least 1 question won't be visible to other users."
+      "DISCLAIMER": "Note: Sets without at least 1 question won't be visible to other users.",
+      "NEW_SET":{
+        "TITLE": "Create new set",
+        "NAME": "Set name",
+        "DESCRIPTION": "Set description",
+        "CREATE": "Create",
+        "ADD_QUESTIONS": "Add questions",
+        "ADD_QUESTIONS_TITLE" : "Add questions to your set",
+        "DELETE_CONFIRMATION" : "Are you sure you want to delete this set? This action is irreversible.",
+        "OR" : "or",
+        "NEW_QUESTION": {
+          "NEW": "Add new question",
+          "NEW_DESC": "Type your question here...",
+          "NO_IMG": "No image selected",
+          "HIDE_EXP": "Hide explanation",
+          "SHOW_EXP": "Show explanation",
+          "NO_EXP": "No explanation available",
+          "TAGS": "tags: ",
+          "LIKES": "likes: ",
+          "QUESTIONS": "questions: ",
+          "SUBJECT": "subject: ",
+          "ANSWER": "Answer"
+        }
+      }
     },
     "PROFILE" : {
       "WEEKLY" : "Tygodniowy Cel",
@@ -233,7 +257,9 @@
       "START": "Press to start",
       "RESET": "Reset Progress",
       "COMPLETED": "Completed",
-      "COMPLETED_DESC":"You've already completed this quiz. Reset your progress below to play again."
+      "COMPLETED_DESC":"You've already completed this quiz. Reset your progress below to play again.",
+      "PLAY" : "Play Quiz",
+      "BOOKMARK": "Bookmark & "
     }
   },
   "FOOTER": {
