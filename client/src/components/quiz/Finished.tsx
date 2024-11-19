@@ -1,4 +1,5 @@
 import { Modal } from "@/components/shared/Modal";
+import { useTranslation } from "react-i18next";
 import { IoBeerSharp as BeerIcon } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 export const Finished = ({
@@ -9,6 +10,10 @@ export const Finished = ({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation("translation", {
+    keyPrefix: "QUIZ.FINISH",
+  });
+
   const closeCallback = () => {
     setOpen(false);
     navigate("/");
@@ -18,14 +23,14 @@ export const Finished = ({
       <Modal
         open={open}
         setOpen={closeCallback}
-        cancelAction={() => navigate("/")}
-        cancelText="Okay!"
+        cancelAction={() => navigate("/profile")}
+        cancelText={t("OK")}
         content={
           <div className="flex flex-col gap-5 items-center bg-ternary p-5">
-            <div className="text-success text-center font-bold">Finished</div>
+            <div className="text-success text-center font-bold">{t('TITLE')}</div>
             <BeerIcon size={64} />
             <p className="text-center">
-              Congratulations! You have finished the quiz.
+              {t('DESCRIPTION')}
             </p>
           </div>
         }

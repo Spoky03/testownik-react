@@ -139,6 +139,10 @@
       "FAVORITES": "Ulubione",
       "FILTER": "Filtruj",
       "SORT": "Sortuj"
+    },
+    "MAIN": {
+      "LOADING": "Ładowanie...",
+      "NOSETS": "Nie znaleziono zestawów"
     }
   },
   "DASHBOARD": {
@@ -219,6 +223,19 @@
       "AGREE": "Przejdź do chatu",
       "SEND": "Wyślij",
       "PLACEHOLDER": "Wpisz wiadomość tutaj..."
+    },
+    "FINISH": {
+      "TITLE": "Ukończono",
+      "DESCRIPTION": "Gratulacje! Ukończyłeś ten zestaw.",
+      "OK": "OKEJ"
+    }
+  },
+  "OTHER" : {
+    "SINGLESET":{
+      "START": "Naciśnij aby rozpocząć",
+      "RESET": "Zresetuj postęp",
+      "COMPLETED": "Ukończono",
+      "COMPLETED_DESC":"Gratulacje! Ukończyłeś ten zestaw. Zresetuj postęp poniżej aby rozegrać ponownie."
     }
   },
   "FOOTER": {

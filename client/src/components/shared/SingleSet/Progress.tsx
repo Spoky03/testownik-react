@@ -5,6 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ResetProgressButton } from "./ResetProgressButton";
+import { useTranslation } from "react-i18next";
 export const Progress = ({
   setId,
   progress,
@@ -19,6 +20,10 @@ export const Progress = ({
   completed: boolean;
   setCompleted: (value: boolean) => void;
 }) => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "OTHER.SINGLESET",
+  });
+
   
   return (
     <div className="flex place-items-center">
@@ -31,7 +36,7 @@ export const Progress = ({
             <ResetProgressButton setId={setId} setCompleted={setCompleted} />
           </TooltipTrigger>
           <TooltipContent>
-            <p>Reset your progress</p>
+            <p>{t("RESET")}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

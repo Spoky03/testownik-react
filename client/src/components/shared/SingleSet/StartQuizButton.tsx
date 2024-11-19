@@ -10,6 +10,7 @@ import { FaPlay as PlayIcon } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { addBookmark } from "@/reducers/userReducer";
+import { useTranslation } from "react-i18next";
 export const StartQuizIcon = ({
   id,
   className,
@@ -24,6 +25,10 @@ export const StartQuizIcon = ({
   variant?: "default" | "bookmark";
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation("translation", {
+    keyPrefix: "OTHER.SINGLESET",
+  });
+
   const handleClick = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
@@ -42,7 +47,7 @@ export const StartQuizIcon = ({
           {completed ? (
             <div className="-right-10 top-2 absolute h-6 w-40 bg-success rotate-45">
               <span className="text-center ml-4 font-semibold text-white">
-                Completed
+                {t("COMPLETED")}
               </span>
             </div>
           ) : (
@@ -69,12 +74,11 @@ export const StartQuizIcon = ({
           <p className="break-words text-wrap max-w-sm">
             {completed ? (
               <>
-                "You've already completed this quiz. Reset your progress below
-                to play again"{" "}
+                {t('COMPLETED_DESC')}{" "}
                 <ResetProgressButton setId={id} setCompleted={setCompleted} />
               </>
             ) : (
-              "Press to play this quiz"
+              t("START")
             )}
           </p>
         </TooltipContent>

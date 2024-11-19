@@ -136,6 +136,10 @@
       "FAVORITES": "Favorites",
       "FILTER": "Filter",
       "SORT": "Sort"
+    },
+    "MAIN": {
+      "LOADING": "Loading...",
+      "NOSETS": "No sets found"
     }
   },
   "DASHBOARD": {
@@ -217,6 +221,19 @@
       "AGREE": "Agree and proceed",
       "SEND": "Send",
       "PLACEHOLDER": "Type your message here..."
+    },
+    "FINISH": {
+      "TITLE": "Finished!",
+      "DESCRIPTION": "You have finished the quiz. Check your results below.",
+      "OK": "OKAY"
+    }
+  },
+  "OTHER" : {
+    "SINGLESET":{
+      "START": "Press to start",
+      "RESET": "Reset Progress",
+      "COMPLETED": "Completed",
+      "COMPLETED_DESC":"You've already completed this quiz. Reset your progress below to play again."
     }
   },
   "FOOTER": {

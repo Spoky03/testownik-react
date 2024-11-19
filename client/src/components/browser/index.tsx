@@ -7,6 +7,7 @@ import { initializeBrowser } from "@/reducers/browserReducer";
 import { SingleSet } from "@/components/shared/SingleSet/SingleSet";
 import { BrowserNav } from "./BrowserNav";
 import { Modal } from "../shared/Modal";
+import { useTranslation } from "react-i18next";
 const ModalContent = ({ set }: { set: QuestionSet }) => {
   return (
     <div className="p-3 shadow-x bg-ternary">
@@ -16,6 +17,10 @@ const ModalContent = ({ set }: { set: QuestionSet }) => {
 };
 const SetList = () => {
   const sets = useSelector((state: RootState) => state.browser.sets);
+  const { t } = useTranslation("translation", {
+    keyPrefix: "BROWSER.MAIN",
+  });
+
   const { id } = useParams();
   const searchValue = useSelector(
     (state: RootState) => state.browser.searchValue
@@ -61,7 +66,7 @@ const SetList = () => {
   };
   return (
     <div className="flex flex-col place-items-center px-5 sm:p-8 mt-4">
-      <Suspense fallback={<h1>Loading...</h1>}>
+      <Suspense fallback={<h1>{t('LOADING')}</h1>}>
         <div
           className={`flex flex-col p-1 sm:p-5 rounded-xl shadow-2xl w-full h-full bg-primary max-w-6xl gap-2 `}
         >
@@ -72,7 +77,7 @@ const SetList = () => {
             ))}
           </div>
           {filteredSets.length === 0 && (
-            <h1 className="text-2xl text-center p-10">No sets found</h1>
+            <h1 className="text-2xl text-center p-10">{t('NOSETS')}</h1>
           )}
         </div>
         <Modal
